@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt" class="report-builder">
+    <head>
+        <meta charset="utf-8" /> 
+
+        <title>Form Fields</title>
+
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" href="https://static.inpaas-sandbox.com/assets/bootstrap/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://static.inpaas-sandbox.com/assets/font-awesome-4.5.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://static.inpaas-sandbox.com/assets/fonts/open-sans.css" />
+        <link rel="stylesheet" href="https://static.inpaas-sandbox.com/assets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+        </style>
+
+        <link href="assets/css/omni-theme.css" rel="stylesheet">
+    </head>
+
+    <body class="page-content">
+        <!-- Breadcrumb -->
+        <div class="page-breadcrumb">
+            <label>OMNI Plusoft CRM &gt; Configurações &gt; Módulos &gt; Atendimento &gt; </label>
+            <label class="text-primary">Buscar</label>
+        </div>
+        <!-- Title and Button Page -->
+        <div class="row row-title">
+            <div class="col-xs-12 col-sm-9 no-padding">
+                <label>Atentimento</label>
+            </div>
+            <div class="col-xs-12 col-sm-3 text-right">
+                <!--button type="button" href="http://www.google.com.br" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Novo Formulário</button-->
+                <a href="form-propriets.html" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Novo Formulário</a>
+            </div>
+        </div>
+        <!-- Filter -->
+        <div class="row row-filter-old">
+            <div role="app-widget" class="widget-box widget-well">
+                <div class="widget-header">
+                    <h5 class="widget-title">Buscar</h5>
+                    <div class="widget-toolbar default-toolbar hidden-print">
+                        <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-2" id="sfa-container">
+                                <select  class="form-control input-sm" id="input-crm_person-do_type"><option value="">Selecione</option>
+                                    <option value="C">Ativos</option>
+                                    <option value="L">Inativos</option>
+                                    <option value="P">Ativos/Inativos</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-bottom">
+                                <input  class="form-control input-sm" id="txt-person-zipcode" maxlength="8" placeholder="Descrição..." data-rule-number="true" data-format="####" type="text" data-rule-maxlength="8">
+                            </div>
+                            <div class="col-xs-4 col-sm-2 text-right no-padding pull-right">
+                                <button type="button" id="btn-search" class="btn btn-sm btn-block btn-warning" data-target="tbl-person"><i class="fa fa-fw fa-search"></i> Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- TableList -->
+        <div class="row row-list">
+            <div role="app-widget" class="widget-box widget-well">
+                <div class="widget-header">
+                    <h5 class="widget-title">Formulários</h5>
+                    <div class="widget-toolbar default-toolbar hidden-print">
+                        <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div id="tbl-case_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <table role="grid" class="table table-striped table-hover dataTable no-footer" allowsearch="N" allowhideshowcols="allowhideshowcols" allowexport="allowexport" allowresize="allowresize" showsummary="showsummary" id="tbl-case" pageresults="5" depends="56695" aria-describedby="tbl-case_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="ticketcode sorting" sortable="sortable" tabindex="0" aria-controls="tbl-case" rowspan="1" colspan="1" aria-label="Atendimento: Ordenar colunas de forma ascendente" style="width: 156px;"><span class="cell-children"></span><span class="cell-text">Código</span></th>
+                                        <th class="null sorting" sortable="sortable" tabindex="0" aria-controls="tbl-case" rowspan="1" colspan="1" aria-label="Ocorrência: Ordenar colunas de forma ascendente" style="width: 84px;"><span class="cell-children"></span><span class="cell-text">Título</span></th>
+                                        <th style="white-space: nowrap; width: 134px;" data-rule-date="true" data-format="DD/MM/YYYY HH:mm" class="sorting_disabled" rowspan="1" colspan="1" aria-label="Data de conclusão"><span class="cell-children"></span><span class="cell-text">Módulo</span></th>
+                                        <th class="null sorting" sortable="sortable" tabindex="0" aria-controls="tbl-case" rowspan="1" colspan="1" aria-label="Assunto: Ordenar colunas de forma ascendente" style="width: 116px;"><span class="cell-children"></span><span class="cell-text">Situação</span></th>
+                                        <th class="table-row-actions text-center hidden-print sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 110px;"><span class="cell-text">Ações</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr row-id="2348" role="row" class="odd">
+                                        <td class="ticketcode" sortable="sortable"><span class="cell-children"></span><span class="cell-text">1</span></td>
+                                        <td class="null" sortable="sortable"><span class="cell-children"></span><span class="cell-text">Atendimento - Edição - Extensões</span></td>
+                                        <td style="white-space: nowrap;" data-rule-date="true" data-format="DD/MM/YYYY HH:mm"><span class="cell-children"></span><span class="cell-text">Atendimento</span></td>
+                                        <td class="null" sortable="sortable"><span class="cell-children"></span><span class="cell-text">Ativo</span></td>
+                                        <td class="table-row-actions text-center hidden-print">
+                                            <span class="cell-children">
+                                                <button type="button" class="btn btn-sm btn-primary" title="" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-original-title="Editar Registro"><i class="fa fa-fw fa-pencil"></i></button>
+                                                <button type="button" class="btn btn-sm btn-danger" title="" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-original-title="Remover Registro"><i class="fa fa-fw fa-trash-o"></i></button>
+                                            </span>
+                                            <span class="cell-text"></span>
+                                        </td>
+                                    </tr>
+                                    <tr row-id="2348" role="row" class="odd">
+                                        <td class="ticketcode" sortable="sortable"><span class="cell-children"></span><span class="cell-text">2</span></td>
+                                        <td class="null" sortable="sortable"><span class="cell-children"></span><span class="cell-text">Atendimento - Edição Modal</span></td>
+                                        <td style="white-space: nowrap;" data-rule-date="true" data-format="DD/MM/YYYY HH:mm"><span class="cell-children"></span><span class="cell-text">Atendimento</span></td>
+                                        <td class="null" sortable="sortable"><span class="cell-children"></span><span class="cell-text">Inativo</span></td>
+                                        <td class="table-row-actions text-center hidden-print">
+                                            <span class="cell-children">
+                                                <button type="button" class="btn btn-sm btn-primary" title="" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-original-title="Editar Registro"><i class="fa fa-fw fa-pencil"></i></button>
+                                                <button type="button" class="btn btn-sm btn-danger" title="" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-original-title="Remover Registro"><i class="fa fa-fw fa-trash-o"></i></button>
+                                            </span>
+                                            <span class="cell-text"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="dataTables_info" id="tbl-case_info" role="status" aria-live="polite">Mostrando de 1 até 5 de 48 registros</div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="dataTables_paginate paging_simple_numbers pull-right" id="tbl-case_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button previous disabled" id="tbl-case_previous"><a href="#" aria-controls="tbl-case" data-dt-idx="0" tabindex="0">Anterior</a></li>
+                                            <li class="paginate_button active"><a href="#" aria-controls="tbl-case" data-dt-idx="1" tabindex="0">1</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="tbl-case" data-dt-idx="2" tabindex="0">2</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="tbl-case" data-dt-idx="3" tabindex="0">3</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="tbl-case" data-dt-idx="4" tabindex="0">4</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="tbl-case" data-dt-idx="5" tabindex="0">5</a></li>
+                                            <li class="paginate_button disabled" id="tbl-case_ellipsis"><a href="#" aria-controls="tbl-case" data-dt-idx="6" tabindex="0">…</a></li>
+                                            <li class="paginate_button "><a href="#" aria-controls="tbl-case" data-dt-idx="7" tabindex="0">10</a></li>
+                                            <li class="paginate_button next" id="tbl-case_next"><a href="#" aria-controls="tbl-case" data-dt-idx="8" tabindex="0">Próximo</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://static.inpaas-sandbox.com/assets/jquery/jquery-2.1.1.min.js"></script>
+                
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+      
+        <script src="https://static.inpaas-sandbox.com/assets/bootstrap/bootstrap.min.js"></script>
+        <script src="https://static.inpaas-sandbox.com/assets/notify/notify.js"></script>
+      
+        <script src="https://static.inpaas-sandbox.com/assets/moment/js/moment.min.js"></script>
+        <script src="https://static.inpaas-sandbox.com/assets/moment/js/locales.min.js"></script>
+        <script src="https://static.inpaas-sandbox.com/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+        <script src="assets/js/spt-field.js"></script>
+    </body>
+</html>
