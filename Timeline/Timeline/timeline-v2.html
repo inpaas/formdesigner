@@ -22,7 +22,7 @@
     <body class="page-content tl2">
 
         <!-- Widget de Canal -->
-        <div id="widget-ticket" class="widget-box item-filter wgt-tl">
+        <div id="widget-ticket" class="widget-box item-filter wgt-tl wgt-channel">
             <div class="widget-header">
                 <h5 class="widget-title"><i class="fa fa-joomla" aria-hidden="true"></i> Canal</h5>
                 <div class="widget-toolbar default-toolbar hidden-print">
@@ -32,14 +32,7 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <ul class="channel">
-                        <!--li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li>
-                        <li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li>
-                        <li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li>
-                        <li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li>
-                        <li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li>
-                        <li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li>
-                        <li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li>
-                        <li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li-->
+                        <!--li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li><li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li><li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li><li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li><li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li><li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li><li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li><li class="item-ch social-midia"><i class="icon-item fa fa-twitter"></i><p class="txt-item">Mídias Sociais</p></li-->
                         <li class="item-ch item-ch-cb campaign">
                             <div form-field-id="66823" class="checkbox checkbox-default">
                                 <input type="checkbox" id="cbx-campaign" value="Y" false-value="N">
@@ -56,9 +49,9 @@
                                 <i class="icon-item fa fa-comments-o"></i>
                             </div>
                         </li>
-                        <li class="item-ch item-ch-cb get-mail">
+                        <li class="item-ch item-ch-cb get-mail active">
                             <div form-field-id="66823" class="checkbox checkbox-default">
-                                <input type="checkbox" id="cbx-get-mail" value="Y" false-value="N">
+                                <input type="checkbox" id="cbx-get-mail" value="Y" false-value="N" checked>
                                 <label for="cbx-get-mail" class="txt-item">E-mails Enviados</label>
                                 <input type="hidden" role="checkbox-hdn" name="cbx-unconditional-search" value="N">
                                 <i class="icon-item fa fa-inbox"></i>
@@ -80,10 +73,10 @@
                                 <i class="icon-item fa fa-phone"></i>
                             </div>
                         </li>
-                        <li class="item-ch item-ch-cb social-midia">
+                        <li class="item-ch item-ch-cb social-midia active">
                             <div form-field-id="66823" class="checkbox checkbox-default">
-                                <input type="checkbox" id="cbx-social-midia" value="Y" false-value="N">
-                                <label for="cbx-social-midia" class="txt-item">>Mídias Sociais</label>
+                                <input type="checkbox" id="cbx-social-midia" value="Y" false-value="N" checked>
+                                <label for="cbx-social-midia" class="txt-item">Mídias Sociais</label>
                                 <input type="hidden" role="checkbox-hdn" name="cbx-unconditional-search" value="N">
                                 <i class="icon-item fa fa-twitter"></i>
                             </div>
@@ -165,8 +158,11 @@
                     <div class="col-info-right">
                         <div class="bx-info-txt">
                             <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
-                            <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
+                            <p class="txt-info">Mensagem curta.</p>
                         </div>
+                        <p class="txt-info link-actions">
+                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                        </p>
                         <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
                 </div>
@@ -187,8 +183,17 @@
                     <div class="col-info-right">
                         <div class="bx-info-txt">
                             <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
-                            <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
+                            <p class="txt-info">Mensagem de texto extremamente longo. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
+                            <div class="extend-text">
+                                Mostrar mais
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </div>
                         </div>
+                        <p class="txt-info link-actions">
+                            <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
+                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                        </p>
                         <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
                 </div>
@@ -208,7 +213,11 @@
                             <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
                             <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
                         </div>
-                        <p class="txt-info link-actions"><a href="">Visualizar</a> | <a href="">Editar</a></p>
+                        <p class="txt-info link-actions">
+                            <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
+                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                        </p>
                         <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
                 </div>
@@ -230,6 +239,10 @@
                             <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
                             <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
                         </div>
+                        <p class="txt-info link-actions">
+                            <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
+                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                        </p>
                         <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
                 </div>
@@ -249,6 +262,10 @@
                             <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
                             <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
                         </div>
+                        <p class="txt-info link-actions">
+                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                        </p>
                         <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
                 </div>
