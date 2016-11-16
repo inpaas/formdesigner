@@ -127,7 +127,12 @@ a { background-color: transparent; }
 
 .tl2 .wgt-tl .widget-main { background: #f6f6f6; }
 
-.tl2 .wgt-tl.wgt-channel .widget-main { padding: 5px 0; }
+.tl2 .wgt-tl.wgt-channel .widget-main
+{
+    padding: 5px 0;
+    height: 190px;
+    overflow: auto;
+}
 
 .tl2 .channel
 {
