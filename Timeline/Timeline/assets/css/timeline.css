@@ -1,7 +1,7 @@
 /* ==============================| Skeleton |============================== */
 html .tl2
 {
-	padding: 20px;
+	padding: 10px;
 	background: #f6f6f6;
 	min-width: 320px;
 }
@@ -127,6 +127,8 @@ a { background-color: transparent; }
 
 .tl2 .wgt-tl .widget-main { background: #f6f6f6; }
 
+.tl2 .wgt-tl.wgt-channel .widget-main { padding: 5px 0; }
+
 .tl2 .channel
 {
 	list-style: none;
@@ -140,9 +142,12 @@ a { background-color: transparent; }
 	margin-bottom: 5px;
 	cursor: pointer;
 	transition: .3s;
+	padding-left: 7px;
 }
 
-.tl2 .channel .item-ch:hover { background: #ececec; }
+.tl2 .channel .item-ch:hover,
+.tl2 .channel .item-ch.active
+{ background: #ececec; }
 
 .tl2 .channel .item-ch:last-child
 { margin-bottom: 0px; }
@@ -289,6 +294,34 @@ a { background-color: transparent; }
 	border-radius: 5px;
 	padding: 8px;
 	margin-bottom: 10px;
+	min-width: 100%;
+	min-height: 85px;
+	max-height: 266px;
+    overflow: hidden;
+}
+
+.item-list-date .bx-info-txt .extend-text
+{
+    position: absolute;
+    background: #e4e4e4;
+    border-radius: 0 0 5px 5px;
+    text-align: center;
+    z-index: 10;
+    bottom: 0;
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+    left: 0;
+    font-size: 12px;
+    color: #787878;
+    font-family: "Open Sans", Arial, Verdana;
+}
+
+.item-list-date .bx-info-txt .extend-text:hover
+{
+    background: #e4e8ea;
+    text-decoration: underline;
+    color: #47839e;
 }
 
 .item-list-date:hover .col-info-right .bx-info-txt
@@ -310,6 +343,22 @@ a { background-color: transparent; }
 
 .item-list-date .col-info-right .link-actions
 { padding: 0 0 10px 4px; }
+
+.item-list-date .col-info-right .link-actions a
+{
+	border-right: solid 1px #999;
+	padding: 0 5px;
+}
+
+.item-list-date .col-info-right .link-actions a:last-child,
+.item-list-date .col-info-right .link-actions a:nth-child(3),
+.item-list-date .col-info-right .link-actions a:nth-child(6)
+{ border-right: none; }
+
+.item-list-date .col-info-right .link-actions a:first-child,
+.item-list-date .col-info-right .link-actions a:nth-child(4),
+.item-list-date .col-info-right .link-actions a:nth-child(7)
+{ padding-left: 0; }
 
 .tl2 .list-tl .item-list-date:last-child .date-user
 { border-bottom: none; }
@@ -337,6 +386,9 @@ a { background-color: transparent; }
 	font-size: 12px;
 	color: #333333;
 }
+
+.item-list-date .col-info-right .bx-info-txt .txt-info
+{ margin-bottom: 5px; }
 
 .item-list-date .col-info-right .tlt-info
 {
@@ -430,52 +482,97 @@ a { background-color: transparent; }
 
 /* BACKGROUND COLOR */
 .item-list-date:hover .col-info-left.sms .icon-ch,
-.tl2 .item-ch.sms:hover .icon-item
+.tl2 .item-ch.sms:hover .icon-item,
+.tl2 .channel .item-ch.sms.active .icon-item
 { background: #F7CA51; }
 
+.item-list-date:hover .col-info-left.sms .icon-ch
+{ border-color: #F7CA51; }
+
 .item-list-date:hover .col-info-left.call .icon-ch,
-.tl2 .item-ch.call:hover .icon-item
+.tl2 .item-ch.call:hover .icon-item,
+.tl2 .channel .item-ch.call.active .icon-item
 { background: #fab34e; }
 
+.item-list-date:hover .col-info-left.call .icon-ch
+{ border-color: #fab34e; }
+
 .item-list-date:hover .col-info-left.sfa .icon-ch,
-.tl2 .item-ch.sfa:hover .icon-item
+.tl2 .item-ch.sfa:hover .icon-item,
+.tl2 .channel .item-ch.sfa.active .icon-item
 { background: #71CB63; }
 
+.item-list-date:hover .col-info-left.sfa .icon-ch
+{ border-color: #71CB63; }
+
 .item-list-date:hover .col-info-left.campaign .icon-ch,
-.tl2 .item-ch.campaign:hover .icon-item
+.tl2 .item-ch.campaign:hover .icon-item,
+.tl2 .channel .item-ch.campaign.active .icon-item
 { background: #FF3369; }
 
+.item-list-date:hover .col-info-left.campaign .icon-ch
+{ border-color: #FF3369; }
+
 .item-list-date:hover .col-info-left.get-mail .icon-ch,
-.tl2 .item-ch.get-mail:hover .icon-item
+.tl2 .item-ch.get-mail:hover .icon-item,
+.tl2 .channel .item-ch.get-mail.active .icon-item
 { background: #F54B5B; }
 
+.item-list-date:hover .col-info-left.get-mail .icon-ch
+{ border-color: #F54B5B; }
+
 .item-list-date:hover .col-info-left.send-mail .icon-ch,
-.tl2 .item-ch.send-mail:hover .icon-item
+.tl2 .item-ch.send-mail:hover .icon-item,
+.tl2 .channel .item-ch.send-mail.active .icon-item
 { background: #6550DB; }
 
+.item-list-date:hover .col-info-left.send-mail .icon-ch
+{ border-color: #6550DB; }
+
 .item-list-date:hover .col-info-left.survey .icon-ch,
-.tl2 .item-ch.survey:hover .icon-item
+.tl2 .item-ch.survey:hover .icon-item,
+.tl2 .channel .item-ch.survey.active .icon-item
 { background: #45818E; }
 
+.item-list-date:hover .col-info-left.survey .icon-ch
+{ border-color: #45818E; }
+
 .item-list-date:hover .col-info-left.chat .icon-ch,
-.tl2 .item-ch.chat:hover .icon-item
+.tl2 .item-ch.chat:hover .icon-item,
+.tl2 .channel .item-ch.chat.active .icon-item
 { background: #3BAFDA; }
 
+.item-list-date:hover .col-info-left.chat .icon-ch
+{ border-color: #3BAFDA; }
+
 .item-list-date:hover .col-info-left.task .icon-ch,
-.tl2 .item-ch.task:hover .icon-item
+.tl2 .item-ch.task:hover .icon-item,
+.tl2 .channel .item-ch.task.active .icon-item
 { background: #A64D79; }
 
+.item-list-date:hover .col-info-left.task .icon-ch
+{ border-color: #A64D79; }
+
 .item-list-date:hover .col-info-left.social-midia .icon-ch,
-.tl2 .item-ch.social-midia:hover .icon-item
+.tl2 .item-ch.social-midia:hover .icon-item,
+.tl2 .channel .item-ch.social-midia.active .icon-item
 { background: #3498DB; }
 
+.item-list-date:hover .col-info-left.social-midia .icon-ch
+{ border-color: #3498DB; }
+
 .item-list-date:hover .col-info-left.event .icon-ch,
-.tl2 .item-ch.event:hover .icon-item
+.tl2 .item-ch.event:hover .icon-item,
+.tl2 .channel .item-ch.event.active .icon-item
 { background: #95bbd6; }
+
+.item-list-date:hover .col-info-left.event .icon-ch
+{ border-color: #95bbd6; }
 
 /* COLOR WHITE */
 .item-list-date:hover .col-info-left .icon-ch i.fa,
-.tl2 .wgt-tl .item-ch:hover .icon-item
+.tl2 .wgt-tl .item-ch:hover .icon-item,
+.tl2 .channel .item-ch.active .icon-item
 { color: #fff; }
 
 .item-list-date .col-info-left
@@ -487,6 +584,7 @@ a { background-color: transparent; }
 {
 	padding: 0 10px 0 87px !important;
 	margin-top: -153px;
+	width: 100%;
 }
 
 .item-list-date .col-info-left,
