@@ -127,6 +127,23 @@ a { background-color: transparent; }
 
 .tl2 .wgt-tl .widget-main { background: #f6f6f6; }
 
+.tl2 .wgt-tl .icon-calendar
+{
+    background: #eee;
+    position: absolute;
+    height: 28px;
+    width: 35px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 1px 0 0 1px;
+    color: #666;
+    margin: 1px;
+    border-right: solid 1px #ccc;
+}
+
+.tl2 .wgt-tl .txt-calendar
+{ padding-left: 42px; }
+
 .tl2 .wgt-tl.wgt-channel .widget-main
 {
     padding: 5px 0;
