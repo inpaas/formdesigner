@@ -1,7 +1,7 @@
 /* ==============================| Skeleton |============================== */
 html .tl2
 {
-	padding: 10px;
+	padding: 0 10px;
 	background: #f6f6f6;
 	min-width: 320px;
 }
@@ -14,7 +14,7 @@ html .tl2 .row { margin: 0; }
     padding: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
-    margin: 5px 0;
+    margin: 10px 0;
     border: 1px solid #e8e8e8;
 }
 
@@ -91,7 +91,9 @@ a
 a { background-color: transparent; }
 
 .widget-box>.widget-body
-{ background-color: #FFF; }
+{
+    background-color: #FFF;
+}
 
 .widget-box.widget-well .widget-body
 {
@@ -144,9 +146,12 @@ a { background-color: transparent; }
 .tl2 .wgt-tl .txt-calendar
 { padding-left: 42px; }
 
+.tl2 .wgt-tl.wgt-channel .widget-main,
+.tl2 .wgt-tl.wgt-status .widget-main
+{ padding: 5px 0; }
+
 .tl2 .wgt-tl.wgt-channel .widget-main
 {
-    padding: 5px 0;
     height: 190px;
     overflow: auto;
 }
@@ -227,7 +232,7 @@ a { background-color: transparent; }
 {
 	padding: 20px 0;
 	transition: .3s;
-	padding: 20px 0;
+	padding: 10px 0;
 	transition: .3s;
 	float: left;
 	width: 100%;
@@ -250,11 +255,26 @@ a { background-color: transparent; }
 	cursor: pointer;
 }
 
-.tl2 .list-tl .item-list-date.year-tl { padding: 12px 0; }
+.tl2 .list-tl .item-list-date.year-tl
+{ padding: 12px 0; }
 
-.tl2 .list-tl .item-list-date.year-tl:hover  { background: none; }
+.tl2 .list-tl .item-list-date.month-tl,
+.tl2 .list-tl .item-list-date.year-tl
+{ cursor: default; }
 
-.tl2 .list-tl .year-tl label
+.tl2 .list-tl .item-list-date.month-tl
+{ margin: 0; }
+
+.tl2 .list-tl .month-tl label:before,
+.tl2 .list-tl .month-tl label:after
+{ border: none;}
+
+.tl2 .list-tl .item-list-date.year-tl:hover,
+.tl2 .list-tl .item-list-date.month-tl:hover
+{ background: none; }
+
+.tl2 .list-tl .year-tl label,
+.tl2 .list-tl .month-tl label
 {
 	width: 55px;	height: 26px;
 	line-height: 26px;
@@ -264,6 +284,16 @@ a { background-color: transparent; }
 	text-align: center;
 	position: relative;
 	left: 75px;
+}
+
+.tl2 .list-tl .item-list-date.month-tl label
+{
+    width: 90px;
+    margin-left: -45px;
+    font-size: 12px;    font-weight: normal;
+    border-radius: 5px;
+    background: #eee;
+    color: #888;
 }
 
 .tl2 .list-tl .year-tl label:before,
@@ -318,7 +348,7 @@ a { background-color: transparent; }
 	margin-bottom: 10px;
 	min-width: 100%;
 	min-height: 85px;
-	max-height: 266px;
+	max-height: 145px;
     overflow: hidden;
 }
 
@@ -358,7 +388,7 @@ a { background-color: transparent; }
 	font-size: 11px;
 	color: #666666;
 	border-bottom: solid 1px #dddddd;
-	padding-bottom: 15px;
+	padding-bottom: 10px;
 	margin-left: -12px;
 	padding-left: 15px;
 }
@@ -445,6 +475,7 @@ a { background-color: transparent; }
 
 .item-list-date .col-info-left .txt-info.closed { color: #27aa21; }
 .item-list-date .col-info-left .txt-info.going { color: #f04b46; }
+.item-list-date .col-info-left .txt-info.pending { color: #fac51c; }
 
 /* FONT COLOR */
 .item-list-date .col-info-left.sms .channel,
@@ -722,3 +753,21 @@ input
     font-size: 11px;
     color: #555;
 }
+
+.tl2 .item-ch.sts-pending .icon-item    { color: #fac51c; }
+
+.tl2 .wgt-status .item-ch.sts-pending:hover .icon-item,
+.tl2 .wgt-status .item-ch.sts-pending.active .icon-item
+{ background: #fac51c; }
+
+.tl2 .item-ch.sts-locked .icon-item     { color: #27aa21; }
+
+.tl2 .wgt-status .item-ch.sts-locked:hover .icon-item,
+.tl2 .wgt-status .item-ch.sts-locked.active .icon-item
+{ background: #27aa21; }
+
+.tl2 .item-ch.sts-progress .icon-item   { color: #f04b46; }
+
+.tl2 .wgt-status .item-ch.sts-progress:hover .icon-item,
+.tl2 .wgt-status .item-ch.sts-progress.active .icon-item
+{ background: #f04b46; }
