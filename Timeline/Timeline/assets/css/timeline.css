@@ -219,9 +219,29 @@ a { background-color: transparent; }
 
 .tl2 .list-tl
 {
+    position: relative;
 	list-style: none;
 	padding: 10px 0;
 	margin: 0;
+}
+
+.tl2 .list-tl .load-result
+{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    z-index: 2;
+    color: #666;
+    background: rgba(236,236,236,0.7);
+}
+
+.tl2 .list-tl .list-result
+{
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 .tl2 .list-tl .item-list-date,
