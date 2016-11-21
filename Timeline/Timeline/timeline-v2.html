@@ -139,24 +139,24 @@
                     <ul class="channel">
                         <li class="item-ch item-ch-cb sts-pending">
                             <div form-field-id="66823" class="checkbox checkbox-default">
-                                <input type="checkbox" id="cbx-campaign" value="Y" false-value="N">
-                                <label for="cbx-campaign" class="txt-item">Pendente</label>
+                                <input type="checkbox" id="cbx-pending" value="Y" false-value="N">
+                                <label for="cbx-pending" class="txt-item">Pendente</label>
                                 <input type="hidden" role="checkbox-hdn" name="cbx-unconditional-search" value="N">
                                 <i class="icon-item fa fa-exclamation-triangle" aria-hidden="true"></i>
                             </div>
                         </li>
                         <li class="item-ch item-ch-cb sts-locked active">
                             <div form-field-id="66823" class="checkbox checkbox-default">
-                                <input type="checkbox" id="cbx-chat" value="Y" false-value="N" checked>
-                                <label for="cbx-chat" class="txt-item">Encerrado</label>
+                                <input type="checkbox" id="cbx-locked" value="Y" false-value="N" checked>
+                                <label for="cbx-locked" class="txt-item">Encerrado</label>
                                 <input type="hidden" role="checkbox-hdn" name="cbx-unconditional-search" value="N">
                                 <i class="icon-item fa fa-check-circle-o" aria-hidden="true"></i>
                             </div>
                         </li>
                         <li class="item-ch item-ch-cb sts-progress active">
                             <div form-field-id="66823" class="checkbox checkbox-default">
-                                <input type="checkbox" id="cbx-get-mail" value="Y" false-value="N" checked>
-                                <label for="cbx-get-mail" class="txt-item">Em Atendimento</label>
+                                <input type="checkbox" id="cbx-progress" value="Y" false-value="N" checked>
+                                <label for="cbx-progress" class="txt-item">Em Atendimento</label>
                                 <input type="hidden" role="checkbox-hdn" name="cbx-unconditional-search" value="N">
                                 <i class="icon-item fa fa-road" aria-hidden="true"></i>
                             </div>
@@ -183,205 +183,210 @@
 
         <!-- Lista -->
         <div class="list-tl">
-            <li class="item-list-date year-tl"><label for="">2018</label></li>
-            <li class="item-list-date month-tl"><label for="">Janeiro</label></li>
-            <!-- Info Lista Timeline -->
-            <li class="item-list-date">
-                <div class="row">
-                    <div class="col-info-left sms">
-                        <p class="txt-info"><span class="icon-ch"><i class="fa fa-mobile-phone" aria-hidden="true"></i></span></p>
-                        <p class="txt-info channel">SMS</p>
-                        <p class="txt-info date">28/01/2016</p>
-                        <p class="txt-info time">16:16</p>
-                        <p class="txt-info status pending">Pendente</p>
-                        <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
-                    </div>
-                    <div class="col-info-right">
-                        <div class="bx-info-txt">
-                            <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
-                            <p class="txt-info">Mensagem curta.</p>
+            <div class="load-result" style="display: none;">
+                <i class="fa fa-spinner" aria-hidden="true"></i>
+            </div>
+            <ul class="list-result">
+                <li class="item-list-date year-tl"><label for="">2018</label></li>
+                <li class="item-list-date month-tl"><label for="">Janeiro</label></li>
+                <!-- Info Lista Timeline -->
+                <li class="item-list-date">
+                    <div class="row">
+                        <div class="col-info-left sms">
+                            <p class="txt-info"><span class="icon-ch"><i class="fa fa-mobile-phone" aria-hidden="true"></i></span></p>
+                            <p class="txt-info channel">SMS</p>
+                            <p class="txt-info date">28/01/2016</p>
+                            <p class="txt-info time">16:16</p>
+                            <p class="txt-info status pending">Pendente</p>
+                            <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
                         </div>
-                        <p class="txt-info link-actions">
-                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
-                        </p>
-                        <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
+                        <div class="col-info-right">
+                            <div class="bx-info-txt">
+                                <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
+                                <p class="txt-info">Mensagem curta.</p>
+                            </div>
+                            <p class="txt-info link-actions">
+                                <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                            </p>
+                            <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <li class="item-list-date year-tl"><label for="">2017</label></li>
-            <li class="item-list-date month-tl"><label for="">Outubro</label></li>
-            <!-- Info Lista Timeline -->
-            <li class="item-list-date">
-                <div class="row">
-                    <div class="col-info-left sms">
-                        <p class="txt-info"><span class="icon-ch"><i class="fa fa-mobile-phone" aria-hidden="true"></i></span></p>
-                        <p class="txt-info channel">SMS</p>
-                        <p class="txt-info date">28/10/2016</p>
-                        <p class="txt-info time">16:16</p>
-                        <p class="txt-info status closed">Encerrado</p>
-                        <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
-                    </div>
-                    <div class="col-info-right">
-                        <div class="bx-info-txt">
-                            <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
-                            <p class="txt-info">Mensagem de texto extremamente longo. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
-                            <div class="extend-text">
-                                Mostrar mais
-                                <i class="fa fa-caret-down" aria-hidden="true"></i>
-                            </div>
+                <li class="item-list-date year-tl"><label for="">2017</label></li>
+                <li class="item-list-date month-tl"><label for="">Outubro</label></li>
+                <!-- Info Lista Timeline -->
+                <li class="item-list-date">
+                    <div class="row">
+                        <div class="col-info-left sms">
+                            <p class="txt-info"><span class="icon-ch"><i class="fa fa-mobile-phone" aria-hidden="true"></i></span></p>
+                            <p class="txt-info channel">SMS</p>
+                            <p class="txt-info date">28/10/2016</p>
+                            <p class="txt-info time">16:16</p>
+                            <p class="txt-info status closed">Encerrado</p>
+                            <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
                         </div>
-                        <p class="txt-info link-actions">
-                            <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
-                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
-                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
-                        </p>
-                        <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
-                    </div>
-                </div>
-            </li>
-            <li class="item-list-date">
-                <div class="row">
-                    <div class="col-info-left chat">
-                        <p class="txt-info"><span class="icon-ch"><i class="fa fa-comments-o" aria-hidden="true"></i></span></p>
-                        <p class="txt-info channel">Chat</p>
-                        <p class="txt-info date">28/10/2016</p>
-                        <p class="txt-info time">16:16</p>
-                        <p class="txt-info status closed">Encerrado</p>
-                        <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
-                    </div>
-                    <div class="col-info-right">
-                        <div class="bx-info-txt">
-                            <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
-                            <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
-                            <div class="extend-text">
-                                Mostrar mais
-                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        <div class="col-info-right">
+                            <div class="bx-info-txt">
+                                <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
+                                <p class="txt-info">Mensagem de texto extremamente longo. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
+                                <div class="extend-text">
+                                    Mostrar mais
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </div>
                             </div>
+                            <p class="txt-info link-actions">
+                                <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
+                                <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                                <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                            </p>
+                            <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                         </div>
-                        <p class="txt-info link-actions">
-                            <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
-                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
-                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
-                        </p>
-                        <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
-                </div>
-            </li>
-            <li class="item-list-date">
-                <div class="row">
-                    <div class="col-info-left sms">
-                        <p class="txt-info"><span class="icon-ch"><i class="fa fa-mobile-phone" aria-hidden="true"></i></span></p>
-                        <p class="txt-info channel">SMS</p>
-                        <p class="txt-info date">28/04/2016</p>
-                        <p class="txt-info time">16:16</p>
-                        <p class="txt-info status closed">Encerrado</p>
-                        <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
-                    </div>
-                    <div class="col-info-right">
-                        <div class="bx-info-txt">
-                            <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
-                            <p class="txt-info">Mensagem de texto extremamente longo. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
-                            <div class="extend-text">
-                                Mostrar mais
-                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </li>
+                <li class="item-list-date">
+                    <div class="row">
+                        <div class="col-info-left chat">
+                            <p class="txt-info"><span class="icon-ch"><i class="fa fa-comments-o" aria-hidden="true"></i></span></p>
+                            <p class="txt-info channel">Chat</p>
+                            <p class="txt-info date">28/10/2016</p>
+                            <p class="txt-info time">16:16</p>
+                            <p class="txt-info status closed">Encerrado</p>
+                            <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
+                        </div>
+                        <div class="col-info-right">
+                            <div class="bx-info-txt">
+                                <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
+                                <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
+                                <div class="extend-text">
+                                    Mostrar mais
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </div>
                             </div>
+                            <p class="txt-info link-actions">
+                                <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
+                                <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                                <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                            </p>
+                            <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                         </div>
-                        <p class="txt-info link-actions">
-                            <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
-                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
-                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
-                        </p>
-                        <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
-                </div>
-            </li>
-            <li class="item-list-date month-tl"><label for="">Abril</label></li>
-            <li class="item-list-date">
-                <div class="row">
-                    <div class="col-info-left chat">
-                        <p class="txt-info"><span class="icon-ch"><i class="fa fa-comments-o" aria-hidden="true"></i></span></p>
-                        <p class="txt-info channel">Chat</p>
-                        <p class="txt-info date">28/04/2016</p>
-                        <p class="txt-info time">16:16</p>
-                        <p class="txt-info status closed">Encerrado</p>
-                        <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
-                    </div>
-                    <div class="col-info-right">
-                        <div class="bx-info-txt">
-                            <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
-                            <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
-                            <div class="extend-text">
-                                Mostrar mais
-                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </li>
+                <li class="item-list-date">
+                    <div class="row">
+                        <div class="col-info-left sms">
+                            <p class="txt-info"><span class="icon-ch"><i class="fa fa-mobile-phone" aria-hidden="true"></i></span></p>
+                            <p class="txt-info channel">SMS</p>
+                            <p class="txt-info date">28/04/2016</p>
+                            <p class="txt-info time">16:16</p>
+                            <p class="txt-info status closed">Encerrado</p>
+                            <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
+                        </div>
+                        <div class="col-info-right">
+                            <div class="bx-info-txt">
+                                <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
+                                <p class="txt-info">Mensagem de texto extremamente longo. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
+                                <div class="extend-text">
+                                    Mostrar mais
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </div>
                             </div>
+                            <p class="txt-info link-actions">
+                                <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
+                                <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                                <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                            </p>
+                            <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                         </div>
-                        <p class="txt-info link-actions">
-                            <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
-                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
-                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
-                        </p>
-                        <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
-                </div>
-            </li>
-            <li class="item-list-date year-tl"><label for="">2016</label></li>
-            <li class="item-list-date month-tl"><label for="">Março</label></li>
-            <!-- Info Lista Timeline -->
-            <li class="item-list-date">
-                <div class="row">
-                    <div class="col-info-left call">
-                        <p class="txt-info"><span class="icon-ch"><i class="fa fa-phone" aria-hidden="true"></i></span></p>
-                        <p class="txt-info channel">Legação</p>
-                        <p class="txt-info date">28/03/2016</p>
-                        <p class="txt-info time">16:16</p>
-                        <p class="txt-info status going">Atendimento</p>
-                        <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
-                    </div>
-                    <div class="col-info-right">
-                        <div class="bx-info-txt">
-                            <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
-                            <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
-                            <div class="extend-text">
-                                Mostrar mais
-                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </li>
+                <li class="item-list-date month-tl"><label for="">Abril</label></li>
+                <li class="item-list-date">
+                    <div class="row">
+                        <div class="col-info-left chat">
+                            <p class="txt-info"><span class="icon-ch"><i class="fa fa-comments-o" aria-hidden="true"></i></span></p>
+                            <p class="txt-info channel">Chat</p>
+                            <p class="txt-info date">28/04/2016</p>
+                            <p class="txt-info time">16:16</p>
+                            <p class="txt-info status closed">Encerrado</p>
+                            <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
+                        </div>
+                        <div class="col-info-right">
+                            <div class="bx-info-txt">
+                                <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
+                                <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
+                                <div class="extend-text">
+                                    Mostrar mais
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </div>
                             </div>
+                            <p class="txt-info link-actions">
+                                <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
+                                <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                                <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                            </p>
+                            <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                         </div>
-                        <p class="txt-info link-actions">
-                            <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
-                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
-                        </p>
-                        <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
-                </div>
-            </li>
-            <li class="item-list-date">
-                <div class="row">
-                    <div class="col-info-left task">
-                        <p class="txt-info"><span class="icon-ch"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span></p>
-                        <p class="txt-info channel">Tarefa</p>
-                        <p class="txt-info date">28/03/2016</p>
-                        <p class="txt-info time">16:16</p>
-                        <p class="txt-info status closed">Encerrado</p>
-                        <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
-                    </div>
-                    <div class="col-info-right">
-                        <div class="bx-info-txt">
-                            <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
-                            <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
-                            <div class="extend-text">
-                                Mostrar mais
-                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </li>
+                <li class="item-list-date year-tl"><label for="">2016</label></li>
+                <li class="item-list-date month-tl"><label for="">Março</label></li>
+                <!-- Info Lista Timeline -->
+                <li class="item-list-date">
+                    <div class="row">
+                        <div class="col-info-left call">
+                            <p class="txt-info"><span class="icon-ch"><i class="fa fa-phone" aria-hidden="true"></i></span></p>
+                            <p class="txt-info channel">Legação</p>
+                            <p class="txt-info date">28/03/2016</p>
+                            <p class="txt-info time">16:16</p>
+                            <p class="txt-info status going">Atendimento</p>
+                            <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
+                        </div>
+                        <div class="col-info-right">
+                            <div class="bx-info-txt">
+                                <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
+                                <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
+                                <div class="extend-text">
+                                    Mostrar mais
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </div>
                             </div>
+                            <p class="txt-info link-actions">
+                                <a href=""><i class="fa fa-eye" aria-hidden="true"></i> Visualizar</a>
+                                <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                            </p>
+                            <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                         </div>
-                        <p class="txt-info link-actions">
-                            <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
-                            <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
-                        </p>
-                        <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
                     </div>
-                </div>
-            </li>
+                </li>
+                <li class="item-list-date">
+                    <div class="row">
+                        <div class="col-info-left task">
+                            <p class="txt-info"><span class="icon-ch"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span></p>
+                            <p class="txt-info channel">Tarefa</p>
+                            <p class="txt-info date">28/03/2016</p>
+                            <p class="txt-info time">16:16</p>
+                            <p class="txt-info status closed">Encerrado</p>
+                            <p class="txt-info code"><strong>Cód.:</strong> 3021</p>
+                        </div>
+                        <div class="col-info-right">
+                            <div class="bx-info-txt">
+                                <p class="tlt-info">Tútulo XPTO Lorem Ipsum</p>
+                                <p class="txt-info">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia. Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos. que serve como texto qualquer somente para apresentação de uma idéia.</p>
+                                <div class="extend-text">
+                                    Mostrar mais
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <p class="txt-info link-actions">
+                                <a href=""><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+                                <a href=""><i class="fa fa-link" aria-hidden="true"></i> Seguir</a>
+                            </p>
+                            <p class="date-user"><strong>Usuário:</strong> Marcos Donato (Plusoft)</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
         
 
