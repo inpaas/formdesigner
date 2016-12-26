@@ -1,0 +1,22 @@
+{
+  "name": "formdesigner",
+  "version": "1.0.0",
+  "description": "Form Designer Interface for the Development Studio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inpaas/formdesigner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/inpaas/formdesigner/issues"
+  },
+  "homepage": "https://github.com/inpaas/formdesigner#readme",
+  "dependencies": {
+    "angular-dragula": "^1.2.8"
+  }
+}
