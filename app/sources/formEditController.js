@@ -20,6 +20,7 @@
       section: [],
       addNewSection: addNewSection,
       setNewSection: setNewSection,
+      cancelNewSection: cancelNewSection,
       onComponents: true,
       data: {}
     });
