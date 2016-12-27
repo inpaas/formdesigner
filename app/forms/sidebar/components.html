@@ -37,7 +37,7 @@
   </li><!-- Campos -->
   <div class="inner-item field-item">
     <button type="button" id="btnNewField" class="btn btn-success btn-block">Novo Campo</button>
-    <ul class="list-existing" data-ng-repeat="field in $ctrl.data.entityFields">
+    <ul class="list-existing" data-ng-repeat="field in ctrl.data.entityFields">
       <li class="field-existing" data-ng-bind="field"></li>
     </ul>
   </div>
@@ -73,7 +73,7 @@
     </div>
   </li><!-- Lista de Dependentes -->
   <div class="inner-item dependents-item">
-    <ul class="list-existing" data-ng-repeat="dependent in $ctrl.data.dependents">
+    <ul class="list-existing" data-ng-repeat="dependent in ctrl.data.dependents">
       <li class="field-existing" data-ng-bind="dependent"></li>
     </ul>
   </div>
