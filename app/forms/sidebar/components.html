@@ -1,0 +1,93 @@
+<!-- Componentes -->
+<ul class="nav-components sb-edit" ng-show="ctrl.onComponents">
+  <!-- Estrutura -->
+  <li class="item-components">
+    Básico
+    <div class="widget-toolbar default-toolbar hidden-print">
+      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+    </div>
+  </li><!-- Estrutura -->
+  <div class="inner-item structure-item">
+    <ul class="list-existing">
+      <li class="item-list" id="newWidget" ng-click="ctrl.addNewSection()">
+        <div class="bx-elements"><span class="ic ic-widget"></span></div>
+        <p class="txt-subtditle">Seção</p>
+      </li>
+      <li class="item-list" draggable>
+        <div class="bx-elements"><span class="ic ic-button"></span></div>
+        <p class="txt-subtitle">Botão</p>
+      </li>
+      <li class="item-list">
+        <div class="bx-elements"><span class="ic ic-paragraph"></span></div>
+        <p class="txt-subtitle">Parágrafo</p>
+      </li>
+      <li class="item-list">
+        <div class="bx-elements"><span class="ic ic-image"></span></div>
+        <p class="txt-subtitle">Imagem</p>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Campos -->
+  <li class="item-components">
+    Campos
+    <div class="widget-toolbar default-toolbar hidden-print">
+      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+    </div>
+  </li><!-- Campos -->
+  <div class="inner-item field-item">
+    <button type="button" id="btnNewField" class="btn btn-success btn-block">Novo Campo</button>
+    <ul class="list-existing" data-ng-repeat="field in $ctrl.data.entityFields">
+      <li class="field-existing" data-ng-bind="field"></li>
+    </ul>
+  </div>
+
+  <!-- Botões -->
+  <li class="item-components">
+    Botões
+    <div class="widget-toolbar default-toolbar hidden-print">
+      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+    </div>
+  </li><!-- Botões -->
+
+  <div class="inner-item field-item">
+    <button type="button" id="btnNewField" class="btn btn-success btn-block">Novo Botão</button>
+  </div>
+
+  <div class="inner-item buttons-item">
+    <button type="button" class="btn btn-warning btn-block-half">Buscar</button>
+    <button type="button" class="btn btn-default btn-block-half active-form">Cancelar</button>
+    <button type="button" class="btn btn-primary btn-block-half">Confirmar</button>
+    <button type="button" class="btn btn-success btn-block-half">Duplicar</button>
+    <button type="button" class="btn btn-success btn-block-half active-form">Novo</button>
+    <button type="button" class="btn btn-success btn-block-half">Produto</button>
+    <button type="button" class="btn btn-danger btn-block-half active-form">Remover</button>
+    <button type="button" class="btn btn-primary btn-block-half active-form">Salvar</button>
+  </div>
+
+  <!-- Lista de Dependentes -->
+  <li class="item-components">
+    Lista de Dependentes
+    <div class="widget-toolbar default-toolbar hidden-print">
+      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+    </div>
+  </li><!-- Lista de Dependentes -->
+  <div class="inner-item dependents-item">
+    <ul class="list-existing" data-ng-repeat="dependent in $ctrl.data.dependents">
+      <li class="field-existing" data-ng-bind="dependent"></li>
+    </ul>
+  </div>
+
+  <!-- Gráficos -->
+  <li class="item-components">
+    Graficos para Relatórios
+    <div class="widget-toolbar default-toolbar hidden-print">
+      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+    </div>
+  </li><!-- Gráficos -->
+</ul>
+<!-- Componentes -->
+
+<script type="text/ng-template" id="forms/studiov2.forms.sidebar.components">
+  {{#include-html}} studiov2.forms.sidebar.components {{/include-html}}
+</script>
