@@ -6,7 +6,7 @@
             
             <!-- Estrutura -->
             <li class="item-components">
-                Propriedades
+                Propriedades do Form
                 <div class="widget-toolbar default-toolbar hidden-print">
                     <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
                 </div>
@@ -135,7 +135,7 @@
         </div><!-- End Button Actions -->
 
         <!-- Sb-edit Nav -->
-        <ul class="nav-components sb-edit">
+        <ul class="nav-components sb-edit" ng-hide="ctrl.onNewSection">
             
             <!-- Estrutura -->
             <li class="item-components">
@@ -146,9 +146,9 @@
             </li><!-- Estrutura -->
             <div class="inner-item structure-item">
                 <ul class="list-existing">
-                    <li class="item-list" id="newWidget">
+                    <li class="item-list" id="newWidget" ng-click="ctrl.addNewSection()">
                         <div class="bx-elements"><span class="ic ic-widget"></span></div>
-                        <p class="txt-subtitle">Seção</p>
+                        <p class="txt-subtditle">Seção</p>
                     </li>
                     <li class="item-list" draggable>
                         <div class="bx-elements"><span class="ic ic-button"></span></div>
@@ -222,12 +222,13 @@
                     <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
                 </div>
             </li><!-- Gráficos -->
-        </ul><!-- End Sb-edit Nav -->
+        </ul>
+        <!-- End Sb-edit Nav -->
 
-        <!-- sb-widget -->
-        <ul class="nav-components sb-widget" style="display: none;">
+        <!-- Propriedades Nova Seção -->
+        <ul class="nav-components sb-widget" ng-show="ctrl.onNewSection">
             <!-- |JOGAR FORA DEPOIS| -->
-            <div class="action-buttons" style="z-index: 1;">                        
+            <div class="action-buttons" style="z-index: 1;">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 no-padding col-pdd">
                         <button type="button" id="btnWidgetCancel" class="btn btn-default btn-block">Cancelar</button>
@@ -245,7 +246,8 @@
                 <div class="widget-toolbar default-toolbar hidden-print">
                     <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
                 </div>
-            </li><!-- Estrutura -->
+            </li>
+            <!-- Estrutura -->
             <div class="inner-item propriets-section">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 no-padding">
@@ -318,11 +320,11 @@
                     </li>
                 </ul>
             </div>
-        </ul><!-- End sb-widget -->
+        </ul>
+        <!-- Propriedades Nova Seção -->
 
-        <!-- Sb-field Nav -->
-        <ul class="nav-components sb-field" style="display: block;">
-            
+        <!-- Fields -->
+        <ul class="nav-components sb-field" ng-show="ctrl.showTypeFields">
             <!-- Estrutura -->
             <li class="item-components">
                 Tipo do Campo
@@ -371,11 +373,11 @@
                     </li>
                 </ul>
             </div>
-        </ul><!-- End Sb-field Nav -->
+        </ul>
+        <!-- Fields -->
 
-        <!-- Sb-field-text Nav -->
-        <ul class="nav-components sb-field-text" style="display: none;">
-            
+        <!-- Config Field -->
+        <ul class="nav-components sb-field-text" ng-show="ctrl.showConfigField">
             <!-- Estrutura -->
             <li class="item-components">
                 Novo Campo Texto
@@ -459,10 +461,11 @@
                     </div>
                 </div>
             </div>
-        </ul><!-- End Sb-field-text Nav -->
+        </ul>
+        <!--  Config Field -->
 
-        <!-- LIST Sb-field-text Nav -->
-        <ul class="nav-components sb-field-text position-field" style="display: none;">
+        <!-- Table Position -->
+        <ul class="nav-components sb-field-text position-field" ng-show="ctrl.tablePosition">
             
             <!-- Estrutura -->
             <li class="item-components">
@@ -478,10 +481,11 @@
                     </div>
                 </div>
             </div>
-        </ul><!-- End LIST Sb-field-text Nav -->
+        </ul>
+        <!-- Table Position -->
 
         <!-- Sb-field-value Nav -->
-        <ul class="nav-components sb-field-value" style="display: none;">
+          <ul class="nav-components sb-field-value" ng-hide="true">
             
             <!-- Estrutura -->
             <li class="item-components">
@@ -582,17 +586,18 @@
                     </div>
                 </div>
             </div>
-        </ul><!-- End Sb-field-value Nav -->
+          </ul>
+        <!-- End Sb-field-value Nav -->
 
-        <!-- Sb-field-text Nav -->
-        <ul class="nav-components sb-field-text" style="display: none;">
+        <!-- Fields Events -->
+        <ul class="nav-components sb-field-text">
             
             <!-- Estrutura -->
             <li class="item-components">
                 Criar Evento
             </li><!-- Estrutura -->
             <div class="inner-item">
-                <div class="easy-code" style="display: none;">
+                <div class="easy-code">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 no-padding">
                             <label for="">Ação</label>
@@ -699,7 +704,7 @@
                     </div>
                 </div>
 
-                <div class="hard-code" style="display: none;">
+                <div class="hard-code">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 no-padding">
                             <label for="">Área do código</label>
@@ -711,10 +716,11 @@
                     </div>
                 </div>
             </div>
-        </ul><!-- End Sb-field-text Nav -->
+        </ul>
+        <!-- Fields Events -->
     </div>
 
-    <div class="action-buttons">                        
+    <div class="action-buttons">
         <div class="row">
             <div class="col-xs-12 col-sm-6 no-padding col-pdd">
                 <!--button type="button" class="btn btn-default btn-block">Cancelar</button-->
