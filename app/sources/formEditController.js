@@ -17,7 +17,7 @@
       addField: addField,
       addSection: addSection,
       formModel: jsonForm.getJsonForm(),
-      section: [],
+      sections: [],
       addNewSection: addNewSection,
       setNewSection: setNewSection,
       cancelNewSection: cancelNewSection,
