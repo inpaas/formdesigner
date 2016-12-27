@@ -18,6 +18,7 @@
       addSection: addSection,
       formModel: jsonForm.getJsonForm(),
       addNewSection: addNewSection,
+      onComponents: true,
       data: {}
     });
     
@@ -59,6 +60,7 @@
     };
     
     function addNewSection() {
+      ctrl.onComponents = false;
       ctrl.onNewSection = true; 
     } 
 
