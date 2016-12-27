@@ -40,15 +40,9 @@
 
     <!-- Main View Edit -->
     <div class="main-view-edit">
-      <!-- New Widget -->
-      <div class="row row-new-widget">
-        <div class="active-this">
-          <span class="new-txt">Nova Seção</span>
-        </div>
-      </div><!-- End New Widget -->
 
-      <!-- List Dependent -->
-      <div class="row row-widget row-xp">
+      <!-- Sections -->
+      <div class="row row-widget row-xp" ng-repeat="section in sections">
         <div role="app-widget" class="widget-box widget-well">
           <div class="widget-header">
             <h5 class="widget-title" ng-bind="ctrl.formModel.label"></h5> (widget edit)
@@ -130,7 +124,17 @@
             </div>
           </div>
         </div>
-      </div><!-- End List Dependent -->
+      </div>
+      <!-- Sections-->
+
+      <!-- New Widget -->
+      <div class="row row-new-widget" ng-show="ctrl.onNewSection">
+        <div class="active-this">
+          <span class="new-txt">Nova Seção</span>
+        </div>
+      </div>
+      <!-- End New Widget -->
+
     </div><!-- End Main View Edit -->
   </div>
 </div><!-- End Content Form -->
