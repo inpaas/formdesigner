@@ -1,17 +1,15 @@
 <!-- Propriedades Nova Seção -->
 <ul class="nav-components sb-widget" ng-show="ctrl.onNewSection">
-  <!-- |JOGAR FORA DEPOIS| -->
   <div class="action-buttons" style="z-index: 1;">
     <div class="row">
       <div class="col-xs-12 col-sm-6 no-padding col-pdd">
-        <button type="button" id="btnWidgetCancel" class="btn btn-default btn-block">Cancelar</button>
+        <button type="button" id="btnWidgetCancel" class="btn btn-default btn-block" ng-click="ctrl.cancelNewSection()">Cancelar</button>
       </div>
       <div class="col-xs-12 col-sm-6 no-padding">
-        <button type="button" id="btnWidgetSave" class="btn btn-success btn-block">Salvar</button>
+        <button type="button" id="btnWidgetSave" class="btn btn-success btn-block" ng-click="ctrl.setNewSection()">Confirmar</button>
       </div>
     </div>
   </div>
-  <!-- |JOGAR FORA DEPOIS| -->
 
   <!-- Estrutura -->
   <li class="item-components">
@@ -27,13 +25,12 @@
         <label for="">Título da Seção</label>
       </div>
       <div class="col-xs-12 col-sm-12 no-padding">
-        <input  class="form-control input-sm" placeholder="Escreva aqui" type="text">
+        <input  class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.newSection.label">
       </div>
       <div class="col-xs-12 col-sm-12 no-padding">
         <div form-field-id="66823" class="checkbox checkbox-default">
-          <input type="checkbox" id="cbx-unconditional-search" value="Y" false-value="N">
+          <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.newSection.displayLabel">
           <label for="cbx-unconditional-search">Exibir cabeçalho da seção</label>
-          <input type="hidden" role="checkbox-hdn" name="cbx-unconditional-search" value="N">
         </div>
       </div>
     </div>
@@ -46,22 +43,25 @@
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
   </li><!-- Campos -->
+
   <div class="inner-item template-col">
     <ul class="list-existing">
-      <li class="item-list">
+      <li class="item-list" ng-click="ctrl.newSection.templateCol = 1" ng-class="{'item-list-selected' : ctrl.newSection.templateCol == 1}">
         <div class="row-bx">
           <div class="col-amount col-am-1"></div>
         </div>
         <p class="txt-info-col">1 Coluna</p>
       </li>
-      <li class="item-list">
+
+      <li class="item-list" ng-click="ctrl.newSection.templateCol = 2" ng-class="{'item-list-selected' : ctrl.newSection.templateCol == 2}">
         <div class="row-bx">
           <div class="col-amount col-am-2"></div>
           <div class="col-amount col-am-2"></div>
         </div>
         <p class="txt-info-col">2 Coluna</p>
       </li>
-      <li class="item-list">
+
+      <li class="item-list" ng-click="ctrl.newSection.templateCol = 3" ng-class="{'item-list-selected' : ctrl.newSection.templateCol == 3}">
         <div class="row-bx">
           <div class="col-amount col-am-3"></div>
           <div class="col-amount col-am-3"></div>
@@ -81,14 +81,13 @@
   </li><!-- Botões -->
   <div class="inner-item template-col order-tab">
     <ul class="list-existing">
-      <li class="item-list">
-        <div class="row-bx tab-1">
-        </div>
+      <li class="item-list" ng-click="ctrl.newSection.tabSort = 1" ng-class="{'item-list-selected' : ctrl.newSection.tabSort == 1}">
+        <div class="row-bx tab-1"></div>
         <p class="txt-info-col">Tab 1</p>
       </li>
-      <li class="item-list">
-        <div class="row-bx tab-2">
-        </div>
+
+      <li class="item-list" ng-click="ctrl.newSection.tabSort = 2" ng-class="{'item-list-selected' : ctrl.newSection.tabSort == 2}">
+        <div class="row-bx tab-2"></div>
         <p class="txt-info-col">Tab 2</p>
       </li>
     </ul>

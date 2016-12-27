@@ -1,6 +1,6 @@
 /*eslint-env browser */
 /*globals moment angular jQuery debounce*/
-(function( $ ){
+(function(){
     
   angular
     .module("studio-v2")
@@ -17,7 +17,9 @@
       addField: addField,
       addSection: addSection,
       formModel: jsonForm.getJsonForm(),
+      section: [],
       addNewSection: addNewSection,
+      setNewSection: setNewSection,
       onComponents: true,
       data: {}
     });
@@ -60,6 +62,29 @@
     };
     
     function addNewSection() {
+      showNewSectionConfig(); 
+      ctrl.newSection = {};
+    } 
+
+    function setNewSection() {
+      // Formatar o jsonForm (se não tiver nenhuma é a principal mas se tiver é um include do mesmo data source)
+      // setar na view a nova section
+      // Mostrar o components no sidebar
+      ctrl.sections.push(ctrl.newSection);
+      showComponents();
+    }
+
+    function cancelNewSection() {
+      showComponents();
+      angular.extend(ctrl.newSection, {});
+    }
+
+    function showComponents() {
+      ctrl.onComponents = true;
+      ctrl.onNewSection = false;  
+    }
+
+    function showNewSectionConfig() {
       ctrl.onComponents = false;
       ctrl.onNewSection = true; 
     } 
@@ -67,7 +92,5 @@
     //call functions
     getFieldsEntitys();
     getDependents();
-    };
-
-  
-})(jQuery);
+  };
+})();
