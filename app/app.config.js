@@ -1,35 +1,41 @@
+/*globals moment angular jQuery*/
+
 (function() {
     var dependencies = [
       'ui.mask', 'ui.bootstrap', 'ngTable', 'ui-notification', 'ngFileUpload', 'ui.router',
-      'angular-clipboard', 'ngSanitize', 'ngMessages', 'Localization', 'rw.moneymask'
+      'angular-clipboard', 'ngSanitize', 'Localization'
     ];
 
     angular
-      .module('formdesigner', dependencies)
+      .module('studio-v2', dependencies)
       .config(config);
 
-      function config(NotificationProvider, $stateProvider, $urlRouterProvider, $locationProvider, $interpolateProvider) {
-
+      function config(NotificationProvider, $stateProvider, $urlRouterProvider, $interpolateProvider) {
+    
+        $interpolateProvider.startSymbol('{[{');
+        $interpolateProvider.endSymbol('}]}');
+        
         $stateProvider
           .state('forms', {
               'url': '/forms',
-              'templateUrl': 'form-list/templates/listForms.html',
-              'controller': 'ListFormsController',
-              'controllerAs': 'vm'
+              'templateUrl': '/forms/studiov2.forms.form-list'
           })
           .state('form-edit', {
-              'url': '/form',
-              'templateUrl': 'form-edit/templates/formTemplate.html', 
+              'url': '/form-edit',
               'controller': 'FormEditController',
-              'controllerAs': 'vm'
+              'controllerAs': 'ctrl',
+              'templateUrl': '/forms/studiov2.forms.form-edit'
           })
           .state('formId', {
                 'url': '/form-edit/:id',
-                'templateUrl': 'form-edit/templates/formTemplate.html',
                 'controller': 'FormEditController',
-                'controllerAs': 'vm'
+                'controllerAs': 'ctrl',
+                'templateUrl': '/forms/studiov2.forms.form-edit'
           });
-       
+          
+        
+        $urlRouterProvider.otherwise('/forms');
+
         // $locationProvider.html5Mode(true);
         
         NotificationProvider.setOptions({
@@ -42,4 +48,4 @@
           positionY: 'top'
         });
       }
-})();
+})(angular);
