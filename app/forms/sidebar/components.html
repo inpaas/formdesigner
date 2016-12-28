@@ -6,7 +6,7 @@
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
-  </li><!-- Estrutura -->
+  </li>
   <div class="inner-item structure-item">
     <ul class="list-existing">
       <li class="item-list" id="newWidget" ng-click="ctrl.addNewSection()">
@@ -27,6 +27,7 @@
       </li>
     </ul>
   </div>
+  <!-- Estrutura -->
 
   <!-- Campos -->
   <li class="item-components">
@@ -34,13 +35,14 @@
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
-  </li><!-- Campos -->
+  </li>
   <div class="inner-item field-item">
-    <button type="button" id="btnNewField" class="btn btn-success btn-block">Novo Campo</button>
+    <button type="button" id="btnNewField" class="btn btn-success btn-block" ng-click="ctrl.showTypeFields()">Novo Campo</button>
     <ul class="list-existing" data-ng-repeat="field in ctrl.data.entityFields">
-      <li class="field-existing" data-ng-bind="field"></li>
+      <li class="field-existing" data-ng-bind="field" ng-click="ctrl.showTypeFields()"></li>
     </ul>
   </div>
+  <!-- Campos -->
 
   <!-- Botões -->
   <li class="item-components">
@@ -48,12 +50,10 @@
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
-  </li><!-- Botões -->
-
+  </li>
   <div class="inner-item field-item">
     <button type="button" id="btnNewField" class="btn btn-success btn-block">Novo Botão</button>
   </div>
-
   <div class="inner-item buttons-item">
     <button type="button" class="btn btn-warning btn-block-half">Buscar</button>
     <button type="button" class="btn btn-default btn-block-half active-form">Cancelar</button>
@@ -64,6 +64,7 @@
     <button type="button" class="btn btn-danger btn-block-half active-form">Remover</button>
     <button type="button" class="btn btn-primary btn-block-half active-form">Salvar</button>
   </div>
+  <!-- Botões -->
 
   <!-- Lista de Dependentes -->
   <li class="item-components">
@@ -71,12 +72,13 @@
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
-  </li><!-- Lista de Dependentes -->
+  </li>
   <div class="inner-item dependents-item">
     <ul class="list-existing" data-ng-repeat="dependent in ctrl.data.dependents">
       <li class="field-existing" data-ng-bind="dependent"></li>
     </ul>
   </div>
+  <!-- Lista de Dependentes -->
 
   <!-- Gráficos -->
   <li class="item-components">
@@ -84,7 +86,9 @@
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
-  </li><!-- Gráficos -->
+  </li>
+  <!-- Gráficos -->
+
 </ul>
 <!-- Componentes -->
 
