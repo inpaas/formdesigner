@@ -45,16 +45,26 @@
       <div class="row row-widget row-xp" ng-repeat="section in ctrl.sections">
         <div role="app-widget" class="widget-box widget-well">
           <div class="widget-header">
-            <h5 class="widget-title" ng-bind="section.label"></h5> (widget edit)
+            <h5 class="widget-title" ng-bind="section.label"></h5>
           </div>
           <div class="widget-body">
             <div class="widget-main">
               <div class="row" ng-if="section.templateCol == 1">
                 <div class="col-wdg col-sm-6 no-padding col-sm-offset-2">
                   <div class="row">
-                    <div class="col-sm-12">
-                      <div class="watch-space active-this">
-                        <span class="new-txt">Novo Campo</span>
+                    <div class="row row-edit-this" ng-repeat="field in section.fields" draggable>
+                        <div class="field-edit-this"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+                        <div class="col-ed col-sm-4 text-right">
+                          <label form-field-id="27863" for="cmb-filter-casereasongroup" ng-bind="field.label"></label>
+                        </div>
+                        <div class="col-ed col-sm-8" ng-include="field.templateType">
+                        </div>
+                    </div>
+                    <div class="row row-edit-this" droppable ng-show="ctrl.onNewField">
+                      <div class="col-sm-12 field-placeholder">
+                        <div class="watch-space active-this">
+                          <span class="new-txt">Novo Campo</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -63,7 +73,6 @@
 
               <div class="row" ng-if="section.templateCol == 2">
                 <div class="col-wdg col-sm-6 no-padding">
-
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="watch-space active-this">
@@ -71,7 +80,6 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
                 <div class="col-wdg col-sm-6 no-padding">
                 </div>
