@@ -12,17 +12,19 @@
     var ctrl = this;
     
     angular.extend(ctrl, {
+      onComponents: true,
+      data: {},
+      sections: [],
+      formModel: jsonForm.getJsonForm(),
       activate: activate,
       addButton: addButton,
-      addField: addField,
+      addFieldToSection: addFieldToSection,
+      setFieldEdit: setFieldEdit,
       addSection: addSection,
-      formModel: jsonForm.getJsonForm(),
-      sections: [],
       addNewSection: addNewSection,
       setNewSection: setNewSection,
       cancelNewSection: cancelNewSection,
-      onComponents: true,
-      data: {}
+      showTypeFields: showTypeFields
     });
     
     function activate(permissions) {
@@ -32,7 +34,9 @@
     
     function addButton(event, data){}
     
-    function addField(){}
+    function addFieldToSection(){
+      ctrl.sections[0].fields.push(ctrl.fieldEdit);
+    }
     
     function addSection(){}
     
@@ -71,6 +75,7 @@
       // Formatar o jsonForm (se não tiver nenhuma é a principal mas se tiver é um include do mesmo data source)
       // setar na view a nova section
       // Mostrar o components no sidebar
+      ctrl.newSection.fields = [];
       ctrl.sections.push(ctrl.newSection);
       showComponents();
     }
@@ -80,15 +85,40 @@
       angular.extend(ctrl.newSection, {});
     }
 
+    function setFieldEdit(type) {
+      ctrl.fieldEdit = {
+        type: type,
+        templateType: ('/forms/studio-v2.forms.fields.' + type),
+        meta: {}
+      }
+      showEditField();
+    }
+
+    function showEditField() {
+      ctrl.onEditField = true;
+      ctrl.onNewSection = false;
+      ctrl.onTypeField = false;
+    }
+
     function showComponents() {
       ctrl.onComponents = true;
       ctrl.onNewSection = false;  
+      ctrl.onNewField = false;
+      ctrl.onTypeField = false;
+      ctrl.onEditField = false;
     }
 
     function showNewSectionConfig() {
-      ctrl.onComponents = false;
       ctrl.onNewSection = true; 
+      ctrl.onComponents = false;
+      ctrl.onTypeField = false; 
     } 
+
+    function showTypeFields() {
+      ctrl.onTypeField = true; 
+      ctrl.onNewField = true;
+      ctrl.onComponents = false;
+    }
 
     //call functions
     getFieldsEntitys();

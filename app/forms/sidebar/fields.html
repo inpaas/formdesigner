@@ -1,52 +1,52 @@
 <!-- Fields -->
-<ul class="nav-components sb-field" ng-show="ctrl.showTypeFields">
+<ul class="nav-components sb-field" ng-show="ctrl.onTypeField">
     <!-- Estrutura -->
     <li class="item-components">
         Tipo do Campo
     </li><!-- Estrutura -->
     <div class="inner-item type-field">
         <ul class="list-type">
-            <li class="item-type">
+            <li class="item-type" draggable ng-click="ctrl.setFieldEdit('string')">
                 <div class="box-img-field field-input"></div>
                 <label for="" class="tlt-type">Campo Texto</label>
                 <p class="txt-type">Usado para obter textos curtos e simples.</p>
             </li>
-            <li class="item-type">
+            <li class="item-type" draggable ng-click="ctrl.setFieldEdit('select')">
                 <div class="box-img-field field-combo"></div>
                 <label for="" class="tlt-type">Lista Suspensa</label>
                 <p class="txt-type">Usado para apresentar uma lista de opções.</p>
             </li>
-            <li class="item-type">
+            <li class="item-type" draggable ng-click="ctrl.setFieldEdit('textarea')">
                 <div class="box-img-field field-text"></div>
                 <label for="" class="tlt-type">Área de Texto</label>
                 <p class="txt-type">Usados para obter textos longos.</p>
             </li>
-            <li class="item-type">
+            <li class="item-type" draggable ng-click="ctrl.setFieldEdit('radio')">
                 <div class="box-img-field field-radio"></div>
                 <label for="" class="tlt-type">Radio Button</label>
                 <p class="txt-type">Obter respostas rápidas como SIM e NÃO.</p>
             </li>
-            <li class="item-type">
+            <li class="item-type" draggable ng-click="ctrl.setFieldEdit('checkbox')">
                 <div class="box-img-field field-check"></div>
                 <label for="" class="tlt-type">Checkbox</label>
                 <p class="txt-type">Usado para obter multiplas respostas.</p>
             </li>
-            <li class="item-type">
+            <li class="item-type" draggable ng-click="ctrl.setFieldEdit('image')">
                 <div class="box-img-field field-image"></div>
                 <label for="" class="tlt-type">Imagem</label>
                 <p class="txt-type">Obter tipos de imagens do dispositivo.</p>
             </li>
-            <li class="item-type">
+            <li class="item-type" draggable ng-click="ctrl.setFieldEdit('currency')">
                 <div class="box-img-field field-value"></div>
                 <label for="" class="tlt-type">Moeda</label>
                 <p class="txt-type">Obtenha números decimais para valores fisicos.</p>
             </li>
-            <li class="item-type">
+            <li class="item-type" draggable ng-click="ctrl.setFieldEdit('date')">
                 <div class="box-img-field field-date"></div>
                 <label for="" class="tlt-type">Data</label>
                 <p class="txt-type">Obter um período ou uma data específica.</p>
             </li>
         </ul>
-    </div>
+    </div> 
 </ul>
 <!-- Fields -->

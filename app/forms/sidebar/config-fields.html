@@ -1,24 +1,23 @@
 <!-- Config Field -->
-<ul class="nav-components sb-field-text" ng-show="ctrl.showConfigField">
+<ul class="nav-components sb-field-text" ng-show="ctrl.onEditField">
     <!-- Estrutura -->
     <li class="item-components">
         Novo Campo Texto
-    </li><!-- Estrutura -->
+    </li>
     <div class="inner-item">
         <div class="row">
             <div class="col-xs-12 col-sm-12 no-padding">
                 <label for="">Tipo do Campo</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
-                <select  class="form-control input-sm" id="input-crm_person-do_type">
-                    <option value="">Campo de Texto</option>
-                    <option value="C">Lista Suspensa</option>
-                    <option value="L">Área de Texto</option>
-                    <option value="P">Radio Button</option>
-                    <option value="P">Checkbox</option>
-                    <option value="L">Imagem</option>
-                    <option value="P">Moeda</option>
-                    <option value="P">Experessão Regular</option>
+                <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.type">
+                    <option value="string">Campo de Texto</option>
+                    <option value="select">Lista Suspensa</option>
+                    <option value="textarea">Área de Texto</option>
+                    <option value="radio">Radio Button</option>
+                    <option value="checkbox">Checkbox</option>
+                    <option value="imagem">Imagem</option>
+                    <option value="currency">Moeda</option>
                 </select>
             </div>
         </div>
@@ -27,7 +26,7 @@
                 <label for="">Título do Campo</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
-                <input  class="form-control input-sm" id="txt-person-zipcode" placeholder="Escreva aqui" data-rule-number="true" data-format="####" type="text" data-rule>
+                <input  class="form-control input-sm" id="txt-person-zipcode" placeholder="Escreva aqui" type="text" ng-bind="ctrl.fieldEdit.label">
             </div>
         </div>
         <div class="row">
@@ -35,7 +34,7 @@
                 <label for="">Máscara do Campo</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
-                <input  class="form-control input-sm" id="txt-person-zipcode" placeholder="Escreva aqui" data-rule-number="true" data-format="####" type="text" data-rule>
+                <input  class="form-control input-sm" id="txt-person-zipcode" placeholder="Escreva aqui" type="text" ng-bind="ctrl.fieldEdit.meta.formatPattern">
             </div>
         </div>
         <div class="row">
@@ -43,7 +42,7 @@
                 <label for="">Descrição</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
-                <textarea class="form-control input-sm input-txt" required="required" ></textarea>
+                <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.comments"></textarea>
             </div>
         </div>
         <div class="row">
@@ -51,35 +50,43 @@
                 <label for="">Texto de Ajuda</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
-                <textarea class="form-control input-sm input-txt" required="required" ></textarea>
+                <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.help"></textarea>
             </div>
         </div>
         <div class="row row-checkbox">
             <div class="col-xs-12 col-sm-12 no-padding">
                 <div form-field-id="66823" class="checkbox checkbox-default">
-                    <input type="checkbox" id="cbx-unconditional-search" value="Y" false-value="N">
+                    <input type="checkbox" id="cbx-unconditional-search" />
                     <label for="cbx-unconditional-search">Campo Obrigatório</label>
-                    <input type="hidden" role="checkbox-hdn" name="cbx-unconditional-search" value="N">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
                 <div form-field-id="66823" class="checkbox checkbox-default">
-                    <input type="checkbox" id="cbx-unconditional-search" value="Y" false-value="N">
+                    <input type="checkbox" id="cbx-unconditional-search">
                     <label for="cbx-unconditional-search">Campo Pesquisável</label>
-                    <input type="hidden" role="checkbox-hdn" name="cbx-unconditional-search" value="N">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
                 <div form-field-id="66823" class="checkbox checkbox-default">
-                    <input type="checkbox" id="cbx-unconditional-search" value="Y" false-value="N">
+                    <input type="checkbox" id="cbx-unconditional-search">
                     <label for="cbx-unconditional-search">Campo Desabilitado</label>
-                    <input type="hidden" role="checkbox-hdn" name="cbx-unconditional-search" value="N">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 no-padding">
                 <button type="button" class="btn btn-success btn-block">Novo Evento</button>
+            </div>
+        </div>
+    </div>
+    <!-- Estrutura -->
+    <div class="action-buttons">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 no-padding col-pdd">
+                <a href="form-propriets.html" class="btn btn-default btn-block" ng-click="ctrl.cancelAddField()">Cancelar</a>
+            </div>
+            <div class="col-xs-12 col-sm-6 no-padding">
+                <button type="button" class="btn btn-success btn-block" ng-click="ctrl.addFieldToSection()">Salvar</button>
             </div>
         </div>
     </div>
