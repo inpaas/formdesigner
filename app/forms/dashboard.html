@@ -45,7 +45,7 @@
       <div class="row row-widget row-xp" ng-repeat="section in ctrl.sections">
         <div role="app-widget" class="widget-box widget-well">
           <div class="widget-header">
-            <h5 class="widget-title" ng-bind="section.label"></h5>
+            <h5 class="widget-title" ng-show="section.displayLabel" ng-bind="section.label"></h5>
           </div>
           <div class="widget-body">
             <div class="widget-main">
