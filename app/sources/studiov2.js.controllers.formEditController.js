@@ -33,17 +33,7 @@
       ctrl.ready = true;
       ctrl.data["permissions"] = permissions;
     };
-    
-    function addButton(event, data){}
-    
-    function addFieldToSection(){
-      ctrl.sections[0].fields.push(angular.copy(ctrl.fieldEdit));
-      ctrl.fieldEdit = {};
-      showComponents();
-    }
-    
-    function addSection(){}
-    
+   
     function getFieldsEntitys(){
       ctrl.data.entityFields = [
         "Codigo de Tratamento",
@@ -88,7 +78,19 @@
       showComponents();
       angular.extend(ctrl.newSection, {});
     }
-
+    
+    function addButton(event, data){}
+    
+    function addFieldToSection(){
+      if (!ctrl.sections.length) { return false; }
+      
+      ctrl.sections[0].fields.push(angular.copy(ctrl.fieldEdit));
+      ctrl.fieldEdit = {};
+      showComponents();
+    }
+    
+    function addSection(){}
+ 
     function setFieldEdit(type) {
       ctrl.fieldEdit = {
         type: type,
