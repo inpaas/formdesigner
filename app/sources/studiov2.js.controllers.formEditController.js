@@ -89,7 +89,7 @@
     function setFieldEdit(type) {
       ctrl.fieldEdit = {
         type: type,
-        templateType: ('/forms/studio-v2.forms.fields.' + type),
+        templateType: ('/forms/studiov2.forms.fields.' + type),
         meta: {}
       }
       showEditField();
