@@ -36,7 +36,9 @@
     function addButton(event, data){}
     
     function addFieldToSection(){
-      ctrl.sections[0].fields.push(ctrl.fieldEdit);
+      ctrl.sections[0].fields.push(angular.copy(ctrl.fieldEdit));
+      ctrl.fieldEdit = {};
+      showComponents();
     }
     
     function addSection(){}
@@ -123,6 +125,7 @@
       ctrl.onTypeField = true; 
       ctrl.onNewField = true;
       ctrl.onComponents = false;
+      ctrl.onEditField = false;
     }
 
     //call functions
