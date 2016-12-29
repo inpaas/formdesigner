@@ -1,0 +1,108 @@
+<!-- Config Actions -->
+<ul class="nav-components sb-field-text" ng-show="ctrl.onCreateButton">
+    <!-- Estrutura -->
+    <li class="item-components">
+        Novo Botão
+    </li>
+    <div class="inner-item">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Tipo Botão</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <select  class="form-control input-sm" id="input-crm_person-do_type">
+                  	<option value="">Selecione o tipo</option>
+                    <option value="M">Modal</option>
+                    <option value="F">File</option>
+                    <option value="C">Custom</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Nome do Botão</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <input  class="form-control input-sm" placeholder="Escreva aqui" type="text">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Icone</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <input  class="form-control input-sm" placeholder="Escreva aqui" type="text">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Tipo de evento</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <select ng-model="ctrl.event" class="form-control input-sm" id="input-crm_person-do_type">
+                  	<option value="">Selecione o tipo</option>
+                    <option value="M">Mapa</option>
+                    <option value="F">Função</option>
+                </select>
+            </div>
+        </div>
+      	<div class="row" ng-hide="true" ng-show="ctrl.event == 'F'">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Função:</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <textarea class="form-control input-sm input-txt" required="required"></textarea>
+            </div>
+        </div>
+      	<div class="row" ng-hide="true" ng-show="ctrl.event == 'M'">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Mapa:</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+              	<div class="col-xs-6 col-sm-6 no-padding">
+                	<label for="">Atribudo:</label>
+            	</div>
+              	<div class="col-xs-6 col-sm-6 no-padding">
+					<input  class="form-control input-sm" placeholder="Escreva aqui" type="text">
+				</div>
+                <div class="col-xs-6 col-sm-6 no-padding">
+                	<label for="">Valor:</label>
+            	</div>
+                <div class="col-xs-6 col-sm-6 no-padding">
+					<input  class="form-control input-sm" placeholder="Escreva aqui" type="text">
+				</div>
+            </div>
+        </div>
+      	<div class="row">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Modo de visão</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+              	<div class="btn-group" role="group">
+                  <button type="button" class="btn btn-default">View</button>
+                  <button type="button" class="btn btn-default">Edit</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Texto de Ajuda</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.help"></textarea>
+            </div>
+        </div>
+    </div>
+    <!-- Estrutura -->
+    <div class="action-buttons">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 no-padding col-pdd">
+                <a href="form-propriets.html" class="btn btn-default btn-block" ng-click="ctrl.cancelAddField()">Cancelar</a>
+            </div>
+            <div class="col-xs-12 col-sm-6 no-padding">
+                <button type="button" class="btn btn-success btn-block" ng-click="ctrl.addFieldToSection()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</ul>
+<!--  Config Actions -->

@@ -24,9 +24,8 @@
       addNewSection: addNewSection,
       setNewSection: setNewSection,
       cancelNewSection: cancelNewSection,
-      cancelAddField: cancelAddField,
       showTypeFields: showTypeFields,
-      showComponents: showComponents
+      CreateButton: CreateButton
     });
     
     function activate(permissions) {
@@ -37,9 +36,7 @@
     function addButton(event, data){}
     
     function addFieldToSection(){
-      ctrl.sections[0].fields.push(angular.copy(ctrl.fieldEdit));
-      ctrl.fieldEdit = {};
-      showComponents();
+      ctrl.sections[0].fields.push(ctrl.fieldEdit);
     }
     
     function addSection(){}
@@ -92,14 +89,10 @@
     function setFieldEdit(type) {
       ctrl.fieldEdit = {
         type: type,
-        templateType: ('/forms/studiov2.forms.fields.' + type),
+        templateType: ('/forms/studio-v2.forms.fields.' + type),
         meta: {}
       }
       showEditField();
-    }
-
-    function cancelAddField() {
-      showTypeFields();   
     }
 
     function showEditField() {
@@ -114,6 +107,7 @@
       ctrl.onNewField = false;
       ctrl.onTypeField = false;
       ctrl.onEditField = false;
+      ctrl.onCreateButton = false;
     }
 
     function showNewSectionConfig() {
@@ -126,7 +120,11 @@
       ctrl.onTypeField = true; 
       ctrl.onNewField = true;
       ctrl.onComponents = false;
-      ctrl.onEditField = false;
+    }
+    
+    function CreateButton() {
+      ctrl.onComponents = false;
+      ctrl.onCreateButton = true;
     }
 
     //call functions
