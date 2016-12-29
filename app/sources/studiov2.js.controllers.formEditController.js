@@ -25,7 +25,8 @@
       setNewSection: setNewSection,
       cancelNewSection: cancelNewSection,
       cancelAddField: cancelAddField,
-      showTypeFields: showTypeFields
+      showTypeFields: showTypeFields,
+      showComponents: showComponents
     });
     
     function activate(permissions) {
