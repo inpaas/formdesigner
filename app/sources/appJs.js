@@ -8,13 +8,13 @@
 
     angular
       .module('studio-v2', dependencies)
-      .config(config);
+      .config(config)
+      .run(run);
 
       function config(NotificationProvider, $stateProvider, $urlRouterProvider, $interpolateProvider) {
-    
         $interpolateProvider.startSymbol('{[{');
         $interpolateProvider.endSymbol('}]}');
-        
+
         $stateProvider
           .state('forms', {
               'url': '/forms',
@@ -48,4 +48,10 @@
           positionY: 'top'
         });
       }
-})(angular);
+
+      function run($locale, $filter) {
+        $locale.NUMBER_FORMATS.DECIMAL_SEP = $filter('translate')('fieldformat.numeral.decimal_separator');
+        $locale.NUMBER_FORMATS.GROUP_SEP = $filter('translate')('fieldformat.numeral.grouping_separator');
+        $locale.NUMBER_FORMATS.CURRENCY_SYM = $filter('translate')('fieldformat.currency.symbol'); 
+      }
+})();
