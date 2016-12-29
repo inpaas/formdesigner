@@ -24,6 +24,7 @@
       addNewSection: addNewSection,
       setNewSection: setNewSection,
       cancelNewSection: cancelNewSection,
+      cancelAddField: cancelAddField,
       showTypeFields: showTypeFields
     });
     
@@ -92,6 +93,10 @@
         meta: {}
       }
       showEditField();
+    }
+
+    function cancelAddField() {
+      showTypeFields();   
     }
 
     function showEditField() {
