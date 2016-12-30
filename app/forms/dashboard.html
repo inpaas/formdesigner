@@ -42,17 +42,17 @@
     <div class="main-view-edit">
 
       <!-- Sections -->
-      <div class="row row-widget row-xp" ng-repeat="section in ctrl.sections">
+      <div class="row row-widget row-xp" ng-repeat="section in ctrl.sections track by $index" id="section-{[{$index}]}">
         <div role="app-widget" class="widget-box widget-well">
           <div class="widget-header">
             <h5 class="widget-title" ng-show="section.displayLabel" ng-bind="section.label"></h5>
           </div>
           <div class="widget-body">
             <div class="widget-main">
-              <div class="row" ng-if="section.templateCol == 1">
+              <div class="row" ng-if="section.templateCol == 1" id="templateCol-1">
                 <div class="col-wdg col-sm-6 no-padding col-sm-offset-2">
                   <div class="row">
-                    <div class="row row-edit-this" ng-repeat="field in section.fields track by $index" draggable>
+                    <div class="row row-edit-this" ng-repeat="field in section.fields track by $index" id="field-{[{$index}]}" draggable droppable>
                         <div class="field-edit-this"><i class="fa fa-pencil" aria-hidden="true"></i></div>
                         <div class="col-ed col-sm-4 text-right">
                           <label form-field-id="27863" for="cmb-filter-casereasongroup" ng-bind="field.label"></label>
@@ -71,7 +71,7 @@
                 </div>
               </div>
 
-              <div class="row" ng-if="section.templateCol == 2">
+              <div class="row" ng-if="section.templateCol == 2" id="templateCol-2">
                 <div class="col-wdg col-sm-6 no-padding">
                   <div class="row">
                     <div class="col-sm-12">
@@ -85,7 +85,7 @@
                 </div>
               </div> 
 
-              <div class="row" ng-if="section.templateCol == 3">
+              <div class="row" ng-if="section.templateCol == 3" id="templateCol-3">
                 <div class="col-wdg col-sm-4 no-padding">
                   <div class="row">
                     <div class="col-sm-12">
