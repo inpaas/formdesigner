@@ -25,7 +25,7 @@
         
         function onDragOver(event){
           event.preventDefault && event.preventDefault();
-        event.dataTransfer.dropEffect = 'move';
+          event.dataTransfer.dropEffect = 'move';
           this.classList.add('dragOver');
           
           return false;
@@ -38,12 +38,13 @@
         
         function onDrop(event){
           event.stopPropagation && event.stopPropagation();
-          var item = 'test';
-          
           this.classList.remove('dragOver');
-            this.innerText = (item);
-            
-            return false;
+
+          var dragSrcEl = document.getElementById(event.dataTransfer.getData('text/plain'));
+          dragSrcEl.innerHTML = this.innerHTML;
+          this.innerHTML = event.dataTransfer.getData('text/html');
+
+          return false;
         }
         
         
@@ -54,7 +55,8 @@
       }
       
       return {
-        link: link
+        link: link,
+        dropCallback: '='
       }
   }
   
