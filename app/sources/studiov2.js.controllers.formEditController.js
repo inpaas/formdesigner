@@ -9,13 +9,12 @@
   FormEditController.$inject = ["$scope", "jsonForm"];
   
   function FormEditController($scope, jsonForm) {
-    var ctrl = this;
-    
+    var ctrl = this; 
+
     angular.extend(ctrl, {
       onComponents: true,
       data: {},
       sections: [],
-      formModel: jsonForm.getJsonForm(),
       activate: activate,
       addButton: addButton,
       addFieldToSection: addFieldToSection,
@@ -30,6 +29,38 @@
       showComponents: showComponents
     });
     
+    jsonForm.getJsonForm().then(function(response){
+      var formModel = response.data;
+
+      buildSections(formModel);
+      buildFields(formModel.fields);
+    });
+
+    function buildSections(formModel) {
+      if (!formModel.fields.length) {
+        return false; 
+      }
+
+      ctrl.sections.push({
+        templateCol: formModel.views.edit.templateCol,
+        fields: [], 
+        label: formModel.views.edit.label,
+        displayLabel: true
+      });
+    } 
+
+    function buildFields(fields) {
+      if (!fields.length) {
+        return false; 
+      }
+
+      fields.forEach(function(item, index){
+        if (item.meta.type != 'include') {
+           ctrl.sections[0].fields.push(item);
+         } 
+      });
+    }
+
     function activate(permissions) {
       ctrl.ready = true;
       ctrl.data["permissions"] = permissions;

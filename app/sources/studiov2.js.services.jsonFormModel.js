@@ -10,9 +10,9 @@
     .module('studio-v2')
     .service('jsonForm', jsonForm);
   
-  //jsonForm.$inject = ['httpService'];
+  jsonForm.$inject = ['$q'];
   
-  function jsonForm(){
+  function jsonForm($q){
     var form = setJsonForm();
     
     function setJsonForm(){
@@ -47,6 +47,10 @@
       
     }
 
+    function getFieldsFromSection(section) {
+      
+    }
+
     function resetJsonForm(){
     return {
         "key": "", 
@@ -65,7 +69,23 @@
   
     
     function getJsonForm(){
-      return form;
+      var deferred = $q.defer();
+
+      form.views.edit = {
+        templateCol: 1,
+        label: '1 col'
+      }
+
+      form.fields.push({
+        label: 'field 1',
+        templateType: '/forms/studiov2.forms.fields.string',
+        meta: {
+          type: 'string'
+        }
+      });
+
+      deferred.resolve({data: form});
+      return deferred.promise
     }
     
     
