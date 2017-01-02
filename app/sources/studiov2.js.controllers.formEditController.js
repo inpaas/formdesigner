@@ -24,9 +24,8 @@
       setNewSection: setNewSection,
       selectSection: selectSection,
       cancelNewSection: cancelNewSection,
-      cancelAddField: cancelAddField,
       showTypeFields: showTypeFields,
-      showComponents: showComponents
+      CreateButton: CreateButton
     });
     
     jsonForm.getJsonForm().then(function(response){
@@ -65,7 +64,15 @@
       ctrl.ready = true;
       ctrl.data["permissions"] = permissions;
     };
-   
+    
+    function addButton(event, data){}
+    
+    function addFieldToSection(){
+      ctrl.sections[0].fields.push(ctrl.fieldEdit);
+    }
+    
+    function addSection(){}
+    
     function getFieldsEntitys(){
       ctrl.data.entityFields = [
         "Codigo de Tratamento",
@@ -129,7 +136,7 @@
     function setFieldEdit(type) {
       ctrl.fieldEdit = {
         type: type,
-        templateType: ('/forms/studiov2.forms.fields.' + type),
+        templateType: ('/forms/studio-v2.forms.fields.' + type),
         meta: {}
       }
       showEditField();
@@ -159,6 +166,7 @@
       ctrl.onNewField = false;
       ctrl.onTypeField = false;
       ctrl.onEditField = false;
+      ctrl.onCreateButton = false;
     }
 
     function showNewSectionConfig() {
@@ -173,6 +181,11 @@
       ctrl.onEditField = false;
       
       ctrl.sectionSelected.onNewField = true;
+    }
+    
+    function CreateButton() {
+      ctrl.onComponents = false;
+      ctrl.onCreateButton = true;
     }
 
     //call functions
