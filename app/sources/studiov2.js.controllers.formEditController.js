@@ -67,10 +67,6 @@
     
     function addButton(event, data){}
     
-    function addFieldToSection(){
-      ctrl.sections[0].fields.push(ctrl.fieldEdit);
-    }
-    
     function addSection(){}
     
     function getFieldsEntitys(){
@@ -125,6 +121,10 @@
     function addFieldToSection(){
       if (!ctrl.sections.length) { return false; }
       
+      if (!ctrl.sectionSelected) {
+        ctrl.sectionSelected = ctrl.sections[0]; 
+      } 
+
       ctrl.sectionSelected.fields.push(angular.copy(ctrl.fieldEdit));
       ctrl.fieldEdit = {};
       ctrl.sectionSelected.onNewField = false;
@@ -136,7 +136,7 @@
     function setFieldEdit(type) {
       ctrl.fieldEdit = {
         type: type,
-        templateType: ('/forms/studio-v2.forms.fields.' + type),
+        templateType: ('/forms/studiov2.forms.fields.' + type),
         meta: {}
       }
       showEditField();
