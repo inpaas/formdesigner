@@ -19,12 +19,14 @@
       addButton: addButton,
       addFieldToSection: addFieldToSection,
       setFieldEdit: setFieldEdit,
+      cancelAddField: cancelAddField,
       addSection: addSection,
       addNewSection: addNewSection,
       setNewSection: setNewSection,
       selectSection: selectSection,
       cancelNewSection: cancelNewSection,
       showTypeFields: showTypeFields,
+      showComponents: showComponents, 
       CreateButton: CreateButton
     });
     
@@ -151,6 +153,7 @@
     }
 
     function cancelAddField() {
+      ctrl.sectionSelected.onNewField = false;
       showTypeFields();
     }
 
@@ -158,6 +161,12 @@
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
       ctrl.onTypeField = false;
+
+      if (!ctrl.sectionSelected) {
+        setSectionSelected();
+      } 
+
+      ctrl.sectionSelected.onNewField = true;
     }
 
     function showComponents() {
@@ -178,13 +187,7 @@
     function showTypeFields() {
       ctrl.onTypeField = true; 
       ctrl.onComponents = false;
-      ctrl.onEditField = false;
-      
-      if (!ctrl.sectionSelected) {
-         setSectionSelected();
-       } 
-
-       ctrl.sectionSelected.onNewField = true;
+      ctrl.onEditField = false; 
     }
     
     function CreateButton() {
