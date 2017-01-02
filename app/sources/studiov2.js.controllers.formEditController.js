@@ -23,6 +23,7 @@
       addSection: addSection,
       addNewSection: addNewSection,
       setNewSection: setNewSection,
+      selectSection: selectSection,
       cancelNewSection: cancelNewSection,
       cancelAddField: cancelAddField,
       showTypeFields: showTypeFields,
@@ -70,7 +71,9 @@
       // setar na view a nova section
       // Mostrar o components no sidebar
       ctrl.newSection.fields = [];
-      ctrl.sections.push(ctrl.newSection);
+      ctrl.newSection.id = 'section-'.concat(ctrl.sections.length);
+      ctrl.sections.push(angular.copy(ctrl.newSection));
+      selectSection(ctrl.sections.length - 1);
       showComponents();
     }
 
@@ -84,8 +87,9 @@
     function addFieldToSection(){
       if (!ctrl.sections.length) { return false; }
       
-      ctrl.sections[0].fields.push(angular.copy(ctrl.fieldEdit));
+      ctrl.sectionSelected.fields.push(angular.copy(ctrl.fieldEdit));
       ctrl.fieldEdit = {};
+      ctrl.sectionSelected.onNewField = false;
       showComponents();
     }
     
@@ -100,8 +104,16 @@
       showEditField();
     }
 
+    function selectSection(index) {
+      if (ctrl.sectionSelected) {
+        ctrl.sectionSelected.onNewField = false;
+      } 
+
+      ctrl.sectionSelected = ctrl.sections[index];
+    }
+
     function cancelAddField() {
-      showTypeFields();   
+      showTypeFields();
     }
 
     function showEditField() {
@@ -126,9 +138,10 @@
 
     function showTypeFields() {
       ctrl.onTypeField = true; 
-      ctrl.onNewField = true;
       ctrl.onComponents = false;
       ctrl.onEditField = false;
+      
+      ctrl.sectionSelected.onNewField = true;
     }
 
     //call functions
