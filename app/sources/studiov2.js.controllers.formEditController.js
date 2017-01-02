@@ -180,7 +180,7 @@
       ctrl.onComponents = false;
       ctrl.onEditField = false;
       
-      ctrl.sectionSelected.onNewField = true;
+      if(ctrl.sectionSelected){ctrl.sectionSelected.onNewField = true;}
     }
     
     function CreateButton() {
