@@ -9,13 +9,12 @@
   FormEditController.$inject = ["$scope", "jsonForm"];
   
   function FormEditController($scope, jsonForm) {
-    var ctrl = this;
-    
+    var ctrl = this; 
+
     angular.extend(ctrl, {
       onComponents: true,
       data: {},
       sections: [],
-      formModel: jsonForm.getJsonForm(),
       activate: activate,
       addButton: addButton,
       addFieldToSection: addFieldToSection,
@@ -23,11 +22,44 @@
       addSection: addSection,
       addNewSection: addNewSection,
       setNewSection: setNewSection,
+      selectSection: selectSection,
       cancelNewSection: cancelNewSection,
       showTypeFields: showTypeFields,
       CreateButton: CreateButton
     });
     
+    jsonForm.getJsonForm().then(function(response){
+      var formModel = response.data;
+
+      buildSections(formModel);
+      buildFields(formModel.fields);
+    });
+
+    function buildSections(formModel) {
+      if (!formModel.fields.length) {
+        return false; 
+      }
+
+      ctrl.sections.push({
+        templateCol: formModel.views.edit.templateCol,
+        fields: [], 
+        label: formModel.views.edit.label,
+        displayLabel: true
+      });
+    } 
+
+    function buildFields(fields) {
+      if (!fields.length) {
+        return false; 
+      }
+
+      fields.forEach(function(item, index){
+        if (item.meta.type != 'include') {
+           ctrl.sections[0].fields.push(item);
+         } 
+      });
+    }
+
     function activate(permissions) {
       ctrl.ready = true;
       ctrl.data["permissions"] = permissions;
@@ -77,7 +109,9 @@
       // setar na view a nova section
       // Mostrar o components no sidebar
       ctrl.newSection.fields = [];
-      ctrl.sections.push(ctrl.newSection);
+      ctrl.newSection.id = 'section-'.concat(ctrl.sections.length);
+      ctrl.sections.push(angular.copy(ctrl.newSection));
+      selectSection(ctrl.sections.length - 1);
       showComponents();
     }
 
@@ -85,7 +119,20 @@
       showComponents();
       angular.extend(ctrl.newSection, {});
     }
-
+    
+    function addButton(event, data){}
+    
+    function addFieldToSection(){
+      if (!ctrl.sections.length) { return false; }
+      
+      ctrl.sectionSelected.fields.push(angular.copy(ctrl.fieldEdit));
+      ctrl.fieldEdit = {};
+      ctrl.sectionSelected.onNewField = false;
+      showComponents();
+    }
+    
+    function addSection(){}
+ 
     function setFieldEdit(type) {
       ctrl.fieldEdit = {
         type: type,
@@ -93,6 +140,18 @@
         meta: {}
       }
       showEditField();
+    }
+
+    function selectSection(index) {
+      if (ctrl.sectionSelected) {
+        ctrl.sectionSelected.onNewField = false;
+      } 
+
+      ctrl.sectionSelected = ctrl.sections[index];
+    }
+
+    function cancelAddField() {
+      showTypeFields();
     }
 
     function showEditField() {
@@ -118,8 +177,10 @@
 
     function showTypeFields() {
       ctrl.onTypeField = true; 
-      ctrl.onNewField = true;
       ctrl.onComponents = false;
+      ctrl.onEditField = false;
+      
+      ctrl.sectionSelected.onNewField = true;
     }
     
     function CreateButton() {

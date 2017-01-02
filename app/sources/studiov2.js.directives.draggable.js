@@ -22,7 +22,10 @@
         
         function onDragstart(event){
           event.dataTransfer.effectAllowed = 'move';
-          event.dataTransfer.setData('Text', 'Data');
+          var datalist = event.dataTransfer.items;
+
+          datalist.add(this.innerHTML, 'text/html');
+          datalist.add(this.id, 'text/plain');
           this.classList.add('onDrag');
           
           return false;
@@ -33,12 +36,12 @@
           
           return false;
         }
-        
 
       }
       
       return {
-        link: link
+        link: link,
+        dragCallback: '='
       }
   }
   
