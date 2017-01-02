@@ -120,10 +120,6 @@
     
     function addFieldToSection(){
       if (!ctrl.sections.length) { return false; }
-      
-      if (!ctrl.sectionSelected) {
-        ctrl.sectionSelected = ctrl.sections[0]; 
-      } 
 
       ctrl.sectionSelected.fields.push(angular.copy(ctrl.fieldEdit));
       ctrl.fieldEdit = {};
@@ -131,6 +127,10 @@
       showComponents();
     }
     
+    function setSectionSelected() {
+      ctrl.sectionSelected = ctrl.sections[0]; 
+    } 
+
     function addSection(){}
  
     function setFieldEdit(type) {
@@ -180,7 +180,11 @@
       ctrl.onComponents = false;
       ctrl.onEditField = false;
       
-      if(ctrl.sectionSelected){ctrl.sectionSelected.onNewField = true;}
+      if (!ctrl.sectionSelected) {
+         setSectionSelected();
+       } 
+
+       ctrl.sectionSelected.onNewField = true;
     }
     
     function CreateButton() {
