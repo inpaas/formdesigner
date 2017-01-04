@@ -13,7 +13,7 @@
         <div class="bx-elements"><span class="ic ic-widget"></span></div>
         <p class="txt-subtditle">Seção</p>
       </li>
-      <li class="item-list" draggable>
+      <li class="item-list" draggable ng-click="ctrl.createButton()">
         <div class="bx-elements"><span class="ic ic-button"></span></div>
         <p class="txt-subtitle">Botão</p>
       </li>
@@ -52,7 +52,7 @@
     </div>
   </li>
   <div class="inner-item field-item">
-    <button type="button" id="btnNewField" class="btn btn-success btn-block">Novo Botão</button>
+    <button type="button" id="btnNewField" class="btn btn-success btn-block" ng-click="ctrl.createButton()">Novo Botão</button>
   </div>
   <div class="inner-item buttons-item">
     <button type="button" class="btn btn-warning btn-block-half">Buscar</button>
@@ -91,4 +91,3 @@
 
 </ul>
 <!-- Componentes -->
-

@@ -7,7 +7,7 @@
     <div class="inner-item">
         <div class="row">
             <div class="col-xs-12 col-sm-12 no-padding">
-                <label for="">Tipo Botão</label>
+                <label for="">Tipo Botão:</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
                 <select  class="form-control input-sm" id="input-crm_person-do_type">
@@ -20,7 +20,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 no-padding">
-                <label for="">Nome do Botão</label>
+                <label for="">Nome do Botão:</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
                 <input  class="form-control input-sm" placeholder="Escreva aqui" type="text">
@@ -28,15 +28,27 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 no-padding">
-                <label for="">Icone</label>
+                <label for="">Icone:</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
                 <input  class="form-control input-sm" placeholder="Escreva aqui" type="text">
             </div>
         </div>
-        <div class="row">
+      	<div class="row">
+      		<div class="col-xs-12 col-sm-12 no-padding">
+              	<div class="col-xs-12 col-sm-12 no-padding">
+                  	<div class="col-xs-12 col-sm-12 no-padding">
+                  		<label> habilitar regras de Visibilidade: </label>
+                  	</div>
+                  	<div class="col-xs-12 col-sm-12 no-padding">
+                  		<input type="checkbox" ng-model="ctrl.visible"/>
+                  	</div>
+              	</div>
+          	</div>
+      	</div>
+        <div class="row" ng-show="ctrl.visible">
             <div class="col-xs-12 col-sm-12 no-padding">
-                <label for="">Tipo de evento</label>
+                <label for="">visível quando:</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
                 <select ng-model="ctrl.event" class="form-control input-sm" id="input-crm_person-do_type">
@@ -75,7 +87,7 @@
         </div>
       	<div class="row">
             <div class="col-xs-12 col-sm-12 no-padding">
-                <label for="">Modo de visão</label>
+                <label for="">Modo de visão:</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
               	<div class="btn-group" role="group">
@@ -86,10 +98,26 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 no-padding">
-                <label for="">Texto de Ajuda</label>
+                <label for="">Texto de Ajuda:</label>
             </div>
             <div class="col-xs-12 col-sm-12 no-padding">
                 <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.help"></textarea>
+            </div>
+        </div>
+      	<div class="row">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Source Key:</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <input  class="form-control input-sm" placeholder="Escreva aqui" type="text">
+            </div>
+        </div>
+      	<div class="row">
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <label for="">Método:</label>
+            </div>
+            <div class="col-xs-12 col-sm-12 no-padding">
+                <input  class="form-control input-sm" placeholder="Escreva aqui" type="text">
             </div>
         </div>
     </div>
@@ -97,10 +125,10 @@
     <div class="action-buttons">
         <div class="row">
             <div class="col-xs-12 col-sm-6 no-padding col-pdd">
-                <a href="form-propriets.html" class="btn btn-default btn-block" ng-click="ctrl.cancelAddField()">Cancelar</a>
+                <a class="btn btn-default btn-block" ng-click="ctrl.cancelCreateButton()">Cancelar</a>
             </div>
             <div class="col-xs-12 col-sm-6 no-padding">
-                <button type="button" class="btn btn-success btn-block" ng-click="ctrl.addFieldToSection()">Salvar</button>
+                <button type="button" class="btn btn-success btn-block" ng-click="ctrl.addButtom()">Confirmar</button>
             </div>
         </div>
     </div>
