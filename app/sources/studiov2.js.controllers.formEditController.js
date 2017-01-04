@@ -74,8 +74,6 @@
     
     function addButton(event, data){}
     
-    function addSection(){}
-    
     function getFieldsEntitys(){
       ctrl.data.entityFields = [
         "Codigo de Tratamento",
@@ -111,15 +109,30 @@
       // Formatar o jsonForm (se não tiver nenhuma é a principal mas se tiver é um include do mesmo data source)
       // setar na view a nova section
       // Mostrar o components no sidebar
-      ctrl.newSection.fields = [];
-      ctrl.newSection.id = 'section-'.concat(ctrl.sections.length);
-      ctrl.sections.push(angular.copy(ctrl.newSection));
+      var newSection = angular.copy(ctrl.newSection);
+
+      newSection.fields = [];
+      newSection.id = 'section-'.concat(ctrl.sections.length);
+
+      if(ctrl.sections.length){
+        newSection.type = 'include';
+        newSection.meta = {};
+        newSection.include = {};
+        addFieldInclude(newSection);
+      }
+
+      ctrl.sections.push(newSection);
       selectSection(ctrl.sections.length - 1);
       showComponents();
     }
 
+    function addFieldInclude(field){
+      jsonModel.fields.push(field);
+    }
+
     function cancelNewSection() {
       showComponents();
+      //Rever ao editar uma seção
       angular.extend(ctrl.newSection, {});
     }
     
@@ -141,8 +154,12 @@
       var newField = angular.copy(ctrl.fieldEdit);
 
       newField.id = ctrl.sectionSelected.fields.length;
+
+      if (ctrl.sectionSelected.type == 'main') {
+        jsonModel.fields.push(newField);
+      }
+
       ctrl.sectionSelected.fields.push(newField);
-      jsonModel.fields.push(newField);
     } 
 
     function setSectionSelected() {
@@ -179,7 +196,6 @@
     }
 
     function setJsonModel(sections) {
-       
       console.log(jsonModel);
     }
 
