@@ -9,7 +9,8 @@
   FormEditController.$inject = ["$scope", "jsonForm"];
   
   function FormEditController($scope, jsonForm) {
-    var ctrl = this; 
+    var ctrl = this, 
+        jsonModel;
 
     angular.extend(ctrl, {
       onComponents: true,
@@ -19,25 +20,36 @@
       addButton: addButton,
       saveEditField: saveEditField,
       setFieldEdit: setFieldEdit,
+<<<<<<< HEAD
       editField: editField,
+=======
+      cancelEditField: cancelEditField,
+>>>>>>> a640579d277ac4bca65ad4484de402bf1d70d32f
       addSection: addSection,
       addNewSection: addNewSection,
       setNewSection: setNewSection,
       selectSection: selectSection,
       cancelNewSection: cancelNewSection,
       showTypeFields: showTypeFields,
+<<<<<<< HEAD
       createButton: createButton,
       cancelcreateButton: cancelcreateButton
+=======
+      showComponents: showComponents, 
+      saveForm: saveForm,
+      CreateButton: CreateButton
+>>>>>>> a640579d277ac4bca65ad4484de402bf1d70d32f
     });
     
     jsonForm.getJsonForm().then(function(response){
-      var formModel = response.data;
+      jsonModel = response.data;
 
-      buildSections(formModel);
-      buildFields(formModel.fields);
+      buildMainSection(jsonModel);
+      buildFields(jsonModel.fields);
     });
 
-    function buildSections(formModel) {
+    function buildMainSection(formModel) {
+      //Talvez seja melhor já iniciar a aplicação com a main section
       if (!formModel.fields.length) {
         return false; 
       }
@@ -46,7 +58,8 @@
         templateCol: formModel.views.edit.templateCol,
         fields: [], 
         label: formModel.views.edit.label,
-        displayLabel: true
+        displayLabel: true,
+        type: 'main'
       });
     } 
 
@@ -55,10 +68,11 @@
         return false; 
       }
 
-      fields.forEach(function(item, index){
-        if (item.meta.type != 'include') {
-           ctrl.sections[0].fields.push(item);
-         } 
+      fields.forEach(function(field, index){
+        if (field.meta.type != 'include') {
+          field.id = index;
+          ctrl.sections[0].fields.push(field);
+        } 
       });
     }
 
@@ -68,8 +82,6 @@
     };
     
     function addButton(event, data){}
-    
-    function addSection(){}
     
     function getFieldsEntitys(){
       ctrl.data.entityFields = [
@@ -106,15 +118,30 @@
       // Formatar o jsonForm (se não tiver nenhuma é a principal mas se tiver é um include do mesmo data source)
       // setar na view a nova section
       // Mostrar o components no sidebar
-      ctrl.newSection.fields = [];
-      ctrl.newSection.id = 'section-'.concat(ctrl.sections.length);
-      ctrl.sections.push(angular.copy(ctrl.newSection));
+      var newSection = angular.copy(ctrl.newSection);
+
+      newSection.fields = [];
+      newSection.id = 'section-'.concat(ctrl.sections.length);
+
+      if(ctrl.sections.length){
+        newSection.type = 'include';
+        newSection.meta = {};
+        newSection.include = {};
+        addFieldInclude(newSection);
+      }
+
+      ctrl.sections.push(newSection);
       selectSection(ctrl.sections.length - 1);
       showComponents();
     }
 
+    function addFieldInclude(field){
+      jsonModel.fields.push(field);
+    }
+
     function cancelNewSection() {
       showComponents();
+      //Rever ao editar uma seção
       angular.extend(ctrl.newSection, {});
     }
     
@@ -122,16 +149,41 @@
     
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
+<<<<<<< HEAD
       
       if (!ctrl.sectionSelected) {
         ctrl.sectionSelected = ctrl.sections[0]; 
       } 
       ctrl.sectionSelected.fields.push(angular.copy(ctrl.fieldEdit));
       ctrl.fieldEdit = {};
+=======
+
+      if (!ctrl.fieldEdit.id) {
+        addNewField();
+      }
+
+>>>>>>> a640579d277ac4bca65ad4484de402bf1d70d32f
       ctrl.sectionSelected.onNewField = false;
+      ctrl.fieldEdit = {};
       showComponents();
     }
     
+    function addNewField() {
+      var newField = angular.copy(ctrl.fieldEdit);
+
+      newField.id = ctrl.sectionSelected.fields.length;
+
+      if (ctrl.sectionSelected.type == 'main') {
+        jsonModel.fields.push(newField);
+      }
+
+      ctrl.sectionSelected.fields.push(newField);
+    } 
+
+    function setSectionSelected() {
+      ctrl.sectionSelected = ctrl.sections[0]; 
+    } 
+
     function addSection(){}
  
     function setFieldEdit(type) {
@@ -140,6 +192,7 @@
         templateType: ('/forms/studiov2.forms.fields.' + type),
         meta: {}
       }
+
       showEditField();
     }
 
@@ -151,15 +204,33 @@
       ctrl.sectionSelected = ctrl.sections[index];
     }
 
-    function cancelAddField() {
+    function cancelEditField() {
+      ctrl.sectionSelected.onNewField = false;
       showTypeFields();
+    }
+
+    function saveForm() {
+      setJsonModel(ctrl.sections);
+    }
+
+    function setJsonModel(sections) {
+      console.log(jsonModel);
     }
 
     function showEditField() {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
       ctrl.onTypeField = false;
+<<<<<<< HEAD
       ctrl.onComponents = false;
+=======
+
+      if (!ctrl.sectionSelected) {
+        setSectionSelected();
+      } 
+
+      ctrl.sectionSelected.onNewField = true;
+>>>>>>> a640579d277ac4bca65ad4484de402bf1d70d32f
     }
 
     function showComponents() {
@@ -181,9 +252,7 @@
       ctrl.onEdit = false;
       ctrl.onTypeField = true; 
       ctrl.onComponents = false;
-      ctrl.onEditField = false;
-      
-      if(ctrl.sectionSelected){ctrl.sectionSelected.onNewField = true;}
+      ctrl.onEditField = false; 
     }
     
     function createButton() {
