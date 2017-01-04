@@ -9,7 +9,8 @@
   FormEditController.$inject = ["$scope", "jsonForm"];
   
   function FormEditController($scope, jsonForm) {
-    var ctrl = this; 
+    var ctrl = this, 
+        jsonModel;
 
     angular.extend(ctrl, {
       onComponents: true,
@@ -17,9 +18,9 @@
       sections: [],
       activate: activate,
       addButton: addButton,
-      addFieldToSection: addFieldToSection,
+      saveEditField: saveEditField,
       setFieldEdit: setFieldEdit,
-      cancelAddField: cancelAddField,
+      cancelEditField: cancelEditField,
       addSection: addSection,
       addNewSection: addNewSection,
       setNewSection: setNewSection,
@@ -27,17 +28,19 @@
       cancelNewSection: cancelNewSection,
       showTypeFields: showTypeFields,
       showComponents: showComponents, 
+      saveForm: saveForm,
       CreateButton: CreateButton
     });
     
     jsonForm.getJsonForm().then(function(response){
-      var formModel = response.data;
+      jsonModel = response.data;
 
-      buildSections(formModel);
-      buildFields(formModel.fields);
+      buildMainSection(jsonModel);
+      buildFields(jsonModel.fields);
     });
 
-    function buildSections(formModel) {
+    function buildMainSection(formModel) {
+      //Talvez seja melhor já iniciar a aplicação com a main section
       if (!formModel.fields.length) {
         return false; 
       }
@@ -46,7 +49,8 @@
         templateCol: formModel.views.edit.templateCol,
         fields: [], 
         label: formModel.views.edit.label,
-        displayLabel: true
+        displayLabel: true,
+        type: 'main'
       });
     } 
 
@@ -55,10 +59,11 @@
         return false; 
       }
 
-      fields.forEach(function(item, index){
-        if (item.meta.type != 'include') {
-           ctrl.sections[0].fields.push(item);
-         } 
+      fields.forEach(function(field, index){
+        if (field.meta.type != 'include') {
+          field.id = index;
+          ctrl.sections[0].fields.push(field);
+        } 
       });
     }
 
@@ -120,15 +125,25 @@
     
     function addButton(event, data){}
     
-    function addFieldToSection(){
+    function saveEditField(){
       if (!ctrl.sections.length) { return false; }
 
-      ctrl.sectionSelected.fields.push(angular.copy(ctrl.fieldEdit));
-      ctrl.fieldEdit = {};
+      if (!ctrl.fieldEdit.id) {
+        addFieldtoSection();
+      }
+
       ctrl.sectionSelected.onNewField = false;
+      ctrl.fieldEdit = {};
       showComponents();
     }
     
+    function addFieldtoSection() {
+      var newField = angular.copy(ctrl.fieldEdit);
+
+      newField.id = ctrl.sectionSelected.fields.length;
+      ctrl.sectionSelected.fields.push(newField);
+    } 
+
     function setSectionSelected() {
       ctrl.sectionSelected = ctrl.sections[0]; 
     } 
@@ -141,6 +156,7 @@
         templateType: ('/forms/studiov2.forms.fields.' + type),
         meta: {}
       }
+
       showEditField();
     }
 
@@ -152,11 +168,16 @@
       ctrl.sectionSelected = ctrl.sections[index];
     }
 
-    function cancelAddField() {
+    function cancelEditField() {
       ctrl.sectionSelected.onNewField = false;
       showTypeFields();
     }
 
+    function saveForm() {
+      setJsonModel(ctrl.sections);
+    }
+
+    
     function showEditField() {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
