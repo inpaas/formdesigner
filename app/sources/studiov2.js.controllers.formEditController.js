@@ -20,25 +20,18 @@
       addButton: addButton,
       saveEditField: saveEditField,
       setFieldEdit: setFieldEdit,
-<<<<<<< HEAD
       editField: editField,
-=======
       cancelEditField: cancelEditField,
->>>>>>> a640579d277ac4bca65ad4484de402bf1d70d32f
       addSection: addSection,
       addNewSection: addNewSection,
       setNewSection: setNewSection,
       selectSection: selectSection,
       cancelNewSection: cancelNewSection,
       showTypeFields: showTypeFields,
-<<<<<<< HEAD
       createButton: createButton,
-      cancelcreateButton: cancelcreateButton
-=======
+      cancelCreateButton: cancelCreateButton,
       showComponents: showComponents, 
-      saveForm: saveForm,
-      CreateButton: CreateButton
->>>>>>> a640579d277ac4bca65ad4484de402bf1d70d32f
+      saveForm: saveForm
     });
     
     jsonForm.getJsonForm().then(function(response){
@@ -149,20 +142,11 @@
     
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
-<<<<<<< HEAD
-      
-      if (!ctrl.sectionSelected) {
-        ctrl.sectionSelected = ctrl.sections[0]; 
-      } 
-      ctrl.sectionSelected.fields.push(angular.copy(ctrl.fieldEdit));
-      ctrl.fieldEdit = {};
-=======
 
       if (!ctrl.fieldEdit.id) {
         addNewField();
       }
 
->>>>>>> a640579d277ac4bca65ad4484de402bf1d70d32f
       ctrl.sectionSelected.onNewField = false;
       ctrl.fieldEdit = {};
       showComponents();
@@ -221,16 +205,13 @@
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
       ctrl.onTypeField = false;
-<<<<<<< HEAD
       ctrl.onComponents = false;
-=======
 
       if (!ctrl.sectionSelected) {
         setSectionSelected();
       } 
 
       ctrl.sectionSelected.onNewField = true;
->>>>>>> a640579d277ac4bca65ad4484de402bf1d70d32f
     }
 
     function showComponents() {
@@ -260,7 +241,7 @@
       ctrl.onCreateButton = true;
     }
 
-    function cancelcreateButton() {
+    function cancelCreateButton() {
       showComponents();
       angular.extend(ctrl.createButton, {});
     }
