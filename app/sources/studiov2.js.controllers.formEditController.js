@@ -129,7 +129,7 @@
       if (!ctrl.sections.length) { return false; }
 
       if (!ctrl.fieldEdit.id) {
-        addFieldtoSection();
+        addNewField();
       }
 
       ctrl.sectionSelected.onNewField = false;
@@ -137,11 +137,12 @@
       showComponents();
     }
     
-    function addFieldtoSection() {
+    function addNewField() {
       var newField = angular.copy(ctrl.fieldEdit);
 
       newField.id = ctrl.sectionSelected.fields.length;
       ctrl.sectionSelected.fields.push(newField);
+      jsonModel.fields.push(newField);
     } 
 
     function setSectionSelected() {
@@ -177,7 +178,11 @@
       setJsonModel(ctrl.sections);
     }
 
-    
+    function setJsonModel(sections) {
+       
+      console.log(jsonModel);
+    }
+
     function showEditField() {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
