@@ -17,15 +17,17 @@
       sections: [],
       activate: activate,
       addButton: addButton,
-      addFieldToSection: addFieldToSection,
+      saveEditField: saveEditField,
       setFieldEdit: setFieldEdit,
+      editField: editField,
       addSection: addSection,
       addNewSection: addNewSection,
       setNewSection: setNewSection,
       selectSection: selectSection,
       cancelNewSection: cancelNewSection,
       showTypeFields: showTypeFields,
-      CreateButton: CreateButton
+      createButton: createButton,
+      cancelcreateButton: cancelcreateButton
     });
     
     jsonForm.getJsonForm().then(function(response){
@@ -118,13 +120,12 @@
     
     function addButton(event, data){}
     
-    function addFieldToSection(){
+    function saveEditField(){
       if (!ctrl.sections.length) { return false; }
       
       if (!ctrl.sectionSelected) {
         ctrl.sectionSelected = ctrl.sections[0]; 
       } 
-
       ctrl.sectionSelected.fields.push(angular.copy(ctrl.fieldEdit));
       ctrl.fieldEdit = {};
       ctrl.sectionSelected.onNewField = false;
@@ -158,6 +159,7 @@
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
       ctrl.onTypeField = false;
+      ctrl.onComponents = false;
     }
 
     function showComponents() {
@@ -176,6 +178,7 @@
     } 
 
     function showTypeFields() {
+      ctrl.onEdit = false;
       ctrl.onTypeField = true; 
       ctrl.onComponents = false;
       ctrl.onEditField = false;
@@ -183,9 +186,19 @@
       if(ctrl.sectionSelected){ctrl.sectionSelected.onNewField = true;}
     }
     
-    function CreateButton() {
+    function createButton() {
       ctrl.onComponents = false;
       ctrl.onCreateButton = true;
+    }
+
+    function cancelcreateButton() {
+      showComponents();
+      angular.extend(ctrl.createButton, {});
+    }
+
+    function editField(field, idx) {
+      ctrl.fieldEdit = field;
+      showEditField();
     }
 
     //call functions
