@@ -20,13 +20,13 @@
               'templateUrl': '/forms/studiov2.forms.form-list'
           })
           .state('form-new', {
-              'url': '/form-new',
+              'url': '/forms/new',
               'controller': 'FormEditController',
               'controllerAs': 'ctrl',
               'templateUrl': '/forms/studiov2.forms.form-edit'
           })
           .state('formId', {
-                'url': '/form-edit/:id',
+                'url': '/forms/:id',
                 'controller': 'FormEditController',
                 'controllerAs': 'ctrl',
                 'templateUrl': '/forms/studiov2.forms.form-edit'
