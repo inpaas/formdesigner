@@ -20,7 +20,7 @@
     }
     
     function editKeyForm(key) {
-       form.key = key;
+      form.key = key;
     }
 
     function editLabelForm(label) {
@@ -43,8 +43,8 @@
       
     }
 
-    function editField() {
-      
+    function buildFields(sections, jsonModel) {
+       
     }
 
     function getFieldsFromSection(section) {
@@ -58,7 +58,11 @@
         "pagination": {},
         "breadcrumb": [],
         "dataSource": {},
-        "views": {},
+        "views": {
+          "edit": {
+            "templateCol": 1
+          }
+        },
         "fields": []
     };
   }
@@ -78,6 +82,7 @@
 
       form.fields.push({
         label: 'field 1',
+        name: 'field-field1',
         templateType: '/forms/studiov2.forms.fields.string',
         meta: {
           type: 'string'
@@ -85,7 +90,7 @@
       });
 
       deferred.resolve({data: form});
-      return deferred.promise
+      return deferred.promise;
     }
     
     
@@ -96,7 +101,7 @@
       editBreadcrumb: editBreadcrumb,
       editDataSource: editDataSource,
       editViews: editViews,
-      editField: editField,
+      buildFields: buildFields,
       saveJsonForm: saveJsonForm,
       getJsonForm: getJsonForm
     };
