@@ -252,6 +252,7 @@
     }
 
     function editField(field, idx) {
+      console.log(field);
       ctrl.fieldEdit = field;
       showEditField();
     }
