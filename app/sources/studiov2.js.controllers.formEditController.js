@@ -186,6 +186,10 @@
     }
 
     function selectSection(index) {
+      if (ctrl.sectionSelected === ctrl.sections[index]) {
+        return false;
+      }
+      
       if (ctrl.sectionSelected) {
         ctrl.sectionSelected.onNewField = false;
       } 
