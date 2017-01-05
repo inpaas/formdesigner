@@ -6,9 +6,9 @@
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
     
-  FormEditController.$inject = ["$scope", "jsonForm"];
+  FormEditController.$inject = ["$scope", "$stateParams", "jsonForm"];
   
-  function FormEditController($scope, jsonForm) {
+  function FormEditController($scope, $stateParams, jsonForm) {
     var ctrl = this, 
         jsonModel;
 
@@ -34,12 +34,16 @@
       saveForm: saveForm
     });
     
-    jsonForm.getJsonForm().then(function(response){
-      jsonModel = response;
+    init(); 
 
-      buildMainSection(jsonModel);
-      buildFields(jsonModel.fields);
-    });
+    function init() {
+      jsonForm.getJsonForm($stateParams.id).then(function(response){
+        jsonModel = response;
+
+        buildMainSection(jsonModel);
+        buildFields(jsonModel.fields);
+      });
+    }
 
     function buildMainSection(formModel) {
       //Talvez seja melhor já iniciar a aplicação com a main section

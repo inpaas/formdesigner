@@ -67,29 +67,39 @@
     };
   }
     
-    function saveJsonForm(){
+    function saveJsonForm(formId){
       //http.save(form);
     }
-  
     
-    function getJsonForm(){
-      return $http({
-        method: 'get',
-        url: '/api/app/js/studiov2.js.model.jsonFormModel'
-      }).then(function(response) {
-        var jsonModel = response.data; 
+    function getNewFormId() {
+      var deferred = $q.defer();
+      deferred.resolve(resetJsonForm());
 
-        jsonModel.views.edit = {
-          templateCol: 1,
-          label: '1 col'
-        }  
+      return deferred.promise;
+    } 
+       
+    function getJsonForm(id){
+      if (!id) {
+        return getNewFormId();
+      }else{
+        return $http({
+          method: 'get',
+          url: '/api/app/js/studiov2.js.model.jsonFormModel'
+        }).then(function(response) {
+          var jsonModel = response.data; 
 
-        jsonModel.fields.forEach(function(field, index){
-          field.templateType = '/forms/studiov2.forms.fields.' + field.meta.type;
+          jsonModel.views.edit = {
+            templateCol: 1,
+            label: '1 col'
+          }  
+
+          jsonModel.fields.forEach(function(field, index){
+            field.templateType = '/forms/studiov2.forms.fields.' + field.meta.type;
+          });
+
+          return jsonModel;
         });
-
-        return jsonModel;
-      });
+      }
     }
     
     return {
@@ -104,6 +114,4 @@
       getJsonForm: getJsonForm
     };
   }
-  
-  
 })();
