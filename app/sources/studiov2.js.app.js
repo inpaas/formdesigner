@@ -19,8 +19,8 @@
               'url': '/forms',
               'templateUrl': '/forms/studiov2.forms.form-list'
           })
-          .state('form-edit', {
-              'url': '/form-edit',
+          .state('form-new', {
+              'url': '/form-new',
               'controller': 'FormEditController',
               'controllerAs': 'ctrl',
               'templateUrl': '/forms/studiov2.forms.form-edit'
