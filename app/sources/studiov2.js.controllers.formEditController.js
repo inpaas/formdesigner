@@ -35,7 +35,7 @@
     });
     
     jsonForm.getJsonForm().then(function(response){
-      jsonModel = response.data;
+      jsonModel = response;
 
       buildMainSection(jsonModel);
       buildFields(jsonModel.fields);
