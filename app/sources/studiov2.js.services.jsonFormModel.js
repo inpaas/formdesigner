@@ -10,9 +10,9 @@
     .module('studio-v2')
     .service('jsonForm', jsonForm);
   
-  jsonForm.$inject = ['$q'];
+  jsonForm.$inject = ['$q', '$http'];
   
-  function jsonForm($q){
+  function jsonForm($q, $http){
     var form = setJsonForm();
     
     function setJsonForm(){
@@ -52,7 +52,7 @@
     }
 
     function resetJsonForm(){
-    return {
+      return {
         "key": "", 
         "label": "label.forms.pais",
         "pagination": {},
@@ -73,26 +73,24 @@
   
     
     function getJsonForm(){
-      var deferred = $q.defer();
+      return $http({
+        method: 'get',
+        url: '/api/app/js/studiov2.js.model.jsonFormModel'
+      }).then(function(response) {
+        var jsonModel = response.data; 
 
-      form.views.edit = {
-        templateCol: 1,
-        label: '1 col'
-      }
+        jsonModel.views.edit = {
+          templateCol: 1,
+          label: '1 col'
+        }  
 
-      form.fields.push({
-        label: 'field 1',
-        name: 'field-field1',
-        templateType: '/forms/studiov2.forms.fields.string',
-        meta: {
-          type: 'string'
-        }
+        jsonModel.fields.forEach(function(field, index){
+          field.templateType = '/forms/studiov2.forms.fields.' + field.meta.type;
+        });
+
+        return jsonModel;
       });
-
-      deferred.resolve({data: form});
-      return deferred.promise;
     }
-    
     
     return {
       editKeyForm: editKeyForm,
