@@ -38,7 +38,7 @@
 
     function init() {
       jsonForm.getJsonForm($stateParams.id).then(function(response){
-        jsonModel = response;
+        ctrl.jsonModel = jsonModel = response;
 
         buildMainSection(jsonModel);
         buildFields(jsonModel.fields);
@@ -189,7 +189,7 @@
       if (ctrl.sectionSelected === ctrl.sections[index]) {
         return false;
       }
-      
+
       if (ctrl.sectionSelected) {
         ctrl.sectionSelected.onNewField = false;
       } 
