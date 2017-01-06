@@ -59,6 +59,10 @@
           'type': 'server',
           'countPerPage': 10 
         },
+        'views': {
+          'list': {},
+          'edit': {}
+        }
         'breadcrumb': [],
         'dataSource': {},
         'views': {
@@ -69,7 +73,7 @@
   }
     
     function saveJsonForm(formId){
-      //http.save(form);
+      
     }
     
     function getNewFormId() {

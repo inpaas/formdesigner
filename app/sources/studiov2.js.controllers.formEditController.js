@@ -147,6 +147,10 @@
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
 
+      setRequiredModel();
+      setDisabledModel();
+      setFilterModel();
+
       if (!ctrl.fieldEdit.id) {
         addNewField();
       }
@@ -156,6 +160,47 @@
       showComponents();
     }
     
+    function setRequiredModel(field){
+      if (!field.required) { return false; }
+
+      
+      // field.meta.required = {
+      //   type: field.requiredType,
+      //   expression: field.requiredExpression
+      // };
+
+      field.meta.disabled = {
+        type: 'boolean',
+        expression: true
+      }
+    } 
+
+    function setDisabledModel(field){
+      if (!field.disabled) { return false; }
+
+      // field.meta.disabled = {
+      //   type: field.disabledType,
+      //   expression: field.disabledExpression
+      // }
+
+      field.meta.disabled = {
+        type: 'boolean',
+        expression: true
+      }
+
+    }
+
+    function setFilterModel(field) {
+      if (!field.filter) { return false; }
+
+      field.views.filter = {};
+
+      if (!jsonModel.views.filter) {
+        jsonModel.views.filter = {};
+      }
+
+    }
+
     function addNewField() {
       var newField = angular.copy(ctrl.fieldEdit);
 
@@ -207,7 +252,7 @@
     }
 
     function setJsonModel(sections) {
-      console.log(jsonModel);
+      jsonModel.key = jsonModel.label.replace(/\s/, g).toLowerCase();
     }
 
     function showEditField() {
