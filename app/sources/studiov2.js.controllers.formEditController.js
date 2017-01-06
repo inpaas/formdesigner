@@ -120,6 +120,7 @@
 
       newSection.fields = [];
       newSection.id = 'section-'.concat(ctrl.sections.length);
+      newSection.type = 'main';
 
       if(ctrl.sections.length){
         newSection.type = 'include';
@@ -176,7 +177,7 @@
       //   expression: field.requiredExpression
       // };
 
-      field.meta.disabled = {
+      field.meta.required = {
         type: 'boolean',
         expression: true
       }
