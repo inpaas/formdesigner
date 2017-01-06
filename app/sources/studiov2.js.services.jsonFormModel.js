@@ -53,17 +53,18 @@
 
     function resetJsonForm(){
       return {
-        "key": "", 
-        "label": "label.forms.pais",
-        "pagination": {},
-        "breadcrumb": [],
-        "dataSource": {},
-        "views": {
-          "edit": {
-            "templateCol": 1
-          }
+        'key': '', 
+        'label': 'Form Title',
+        'pagination': {
+          'type': 'server',
+          'countPerPage': 10 
         },
-        "fields": []
+        'breadcrumb': [],
+        'dataSource': {},
+        'views': {
+          'edit': {}
+        },
+        'fields': []
     };
   }
     
