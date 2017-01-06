@@ -37,9 +37,9 @@
     </div>
   </li>
   <div class="inner-item field-item">
-    <button type="button" id="btnNewField" class="btn btn-success btn-block" ng-click="ctrl.showTypeFields()">Novo Campo</button>
+    <button type="button" id="btnNewField" class="btn btn-success btn-block" ng-click="ctrl.setNewField()">Novo Campo</button>
     <ul class="list-existing" data-ng-repeat="field in ctrl.data.entityFields">
-      <li class="field-existing" data-ng-bind="field" ng-click="ctrl.showTypeFields()"></li>
+      <li class="field-existing" data-ng-bind="field" ng-click="ctrl.setNewField()"></li>
     </ul>
   </div>
   <!-- Campos -->

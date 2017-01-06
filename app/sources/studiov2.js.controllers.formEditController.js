@@ -19,7 +19,8 @@
       activate: activate,
       addButton: addButton,
       saveEditField: saveEditField,
-      setFieldEdit: setFieldEdit,
+      setNewField: setNewField,
+      setTypeField: setTypeField,
       editField: editField,
       cancelEditField: cancelEditField,
       addSection: addSection,
@@ -144,6 +145,12 @@
     
     function addButton(event, data){}
     
+    function setTypeField(type) {
+      ctrl.fieldEdit.meta.type = type;       
+      ctrl.fieldEdit.templateType = ('/forms/studiov2.forms.fields.' + type);
+      showEditField();
+    } 
+
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
 
@@ -151,7 +158,7 @@
       setDisabledModel(ctrl.fieldEdit);
       setFilterModel(ctrl.fieldEdit);
 
-      if (!ctrl.fieldEdit.id) {
+      if (angular.isUndefined(ctrl.fieldEdit.id)){
         addNewField();
       }
 
@@ -219,16 +226,19 @@
 
     function addSection(){}
  
-    function setFieldEdit(type) {
+    function setNewField() {
       ctrl.fieldEdit = {
-        templateType: ('/forms/studiov2.forms.fields.' + type),
-        meta: {
-          type: type
-        },
+        meta: {},
         views: {}
       }
 
-      showEditField();
+      showTypeFields();
+
+      if (!ctrl.sectionSelected) {
+        setSectionSelected();
+      } 
+
+      ctrl.sectionSelected.onNewField = true;
     }
 
     function selectSection(index) {
@@ -256,17 +266,11 @@
       jsonModel.key = jsonModel.label.replace(/\s/g, '-').toLowerCase();
     }
 
-    function showEditField() {
+    function showEditField(edit) {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
       ctrl.onTypeField = false;
       ctrl.onComponents = false;
-
-      if (!ctrl.sectionSelected) {
-        setSectionSelected();
-      } 
-
-      ctrl.sectionSelected.onNewField = true;
     }
 
     function showComponents() {
@@ -302,8 +306,8 @@
     }
 
     function editField(field, idx) {
-      console.log(field);
       ctrl.fieldEdit = field;
+
       showEditField();
     }
 
