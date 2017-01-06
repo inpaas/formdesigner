@@ -147,9 +147,9 @@
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
 
-      setRequiredModel();
-      setDisabledModel();
-      setFilterModel();
+      setRequiredModel(ctrl.fieldEdit);
+      setDisabledModel(ctrl.fieldEdit);
+      setFilterModel(ctrl.fieldEdit);
 
       if (!ctrl.fieldEdit.id) {
         addNewField();
@@ -224,7 +224,8 @@
         templateType: ('/forms/studiov2.forms.fields.' + type),
         meta: {
           type: type
-        }
+        },
+        views: {}
       }
 
       showEditField();
@@ -252,7 +253,7 @@
     }
 
     function setJsonModel(sections) {
-      jsonModel.key = jsonModel.label.replace(/\s/, g).toLowerCase();
+      jsonModel.key = jsonModel.label.replace(/\s/g, '-').toLowerCase();
     }
 
     function showEditField() {
