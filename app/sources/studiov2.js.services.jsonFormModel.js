@@ -62,7 +62,7 @@
         'views': {
           'list': {},
           'edit': {}
-        }
+        },
         'breadcrumb': [],
         'dataSource': {},
         'views': {
