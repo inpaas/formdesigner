@@ -1,0 +1,102 @@
+<!-- Settings -->
+<div class="settings">
+    <!-- Sidebar Propriedades do Formulário -->
+    <div class="sb-property">
+        <ul class="nav-components">
+
+            <!-- Estrutura -->
+            <li class="item-components">
+                Propriedades do Form
+                <div class="widget-toolbar default-toolbar hidden-print">
+                    <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+                </div>
+            </li><!-- Estrutura -->
+            <div class="inner-item">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <label for="">Título do Formulário</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <input class="form-control input-sm" id="txt-person-zipcode" placeholder="Título do Formulário" type="text" ng-bind="ctrl.configForm.label">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <label for="">Origem de Dado</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <select  class="form-control input-sm" id="input-crm_person-do_type"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <label for="">Módulo</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <select  class="form-control input-sm" id="input-crm_person-do_type"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <div form-field-id="66823" class="checkbox checkbox-default">
+                            <input type="checkbox" id="cbx-unconditional-search" ng-bind="ctrl.configForm.inactive">
+                            <label for="cbx-unconditional-search">Inativo</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <label for="">Template</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <select  class="form-control input-sm" id="input-crm_person-do_type"> </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <label for="">Descrição</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.configForm.description"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 no-padding box-advanced">
+                        <button type="button" id="advancedMode" class="btn btn-warning btn-block">Modo Avançado</button>
+                    </div>
+                </div>
+            </div>
+
+        </ul><!-- End Nav -->
+
+        <div class="action-buttons">                        
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 no-padding col-pdd">
+                    <button type="button" id="btnCancelPropriets" class="btn btn-default btn-block" ng-click="ctrl.cancelConfigForm()">Cancelar</button>
+                </div>
+                <div class="col-xs-12 col-sm-6 no-padding">
+                    <button type="button" class="btn btn-success btn-block" ng-click="ctrl.saveConfigForm()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- End Sidebar Propriedades do Formulário -->
+
+    <!-- Sidebar Propriedades do Formulário -->
+    <div class="modal-alert" style="display: none;">
+        <div class="hd-md danger">
+            <h4 class="title-md">Atenção</h4>
+        </div>
+        <div class="bd-md">
+            <p class="txt-info">
+                Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi.
+            </p>
+        </div>
+        <div class="row ft-md">
+            <div class="col-xs-12 col-sm-12 text-right">
+                <button type="button" id="cancelModal" class="btn btn-default">Cancelar</button>
+                <button type="button" id="confirmModal" class="btn btn-primary">Confirmar</button>
+            </div>
+        </div>
+    </div><!-- End Sidebar Propriedades do Formulário -->
+</div>
+<!-- End Settings -->

@@ -32,7 +32,10 @@
       createButton: createButton,
       cancelCreateButton: cancelCreateButton,
       showComponents: showComponents, 
-      saveForm: saveForm
+      saveForm: saveForm,
+      showConfigForm: showConfigForm,
+      saveConfigForm: saveConfigForm,
+      cancelConfigForm: cancelConfigForm
     });
     
     init(); 
@@ -309,6 +312,28 @@
     function createButton() {
       ctrl.onComponents = false;
       ctrl.onCreateButton = true;
+    }
+
+    function showConfigForm() {
+      ctrl.configForm = {
+        label: jsonModel.label, 
+        dataSource: jsonModel.dataSource,
+        module: jsonModel.module,
+        template: jsonModel.template,
+        description: jsonModel.description
+      };
+
+      ctrl.onConfigForm = true;   
+    }
+
+    function saveConfigForm() {
+      angular.extend(jsonModel, ctrl.configForm);
+      ctrl.onConfigForm = false; 
+    } 
+
+    function cancelConfigForm() {
+      ctrl.configForm = {};
+      ctrl.onConfigForm = false; 
     }
 
     function cancelCreateButton() {
