@@ -158,6 +158,7 @@
       setRequiredModel(ctrl.fieldEdit);
       setDisabledModel(ctrl.fieldEdit);
       setFilterModel(ctrl.fieldEdit);
+      setViewList(ctrl.fieldEdit);
 
       if (angular.isUndefined(ctrl.fieldEdit.id)){
         addNewField();
@@ -168,6 +169,14 @@
       showComponents();
     }
     
+    function setViewList(field) {
+      field.views.edit = {};
+      
+      if (field.viewList) {
+        field.views.list = {};
+      }    
+    } 
+
     function setRequiredModel(field){
       if (!field.required) { return false; }
 
