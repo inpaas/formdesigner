@@ -19,7 +19,8 @@
       activate: activate,
       addButton: addButton,
       saveEditField: saveEditField,
-      setFieldEdit: setFieldEdit,
+      setNewField: setNewField,
+      setTypeField: setTypeField,
       editField: editField,
       cancelEditField: cancelEditField,
       addSection: addSection,
@@ -119,6 +120,7 @@
 
       newSection.fields = [];
       newSection.id = 'section-'.concat(ctrl.sections.length);
+      newSection.type = 'main';
 
       if(ctrl.sections.length){
         newSection.type = 'include';
@@ -144,14 +146,20 @@
     
     function addButton(event, data){}
     
+    function setTypeField(type) {
+      ctrl.fieldEdit.meta.type = type;       
+      ctrl.fieldEdit.templateType = ('/forms/studiov2.forms.fields.' + type);
+      showEditField();
+    } 
+
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
 
-      setRequiredModel();
-      setDisabledModel();
-      setFilterModel();
+      setRequiredModel(ctrl.fieldEdit);
+      setDisabledModel(ctrl.fieldEdit);
+      setFilterModel(ctrl.fieldEdit);
 
-      if (!ctrl.fieldEdit.id) {
+      if (angular.isUndefined(ctrl.fieldEdit.id)){
         addNewField();
       }
 
@@ -169,7 +177,7 @@
       //   expression: field.requiredExpression
       // };
 
-      field.meta.disabled = {
+      field.meta.required = {
         type: 'boolean',
         expression: true
       }
@@ -219,15 +227,19 @@
 
     function addSection(){}
  
-    function setFieldEdit(type) {
+    function setNewField() {
       ctrl.fieldEdit = {
-        templateType: ('/forms/studiov2.forms.fields.' + type),
-        meta: {
-          type: type
-        }
+        meta: {},
+        views: {}
       }
 
-      showEditField();
+      showTypeFields();
+
+      if (!ctrl.sectionSelected) {
+        setSectionSelected();
+      } 
+
+      ctrl.sectionSelected.onNewField = true;
     }
 
     function selectSection(index) {
@@ -252,20 +264,14 @@
     }
 
     function setJsonModel(sections) {
-      jsonModel.key = jsonModel.label.replace(/\s/, g).toLowerCase();
+      jsonModel.key = jsonModel.label.replace(/\s/g, '-').toLowerCase();
     }
 
-    function showEditField() {
+    function showEditField(edit) {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
       ctrl.onTypeField = false;
       ctrl.onComponents = false;
-
-      if (!ctrl.sectionSelected) {
-        setSectionSelected();
-      } 
-
-      ctrl.sectionSelected.onNewField = true;
     }
 
     function showComponents() {
@@ -301,8 +307,8 @@
     }
 
     function editField(field, idx) {
-      console.log(field);
       ctrl.fieldEdit = field;
+
       showEditField();
     }
 
