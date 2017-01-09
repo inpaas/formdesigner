@@ -39,7 +39,7 @@
 
     function init() {
       jsonForm.getJsonForm($stateParams.id).then(function(response){
-        ctrl.jsonModel = jsonModel = response;
+        ctrl.jsonModel = jsonModel = angular.copy(response);
 
         buildMainSection(jsonModel);
         buildFields(jsonModel.fields);
@@ -265,8 +265,9 @@
 
     function setJsonModel(sections) {
       jsonModel.key = jsonModel.label.replace(/\s/g, '-').toLowerCase();
+      console.log(jsonModel);
     }
-
+    
     function showEditField(edit) {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
