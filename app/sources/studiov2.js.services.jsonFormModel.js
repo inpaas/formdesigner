@@ -60,8 +60,22 @@
           'countPerPage': 10 
         },
         'views': {
-          'list': {},
-          'edit': {}
+          'list': {
+            "actions": [
+        	    {"action": "new"},
+        	    {"action": "list.view_edit"},
+              {"action": "list.remove"}
+            ]
+          },
+          'edit': {
+             "actions": [
+              {"action": "cancel"}, 
+              {"action": "remove"}, 
+              {"action": "duplicate"}, 
+              {"action": "save"}, 
+              {"action": "savenew"}
+            ]
+          }
         },
         'breadcrumb': [],
         'dataSource': {},

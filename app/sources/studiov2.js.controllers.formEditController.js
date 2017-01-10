@@ -16,6 +16,7 @@
       onComponents: true,
       data: {},
       sections: [],
+      actions: [],
       activate: activate,
       addButton: addButton,
       saveEditField: saveEditField,
