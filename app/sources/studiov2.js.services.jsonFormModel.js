@@ -59,27 +59,6 @@
           'type': 'server',
           'countPerPage': 10 
         },
-<<<<<<< HEAD
-        'views': {
-          'list': {
-            "actions": [
-        	    {"action": "new"},
-        	    {"action": "list.view_edit"},
-              {"action": "list.remove"}
-            ]
-          },
-          'edit': {
-             "actions": [
-              {"action": "cancel"}, 
-              {"action": "remove"}, 
-              {"action": "duplicate"}, 
-              {"action": "save"}, 
-              {"action": "savenew"}
-            ]
-          }
-        },
-=======
->>>>>>> e1c354e63b0adb25244ad53d2f0fe4b62429b8d9
         'breadcrumb': [],
         'dataSource': {},
         'views': {
