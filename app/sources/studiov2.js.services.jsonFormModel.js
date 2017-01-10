@@ -59,14 +59,34 @@
           'type': 'server',
           'countPerPage': 10 
         },
-        'views': {
-          'list': {},
-          'edit': {}
-        },
         'breadcrumb': [],
         'dataSource': {},
         'views': {
-          'edit': {}
+          'list': {},
+          'edit': {
+            'action': [
+              {
+                'action': 'save',
+                'name': 'save'
+              },
+              {
+                'action': 'save_new',
+                'name': 'save_new'
+              },
+              {
+                'action': 'duplicate',
+                'name': 'duplicate',
+              },
+              {
+                'action': 'remove',
+                'name': 'remove'
+              },
+              {
+                'action': 'cancel',
+                'name': 'cancel'
+              }
+            ]
+          }
         },
         'fields': []
     };
