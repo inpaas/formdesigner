@@ -1,7 +1,0 @@
-<button type="button" 
-        class="btn btn-primary" 
-        {{#if this.visible}} ng-show="{{model}}.btVisible['{{name}}']" {{/if}}
-        ng-click="{{model}}.customAction('{{#if form-id}}{{form-id}}{{else}}{{form.key}}{{/if}}', '{{event.method}}', '{{event.sourceKey}}', '{{event.saveFront}}')">
-  <span class="btn-icon">{{& translate icon}} </span>
-  <span class="btn-text">{{translate label}}</span>
-</button>
