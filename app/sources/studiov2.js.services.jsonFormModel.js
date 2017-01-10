@@ -64,7 +64,7 @@
         'views': {
           'list': {},
           'edit': {
-            'action': [
+            'actions': [
               {
                 'action': 'save',
                 'name': 'save'
