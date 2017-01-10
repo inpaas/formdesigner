@@ -42,10 +42,10 @@
 
     function init() {
       jsonForm.getJsonForm($stateParams.id).then(function(response){
-        ctrl.jsonModel = jsonModel = angular.copy(response);
+        ctrl.jsonModel = angular.copy(response);
 
-        buildMainSection(jsonModel);
-        buildFields(jsonModel.fields);
+        buildMainSection(ctrl.jsonModel);
+        buildFields(ctrl.jsonModel.fields);
       });
     }
 
@@ -154,6 +154,10 @@
       ctrl.fieldEdit.templateType = ('/forms/studiov2.forms.fields.' + type);
       showEditField();
     } 
+
+    function setTypeAction(action) {
+         
+    }
 
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
@@ -316,18 +320,18 @@
 
     function showConfigForm() {
       ctrl.configForm = {
-        label: jsonModel.label, 
-        dataSource: jsonModel.dataSource,
-        module: jsonModel.module,
-        template: jsonModel.template,
-        description: jsonModel.description
+        label: ctrl.jsonModel.label, 
+        dataSource: ctrl.jsonModel.dataSource,
+        module: ctrl.jsonModel.module,
+        template: ctrl.jsonModel.template,
+        description: ctrl.jsonModel.description
       };
 
       ctrl.onConfigForm = true;   
     }
 
     function saveConfigForm() {
-      angular.extend(jsonModel, ctrl.configForm);
+      angular.extend(ctrl.jsonModel, ctrl.configForm);
       ctrl.onConfigForm = false; 
     } 
 
