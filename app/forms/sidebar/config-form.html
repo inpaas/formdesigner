@@ -17,7 +17,7 @@
                         <label for="">Título do Formulário</label>
                     </div>
                     <div class="col-xs-12 col-sm-12 no-padding">
-                        <input class="form-control input-sm" id="txt-person-zipcode" placeholder="Título do Formulário" type="text" ng-bind="ctrl.configForm.label">
+                        <input class="form-control input-sm" id="txt-person-zipcode" placeholder="Título do Formulário" type="text" ng-model="ctrl.configForm.label">
                     </div>
                 </div>
                 <div class="row">
@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 no-padding">
                         <div form-field-id="66823" class="checkbox checkbox-default">
-                            <input type="checkbox" id="cbx-unconditional-search" ng-bind="ctrl.configForm.inactive">
+                            <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.configForm.inactive">
                             <label for="cbx-unconditional-search">Inativo</label>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         <label for="">Descrição</label>
                     </div>
                     <div class="col-xs-12 col-sm-12 no-padding">
-                        <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.configForm.description"></textarea>
+                        <textarea class="form-control input-sm input-txt" required="required" ng-model="ctrl.configForm.description"></textarea>
                     </div>
                 </div>
                 <div class="row">
