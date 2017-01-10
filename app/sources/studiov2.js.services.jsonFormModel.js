@@ -59,6 +59,7 @@
           'type': 'server',
           'countPerPage': 10 
         },
+<<<<<<< HEAD
         'views': {
           'list': {
             "actions": [
@@ -77,10 +78,36 @@
             ]
           }
         },
+=======
+>>>>>>> e1c354e63b0adb25244ad53d2f0fe4b62429b8d9
         'breadcrumb': [],
         'dataSource': {},
         'views': {
-          'edit': {}
+          'list': {},
+          'edit': {
+            'actions': [
+              {
+                'action': 'save',
+                'name': 'save'
+              },
+              {
+                'action': 'save_new',
+                'name': 'save_new'
+              },
+              {
+                'action': 'duplicate',
+                'name': 'duplicate',
+              },
+              {
+                'action': 'remove',
+                'name': 'remove'
+              },
+              {
+                'action': 'cancel',
+                'name': 'cancel'
+              }
+            ]
+          }
         },
         'fields': []
     };
@@ -98,10 +125,11 @@
     } 
        
     function getJsonForm(id){
+      var promise;
       if (!id) {
-        return getNewFormId();
+        promise = getNewFormId();
       }else{
-        return $http({
+        promise = $http({
           method: 'get',
           url: '/api/app/js/studiov2.js.model.jsonFormModel'
         }).then(function(response) {
@@ -110,7 +138,7 @@
           jsonModel.views.edit = {
             templateCol: 1,
             label: '1 col'
-          }  
+          }
 
           jsonModel.fields.forEach(function(field, index){
             field.templateType = '/forms/studiov2.forms.fields.' + field.meta.type;
@@ -119,6 +147,8 @@
           return jsonModel;
         });
       }
+
+      return promise;
     }
     
     return {

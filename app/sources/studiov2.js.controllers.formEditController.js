@@ -33,17 +33,20 @@
       createButton: createButton,
       cancelCreateButton: cancelCreateButton,
       showComponents: showComponents, 
-      saveForm: saveForm
+      saveForm: saveForm,
+      showConfigForm: showConfigForm,
+      saveConfigForm: saveConfigForm,
+      cancelConfigForm: cancelConfigForm
     });
     
     init(); 
 
     function init() {
       jsonForm.getJsonForm($stateParams.id).then(function(response){
-        ctrl.jsonModel = jsonModel = response;
+        ctrl.jsonModel = angular.copy(response);
 
-        buildMainSection(jsonModel);
-        buildFields(jsonModel.fields);
+        buildMainSection(ctrl.jsonModel);
+        buildFields(ctrl.jsonModel.fields);
       });
     }
 
@@ -153,12 +156,17 @@
       showEditField();
     } 
 
+    function setTypeAction(action) {
+         
+    }
+
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
 
       setRequiredModel(ctrl.fieldEdit);
       setDisabledModel(ctrl.fieldEdit);
       setFilterModel(ctrl.fieldEdit);
+      setViewList(ctrl.fieldEdit);
 
       if (angular.isUndefined(ctrl.fieldEdit.id)){
         addNewField();
@@ -169,6 +177,14 @@
       showComponents();
     }
     
+    function setViewList(field) {
+      field.views.edit = {};
+      
+      if (field.viewList) {
+        field.views.list = {};
+      }    
+    } 
+
     function setRequiredModel(field){
       if (!field.required) { return false; }
 
@@ -266,8 +282,9 @@
 
     function setJsonModel(sections) {
       jsonModel.key = jsonModel.label.replace(/\s/g, '-').toLowerCase();
+      console.log(jsonModel);
     }
-
+    
     function showEditField(edit) {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
@@ -300,6 +317,28 @@
     function createButton() {
       ctrl.onComponents = false;
       ctrl.onCreateButton = true;
+    }
+
+    function showConfigForm() {
+      ctrl.configForm = {
+        label: ctrl.jsonModel.label, 
+        dataSource: ctrl.jsonModel.dataSource,
+        module: ctrl.jsonModel.module,
+        template: ctrl.jsonModel.template,
+        description: ctrl.jsonModel.description
+      };
+
+      ctrl.onConfigForm = true;   
+    }
+
+    function saveConfigForm() {
+      angular.extend(ctrl.jsonModel, ctrl.configForm);
+      ctrl.onConfigForm = false; 
+    } 
+
+    function cancelConfigForm() {
+      ctrl.configForm = {};
+      ctrl.onConfigForm = false; 
     }
 
     function cancelCreateButton() {
