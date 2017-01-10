@@ -1,4 +1,4 @@
 <button type="button" class="btn btn-primary" ng-click="ctrl.customAction()">
-    <span class="btn-icon">{{& translate icon}} </span>
-    <span class="btn-text">{{translate label}}</span> 
+    <span class="fa fa-fw {[{action.icon}]}"></span>
+    <span class="btn-text">{[{ action.label | translate }]}</span> 
 </button>
