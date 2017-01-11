@@ -282,7 +282,7 @@
 
     function setJsonModel(sections) {
       ctrl.jsonModel.key = ctrl.jsonModel.label.replace(/\s/g, '-').toLowerCase();
-      console.log(JSON.stringify(ctrl.jsonModel()));
+      console.log(JSON.stringify(ctrl.jsonModel));
     }
     
     function showEditField(edit) {
