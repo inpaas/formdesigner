@@ -60,7 +60,9 @@
           'countPerPage': 10 
         },
         'breadcrumb': [],
-        'dataSource': {},
+        'dataSource': {
+          'type': 'E'
+        },
         'views': {
           'list': {},
           'edit': {

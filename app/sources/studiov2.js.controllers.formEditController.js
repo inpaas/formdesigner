@@ -6,9 +6,9 @@
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
     
-  FormEditController.$inject = ["$scope", "$stateParams", "jsonForm"];
+  FormEditController.$inject = ["$scope", "$q", "$stateParams", "jsonForm", "httpService"];
   
-  function FormEditController($scope, $stateParams, jsonForm) {
+  function FormEditController($scope, $q, $stateParams, jsonForm, httpService) {
     var ctrl = this, 
         jsonModel;
 
@@ -47,6 +47,9 @@
 
         buildMainSection(ctrl.jsonModel);
         buildFields(ctrl.jsonModel.fields);
+        getFieldsEntities(ctrl.jsonModel.dataSource);
+        getDependents();
+
       });
     }
 
@@ -85,18 +88,12 @@
     
     function addButton(event, data){}
     
-    function getFieldsEntitys(){
-      ctrl.data.entityFields = [
-        "Codigo de Tratamento",
-        "Nome/Razao Social",
-        "Apelido",
-        "Tipo de Pessoa",
-        "Genero",
-        "Codigo",
-        "Tipo de Publico",
-        "E-mail Alternativo",
-        "Telefone Comercial"
-      ];
+    function getFieldsEntities(dataSource){
+      if (dataSource.type == 'E') {
+        httpService.getFieldsEntity().then(function(response) {
+          ctrl.data.entityFields = response.data.attributes;   
+        });
+      } 
     };
 
     function getDependents() {
@@ -328,6 +325,10 @@
         description: ctrl.jsonModel.description
       };
 
+      httpService.getEntities().then(function(response) {
+        ctrl.entities = response.data;
+      });
+
       ctrl.onConfigForm = true;   
     }
 
@@ -352,8 +353,5 @@
       showEditField();
     }
 
-    //call functions
-    getFieldsEntitys();
-    getDependents();
   };
 })();

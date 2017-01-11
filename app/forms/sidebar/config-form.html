@@ -1,5 +1,5 @@
 <!-- Settings -->
-<div class="settings">
+<div class="settings" ng-show="ctrl.onConfigForm">
     <!-- Sidebar Propriedades do Formulário -->
     <div class="sb-property">
         <ul class="nav-components">
@@ -22,10 +22,19 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 no-padding">
-                        <label for="">Origem de Dado</label>
+                        <label for="">Tipo do Data Source</label>
+                    </div> 
+                    <div class="col-xs-6 col-sm-6 no-padding">
+                        <label for="type-entity">
+                            <input type="radio" ng-model="ctrl.configForm.dataSource.type" name="type-data" id="type-entity" value="E">
+                            Entidade 
+                        </label>
                     </div>
-                    <div class="col-xs-12 col-sm-12 no-padding">
-                        <select  class="form-control input-sm" id="input-crm_person-do_type"></select>
+                    <div class="col-xs-6 col-sm-6 no-padding">
+                        <label for="type-service">
+                            <input type="radio" ng-model="ctrl.configForm.dataSource.type" name="type-data" id="type-service" value="S"> 
+                            Serviço 
+                        </label>
                     </div>
                 </div>
                 <div class="row">
@@ -33,9 +42,28 @@
                         <label for="">Módulo</label>
                     </div>
                     <div class="col-xs-12 col-sm-12 no-padding">
-                        <select  class="form-control input-sm" id="input-crm_person-do_type"></select>
+                        <select  class="form-control input-sm" 
+                                id="input-crm_person-do_type" 
+                                ng-model="ctrl.configForm.dataSource.module"
+                                ng-options="value as label for mod in ctrl.modules">
+                            <option value="">Selecione</option>
+                        </select>
                     </div>
                 </div>
+                <div class="row" ng-show="ctrl.configForm.dataSource.type == 'E'">
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <label for="">Origem de Dado</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 no-padding">
+                        <select  class="form-control input-sm" 
+                                id="input-crm_person-do_type" 
+                                ng-model="ctrl.configForm.dataSource.key"
+                                ng-options="name for name in ctrl.entities">
+                            <option value="">Selecione</option>
+                        </select>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 no-padding">
                         <div form-field-id="66823" class="checkbox checkbox-default">
@@ -44,14 +72,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-xs-12 col-sm-12 no-padding">
                         <label for="">Template</label>
                     </div>
                     <div class="col-xs-12 col-sm-12 no-padding">
                         <select  class="form-control input-sm" id="input-crm_person-do_type"> </select>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 no-padding">
                         <label for="">Descrição</label>
