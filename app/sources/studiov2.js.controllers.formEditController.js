@@ -139,7 +139,7 @@
     }
 
     function addFieldInclude(field){
-      jsonModel.fields.push(field);
+      ctrl.jsonModel.fields.push(field);
     }
 
     function cancelNewSection() {
@@ -220,8 +220,8 @@
 
       field.views.filter = {};
 
-      if (!jsonModel.views.filter) {
-        jsonModel.views.filter = {};
+      if (!ctrl.jsonModel.views.filter) {
+        ctrl.jsonModel.views.filter = {};
       }
 
     }
@@ -232,7 +232,7 @@
       newField.id = ctrl.sectionSelected.fields.length;
 
       if (ctrl.sectionSelected.type == 'main') {
-        jsonModel.fields.push(newField);
+        ctrl.jsonModel.fields.push(newField);
       }
 
       ctrl.sectionSelected.fields.push(newField);
@@ -281,8 +281,8 @@
     }
 
     function setJsonModel(sections) {
-      jsonModel.key = jsonModel.label.replace(/\s/g, '-').toLowerCase();
-      console.log(jsonModel);
+      ctrl.jsonModel.key = ctrl.jsonModel.label.replace(/\s/g, '-').toLowerCase();
+      console.log(ctrl.jsonModel);
     }
     
     function showEditField(edit) {

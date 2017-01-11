@@ -70,7 +70,7 @@
                 'name': 'save'
               },
               {
-                'action': 'save-new',
+                'action': 'save_new',
                 'name': 'save_new'
               },
               {
