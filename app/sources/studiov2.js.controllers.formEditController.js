@@ -164,7 +164,6 @@
       setDisabledModel(ctrl.fieldEdit);
       setFilterModel(ctrl.fieldEdit);
       setViewList(ctrl.fieldEdit);
-      setBindField(ctrl.fieldEdit);
 
       if (angular.isUndefined(ctrl.fieldEdit.id)){
         addNewField();
@@ -175,10 +174,6 @@
       showComponents();
     }
     
-    function setBindField(field) {
-      field.meta.bind = field.alias;   
-    }
-
     function setViewList(field) {
       field.views.edit = {};
       
@@ -246,10 +241,13 @@
 
     function addSection(){}
  
-    function setNewField() {
+    function setNewField(field) {
       ctrl.fieldEdit = {
         meta: {},
         views: {}
+      }
+      if(field){
+        ctrl.fieldEdit.meta.bind = field.alias; 
       }
 
       showTypeFields();
@@ -284,7 +282,7 @@
 
     function setJsonModel(sections) {
       ctrl.jsonModel.key = ctrl.jsonModel.label.replace(/\s/g, '-').toLowerCase();
-      console.log(ctrl.jsonModel);
+      console.log(JSON.stringify(ctrl.jsonModel()));
     }
     
     function showEditField(edit) {
