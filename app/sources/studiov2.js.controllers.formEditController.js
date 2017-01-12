@@ -32,6 +32,7 @@
       showTypeFields: showTypeFields,
       createButton: createButton,
       cancelCreateButton: cancelCreateButton,
+      removeBt: removeBt,
       showComponents: showComponents, 
       saveForm: saveForm,
       showConfigForm: showConfigForm,
@@ -322,6 +323,10 @@
     function createButton() {
       ctrl.onComponents = false;
       ctrl.onCreateButton = true;
+    }
+
+    function removeBt(view, index) {
+      ctrl.jsonModel.views[view].actions.splice(index, 1);   
     }
 
     function showConfigForm() {
