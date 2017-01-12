@@ -35,7 +35,7 @@
     }
 
     function getFieldsEntity(id) {
-      var url = 'https://studio-v2.inpaas.com/api/studio/entities/69';
+      var url = 'https://studio-v2.inpaas.com/api/studio/entities/70';
 
       return $http({
         method: 'get',
