@@ -148,7 +148,7 @@
     function addButton(event, data){}
     
     function setTypeField(type) {
-      ctrl.fieldEdit.meta.type = type;       
+      ctrl.fieldEdit.meta.type = type;
       ctrl.fieldEdit.templateType = ('/forms/studiov2.forms.fields.' + type);
       showEditField();
     } 
@@ -164,6 +164,7 @@
       setDisabledModel(ctrl.fieldEdit);
       setFilterModel(ctrl.fieldEdit);
       setViewList(ctrl.fieldEdit);
+      setNameField(ctrl.fieldEdit);
 
       if (angular.isUndefined(ctrl.fieldEdit.id)){
         addNewField();
@@ -174,6 +175,10 @@
       showComponents();
     }
     
+    function setNameField(field) {
+      field.name = 'input'.concat(field.label.replace(/\s/g, ''));
+    } 
+
     function setViewList(field) {
       field.views.edit = {};
       
