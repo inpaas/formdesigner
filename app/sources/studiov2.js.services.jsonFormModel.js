@@ -64,7 +64,14 @@
           'type': 'E'
         },
         'views': {
-          'list': {},
+          'list': {
+            'actions':[
+              {
+                'action': 'new',
+                'name': 'new'
+              }
+            ]
+          },
           'edit': {
             'actions': [
               {
@@ -72,7 +79,7 @@
                 'name': 'save'
               },
               {
-                'action': 'save_new',
+                'action': 'savenew',
                 'name': 'save_new'
               },
               {
