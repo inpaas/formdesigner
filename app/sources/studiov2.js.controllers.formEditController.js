@@ -30,7 +30,7 @@
       selectSection: selectSection,
       cancelNewSection: cancelNewSection,
       showTypeFields: showTypeFields,
-      createButton: createButton,
+      showBtConfig: showBtConfig,
       cancelCreateButton: cancelCreateButton,
       removeBt: removeBt,
       showComponents: showComponents, 
@@ -92,20 +92,20 @@
     function getFieldsEntities(dataSource){
       if (dataSource.type == 'E') {
         httpService.getFieldsEntity().then(function(response) {
-          ctrl.data.entityFields = response.data.attributes;   
+          ctrl.data.entityFields = response.data.attributes;
         });
       } 
     };
 
     function getDependents() {
       ctrl.data.dependents = [
-        "Arquivos",
-        "Atividades Abertas",
-        "Ativos",
-        "Casos",
-        "Contratos",
-        "Contatos",
-        "Grupos"
+        // "Arquivos",
+        // "Atividades Abertas",
+        // "Ativos",
+        // "Casos",
+        // "Contratos",
+        // "Contatos",
+        // "Grupos"
       ]; 
     };
     
@@ -248,19 +248,24 @@
     function addSection(){}
  
     function setNewField(field) {
+      if (ctrl.sections.length && !ctrl.sectionSelected) {
+        setSectionSelected();
+      }else{
+        return false;
+      }
+
       ctrl.fieldEdit = {
         meta: {},
         views: {}
       }
+
       if(field){
         ctrl.fieldEdit.meta.bind = field.alias; 
       }
 
       showTypeFields();
 
-      if (!ctrl.sectionSelected) {
-        setSectionSelected();
-      } 
+
 
       ctrl.sectionSelected.onNewField = true;
     }
@@ -320,13 +325,13 @@
       ctrl.onEditField = false; 
     }
     
-    function createButton() {
+    function showBtConfig() {
       ctrl.onComponents = false;
       ctrl.onCreateButton = true;
     }
 
     function removeBt(view, index) {
-      ctrl.jsonModel.views[view].actions.splice(index, 1);   
+      ctrl.jsonModel.views[view].actions.splice(index, 1);
     }
 
     function showConfigForm() {
