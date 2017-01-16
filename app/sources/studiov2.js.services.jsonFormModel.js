@@ -61,7 +61,8 @@
         },
         'breadcrumb': [],
         'dataSource': {
-          'type': 'E'
+          'type': 'E',
+          'key': 'appv2'
         },
         'views': {
           'list': {
