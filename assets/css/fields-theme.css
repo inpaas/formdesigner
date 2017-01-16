@@ -133,10 +133,6 @@ select.input-sm {
     width: 100%;
 }
 
-.edit-form ul.nav-components .inner-item .btn {
-    font-size: 13px !important;
-}
-
 .edit-form ul.nav-components.position-field .inner-item .btn {
     font-size: 11px !important;
 }
