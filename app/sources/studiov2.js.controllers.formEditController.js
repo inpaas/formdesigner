@@ -102,7 +102,7 @@
       var editBt = {}, action;
 
       editBt.view = view;
-      editBt.action = action;
+      editBt.action = actionName;
       editBt.visible = {};
       editBt.event = {};
       editBt.map = [];
@@ -110,6 +110,7 @@
 
       if (!angular.isUndefined(index)) {
         action = ctrl.jsonModel.views[view].actions[index]; 
+        editBt.btCustom = (action.action.indexOf('custom') != -1);
 
         if (action.visible && action.visible.type == 'map') {
           editBt.visibility = true;
