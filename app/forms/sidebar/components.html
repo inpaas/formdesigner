@@ -52,17 +52,15 @@
     </div>
   </li>
   <div class="inner-item field-item">
-    <button type="button" id="btnNewField" class="btn btn-success btn-block" ng-click="ctrl.createButton()">Novo Botão</button>
+    <button type="button" id="btnNewField" class="btn btn-sm btn-success btn-block" ng-click="ctrl.addCustomButton()">Novo Botão</button>
   </div>
   <div class="inner-item buttons-item">
-    <button type="button" class="btn btn-warning btn-block-half">Buscar</button>
-    <button type="button" class="btn btn-default btn-block-half active-form">Cancelar</button>
-    <button type="button" class="btn btn-primary btn-block-half">Confirmar</button>
-    <button type="button" class="btn btn-success btn-block-half">Duplicar</button>
-    <button type="button" class="btn btn-success btn-block-half active-form">Novo</button>
-    <button type="button" class="btn btn-success btn-block-half">Produto</button>
-    <button type="button" class="btn btn-danger btn-block-half active-form">Remover</button>
-    <button type="button" class="btn btn-primary btn-block-half active-form">Salvar</button>
+    <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'save')">Salvar</button>
+    <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'savenew')">Salvar & Novo</button>
+    <button type="button" class="btn btn-success btn-sm btn-block-half" ng-click="ctrl.addButton('edit', 'duplicate')">Duplicar</button>
+    <button type="button" class="btn btn-default btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'cancel')">Cancelar</button>
+    <button type="button" class="btn btn-danger btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'remove')">Remover</button>
+    <button type="button" class="btn btn-success btn-sm btn-block-half active-form" ng-click="ctrl.addButton('list', 'new')">Novo</button>
   </div>
   <!-- Botões -->
 

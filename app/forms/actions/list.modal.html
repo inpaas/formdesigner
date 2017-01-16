@@ -1,4 +1,4 @@
-<button class="btn btn-primary btn-sm" ng-click="ctrl.showModal()"> 
+<button class="btn btn-primary btn-sm" ng-click="ctrl.editButton('list', $index)"> 
     <i class="fa fa-fw fa-window-close" ng-click="ctrl.removeBt('list', $index)"></i>
     {{#localization}}button.modal.icon{{/localization}}
     <span class="btn-text">{{#localization}}button.modal.title{{/localization}}</span>

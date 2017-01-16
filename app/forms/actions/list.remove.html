@@ -1,4 +1,4 @@
-<button class="btn btn-danger btn-sm" ng-click="ctrl.remove()">
+<button class="btn btn-danger btn-sm" ng-click="ctrl.editButton('list', $index)">
     <i class="fa fa-fw fa-window-close" ng-click="ctrl.removeBt('list', $index)"></i>
     {{#localization}}button.remove.icon{{/localization}}
     <span class="btn-text">{{#localization}}button.remove.title{{/localization}}</span>  

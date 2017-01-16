@@ -1,4 +1,4 @@
-<button class="btn btn-primary btn-sm" ng-click="ctrl.customAction()">
+<button class="btn btn-primary btn-sm" ng-click="ctrl.editButton('list', $index)">
   <i class="fa fa-fw fa-window-close" ng-click="ctrl.removeBt('list', $index)"></i>
   <span class="fa fa-fw {[{action.icon}]}"></span>
   <span class="btn-text">{[{action.label | translate}}</span>

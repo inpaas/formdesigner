@@ -10,9 +10,9 @@
     .module('studio-v2')
     .service('jsonForm', jsonForm);
   
-  jsonForm.$inject = ['$q', '$http'];
+  jsonForm.$inject = ['$q', '$http', '$filter'];
   
-  function jsonForm($q, $http){
+  function jsonForm($q, $http, $filter){
     var form = setJsonForm();
     
     function setJsonForm(){
@@ -76,7 +76,15 @@
             'actions': [
               {
                 'action': 'save',
-                'name': 'save'
+                'label': $filter('translate')('button.save.title'),
+                'name': 'save',
+                'icon': 'fa-floppy-o',
+                'visible': {
+                  'type': 'map',
+                  'expression': {
+                    'id': 23
+                  }
+                }              
               },
               {
                 'action': 'savenew',
@@ -139,6 +147,25 @@
       return promise;
     }
     
+    function getActionsTypes() {
+      return [
+        'new',
+        'list.remove',
+        'list.view_edit',
+        'list.custom',
+        'list.modal',
+        'modal',
+        'custom',
+        'cancel',
+        'remove',
+        'save',
+        'save_new',
+        'duplicate',
+        'include.add',
+        'include.row.edit'
+      ]; 
+    }
+
     return {
       editKeyForm: editKeyForm,
       editLabelForm: editLabelForm,
@@ -148,7 +175,8 @@
       editViews: editViews,
       buildFields: buildFields,
       saveJsonForm: saveJsonForm,
-      getJsonForm: getJsonForm
+      getJsonForm: getJsonForm,
+      getActionsTypes: getActionsTypes
     };
   }
 })();

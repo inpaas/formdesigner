@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-success" ng-click="ctrl.newItem();">
+<button type="button" class="btn btn-success" ng-click="ctrl.editButton('edit', $index);">
     <i class="fa fa-fw fa-window-close" ng-click="ctrl.removeBt('edit', $index)"></i>
     {{#localization}}button.new.icon{{/localization}}
     <span class="btn-text">{{#localization}}button.new.title{{/localization}}</span>

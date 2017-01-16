@@ -30,7 +30,10 @@
       selectSection: selectSection,
       cancelNewSection: cancelNewSection,
       showTypeFields: showTypeFields,
-      showBtConfig: showBtConfig,
+      showConfigBt: showConfigBt,
+      editButton: editButton,
+      saveEditButton: saveEditButton,
+      addMapToBt: addMapToBt,
       cancelCreateButton: cancelCreateButton,
       removeBt: removeBt,
       showComponents: showComponents, 
@@ -86,9 +89,86 @@
       ctrl.ready = true;
       ctrl.data["permissions"] = permissions;
     };
-    
-    function addButton(event, data){}
-    
+
+    function addButton(view, actionName) {
+      editButton(view, undefined, actionName);   
+    }
+
+    function addCustomButton() {
+         
+    }
+
+    function editButton(view, index, actionName) {
+      var editBt = {}, action;
+
+      editBt.view = view;
+      editBt.action = action;
+      editBt.visible = {};
+      editBt.event = {};
+      editBt.map = [];
+      ctrl.editBt = editBt;
+
+      if (!angular.isUndefined(index)) {
+        action = ctrl.jsonModel.views[view].actions[index]; 
+
+        if (action.visible && action.visible.type == 'map') {
+          editBt.visibility = true;
+          editBt.visibilityType = 'map';
+
+          angular.forEach(action.visible.expression, function(value, key){
+            editBt.map.push({name: key, value: value});
+          });
+
+        }else if(action.visible && action.visible.expression == 'function'){
+          editBt.visibility = true;
+          editBt.visibilityType = 'function'; 
+        }
+
+        if (action.event) {
+          editBt.setEvent = true;
+        }
+
+        angular.extend(ctrl.editBt, action);
+      }
+
+      showConfigBt();
+    } 
+
+    function saveEditButton() {
+      var clone = angular.copy(ctrl.editBt), 
+          action = {};
+
+      action.name = clone.name || clone.label.toLowerCase().replace(/\s/g, '-');
+
+      if (clone.visibility && clone.visibilityType === 'map') {
+        action.visible.type = 'map';
+        action.visible.expression = {};
+
+        clone.map.forEach(function(item, index){
+          angular.extend(action.visible.expression, item); 
+        });
+
+      }else if(clone.visibility && clone.visibilityType === 'function'){
+        action.visible.type = 'function';
+        action.visible.expression = clone.expression;
+      };
+
+      if (clone.setEvent) {
+        action.event = {
+          method: clone.method,
+          sourceKey: clone.sourceKey
+        }
+      }
+
+      ctrl.jsonModel.views[clone.view].actions.push(action);
+    }
+
+    function addMapToBt(name, value) {
+      var expression = {};
+      expression[name] = value;
+      ctrl.editBt.map.push(expression);
+    }
+
     function getFieldsEntities(dataSource){
       if (dataSource.type == 'E') {
         httpService.getFieldsEntity().then(function(response) {
@@ -146,17 +226,12 @@
       angular.extend(ctrl.newSection, {});
     }
     
-    function addButton(event, data){}
-    
     function setTypeField(type) {
       ctrl.fieldEdit.meta.type = type;
       ctrl.fieldEdit.templateType = ('/forms/studiov2.forms.fields.' + type);
       showEditField();
     } 
 
-    function setTypeAction(action) {
-         
-    }
 
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
@@ -265,8 +340,6 @@
 
       showTypeFields();
 
-
-
       ctrl.sectionSelected.onNewField = true;
     }
 
@@ -325,7 +398,7 @@
       ctrl.onEditField = false; 
     }
     
-    function showBtConfig() {
+    function showConfigBt() {
       ctrl.onComponents = false;
       ctrl.onCreateButton = true;
     }
@@ -361,8 +434,8 @@
     }
 
     function cancelCreateButton() {
+      angular.extend(ctrl.editBt, {});
       showComponents();
-      angular.extend(ctrl.createButton, {});
     }
 
     function editField(field, idx) {
@@ -370,6 +443,5 @@
 
       showEditField();
     }
-
   };
 })();
