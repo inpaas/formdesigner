@@ -5,85 +5,66 @@
         Novo Campo Texto
     </li>
     <div class="inner-item">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 no-padding">
-                <label for="">Tipo do Campo</label>
-            </div>
-            <div class="col-xs-12 col-sm-12 no-padding">
-                <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.meta.type">
-                    <option value="string">Campo de Texto</option>
-                    <option value="select">Lista Suspensa</option>
-                    <option value="textarea">Área de Texto</option>
-                    <option value="radio">Radio Button</option>
-                    <option value="checkbox">Checkbox</option>
-                    <option value="imagem">Imagem</option>
-                    <option value="currency">Moeda</option>
-                    <option value="number">Número</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="">Tipo do Campo</label>
+            <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.meta.type">
+                <option value="string">Campo de Texto</option>
+                <option value="select">Lista Suspensa</option>
+                <option value="textarea">Área de Texto</option>
+                <option value="radio">Radio Button</option>
+                <option value="checkbox">Checkbox</option>
+                <option value="imagem">Imagem</option>
+                <option value="currency">Moeda</option>
+                <option value="number">Número</option>
+            </select>
         </div>
+
         <div class="row">
-            <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
                 <label for="">Título do Campo</label>
-            </div>
-            <div class="col-xs-12 col-sm-12 no-padding">
                 <input  class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label">
             </div>
         </div>
+
         <div class="row">
-            <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
                 <label for="">Máscara do Campo</label>
-            </div>
-            <div class="col-xs-12 col-sm-12 no-padding">
                 <input  class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-bind="ctrl.fieldEdit.meta.formatPattern">
             </div>
         </div>
+
         <div class="row">
-            <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
                 <label for="">Descrição</label>
-            </div>
-            <div class="col-xs-12 col-sm-12 no-padding">
                 <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.comments"></textarea>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
                 <label for="">Texto de Ajuda</label>
-            </div>
-            <div class="col-xs-12 col-sm-12 no-padding">
                 <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.help"></textarea>
             </div>
         </div>
         <div class="row row-checkbox">
-            <div class="col-xs-12 col-sm-12 no-padding">
-                <div form-field-id="66823" class="checkbox checkbox-default">
-                    <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.required"/>
-                    <label for="cbx-unconditional-search">Campo Obrigatório</label>
-                </div>
+            <div class="form-group">
+                <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.required"/>
+                <label for="cbx-unconditional-search">Campo Obrigatório</label>
             </div>
-            <div class="col-xs-12 col-sm-12 no-padding">
-                <div form-field-id="66823" class="checkbox checkbox-default">
-                    <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.filter">
-                    <label for="cbx-unconditional-search">Campo Pesquisável</label>
-                </div>
+            <div class="form-group">
+                <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.filter">
+                <label for="cbx-unconditional-search">Campo Pesquisável</label>
             </div>
-            <div class="col-xs-12 col-sm-12 no-padding">
-                <div form-field-id="66823" class="checkbox checkbox-default">
-                    <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.disabled">
-                    <label for="cbx-unconditional-search">Campo Desabilitado</label>
-                </div>
+            <div class="form-group">
+                <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.disabled">
+                <label for="cbx-unconditional-search">Campo Desabilitado</label>
             </div>
-            <div class="col-xs-12 col-sm-12 no-padding">
-                <div form-field-id="66823" class="checkbox checkbox-default">
-                    <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.viewList">
-                    <label for="cbx-unconditional-search">Aparece na lista</label>
-                </div>
+            <div class="form-group">
+                <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.viewList">
+                <label for="cbx-unconditional-search">Aparece na lista</label>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 no-padding">
-                <button type="button" class="btn btn-success btn-block">Novo Evento</button>
-            </div>
+            <button type="button" class="btn btn-success btn-block">Novo Evento</button>
         </div>
     </div>
     <!-- Estrutura -->
