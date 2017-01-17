@@ -36,6 +36,7 @@
       addMapToBt: addMapToBt,
       cancelCreateButton: cancelCreateButton,
       removeBt: removeBt,
+      addCustomButton: addCustomButton,
       showComponents: showComponents, 
       saveForm: saveForm,
       showConfigForm: showConfigForm,
@@ -95,7 +96,7 @@
     }
 
     function addCustomButton() {
-         
+      editButton('', undefined, 'custom');
     }
 
     function editButton(view, index, actionName) {
@@ -107,6 +108,7 @@
       editBt.event = {};
       editBt.map = [];
       ctrl.editBt = editBt;
+      editBt.btCustom = (actionName.indexOf('custom') != -1);
 
       if (!angular.isUndefined(index)) {
         action = ctrl.jsonModel.views[view].actions[index]; 
@@ -324,10 +326,10 @@
     function addSection(){}
  
     function setNewField(field) {
+      if (!ctrl.sections.length) { return false; }
+      
       if (ctrl.sections.length && !ctrl.sectionSelected) {
         setSectionSelected();
-      }else{
-        return false;
       }
 
       ctrl.fieldEdit = {
