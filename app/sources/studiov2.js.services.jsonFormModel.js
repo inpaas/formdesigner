@@ -89,18 +89,22 @@
               },
               {
                 'action': 'savenew',
+                'label': $filter('translate')('button.savenew.title'),
                 'name': 'save_new'
               },
               {
                 'action': 'duplicate',
+                'label': $filter('translate')('button.duplicate.title'),
                 'name': 'duplicate',
               },
               {
                 'action': 'remove',
+                'label': $filter('translate')('button.remove.title'),
                 'name': 'remove'
               },
               {
                 'action': 'cancel',
+                'label': $filter('translate')('button.cancel.title'),
                 'name': 'cancel'
               }
             ]
