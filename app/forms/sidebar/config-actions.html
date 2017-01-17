@@ -9,7 +9,7 @@
             <div class="form-group">
                 <label for="">Tipo Botão:</label>
                 <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.editBt.action">
-                  	<option value="">Selecione o tipo</option>
+                    <option value="">Selecione o tipo</option>
                     <option value="M">Modal</option>
                     <option value="F">File</option>
                     <option value="C">Custom</option>
@@ -31,12 +31,12 @@
             </div>
         </div>
 
-      	<div class="row">
+        <div class="row">
             <div class="form-group">
-          		<input type="checkbox" ng-model="ctrl.editBt.visibility"/>
+                <input type="checkbox" ng-model="ctrl.editBt.visibility"/>
                 <label> Habilitar regras de visibilidade: </label>
-          	</div>
-      	</div>
+            </div>
+        </div>
 
         <div class="row" ng-show="ctrl.editBt.visibility">
             <div class="form-group">
@@ -49,24 +49,24 @@
             </div>
         </div>
 
-      	<div class="row" ng-show="ctrl.editBt.visibilityType == 'function'">
+        <div class="row" ng-show="ctrl.editBt.visibilityType == 'function'">
             <div class="form-group">
                 <textarea class="form-control input-sm input-txt" ng-model="ctrl.editBt.expression"></textarea>
             </div>
         </div>
 
-      	<div class="row" ng-show="ctrl.editBt.visibilityType == 'map'">
+        <div class="row" ng-show="ctrl.editBt.visibilityType == 'map'">
             <div class="row" ng-repeat-start="item in ctrl.editBt.map">
                 <div class="col-xs-12 col-sm-6 no-padding">
-                	<label for="">Atributo:</label>
+                    <label for="">Atributo:</label>
                 </div>
                 <div class="col-xs-12 col-sm-6 no-padding">
-    			    <select ng-model="item.name" class="form-control input-sm" ng-options="field.alias as field.alias for field in ctrl.data.entityFields"></select>
+                    <select ng-model="item.name" class="form-control input-sm" ng-options="field.alias as field.alias for field in ctrl.data.entityFields"></select>
                 </div>
             </div>
             <div class="row" ng-repeat-end>
                 <div class="col-xs-12 col-sm-6 no-padding">
-                	<label for="">Valor:</label>
+                    <label for="">Valor:</label>
                 </div>
                 <div class="col-xs-12 col-sm-6 no-padding">
                     <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="item.value">
@@ -77,7 +77,7 @@
             </div>
         </div>
         
-      	<div class="row" ng-show="ctrl.editBt.btCustom">
+        <div class="row" ng-show="ctrl.editBt.btCustom">
             <div class="form-group">
                 <input type="checkbox" ng-model="ctrl.editBt.setEvent">
                 <label for="">Evento</label>
