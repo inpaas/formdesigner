@@ -10,8 +10,8 @@
 
         <!-- Button Actions -->
         <div class="box-buttons text-center">
-            <button type="button" class="btn btn-primary">Componentes</button>
-            <button type="button" class="btn btn-default">Editar</button>
+            <button type="button" class="btn" ng-class="{'btn-primary': ctrl.onComponents, 'btn-default': !ctrl.onComponents}">Componentes</button>
+            <button type="button" class="btn btn-default" ng-class="{'btn-default': ctrl.onComponents, 'btn-primary': !ctrl.onComponents}">Editar</button>
         </div>
         <!-- End Button Actions -->
 
