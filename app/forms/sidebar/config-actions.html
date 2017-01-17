@@ -36,10 +36,7 @@
                 <input type="checkbox" ng-model="ctrl.editBt.visibility"/>
                 <label> Habilitar regras de visibilidade: </label>
             </div>
-        </div>
-
-        <div class="row" ng-show="ctrl.editBt.visibility">
-            <div class="form-group">
+            <div class="form-group" ng-show="ctrl.editBt.visibility">
                 <label for="">Regras de visibilidade</label>
                 <select class="form-control input-sm" ng-model="ctrl.editBt.visibilityType">
                     <option value="">Selecione o tipo</option>
@@ -47,10 +44,7 @@
                     <option value="function">Função</option>
                 </select>
             </div>
-        </div>
-
-        <div class="row" ng-show="ctrl.editBt.visibilityType == 'function'">
-            <div class="form-group">
+            <div class="form-group" ng-show="ctrl.editBt.visibilityType == 'function'">
                 <textarea class="form-control input-sm input-txt" ng-model="ctrl.editBt.expression"></textarea>
             </div>
         </div>
