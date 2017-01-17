@@ -79,7 +79,6 @@
                 'action': 'save',
                 'label': $filter('translate')('button.save.title'),
                 'name': 'save',
-                'icon': 'fa-floppy-o',
                 'visible': {
                   'type': 'map',
                   'expression': {

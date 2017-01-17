@@ -103,12 +103,9 @@
       var editBt = {}, action;
 
       editBt.view = view;
-      editBt.action = actionName;
       editBt.visible = {};
       editBt.event = {};
       editBt.map = [];
-      ctrl.editBt = editBt;
-      editBt.btCustom = (actionName.indexOf('custom') != -1);
 
       if (!angular.isUndefined(index)) {
         action = ctrl.jsonModel.views[view].actions[index]; 
@@ -131,9 +128,13 @@
           editBt.setEvent = true;
         }
 
-        angular.extend(ctrl.editBt, action);
+        angular.extend(editBt, action);
+      }else{
+        editBt.action = actionName;
+        editBt.btCustom = (actionName.indexOf('custom') != -1);
       }
 
+      ctrl.editBt = editBt;
       showConfigBt();
     } 
 
@@ -327,7 +328,7 @@
  
     function setNewField(field) {
       if (!ctrl.sections.length) { return false; }
-      
+
       if (ctrl.sections.length && !ctrl.sectionSelected) {
         setSectionSelected();
       }
