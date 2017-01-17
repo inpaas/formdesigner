@@ -10,17 +10,13 @@
   <!-- Estrutura -->
   <div class="inner-item propriets-section">
     <div class="row">
-      <div class="col-xs-12 col-sm-12 no-padding">
+      <div class="form-group">
         <label for="">Título da Seção</label>
-      </div>
-      <div class="col-xs-12 col-sm-12 no-padding">
         <input  class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.newSection.label">
       </div>
-      <div class="col-xs-12 col-sm-12 no-padding">
-        <div form-field-id="66823" class="checkbox checkbox-default">
-          <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.newSection.displayLabel">
-          <label for="cbx-unconditional-search">Exibir cabeçalho da seção</label>
-        </div>
+      <div class="form-group">
+        <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.newSection.displayLabel">
+        <label for="cbx-unconditional-search">Exibir cabeçalho da seção</label>
       </div>
     </div>
   </div>
