@@ -44,12 +44,12 @@
                     <option value="function">Função</option>
                 </select>
             </div>
-            <div class="form-group" ng-show="ctrl.editBt.visibilityType == 'function'">
+            <div class="form-group" ng-show="ctrl.editBt.visibility && ctrl.editBt.visibilityType == 'function'">
                 <textarea class="form-control input-sm input-txt" ng-model="ctrl.editBt.expression"></textarea>
             </div>
         </div>
 
-        <div class="row" ng-show="ctrl.editBt.visibilityType == 'map'">
+        <div class="row" ng-show="ctrl.editBt.visibility && ctrl.editBt.visibilityType == 'map'">
             <div class="row" ng-repeat-start="item in ctrl.editBt.map">
                 <div class="col-xs-12 col-sm-6 no-padding">
                     <label for="">Atributo:</label>
