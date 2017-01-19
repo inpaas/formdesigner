@@ -6,106 +6,122 @@
     </li>
     <div class="inner-item">
        <div class="row" ng-show="ctrl.editBt.btCustom">
-            <div class="form-group">
-                <label for="">Tipo Botão:</label>
-                <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.editBt.action">
-                    <option value="">Selecione o tipo</option>
-                    <option value="M">Modal</option>
-                    <option value="F">File</option>
-                    <option value="C">Custom</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group">
-                <label for="">Nome do Botão:</label>
-                <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.label" ng-readonly="!ctrl.editBt.btCustom">
-            </div>
-        </div>
-
-        <div class="row" ng-show="ctrl.editBt.btCustom">
-            <div class="form-group">
-                <label for="">Icone:</label>
-                <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.icon">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group">
-                <input type="checkbox" ng-model="ctrl.editBt.visibility"/>
-                <label> Habilitar regras de visibilidade: </label>
-            </div>
-            <div class="form-group" ng-show="ctrl.editBt.visibility">
-                <label for="">Regras de visibilidade</label>
-                <select class="form-control input-sm" ng-model="ctrl.editBt.visibilityType">
-                    <option value="">Selecione o tipo</option>
-                    <option value="map">Mapa</option>
-                    <option value="function">Função</option>
-                </select>
-            </div>
-            <div class="form-group" ng-show="ctrl.editBt.visibility && ctrl.editBt.visibilityType == 'function'">
-                <textarea class="form-control input-sm input-txt" ng-model="ctrl.editBt.expression"></textarea>
-            </div>
-        </div>
-
-        <div class="row" ng-show="ctrl.editBt.visibility && ctrl.editBt.visibilityType == 'map'">
-            <div class="row" ng-repeat-start="item in ctrl.editBt.map">
-                <div class="col-xs-12 col-sm-6 no-padding">
-                    <label for="">Atributo:</label>
-                </div>
-                <div class="col-xs-12 col-sm-6 no-padding">
-                    <select ng-model="item.name" class="form-control input-sm" ng-options="field.alias as field.alias for field in ctrl.data.entityFields"></select>
-                </div>
-            </div>
-            <div class="row" ng-repeat-end>
-                <div class="col-xs-12 col-sm-6 no-padding">
-                    <label for="">Valor:</label>
-                </div>
-                <div class="col-xs-12 col-sm-6 no-padding">
-                    <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="item.value">
-                </div>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-default" ng-click="ctrl.addMapToBt(name, value)">Add map</button>
-            </div>
-        </div>
-        
-        <div class="row" ng-show="ctrl.editBt.btCustom">
-            <div class="form-group">
-                <input type="checkbox" ng-model="ctrl.editBt.setEvent">
-                <label for="">Evento</label>
-            </div>
-        </div>
-        
-        <div class="row" ng-show="ctrl.editBt.setEvent">
-            <div class="form-group">
-                <label for="">Source Key:</label>
-                <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.sourceKey">
-            </div>
-            <div class="form-group">
-                <label for="">Método:</label>
-                <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.method">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group">
-                <label for="">Texto de Ajuda:</label>
-                <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.editBt.help"></textarea>
-            </div>
+        <div class="form-group">
+            <label for="">Tipo Botão:</label>
+            <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.editBt.action">
+                <option value="">Selecione o tipo</option>
+                <option value="M">Modal</option>
+                <option value="F">File</option>
+                <option value="C">Custom</option>
+            </select>
         </div>
     </div>
-    <!-- Estrutura -->
-    <div class="action-buttons">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 no-padding col-pdd">
-                <a class="btn btn-default btn-block" ng-click="ctrl.cancelCreateButton()">Cancelar</a>
-            </div>
-            <div class="col-xs-12 col-sm-6 no-padding">
-                <button type="button" class="btn btn-success btn-block" ng-click="ctrl.saveEditButton()">Confirmar</button>
-            </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="">Nome do Botão:</label>
+            <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.label" ng-readonly="!ctrl.editBt.btCustom">
         </div>
     </div>
+
+    <div class="row" ng-show="ctrl.editBt.btCustom">
+        <div class="form-group">
+            <label for="">Icone:</label>
+            <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.icon">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <input type="checkbox" ng-model="ctrl.editBt.visibility"/>
+            <label> Habilitar regras de visibilidade: </label>
+        </div>
+        <div class="form-group" ng-show="ctrl.editBt.visibility">
+            <label for="">Regras de visibilidade</label>
+            <select class="form-control input-sm" ng-model="ctrl.editBt.visibilityType">
+                <option value="">Selecione o tipo</option>
+                <option value="map">Mapa</option>
+                <option value="function">Função</option>
+            </select>
+        </div>
+        <div class="form-group" ng-show="ctrl.editBt.visibility && ctrl.editBt.visibilityType == 'function'">
+            <textarea class="form-control input-sm input-txt" ng-model="ctrl.editBt.fnExpression"></textarea>
+        </div>
+    </div>
+
+    <div class="row" ng-show="ctrl.editBt.visibility && ctrl.editBt.visibilityType == 'map'">
+        <div class="form-group">
+            <table class="table table-hover" ng-show="ctrl.editBt.mapExpression.length">
+                <thead>
+                    <tr>
+                        <th> <b>Propriedades </b></th>
+                        <th> <b>Valor</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in ctrl.editBt.mapExpression track by $index" ng-click="ctrl.editVisibleMap(item, $index)">
+                        <td ng-bind="item.prop"></td>
+                        <td ng-bind="item.value"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="form-group" ng-show="ctrl.mapEdit">
+            <label for="">Selecione a propriedade:</label>
+            <select class="form-control input-sm" ng-model="ctrl.mapEdit.prop" ng-options="field.alias as field.alias for field in ctrl.data.entityFields"></select>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.mapEdit">
+            <label for="">Digite o valor:</label>
+            <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.mapEdit.value">
+        </div>
+
+        <div class="form-group" ng-show="ctrl.mapEdit">
+            <button class="btn btn-primary btn-sm" ng-click="ctrl.saveVisibleMap()"><i class="fa fa-fw fa-floppy-o"></i></button>
+            <button class="btn btn-danger btn-sm" ng-click="ctrl.removeVisibleMap()"><i class="fa fa-fw fa-trash"></i></button> 
+        </div>
+
+        <div class="form-group" ng-hide="ctrl.mapEdit">
+            <button class="btn btn-primary" ng-click="ctrl.addVisibleMap()">Novo mapeamento</button>
+        </div>
+    </div>
+
+    <div class="row" ng-show="ctrl.editBt.btCustom">
+        <div class="form-group">
+            <input type="checkbox" ng-model="ctrl.editBt.setEvent">
+            <label for="">Evento</label>
+        </div>
+    </div>
+
+    <div class="row" ng-show="ctrl.editBt.setEvent">
+        <div class="form-group">
+            <label for="">Source Key:</label>
+            <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.sourceKey">
+        </div>
+        <div class="form-group">
+            <label for="">Método:</label>
+            <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.method">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label for="">Texto de Ajuda:</label>
+            <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.editBt.help"></textarea>
+        </div>
+    </div>
+</div>
+<!-- Estrutura -->
+<div class="action-buttons">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 no-padding col-pdd">
+            <a class="btn btn-default btn-block" ng-click="ctrl.cancelCreateButton()">Cancelar</a>
+        </div>
+        <div class="col-xs-12 col-sm-6 no-padding">
+            <button type="button" class="btn btn-success btn-block" ng-click="ctrl.saveEditButton()">Confirmar</button>
+        </div>
+    </div>
+</div>
 </ul>
 <!--  Config Actions -->

@@ -39,9 +39,15 @@
       addCustomButton: addCustomButton,
       showComponents: showComponents, 
       saveForm: saveForm,
+
       showConfigForm: showConfigForm,
       saveConfigForm: saveConfigForm,
-      cancelConfigForm: cancelConfigForm
+      cancelConfigForm: cancelConfigForm,
+
+      saveVisibleMap: saveVisibleMap,
+      addVisibleMap: addVisibleMap,
+      editVisibleMap: editVisibleMap,
+      removeVisibleMap: removeVisibleMap
     });
     
     init(); 
@@ -100,41 +106,42 @@
     }
 
     function editButton(view, index, actionName) {
-      var editBt = {}, action;
-
-      editBt.view = view;
-      editBt.visible = {};
-      editBt.event = {};
-      editBt.map = [];
+      var action;
 
       if (!angular.isUndefined(index)) {
         action = ctrl.jsonModel.views[view].actions[index]; 
-        editBt.btCustom = (action.action.indexOf('custom') != -1);
+        action.btCustom = (action.action.indexOf('custom') != -1);
+        action.index = index;
+        action.mapExpression = [];
 
-        if (action.visible && action.visible.type == 'map') {
-          editBt.visibility = true;
-          editBt.visibilityType = 'map';
+        if (action.visible) {
+          action.visibility = true;
+          action.visibilityType = action.visible.type;
 
-          angular.forEach(action.visible.expression, function(value, key){
-            editBt.map.push({name: key, value: value});
-          });
+          if (action.visible.type == 'map') {
+            angular.forEach(action.visible.expression, function(value, key){
+              action.mapExpression.push({prop: key, value: value});
+            });
 
-        }else if(action.visible && action.visible.expression == 'function'){
-          editBt.visibility = true;
-          editBt.visibilityType = 'function'; 
+          }else if(action.visible.type == 'function'){
+            action.fnExpression = action.visible.expression;
+          }else{
+            action.booleanExpression = action.visible.expression;
+          }
         }
 
         if (action.event) {
           editBt.setEvent = true;
         }
 
-        angular.extend(editBt, action);
       }else{
-        editBt.action = actionName;
-        editBt.btCustom = (actionName.indexOf('custom') != -1);
+        action.action = actionName;
+        action.mapExpression = [];
+        action.btCustom = (actionName.indexOf('custom') != -1);
       }
 
-      ctrl.editBt = editBt;
+      action.view = view;
+      ctrl.editBt = action;
       showConfigBt();
     } 
 
@@ -144,27 +151,46 @@
 
       action.name = clone.name || clone.label.toLowerCase().replace(/\s/g, '-');
 
-      if (clone.visibility && clone.visibilityType === 'map') {
-        action.visible.type = 'map';
-        action.visible.expression = {};
+      setVisibilityConfig();
+      setEventConfig();
+      
+      if (!angular.isUndefined(clone.index)) {
+        var bt = ctrl.jsonModel.views[clone.view].actions[clone.index];
+        angular.extend(bt, clone);
+      }else{
+        ctrl.jsonModel.views[clone.view].actions.push(clone); 
+      }
+      
+      showComponents();
+      
+      function setVisibilityConfig() {
+        if (clone.visibility && clone.visibilityType === 'map') {
+          action.visible = {
+            type: 'map',
+            expression: {}
+          };
 
-        clone.map.forEach(function(item, index){
-          angular.extend(action.visible.expression, item); 
-        });
+          clone.mapExpression.forEach(function(item, index){
+            angular.extend(action.visible.expression, item);
+          });
 
-      }else if(clone.visibility && clone.visibilityType === 'function'){
-        action.visible.type = 'function';
-        action.visible.expression = clone.expression;
-      };
+        }else if(clone.visibility && clone.visibilityType === 'function'){
+          action.visible = {
+            type: 'function',
+            expression: clone.fnExpression
+          };
+        };
+      }
 
-      if (clone.setEvent) {
-        action.event = {
-          method: clone.method,
-          sourceKey: clone.sourceKey
+      function setEventConfig() {
+        if (clone.setEvent) {
+          action.event = {
+            method: clone.method,
+            sourceKey: clone.sourceKey
+          }
         }
       }
 
-      ctrl.jsonModel.views[clone.view].actions.push(action);
     }
 
     function addMapToBt(name, value) {
@@ -442,10 +468,35 @@
       showComponents();
     }
 
-    function editField(field, idx) {
+    function editField(field, index) {
       ctrl.fieldEdit = field;
-
       showEditField();
+    }
+
+    function saveVisibleMap() {
+      if (angular.isUndefined(ctrl.mapEdit.index)){
+        ctrl.editBt.mapExpression.push(ctrl.mapEdit);
+      } 
+
+      cancelEditVisibleMap();
+    }
+
+    function editVisibleMap(map, index) {
+      ctrl.mapEdit = map;
+      ctrl.mapEdit.index = index; 
+    } 
+
+    function cancelEditVisibleMap() {
+      ctrl.mapEdit = false;
+    }
+
+    function addVisibleMap() {
+      ctrl.mapEdit = {newMap: true};
+    }
+
+    function removeVisibleMap() {
+      ctrl.editBt.mapExpression.splice(1, ctrl.mapEdit.index);
+      cancelEditVisibleMap();
     }
   };
 })();
