@@ -10,9 +10,9 @@
     .module('studio-v2')
     .service('jsonForm', jsonForm);
   
-  jsonForm.$inject = ['$q', '$http', '$filter'];
+  jsonForm.$inject = ['$q', '$filter', 'httpService'];
   
-  function jsonForm($q, $http, $filter){
+  function jsonForm($q, $filter, httpService){
     var form = setJsonForm();
     
     function setJsonForm(){
@@ -60,10 +60,7 @@
           'countPerPage': 10 
         },
         'breadcrumb': [],
-        'dataSource': {
-          'type': 'E',
-          'key': 'appv2'
-        },
+        'dataSource': {},
         'views': {
           'list': {
             'actions':[
@@ -128,24 +125,16 @@
       return deferred.promise;
     } 
        
-    function getJsonForm(id){
+    function getJsonForm(name){
       var promise;
-      if (!id) {
+      if (!name) {
         promise = getNewFormId();
       }else{
-        promise = $http({
-          method: 'get',
-          url: '/api/app/js/studiov2.js.model.jsonFormModel'
-        }).then(function(response) {
-          var jsonModel = response.data; 
-
-          jsonModel.views.edit = {
-            templateCol: 1,
-            label: '1 col'
-          }
+        promise = httpService.getForm(name).then(function(response) {
+          var jsonModel = response.data;
 
           jsonModel.fields.forEach(function(field, index){
-            field.templateType = '/forms/studiov2.forms.fields.' + field.meta.type;
+            field.templateType = '/forms/studiov2.forms.fields.'.concat(field.meta.type);
           });
 
           return jsonModel;
