@@ -56,8 +56,9 @@
                 <div class="col-wdg col-sm-6 no-padding col-sm-offset-2">
                   <div class="row" dragula="'1col-bag'" ng-show="section.fields.length">
                     <div class="row row-edit-this"
+                        id="field-{[{$index}]}" 
                         ng-repeat="field in section.fields track by $index" 
-                        id="field-{[{$index}]}" ng-include="field.templateType" ng-click="ctrl.editField(field, $index)">
+                        ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type" ng-click="ctrl.editField(field, $index)">
                     </div>
                   </div>
                   <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>

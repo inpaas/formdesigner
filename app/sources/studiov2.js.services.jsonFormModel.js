@@ -132,11 +132,6 @@
       }else{
         promise = httpService.getForm(name).then(function(response) {
           var jsonModel = response.data;
-
-          jsonModel.fields.forEach(function(field, index){
-            field.templateType = '/forms/studiov2.forms.fields.'.concat(field.meta.type);
-          });
-
           return jsonModel;
         });
       }
