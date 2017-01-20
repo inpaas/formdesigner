@@ -125,14 +125,14 @@
       return deferred.promise;
     } 
        
-    function getJsonForm(name){
+    function getJsonForm(id){
       var promise;
-      if (!name) {
+      if (!id) {
         promise = getNewFormId();
       }else{
-        promise = httpService.getForm(name).then(function(response) {
+        promise = httpService.getForm(id).then(function(response) {
           var jsonModel = response.data;
-          return jsonModel;
+          return JSON.parse(jsonModel.json);
         });
       }
 
