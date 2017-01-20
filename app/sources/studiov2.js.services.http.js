@@ -46,7 +46,7 @@
     }
 
     function getForm(id) {
-      var url = 'https://studio-v2.inpaas.com/api/modules/5/forms-v2/'.concat(id);
+      var url = 'https://studio-v2.inpaas.com/api/studio/modules/5/forms-v2/'.concat(id);
 
       return $http({
         method: 'get',
