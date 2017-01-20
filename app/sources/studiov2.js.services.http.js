@@ -45,8 +45,8 @@
       });
     }
 
-    function getForm(name) {
-      var url = 'https://studio-v2.inpaas.com/api/forms-v2/'.concat(name);
+    function getForm(id) {
+      var url = 'https://studio-v2.inpaas.com/api/modules/5/forms-v2/'.concat(id);
 
       return $http({
         method: 'get',
