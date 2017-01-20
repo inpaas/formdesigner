@@ -47,7 +47,9 @@
       saveVisibleMap: saveVisibleMap,
       addVisibleMap: addVisibleMap,
       editVisibleMap: editVisibleMap,
-      removeVisibleMap: removeVisibleMap
+      removeVisibleMap: removeVisibleMap,
+      getEntitiesByModule: getEntitiesByModule,
+      getFieldsByEntity: getFieldsByEntity
     });
     
     init(); 
@@ -58,9 +60,7 @@
 
         buildMainSection(ctrl.jsonModel);
         buildFields(ctrl.jsonModel.fields);
-        getFieldsEntities(ctrl.jsonModel.dataSource);
         getDependents();
-
       });
     }
 
@@ -160,9 +160,9 @@
       }else{
         ctrl.jsonModel.views[clone.view].actions.push(clone); 
       }
-      
+
       showComponents();
-      
+
       function setVisibilityConfig() {
         if (clone.visibility && clone.visibilityType === 'map') {
           action.visible = {
@@ -199,12 +199,17 @@
       ctrl.editBt.map.push(expression);
     }
 
-    function getFieldsEntities(dataSource){
-      if (dataSource.type == 'E') {
-        httpService.getFieldsEntity().then(function(response) {
-          ctrl.data.entityFields = response.data.attributes;
-        });
-      } 
+    function getFieldsByEntity(){
+      var entity;
+      ctrl.entities.forEach(function(item, index){
+        if (item.name == ctrl.configForm.dataSource.key) {
+          entity = item; 
+        }
+      });
+
+      httpService.getFieldsByEntity(entity.id).then(function(response) {
+        ctrl.data.entityFields = response.data.attributes;
+      });
     };
 
     function getDependents() {
@@ -446,11 +451,17 @@
         description: ctrl.jsonModel.description
       };
 
-      httpService.getEntities().then(function(response) {
-        ctrl.entities = response.data;
+      httpService.getApps().then(function(response){
+        ctrl.apps = response.data;
       });
 
       ctrl.onConfigForm = true;   
+    }
+
+    function getEntitiesByModule(idMod) {
+      httpService.getEntities(idMod).then(function(response) {
+        ctrl.entities = response.data;
+      }); 
     }
 
     function saveConfigForm() {

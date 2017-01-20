@@ -89,7 +89,11 @@
               {
                 'action': 'savenew',
                 'label': $filter('translate')('button.savenew.title'),
-                'name': 'save_new'
+                'name': 'save_new', 
+                'visible': {
+                  'type': 'function', 
+                  'expression': '(function (data){ console.log(data) })'
+                }
               },
               {
                 'action': 'duplicate',

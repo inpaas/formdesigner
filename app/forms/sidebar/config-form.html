@@ -18,7 +18,7 @@
                         <input class="form-control input-sm" id="txt-person-zipcode" placeholder="Título do Formulário" type="text" ng-model="ctrl.configForm.label">
                     </div>
                 </div>
-                <div class="row">
+                <div class="form-group clearfix">
                     <div class="col-xs-12 col-sm-12 no-padding">
                         <label>Tipo do Data Source</label>
                     </div> 
@@ -35,24 +35,38 @@
                         </label>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="form-group">
-                        <label for="">Módulo</label>
+                        <div class="btn-group">
+                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Módulos <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+                                <li ng-repeat="mod in app.modules" ng-click="ctrl.getEntitiesByModule(mod.id)"> 
+                                    <a href="" ng-bind="mod.title"></a>
+                                </li>
+                                <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+                            </ul>
+                        </div>
+                        <!-- <label for="">Módulo</label>
                         <select  class="form-control input-sm" 
                                 id="input-crm_person-do_type" 
                                 ng-model="ctrl.configForm.dataSource.module"
                                 ng-options="value as label for mod in ctrl.modules">
                             <option value="">Selecione</option>
-                        </select>
+                        </select> -->
                     </div>
                 </div>
+
                 <div class="row" ng-show="ctrl.configForm.dataSource.type == 'E'">
                     <div class="form-group">
                         <label for="">Origem de Dado</label>
-                        <select  class="form-control input-sm" 
-                                id="input-crm_person-do_type" 
+                        <select class="form-control input-sm" 
                                 ng-model="ctrl.configForm.dataSource.key"
-                                ng-options="name for name in ctrl.entities">
+                                ng-change="ctrl.getFieldsByEntity()"
+                                ng-options="entity.name as entity.name for entity in ctrl.entities">
                             <option value="">Selecione</option>
                         </select>
                     </div>
