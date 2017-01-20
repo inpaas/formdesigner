@@ -39,11 +39,9 @@
       addCustomButton: addCustomButton,
       showComponents: showComponents, 
       saveForm: saveForm,
-
       showConfigForm: showConfigForm,
       saveConfigForm: saveConfigForm,
       cancelConfigForm: cancelConfigForm,
-
       saveVisibleMap: saveVisibleMap,
       addVisibleMap: addVisibleMap,
       editVisibleMap: editVisibleMap,
@@ -55,13 +53,22 @@
     init(); 
 
     function init() {
-      jsonForm.getJsonForm($stateParams.id).then(function(response){
-        ctrl.jsonModel = angular.copy(response);
+      getJsonForm()
+        .then(function(response){
+          ctrl.jsonModel = angular.copy(response);
+          if (!$stateParams.id) {
+            showConfigForm();
+          }
+        })
+        .then(function(response){
+          buildMainSection(ctrl.jsonModel);
+          buildFields(ctrl.jsonModel.fields);
+          getDependents();
+        });
+    }
 
-        buildMainSection(ctrl.jsonModel);
-        buildFields(ctrl.jsonModel.fields);
-        getDependents();
-      });
+    function getJsonForm(){
+      return jsonForm.getJsonForm($stateParams.id);
     }
 
     function buildMainSection(formModel) {
