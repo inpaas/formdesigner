@@ -65,7 +65,7 @@
                         <label for="">Origem de Dado</label>
                         <select class="form-control input-sm" 
                                 ng-model="ctrl.configForm.dataSource.key"
-                                ng-change="ctrl.getFieldsByEntity()"
+                                ng-change="ctrl.getFieldsByEntity(ctrl.configForm.dataSource.key)"
                                 ng-options="entity.name as entity.name for entity in ctrl.entities">
                             <option value="">Selecione</option>
                         </select>

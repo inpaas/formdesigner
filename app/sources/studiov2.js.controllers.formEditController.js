@@ -63,6 +63,7 @@
         .then(function(response){
           buildMainSection(ctrl.jsonModel);
           buildFields(ctrl.jsonModel.fields);
+          getEntitiesByModule(5);
           getDependents();
         });
     }
@@ -206,15 +207,16 @@
       ctrl.editBt.map.push(expression);
     }
 
-    function getFieldsByEntity(){
-      var entity;
-      ctrl.entities.forEach(function(item, index){
-        if (item.name == ctrl.configForm.dataSource.key) {
-          entity = item; 
-        }
+    function getFieldsByEntity(entityName){
+      var entityId;
+
+      ctrl.entities.forEach(function(entity, index){
+        if (entity.name == entityName) {
+          entityId = entity.id;   
+        } 
       });
 
-      httpService.getFieldsByEntity(entity.id).then(function(response) {
+      httpService.getFieldsByEntity(entityId).then(function(response) {
         ctrl.data.entityFields = response.data.attributes;
       });
     };
@@ -468,6 +470,10 @@
     function getEntitiesByModule(idMod) {
       httpService.getEntities(idMod).then(function(response) {
         ctrl.entities = response.data;
+        
+        if (ctrl.jsonModel.dataSource.key) {
+          getFieldsByEntity(ctrl.jsonModel.dataSource.key);
+        }
       }); 
     }
 
