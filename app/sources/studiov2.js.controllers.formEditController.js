@@ -47,7 +47,8 @@
       editVisibleMap: editVisibleMap,
       removeVisibleMap: removeVisibleMap,
       getEntitiesByModule: getEntitiesByModule,
-      getFieldsByEntity: getFieldsByEntity
+      getFieldsByEntity: getFieldsByEntity,
+      getModule: getModule
     });
     
     init(); 
@@ -63,8 +64,15 @@
         .then(function(response){
           buildMainSection(ctrl.jsonModel);
           buildFields(ctrl.jsonModel.fields);
-          getEntitiesByModule(5);
           getDependents();
+
+          if (ctrl.jsonModel.dataSource.key) {
+            getModule(5);
+            getEntitiesByModule(5).then(function(response){
+              getFieldsByEntity(ctrl.jsonModel.dataSource.key);
+            });
+          }
+
         });
     }
 
@@ -206,20 +214,6 @@
       expression[name] = value;
       ctrl.editBt.map.push(expression);
     }
-
-    function getFieldsByEntity(entityName){
-      var entityId;
-
-      ctrl.entities.forEach(function(entity, index){
-        if (entity.name == entityName) {
-          entityId = entity.id;   
-        } 
-      });
-
-      httpService.getFieldsByEntity(entityId).then(function(response) {
-        ctrl.data.entityFields = response.data.attributes;
-      });
-    };
 
     function getDependents() {
       ctrl.data.dependents = [
@@ -463,18 +457,35 @@
       httpService.getApps().then(function(response){
         ctrl.apps = response.data;
       });
-
+      
       ctrl.onConfigForm = true;   
     }
 
-    function getEntitiesByModule(idMod) {
-      httpService.getEntities(idMod).then(function(response) {
-        ctrl.entities = response.data;
-        
-        if (ctrl.jsonModel.dataSource.key) {
-          getFieldsByEntity(ctrl.jsonModel.dataSource.key);
-        }
+    function getModule(id) {
+      httpService.getModule(id).then(function(response) {
+        ctrl.module = response.data;
+        ctrl.entities = response.data['data-sources'];
       }); 
+    }
+
+    function getEntitiesByModule(idModule) {
+      return httpService.getEntities(idModule).then(function(response) {
+        ctrl.entities = response.data;
+      }); 
+    }
+
+    function getFieldsByEntity(entityName){
+      var entityId;
+
+      ctrl.entities.forEach(function(entity, index){
+        if (entity.name == entityName) {
+          entityId = entity.id;   
+        } 
+      });
+
+      httpService.getFieldsByEntity(entityId).then(function(response) {
+        ctrl.data.entityFields = response.data.attributes;
+      });
     }
 
     function saveConfigForm() {

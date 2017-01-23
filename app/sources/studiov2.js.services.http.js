@@ -25,9 +25,9 @@
       });
     }
 
-    function getEntities(id) {
+    function getEntities(idModule) {
       var url = 'https://studio-v2.inpaas.com/api/studio/modules/'
-                  .concat(id)
+                  .concat(idModule)
                   .concat('/entities');
 
       return $http({
