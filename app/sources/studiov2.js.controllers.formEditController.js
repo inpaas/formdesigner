@@ -78,7 +78,7 @@
       }
 
       ctrl.sections.push({
-        templateCol: formModel.views.edit.templateCol,
+        columns: formModel.views.edit.columns,
         fields: [], 
         label: formModel.views.edit.label,
         displayLabel: true,
