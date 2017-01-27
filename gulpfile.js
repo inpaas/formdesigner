@@ -1,7 +1,9 @@
 var gulp            = require('gulp')
 ,   path            = require('path')
 ,   sass            = require('gulp-sass')
-,   postcss         = require('gulp-postcss');
+,   postcss         = require('gulp-postcss')
+,   minify          = require('gulp-minify')
+,   concat          = require('gulp-concat')
 
 
 gulp.task('default', ['style', 'watch']);
@@ -16,7 +18,14 @@ gulp.task('style', function() {
     .pipe(gulp.dest('./assets/css'));
 });
 
+gulp.task('concatJs', function(){
+  return gulp.src('./app/sources/**/*.js')
+    .pipe(concat('app.js'))
+    .pipe(minify())
+    .pipe(gulp.dest('./app/sources/'))
+});
+
 gulp.task('watch', function() {
   var root = path.join(__dirname);
-  gulp.watch(root + "/lib/scss/**/**/**/**/*.scss"    , ["style"] );
+  gulp.watch(root + "/lib/scss/**/**/**/**/*.scss", ["style"] );
 });
