@@ -10,7 +10,7 @@ gulp.task('default', ['style', 'watch']);
 gulp.task('style', function() {
   var processors = [];
 
-  return gulp.src(['./lib/scss/stylesheet.scss'])
+  return gulp.src(['./lib/scss/app.scss'])
     .pipe(postcss(processors))
     .pipe(sass.sync({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(gulp.dest('./assets/css'));

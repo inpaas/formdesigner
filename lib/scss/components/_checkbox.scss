@@ -1,0 +1,93 @@
+/* Checkbox
+----------------------------------------------------------------------- */
+
+.checkbox 
+{ padding-left: ($hundred/5); }
+
+.checkbox,
+.radio
+{
+	@extend #RELATIVE, #SHOW;
+	margin-top: ($hundred/20);
+	margin-bottom: ($hundred/20);
+}
+.checkbox input[type=checkbox], 
+.checkbox input[type=radio] 
+{
+    opacity: $zero;
+    z-index: 1;
+}
+
+.checkbox input[type=checkbox], 
+.checkbox-inline input[type=checkbox], 
+.radio input[type=radio], 
+.radio-inline input[type=radio] 
+{
+	@extend #ABSOLUTE;
+    margin-left: -20px;
+    margin-top: 4px\9;
+}
+
+input[type=checkbox], 
+input[type=radio] 
+{
+    margin: 4px $zero $zero;
+    margin-top: 1px\9;
+    line-height: normal;
+}
+
+input[type=checkbox], 
+input[type=radio] 
+{
+	@extend #NO-PADDING;
+    box-sizing: $borderbox;
+}
+
+.checkbox label 
+{
+	@extend #RELATIVE, #IN-BLOCK;
+    vertical-align: middle;
+    padding-left: ($hundred/20);
+}
+
+.checkbox label, 
+.radio label 
+{
+	@extend #POINTER;
+    min-height: 18px;
+    margin-bottom: $zero;
+    font-weight: 400;
+    line-height: $inherit;
+}
+
+.checkbox label::before 
+{
+	@extend #CONTENT, #IN-BLOCK, #ABSOLUTE;
+    width: 17px;	height: 17px;
+    left: $zero;
+    margin-left: -20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: $light;
+    -webkit-transition: border .15s ease-in-out, color .15s ease-in-out;
+    -o-transition: border .15s ease-in-out, color .15s ease-in-out;
+    transition: border .15s ease-in-out, color .15s ease-in-out;
+}
+
+.checkbox input[type=checkbox]:checked+label::after, 
+.checkbox input[type=radio]:checked+label::after 
+{
+    font-family: FontAwesome;
+    content: "\f00c";
+}
+
+.checkbox label::after
+{
+	@extend #IN-BLOCK, #ABSOLUTE;
+    width: 16px;	height: 16px;
+    left: $zero;	top: $zero;
+    margin-left: -20px;
+    padding-left: 3px;	padding-top: 1px;
+    font-size: 11px;
+    color: #555;
+}

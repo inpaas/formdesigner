@@ -1,0 +1,11 @@
+/* General
+----------------------------------------------------------------------- */
+
+.page-content 
+{ padding: 15px; }
+
+.no-padding
+{ @extend #NO-PADDING; }
+
+.page-content div.row
+{ @extend #NO-MARGIN; }
