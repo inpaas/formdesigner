@@ -59,7 +59,6 @@
           'type': 'server',
           'countPerPage': 10 
         },
-        'breadcrumb': [],
         'dataSource': {},
         'views': {
           'list': {
@@ -68,7 +67,8 @@
                 'action': 'new',
                 'name': 'new'
               }
-            ]
+            ],
+            'breadcrumb': []
           },
           'edit': {
             'actions': [
@@ -107,7 +107,8 @@
                 'label': $filter('translate')('button.cancel.title'),
                 'name': 'cancel'
               }
-            ]
+            ],
+            'breadcrumb': []
           }
         },
         'fields': []
