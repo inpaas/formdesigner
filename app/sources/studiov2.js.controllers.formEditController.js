@@ -6,9 +6,9 @@
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
     
-  FormEditController.$inject = ["$scope", "$q", "$stateParams", "jsonForm", "httpService"];
+  FormEditController.$inject = ["$scope", "$q", "$state", "jsonForm", "httpService"];
   
-  function FormEditController($scope, $q, $stateParams, jsonForm, httpService) {
+  function FormEditController($scope, $q, $state, jsonForm, httpService) {
     var ctrl = this, 
         jsonModel;
 
@@ -57,7 +57,7 @@
       getJsonForm()
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
-          if (!$stateParams.id) {
+          if (!$state.params.id) {
             showConfigForm();
           }
         })
@@ -80,7 +80,7 @@
     }
 
     function getJsonForm(){
-      return jsonForm.getJsonForm($stateParams.id);
+      return jsonForm.getJsonForm($state.params.id);
     }
 
     function buildMainSection(formModel) {
@@ -538,7 +538,7 @@
     }
 
     function buildBreadcrumb() {
-      if (!ctrl.jsonModel.views.edit.breadcrumb.length && !$stateParams.id) {
+      if (!ctrl.jsonModel.views.edit.breadcrumb.length && !$state.params.id) {
         var breadcrumb = ctrl.jsonModel.views.edit.breadcrumb;
 
         breadcrumb.push({label: ctrl.module.title}); 
