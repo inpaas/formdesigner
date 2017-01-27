@@ -1,7 +1,7 @@
 /*eslint-env browser */
 /*globals moment angular jQuery debounce*/
 (function(){
-    
+ 
   angular
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
@@ -65,12 +65,15 @@
           buildMainSection(ctrl.jsonModel);
           buildFields(ctrl.jsonModel.fields);
           getDependents();
+          getModule(5).then(function(response){
+            buildBreadcrumb();
+          });
 
           if (ctrl.jsonModel.dataSource.key) {
-            getModule(5);
             getEntitiesByModule(5).then(function(response){
               getFieldsByEntity(ctrl.jsonModel.dataSource.key);
             });
+
           }
 
         });
@@ -407,7 +410,7 @@
       console.log(JSON.stringify(ctrl.jsonModel));
     }
     
-    function showEditField(edit) {
+    function showEditField() {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
       ctrl.onTypeField = false;
@@ -430,15 +433,15 @@
     } 
 
     function showTypeFields() {
-      ctrl.onEdit = false;
       ctrl.onTypeField = true; 
+      ctrl.onEdit = false;
       ctrl.onComponents = false;
       ctrl.onEditField = false; 
     }
     
     function showConfigBt() {
-      ctrl.onComponents = false;
       ctrl.onCreateButton = true;
+      ctrl.onComponents = false;
     }
 
     function removeBt(view, index) {
@@ -462,7 +465,7 @@
     }
 
     function getModule(id) {
-      httpService.getModule(id).then(function(response) {
+      return httpService.getModule(id).then(function(response) {
         ctrl.module = response.data;
         ctrl.entities = response.data['data-sources'];
       }); 
@@ -532,6 +535,18 @@
     function removeVisibleMap() {
       ctrl.editBt.mapExpression.splice(1, ctrl.mapEdit.index);
       cancelEditVisibleMap();
+    }
+
+    function buildBreadcrumb() {
+      if (!ctrl.jsonModel.views.edit.breadcrumb.length && !$stateParams.id) {
+        var breadcrumb = ctrl.jsonModel.views.edit.breadcrumb;
+
+        breadcrumb.push({label: ctrl.module.title}); 
+        breadcrumb.push({divisor: '>'});
+        breadcrumb.push({label: ctrl.jsonModel.label});
+        breadcrumb.push({divisor: '>'});
+        breadcrumb.push({label: 'Recurso Id'});
+      }
     }
   };
 })();
