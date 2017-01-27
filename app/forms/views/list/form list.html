@@ -1,3 +1,17 @@
-<div class="row row-widget row-xp" id="list-view" style="display: block;">
+<div class="page-breadcrumb" breadcrumb="ctrl.jsonModel.list.breadcrumb"></div>
+
+<!-- Title and Button Page -->
+<div class="row row-title">
+  <div class="col-xs-12 col-sm-5 no-padding">
+    <label class="title-form no-padding" ng-bind="ctrl.jsonModel.label"></label>
+  </div>
+
+  <div class="page-actions pull-right" dragula="'buttons-top.bag'">
+    <ng-include src="'/forms/studiov2.forms.actions.' + action.action" ng-repeat="action in ctrl.jsonModel.views.list.actions track by $index"></ng-include>
+  </div>
+</div>
+<!-- End Title and Button Page -->
+
+<div class="row row-widget row-xp" id="list-view">
   {{#include-html}}studiov2.forms.view.filter{{/include-html}}
 </div>
