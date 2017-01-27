@@ -944,3 +944,7 @@ ul.nav-components .inner-item.type-field {
     margin: 20px 0 !important;
     width: 100%;
 }
+
+.breadrumb li + li:before{
+    content: none;
+}
