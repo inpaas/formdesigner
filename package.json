@@ -4,6 +4,7 @@
   "description": "Form Designer Interface for the Development Studio",
   "main": "index.js",
   "scripts": {
+	"gulp": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
