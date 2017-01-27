@@ -16,24 +16,57 @@
 
         $stateProvider
           .state('forms', {
-              'url': '/forms',
-              'templateUrl': '/forms/studiov2.forms.form-list'
+            'url': '/forms',
+            'controller': 'FormEditController',
+            'controllerAs': 'ctrl',
+            'templateUrl': '/forms/studiov2.forms.dashboard'
           })
-          .state('form-new', {
-              'url': '/forms/new',
-              'controller': 'FormEditController',
-              'controllerAs': 'ctrl',
-              'templateUrl': '/forms/studiov2.forms.form-edit'
+          .state('forms.new-view-edit', {
+            'url': '/new/view-edit',
+            'views':{
+              'sidebar': {
+                'templateUrl': '/forms/studiov2.forms.sidebar.edit'
+              },
+              'view': { 
+                'templateUrl': '/forms/studiov2.forms.view-edit'
+              }
+            }
           })
-          .state('formId', {
-                'url': '/forms/:id',
-                'controller': 'FormEditController',
-                'controllerAs': 'ctrl',
-                'templateUrl': '/forms/studiov2.forms.form-edit'
+          .state('forms.new-view-list', {
+            'url': '/new/view-list',
+            'views':{
+              'sidebar': {
+                'templateUrl': '/forms/studiov2.forms.sidebar.edit'
+              },
+              'view': {
+                'templateUrl': '/forms/studiov2.forms.view-list'
+              }
+            }
+          })
+          .state('forms.edit-form-edit', {
+            'url': '/:id/view-edit',
+            'views':{
+              'sidebar': {
+                'templateUrl': '/forms/studiov2.forms.sidebar.edit'
+              },
+              'view': {
+                'templateUrl': '/forms/studiov2.forms.view-edit'
+              }
+            }
+          })
+          .state('forms.edit-form-list', {
+            'url': '/:id/view-list',
+            'views':{
+              'sidebar': {
+                'templateUrl': '/forms/studiov2.forms.sidebar.edit'
+              },
+              'view': {
+                'templateUrl': '/forms/studiov2.forms.view-list'
+              }
+            }
           });
-          
-        
-        $urlRouterProvider.otherwise('/forms');
+
+        $urlRouterProvider.otherwise('/forms/new/view-edit');
 
         // $locationProvider.html5Mode(true);
         
