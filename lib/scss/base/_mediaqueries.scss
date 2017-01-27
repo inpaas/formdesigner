@@ -1,0 +1,63 @@
+/* Media Queries
+----------------------------------------------------------------------- */
+
+/********************************************************************************
+*** Examples:
+*** @include screen( 320px,  767px ) { ... }
+*** @include min-screen( 320px ) { ... }
+*** @include max-screen( 768px ) { ... }
+*** @include print() { ... }
+********************************************************************************/
+
+@mixin screen( $min-res, $max-res, $orientation: false ) {
+    @if $orientation
+    {
+        @media screen and (min-width: $min-res) and (max-width: $max-res) and ( orientation: #{$orientation} )
+        { @content; }
+    }
+    @else
+    {
+        @media screen and (min-width: $min-res) and (max-width: $max-res)
+        { @content; }
+    }
+}
+
+@mixin min-screen( $res ) {
+    @media screen and (min-width: $res)
+    { @content; }
+}
+
+@mixin max-screen( $res ) {
+    @media screen and (max-width: $res)
+    { @content; }
+}
+
+@mixin tablet() {
+	@media only screen and (min-width : $mq-mobile-landscape + 1) and (max-width : $mq-tablet-landscape)
+    { @content; }
+}
+
+@mixin desktop() {
+	@media only screen and (min-width : $mq-tablet-landscape + 1)
+    { @content; }
+}
+
+@mixin mobile() {
+    @media screen and (max-width : $mq-mobile-landscape)
+    { @content; }
+}
+
+@mixin mobile-portrait() {
+    @media screen and (max-width : $mq-mobile-portrait) and (orientation:portrait)
+    { @content; }
+}
+
+@mixin mobile-landscape() {
+    @media screen and (max-width : $mq-mobile-landscape) and (orientation:landscape)
+    { @content; }
+}
+
+@mixin print() {
+    @media print
+    { @content; }
+}
