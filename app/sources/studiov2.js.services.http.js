@@ -8,7 +8,7 @@
   function httpService($q, $http){
 
     function getModule(id){
-      var url = 'https://studio-v2.inpaas.com/api/studio/modules/'.concat(id); 
+      var url = '/api/studio/modules/'.concat(id); 
 
       return $http({
         method: 'get',
@@ -17,7 +17,7 @@
     }
 
     function getApps() {
-      var url = 'https://studio-v2.inpaas.com/api/studio/apps'; 
+      var url = '/api/studio/apps'; 
 
       return $http({
         method: 'get',
@@ -26,7 +26,7 @@
     }
 
     function getEntities(idModule) {
-      var url = 'https://studio-v2.inpaas.com/api/studio/modules/'
+      var url = '/api/studio/modules/'
                   .concat(idModule)
                   .concat('/entities');
 
@@ -37,7 +37,7 @@
     }
 
     function getFieldsByEntity(id) {
-      var url = 'https://studio-v2.inpaas.com/api/studio/entities/'.concat(id);
+      var url = '/api/studio/entities/'.concat(id);
 
       return $http({
         method: 'get',
@@ -46,7 +46,7 @@
     }
 
     function getForm(id) {
-      var url = 'https://studio-v2.inpaas.com/api/studio/modules/5/forms-v2/'.concat(id);
+      var url = '/api/studio/modules/5/forms-v2/'.concat(id);
 
       return $http({
         method: 'get',
