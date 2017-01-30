@@ -28,7 +28,7 @@
                 'templateUrl': '/forms/studiov2.forms.sidebar.edit'
               },
               'view': { 
-                'templateUrl': '/forms/studiov2.forms.view-edit'
+                'templateUrl': '/forms/studiov2.forms.view.edit'
               }
             }
           })
@@ -39,7 +39,7 @@
                 'templateUrl': '/forms/studiov2.forms.sidebar.edit'
               },
               'view': {
-                'templateUrl': '/forms/studiov2.forms.view-list'
+                'templateUrl': '/forms/studiov2.forms.view.list'
               }
             }
           })
@@ -50,7 +50,7 @@
                 'templateUrl': '/forms/studiov2.forms.sidebar.edit'
               },
               'view': {
-                'templateUrl': '/forms/studiov2.forms.view-edit'
+                'templateUrl': '/forms/studiov2.forms.view.edit'
               }
             }
           })
@@ -61,7 +61,7 @@
                 'templateUrl': '/forms/studiov2.forms.sidebar.edit'
               },
               'view': {
-                'templateUrl': '/forms/studiov2.forms.view-list'
+                'templateUrl': '/forms/studiov2.forms.view.list'
               }
             }
           });
