@@ -269,10 +269,8 @@
     
     function setTypeField(type) {
       ctrl.fieldEdit.meta.type = type;
-      ctrl.fieldEdit.templateType = ('/forms/studiov2.forms.fields.' + type);
       showEditField();
     } 
-
 
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
@@ -349,11 +347,6 @@
       var newField = angular.copy(ctrl.fieldEdit);
 
       newField.id = ctrl.sectionSelected.fields.length;
-
-      if (ctrl.sectionSelected.type == 'main') {
-        ctrl.jsonModel.fields.push(newField);
-      }
-
       ctrl.sectionSelected.fields.push(newField);
     } 
 
@@ -406,10 +399,18 @@
     }
 
     function setJsonModel(sections) {
-      ctrl.jsonModel.key = ctrl.jsonModel.label.replace(/\s/g, '-').toLowerCase();
-      console.log(JSON.stringify(ctrl.jsonModel));
+      ctrl.jsonModel.fields.length = 0;
+
+      sections[0].fields.forEach(function(item, index){
+        delete item.id;
+        delete item.templateType;
+        ctrl.jsonModel.fields.push(item);
+      });
+
+      console.log(ctrl.jsonModel, JSON.stringify(ctrl.jsonModel));
     }
     
+
     function showEditField() {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
