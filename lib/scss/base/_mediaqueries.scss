@@ -3,10 +3,10 @@
 
 /********************************************************************************
 *** Examples:
-*** @include screen( 320px,  767px ) { ... }
-*** @include min-screen( 320px ) { ... }
-*** @include max-screen( 768px ) { ... }
-*** @include print() { ... }
+  * @include screen( 320px,  767px ) { ... }
+  * @include min-screen( 320px ) { ... }
+  * @include max-screen( 768px ) { ... }
+  * @include print() { ... }
 ********************************************************************************/
 
 @mixin screen( $min-res, $max-res, $orientation: false ) {
