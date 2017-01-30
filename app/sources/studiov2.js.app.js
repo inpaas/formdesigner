@@ -43,7 +43,7 @@
               }
             }
           })
-          .state('forms.edit-form-edit', {
+          .state('forms.edit-view-edit', {
             'url': '/:id/view-edit',
             'views':{
               'sidebar': {
@@ -54,7 +54,7 @@
               }
             }
           })
-          .state('forms.edit-form-list', {
+          .state('forms.edit-view-list', {
             'url': '/:id/view-list',
             'views':{
               'sidebar': {
@@ -66,7 +66,6 @@
             }
           });
 
-        $urlRouterProvider.otherwise('/forms/new/view-edit');
 
         // $locationProvider.html5Mode(true);
         

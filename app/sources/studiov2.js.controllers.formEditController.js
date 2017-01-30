@@ -48,7 +48,9 @@
       removeVisibleMap: removeVisibleMap,
       getEntitiesByModule: getEntitiesByModule,
       getFieldsByEntity: getFieldsByEntity,
-      getModule: getModule
+      getModule: getModule,
+      goToList: goToList,
+      goToEdit: goToEdit
     });
     
     init(); 
@@ -547,6 +549,22 @@
         breadcrumb.push({label: ctrl.jsonModel.label});
         breadcrumb.push({divisor: '>'});
         breadcrumb.push({label: 'Recurso Id'});
+      }
+    }
+
+    function goToList() {
+      if ($state.params.id) {
+        $state.go('^.edit-view-list', {id: $state.params.id});
+      }else{
+        $state.go('forms.new-view-list');
+      }
+    }
+
+    function goToEdit() {
+      if($state.params.id){
+        $state.go('^.edit-view-edit', {id: $state.params.id});
+      }else{
+        $state.go('forms.new-view-edit');
       }
     }
   };
