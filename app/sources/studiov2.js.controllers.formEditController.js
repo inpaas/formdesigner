@@ -56,33 +56,31 @@
     init(); 
 
     function init() {
-      getJsonForm()
+      getJsonForm($state.params.id)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
-          if (!$state.params.id) {
+
+          if ($state.includes('forms.new')) {
             showConfigForm();
           }
-        })
-        .then(function(response){
+
           buildMainSection(ctrl.jsonModel);
           buildFields(ctrl.jsonModel.fields);
           getDependents();
-          getModule(5).then(function(response){
-            buildBreadcrumb();
-          });
 
           if (ctrl.jsonModel.dataSource.key) {
-            getEntitiesByModule(5).then(function(response){
+            var module = window.location.hash.split('module=')[1];
+            
+            getEntitiesByModule(module).then(function(response){
               getFieldsByEntity(ctrl.jsonModel.dataSource.key);
             });
-
           }
 
         });
     }
 
-    function getJsonForm(){
-      return jsonForm.getJsonForm($state.params.id);
+    function getJsonForm(id){
+      return jsonForm.getJsonForm(id);
     }
 
     function buildMainSection(formModel) {
@@ -477,6 +475,7 @@
     function getEntitiesByModule(idModule) {
       return httpService.getEntities(idModule).then(function(response) {
         ctrl.entities = response.data;
+        return response;
       }); 
     }
 
