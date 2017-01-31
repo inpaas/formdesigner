@@ -54,12 +54,47 @@
       });
     }
 
+    function saveNewForm(form, idModule) {
+      var url = '/api/studio/modules/'
+            .concat(idModule)
+            .concat('/forms-v2')
+
+      return $http({
+        method: 'post',
+        url: url,
+        data: {
+          name: form.label,
+          key: form.key
+        }
+      });
+    }
+
+    function saveEditForm(form, idForm, idModule) {
+      var url = '/api/studio/modules/'
+            .concat(idModule)
+            .concat('/forms-v2')
+            .concat(idForm);
+
+      return $http({
+        method: 'put',
+        url: url,
+        data: {
+          template: '',
+          allowAnon: false,
+          key: form.key,
+          json: form
+        }
+      });
+    }
+
     return {
       getModule: getModule,
       getApps: getApps,
       getEntities: getEntities,
       getFieldsByEntity: getFieldsByEntity,
-      getForm: getForm
+      getForm: getForm,
+      saveEditForm: saveEditForm,
+      saveNewForm: saveNewForm
     }
   }
 

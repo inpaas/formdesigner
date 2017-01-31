@@ -10,7 +10,10 @@
   
   function FormEditController($scope, $q, $state, jsonForm, httpService) {
     var ctrl = this, 
-        jsonModel;
+        jsonModel,
+        idForm = idForm, 
+        idModule = window.location.hash.split('module=')[1];
+
 
     angular.extend(ctrl, {
       onComponents: true,
@@ -56,11 +59,11 @@
     init(); 
 
     function init() {
-      getJsonForm($state.params.id)
+      getJsonForm(idForm)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
 
-          if ($state.includes('forms.new')) {
+          if ($state.is('forms.new-view-edit') && !ctrl.jsonModel.dataSource.key) {
             showConfigForm();
           }
 
@@ -69,9 +72,7 @@
           getDependents();
 
           if (ctrl.jsonModel.dataSource.key) {
-            var module = window.location.hash.split('module=')[1];
-            
-            getEntitiesByModule(module).then(function(response){
+            getEntitiesByModule(idModule).then(function(response){
               getFieldsByEntity(ctrl.jsonModel.dataSource.key);
             });
           }
@@ -396,21 +397,35 @@
 
     function saveForm() {
       setJsonModel(ctrl.sections);
+
+      if(idForm) {
+        httpService.saveEditForm(ctrl.jsonModel, idForm, idModule);
+      }else{
+        httpService.saveNewForm(ctrl.jsonModel, idModule).then(function(response){
+          var state = $state.current.name.replace('new', 'edit');
+          $state.go(state, {id: response.data.id});
+        });
+      }
     }
 
     function setJsonModel(sections) {
-      ctrl.jsonModel.fields.length = 0;
-
-      sections[0].fields.forEach(function(item, index){
-        delete item.id;
-        delete item.templateType;
-        ctrl.jsonModel.fields.push(item);
-      });
+      setFields(ctrl.jsonModel);
 
       console.log(ctrl.jsonModel, JSON.stringify(ctrl.jsonModel));
+
+      function setFields(form){
+        form.fields.length = 0;
+
+        sections[0].fields.forEach(function(item, index){
+          delete item.id;
+          delete item.templateType;
+          form.fields.push(item);
+        });
+      }
+
     }
     
-
+    
     function showEditField() {
       ctrl.onEditField = true;
       ctrl.onNewSection = false;
@@ -469,6 +484,7 @@
       return httpService.getModule(id).then(function(response) {
         ctrl.module = response.data;
         ctrl.entities = response.data['data-sources'];
+        idModule = id;
       }); 
     }
 
@@ -476,7 +492,7 @@
       return httpService.getEntities(idModule).then(function(response) {
         ctrl.entities = response.data;
         return response;
-      }); 
+      });
     }
 
     function getFieldsByEntity(entityName){
@@ -494,8 +510,9 @@
     }
 
     function saveConfigForm() {
+      ctrl.configForm.key = ctrl.configForm.label.toLowerCase().replace(/\s/g, '-');
       angular.extend(ctrl.jsonModel, ctrl.configForm);
-      ctrl.onConfigForm = false; 
+      ctrl.onConfigForm = false;
     } 
 
     function cancelConfigForm() {
@@ -540,7 +557,7 @@
     }
 
     function buildBreadcrumb() {
-      if (!ctrl.jsonModel.views.edit.breadcrumb.length && !$state.params.id) {
+      if (!ctrl.jsonModel.views.edit.breadcrumb.length && !idForm) {
         var breadcrumb = ctrl.jsonModel.views.edit.breadcrumb;
 
         breadcrumb.push({label: ctrl.module.title}); 
@@ -552,16 +569,16 @@
     }
 
     function goToList() {
-      if ($state.params.id) {
-        $state.go('^.edit-view-list', {id: $state.params.id});
+      if (idForm) {
+        $state.go('^.edit-view-list', {id: idForm});
       }else{
         $state.go('forms.new-view-list');
       }
     }
 
     function goToEdit() {
-      if($state.params.id){
-        $state.go('^.edit-view-edit', {id: $state.params.id});
+      if(idForm){
+        $state.go('^.edit-view-edit', {id: idForm});
       }else{
         $state.go('forms.new-view-edit');
       }
