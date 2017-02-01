@@ -66,13 +66,16 @@
           name: form.label,
           key: form.key
         }
+      }).then(function(response){
+        console.log('savenew', response);
+        return saveEditForm(form, response.data.id, idModule);
       });
     }
 
     function saveEditForm(form, idForm, idModule) {
       var url = '/api/studio/modules/'
             .concat(idModule)
-            .concat('/forms-v2')
+            .concat('/forms-v2/')
             .concat(idForm);
 
       return $http({
@@ -82,7 +85,7 @@
           template: '',
           allowAnon: false,
           key: form.key,
-          json: form
+          json: JSON.stringify(form)
         }
       });
     }
