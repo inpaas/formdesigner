@@ -11,7 +11,7 @@
   function FormEditController($scope, $q, $state, jsonForm, httpService) {
     var ctrl = this, 
         jsonModel,
-        idForm = idForm, 
+        idForm = $state.params.id, 
         idModule = window.location.hash.split('module=')[1];
 
 
@@ -402,6 +402,7 @@
         httpService.saveEditForm(ctrl.jsonModel, idForm, idModule);
       }else{
         httpService.saveNewForm(ctrl.jsonModel, idModule).then(function(response){
+          console.log('savenew controller', response);
           var state = $state.current.name.replace('new', 'edit');
           $state.go(state, {id: response.data.id});
         });
