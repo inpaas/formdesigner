@@ -51,7 +51,7 @@
                       </div>
                       <ul class="list-unstyled option-list">
                         <li role="menuitem" ng-repeat="field in ctrl.jsonModel.fields | filter:textFilter">
-                          <input type="checkbox" id="label{{item}}" ng-model="field.viewList" />
+                          <input type="checkbox" id="label{{item}}" ng-model="field.views.list" ng-false-value="undefined" ng-true-value="{}" />
                           <label for="label{{field.alias}}" ng-bind="field.alias"></label>
                         </li>
                       </ul>
@@ -61,9 +61,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="odd">
+              <tr>
                 <td ng-repeat="field in ctrl.jsonModel.fields track by $index" ng-show="field.views.list"> Exemplo </td>
-                <td class="table-row-actions">
+                <td ng-if="!ctrl.jsonModel.fields.length">Ainda não há campos selecionados</td>
+                <td class="table-row-actions" ng-if="ctrl.jsonModel.fields.length">
                   <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-primary pull-right">
                       <i class="fa fa-fw fa-pencil"></i>
