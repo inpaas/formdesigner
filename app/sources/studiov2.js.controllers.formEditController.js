@@ -402,7 +402,6 @@
         httpService.saveEditForm(ctrl.jsonModel, idForm, idModule);
       }else{
         httpService.saveNewForm(ctrl.jsonModel, idModule).then(function(response){
-          console.log('savenew controller', response);
           var state = $state.current.name.replace('new', 'edit');
           $state.go(state, {id: response.data.id});
         });
@@ -417,7 +416,7 @@
       function setFields(form){
         form.fields.length = 0;
 
-        sections[0].fields.forEach(function(item, index){
+        ctrl.sections[0].fields.forEach(function(item, index){
           var clone = angular.copy(item);
 
           delete clone.id;
