@@ -50,8 +50,8 @@
                         <input type="text" class="form-control" placeholder="Filter" ng-model="textFilter"/>
                       </div>
                       <ul class="list-unstyled option-list">
-                        <li role="menuitem" ng-repeat="field in ctrl.data.entityFields | filter:textFilter">
-                          <input type="checkbox" id="label{{item}}" ng-model="field.viewList" ng-change="ctrl.setFieldOnViewList(field)"/>
+                        <li role="menuitem" ng-repeat="field in ctrl.jsonModel.fields | filter:textFilter">
+                          <input type="checkbox" id="label{{item}}" ng-model="field.viewList" />
                           <label for="label{{field.alias}}" ng-bind="field.alias"></label>
                         </li>
                       </ul>
@@ -62,7 +62,7 @@
             </thead>
             <tbody>
               <tr class="odd">
-                <td ng-bind="field.name" ng-repeat="field in ctrl.jsonModel.fields track by $index" ng-show="field.views.list"> </td>
+                <td ng-repeat="field in ctrl.jsonModel.fields track by $index" ng-show="field.views.list"> Exemplo </td>
                 <td class="table-row-actions">
                   <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-primary pull-right">
