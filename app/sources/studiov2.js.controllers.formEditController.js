@@ -52,7 +52,8 @@
       getFieldsByEntity: getFieldsByEntity,
       getModule: getModule,
       goToList: goToList,
-      goToEdit: goToEdit
+      goToEdit: goToEdit,
+      generateForm: generateForm
     });    
 
     init(); 
@@ -587,6 +588,23 @@
       }
     }
 
+    function generateForm() {
+      var entityId;
+
+      ctrl.entities.forEach(function(entity, index){
+        if (entity.name == ctrl.configForm.dataSource.key) {
+          entityId = entity.id;
+        }
+      });
+
+      httpService.generateForm(entityId).then(function(response){
+        ctrl.jsonModel = response.data; 
+        ctrl.onConfigForm = false;
+
+        buildMainSection(ctrl.jsonModel);
+        buildFields(ctrl.jsonModel.fields);        
+      });
+    }
 
   };
 })();
