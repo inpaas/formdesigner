@@ -14,7 +14,6 @@
         idForm = $state.params.id, 
         idModule = window.location.hash.split('module=')[1];
 
-
     angular.extend(ctrl, {
       onComponents: true,
       data: {},
@@ -53,9 +52,10 @@
       getFieldsByEntity: getFieldsByEntity,
       getModule: getModule,
       goToList: goToList,
-      goToEdit: goToEdit
-    });
-    
+      goToEdit: goToEdit,
+      generateForm: generateForm
+    });    
+
     init(); 
 
     function init() {
@@ -279,7 +279,7 @@
       setRequiredModel(ctrl.fieldEdit);
       setDisabledModel(ctrl.fieldEdit);
       setFilterModel(ctrl.fieldEdit);
-      setViewList(ctrl.fieldEdit);
+      setViewsField(ctrl.fieldEdit);
       setNameField(ctrl.fieldEdit);
 
       if (angular.isUndefined(ctrl.fieldEdit.id)){
@@ -295,12 +295,12 @@
       field.name = 'input'.concat(field.label.replace(/\s/g, ''));
     } 
 
-    function setViewList(field) {
+    function setViewsField(field) {
       field.views.edit = {};
       
       if (field.viewList) {
         field.views.list = {};
-      }    
+      }
     } 
 
     function setRequiredModel(field){
@@ -396,20 +396,19 @@
     }
 
     function saveForm() {
-      setJsonModel(ctrl.sections);
+      updateFieldsOnJsonModel(ctrl.sections);
 
       if(idForm) {
         httpService.saveEditForm(ctrl.jsonModel, idForm, idModule);
       }else{
         httpService.saveNewForm(ctrl.jsonModel, idModule).then(function(response){
-          console.log('savenew controller', response);
           var state = $state.current.name.replace('new', 'edit');
           $state.go(state, {id: response.data.id});
         });
       }
     }
 
-    function setJsonModel(sections) {
+    function updateFieldsOnJsonModel(sections) {
       setFields(ctrl.jsonModel);
 
       console.log(ctrl.jsonModel, JSON.stringify(ctrl.jsonModel));
@@ -417,10 +416,12 @@
       function setFields(form){
         form.fields.length = 0;
 
-        sections[0].fields.forEach(function(item, index){
-          delete item.id;
-          delete item.templateType;
-          form.fields.push(item);
+        ctrl.sections[0].fields.forEach(function(item, index){
+          var clone = angular.copy(item);
+
+          delete clone.id;
+          delete clone.templateType;
+          form.fields.push(clone);
         });
       }
 
@@ -501,7 +502,7 @@
 
       ctrl.entities.forEach(function(entity, index){
         if (entity.name == entityName) {
-          entityId = entity.id;   
+          entityId = entity.id;
         } 
       });
 
@@ -570,6 +571,7 @@
     }
 
     function goToList() {
+      updateFieldsOnJsonModel();
       if (idForm) {
         $state.go('^.edit-view-list', {id: idForm});
       }else{
@@ -584,5 +586,24 @@
         $state.go('forms.new-view-edit');
       }
     }
+
+    function generateForm() {
+      var entityId;
+
+      ctrl.entities.forEach(function(entity, index){
+        if (entity.name == ctrl.configForm.dataSource.key) {
+          entityId = entity.id;
+        }
+      });
+
+      httpService.generateForm(entityId).then(function(response){
+        ctrl.jsonModel = response.data; 
+        ctrl.onConfigForm = false;
+
+        buildMainSection(ctrl.jsonModel);
+        buildFields(ctrl.jsonModel.fields);        
+      });
+    }
+
   };
 })();

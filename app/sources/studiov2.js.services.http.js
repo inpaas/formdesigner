@@ -90,6 +90,15 @@
       });
     }
 
+    function generateForm(entityId) {
+      var url = '/api/generateCrudV2/'.concat(entityId);
+
+      return $http({
+        method: 'get',
+        url: url
+      });
+    }
+
     return {
       getModule: getModule,
       getApps: getApps,
@@ -97,7 +106,8 @@
       getFieldsByEntity: getFieldsByEntity,
       getForm: getForm,
       saveEditForm: saveEditForm,
-      saveNewForm: saveNewForm
+      saveNewForm: saveNewForm,
+      generateForm: generateForm
     }
   }
 
