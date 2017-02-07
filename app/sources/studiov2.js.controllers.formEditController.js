@@ -597,13 +597,16 @@
       });
 
       httpService.generateForm(entityId).then(function(response){
-        ctrl.jsonModel = response.data; 
+        ctrl.jsonModel = response.data;
         ctrl.onConfigForm = false;
 
         buildMainSection(ctrl.jsonModel);
-        buildFields(ctrl.jsonModel.fields);        
+        buildFields(ctrl.jsonModel.fields);
       });
     }
 
+    function fieldHasFilterView(field, index, array){
+      return field.views.filter;
+    }
   };
 })();
