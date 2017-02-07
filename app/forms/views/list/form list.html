@@ -52,7 +52,7 @@
                       <ul class="list-unstyled option-list">
                         <li role="menuitem" ng-repeat="field in ctrl.jsonModel.fields | filter:textFilter track by $index">
                           <input type="checkbox" id="label{{item}}" ng-model="field.views.list" ng-false-value="undefined" ng-true-value="{}" />
-                          <label for="label{{field.alias}}" ng-bind="field.alias"></label>
+                          <label for="label{{field.alias}}" ng-bind="field.label"></label>
                         </li>
                       </ul>
                     </div>
