@@ -411,9 +411,9 @@
     function updateFieldsOnJsonModel(sections) {
       setFields(ctrl.jsonModel);
 
-      console.log(ctrl.jsonModel, JSON.stringify(ctrl.jsonModel));
-
       function setFields(form){
+        if (!ctrl.sections.length) { return false; }
+        
         form.fields.length = 0;
 
         ctrl.sections[0].fields.forEach(function(item, index){
@@ -597,13 +597,16 @@
       });
 
       httpService.generateForm(entityId).then(function(response){
-        ctrl.jsonModel = response.data; 
+        ctrl.jsonModel = response.data;
         ctrl.onConfigForm = false;
 
         buildMainSection(ctrl.jsonModel);
-        buildFields(ctrl.jsonModel.fields);        
+        buildFields(ctrl.jsonModel.fields);
       });
     }
 
+    function fieldHasFilterView(field, index, array){
+      return field.views.filter;
+    }
   };
 })();
