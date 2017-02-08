@@ -411,9 +411,9 @@
     function updateFieldsOnJsonModel(sections) {
       setFields(ctrl.jsonModel);
 
-      console.log(ctrl.jsonModel, JSON.stringify(ctrl.jsonModel));
-
       function setFields(form){
+        if (!ctrl.sections.length) { return false; }
+        
         form.fields.length = 0;
 
         ctrl.sections[0].fields.forEach(function(item, index){
