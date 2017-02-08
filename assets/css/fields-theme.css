@@ -283,7 +283,6 @@ ul.list-existing li.field-existing.field-active {
   margin: 1px 0;
 }
 ul.nav-components li.item-components .widget-toolbar {
-  display: inline-block;
   float: right;
   position: relative;
   line-height: 1;
