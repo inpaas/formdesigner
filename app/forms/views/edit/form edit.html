@@ -7,7 +7,10 @@
     </div>
 
     <div class="page-actions pull-right" dragula="'buttons-top.bag'">
-      <ng-include src="'/forms/studiov2.forms.actions.' + action.action" ng-repeat="action in ctrl.jsonModel.views.edit.actions track by $index"></ng-include>
+      <ng-include
+        src="'/forms/studiov2.forms.actions.' + action.action" 
+        ng-repeat="action in ctrl.jsonModel.views.edit.actions track by $index">
+      </ng-include>
     </div>
   </div><!-- End Title and Button Page -->
  
