@@ -4,14 +4,14 @@
   </div> 
 
   <div class="widget-body">
-    <div class="widget-main">
+    <div class="widget-main clearfix">
       <div class="row row-edit-this">
         <div class="col-xs-12 col-sm-3"
             id="field-{[{$index}]}"
             ng-click="ctrl.editField(field, $index)"
             ng-show="field.meta.type == 'string'"
             ng-repeat="field in ctrl.jsonModel.fields | filter: ctrl.fieldHasFilterView(value, index, array) track by $index">
-            
+
           <label for="" ng-bind="field.label"></label>
           <input type="text" class="form-control form-control-sm">
         </div>
