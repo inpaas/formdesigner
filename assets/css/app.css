@@ -1,1 +1,463 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i");#RELATIVE,.checkbox,.radio,.checkbox label{position:relative}#ABSOLUTE,.checkbox input[type=checkbox],.checkbox-inline input[type=checkbox],.radio input[type=radio],.radio-inline input[type=radio],.checkbox label::before,.checkbox label::after{position:absolute}#FIXED{position:fixed}#LEFT{float:left}#RIGHT{float:right}#CONTENT,.checkbox label::before{content:""}#HIDE{display:none}#SHOW,.checkbox,.radio{display:block}#IN-BLOCK,.checkbox label,.checkbox label::before,.checkbox label::after{display:inline-block}#NO-MARGIN,html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,*,*:after,*:before,.page-content div.row{margin:0}#NO-PADDING,input[type=checkbox],input[type=radio],html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,*,*:after,*:before,.no-padding{padding:0}#FAMILY,html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{font-family:'Open Sans', sans-serif}#LIGHTER{font-weight:lighter}#NORMAL{font-weight:normal}#STRONG{font-weight:bold}#ITALIC{font-style:italic}#NO-BORDER{border:none}#INDENT{text-indent:-9999px}#UNDERLINE{text-decoration:underline}#NO-UNDERLINE{text-decoration:none}#UPPERCASE{text-transform:uppercase}#LOWERCASE{text-transform:lowercase}#CENTER{text-align:center}#POINTER,.checkbox label,.radio label{cursor:pointer}#NO-LIST{list-style:none}.checkbox{padding-left:20px}.checkbox,.radio{margin-top:5px;margin-bottom:5px}.checkbox input[type=checkbox],.checkbox input[type=radio]{opacity:0;z-index:1}.checkbox input[type=checkbox],.checkbox-inline input[type=checkbox],.radio input[type=radio],.radio-inline input[type=radio]{margin-left:-20px;margin-top:4px\9}input[type=checkbox],input[type=radio]{margin:4px 0 0;margin-top:1px\9;line-height:normal}input[type=checkbox],input[type=radio]{box-sizing:border-box}.checkbox label{vertical-align:middle;padding-left:5px}.checkbox label,.radio label{min-height:18px;margin-bottom:0;font-weight:400;line-height:inherit}.checkbox label::before{width:17px;height:17px;left:0;margin-left:-20px;border:1px solid #ccc;border-radius:3px;background-color:#fff;-webkit-transition:border .15s ease-in-out, color .15s ease-in-out;-o-transition:border .15s ease-in-out, color .15s ease-in-out;transition:border .15s ease-in-out, color .15s ease-in-out}.checkbox input[type=checkbox]:checked+label::after,.checkbox input[type=radio]:checked+label::after{font-family:FontAwesome;content:"\f00c"}.checkbox label::after{width:16px;height:16px;left:0;top:0;margin-left:-20px;padding-left:3px;padding-top:1px;font-size:11px;color:#555}html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{border:0;outline:0;vertical-align:baseline;font-style:inherit;font-weight:300;font-size:100%}*,*:after,*:before{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}.page-content{padding:15px;background:#fff}
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i");
+#RELATIVE,
+.checkbox,
+.radio,
+.checkbox label {
+    position: relative
+}
+
+#ABSOLUTE,
+.checkbox input[type=checkbox],
+.checkbox-inline input[type=checkbox],
+.radio input[type=radio],
+.radio-inline input[type=radio],
+.checkbox label::before,
+.checkbox label::after {
+    position: absolute
+}
+
+#FIXED {
+    position: fixed
+}
+
+#LEFT {
+    float: left
+}
+
+#RIGHT {
+    float: right
+}
+
+#CONTENT,
+.checkbox label::before {
+    content: ""
+}
+
+#HIDE {
+    display: none
+}
+
+#SHOW,
+.checkbox,
+.radio {
+    display: block
+}
+
+#IN-BLOCK,
+.checkbox label,
+.checkbox label::before,
+.checkbox label::after {
+    display: inline-block
+}
+
+#NO-MARGIN,
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+*,
+*:after,
+*:before,
+.page-content div.row {
+    margin: 0
+}
+
+#NO-PADDING,
+input[type=checkbox],
+input[type=radio],
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+*,
+*:after,
+*:before,
+.no-padding {
+    padding: 0
+}
+
+#FAMILY,
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+    font-family: 'Open Sans', sans-serif
+}
+
+#LIGHTER {
+    font-weight: lighter
+}
+
+#NORMAL {
+    font-weight: normal
+}
+
+#STRONG {
+    font-weight: bold
+}
+
+#ITALIC {
+    font-style: italic
+}
+
+#NO-BORDER {
+    border: none
+}
+
+#INDENT {
+    text-indent: -9999px
+}
+
+#UNDERLINE {
+    text-decoration: underline
+}
+
+#NO-UNDERLINE {
+    text-decoration: none
+}
+
+#UPPERCASE {
+    text-transform: uppercase
+}
+
+#LOWERCASE {
+    text-transform: lowercase
+}
+
+#CENTER {
+    text-align: center
+}
+
+#POINTER,
+.checkbox label,
+.radio label {
+    cursor: pointer
+}
+
+#NO-LIST {
+    list-style: none
+}
+
+.checkbox {
+    padding-left: 20px
+}
+
+.checkbox,
+.radio {
+    margin-top: 5px;
+    margin-bottom: 5px
+}
+
+.checkbox input[type=checkbox],
+.checkbox input[type=radio] {
+    opacity: 0;
+    z-index: 1
+}
+
+.checkbox input[type=checkbox],
+.checkbox-inline input[type=checkbox],
+.radio input[type=radio],
+.radio-inline input[type=radio] {
+    margin-left: -20px;
+    margin-top: 4px\9
+}
+
+input[type=checkbox],
+input[type=radio] {
+    margin: 4px 0 0;
+    margin-top: 1px\9;
+    line-height: normal
+}
+
+input[type=checkbox],
+input[type=radio] {
+    box-sizing: border-box
+}
+
+.checkbox label {
+    vertical-align: middle;
+    padding-left: 5px
+}
+
+.checkbox label,
+.radio label {
+    min-height: 18px;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: inherit
+}
+
+.checkbox label::before {
+    width: 17px;
+    height: 17px;
+    left: 0;
+    margin-left: -20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    -webkit-transition: border .15s ease-in-out, color .15s ease-in-out;
+    -o-transition: border .15s ease-in-out, color .15s ease-in-out;
+    transition: border .15s ease-in-out, color .15s ease-in-out
+}
+
+.checkbox input[type=checkbox]:checked+label::after,
+.checkbox input[type=radio]:checked+label::after {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+.checkbox label::after {
+    width: 16px;
+    height: 16px;
+    left: 0;
+    top: 0;
+    margin-left: -20px;
+    padding-left: 3px;
+    padding-top: 1px;
+    font-size: 11px;
+    color: #555
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    font-style: inherit;
+    font-weight: 300;
+    font-size: 100%
+}
+
+*,
+*:after,
+*:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.page-content {
+    padding: 15px;
+    background: #fff
+}
