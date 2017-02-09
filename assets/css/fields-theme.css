@@ -1116,7 +1116,7 @@ div.page-actions .btn{
   background-color: #f5f5f5;
 }
 
-li.breadcrumb-separator > span.separtator-item
+li.breadcrumb-divisor > span.divisor-item
 {
   float: left;
   height: 30px;
@@ -1126,7 +1126,7 @@ li.breadcrumb-separator > span.separtator-item
   color: #676e7d;
 }
 
-.breadcrumb-item.breadcrumb-separator .dropdown-toggle
+.breadcrumb-item.breadcrumb-divisor .dropdown-toggle
 {
   padding: 3px 7px;
   font-size: 14px !important;
