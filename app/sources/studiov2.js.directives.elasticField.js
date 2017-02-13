@@ -16,7 +16,7 @@
 
       function elasticfield(){
         var elem = angular.element(this);
-        elem.width( elem.width() + 10 );
+        elem.width( elem.width() + 5 );
       }
     }    
 
