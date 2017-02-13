@@ -26,6 +26,7 @@
         for(var i = 0, length = scope.breadcrumb.length; i < length; i++){
           if (scope.breadcrumb[i].divisor) {
             scope.breadcrumb[i].firsDivisor = true; 
+            divisorType = scope.breadcrumb[i].divisor;
             break;
           }
         }
@@ -41,12 +42,28 @@
       }
 
       function addItem(){
+        var last = scope.breadcrumb[scope.breadcrumb.length-1];
+
+        if (!last) {setIcon(); }
+
+        if (!last.divisor && last.label == ' ') { return false; }
+
         if (scope.breadcrumb.length > 1) {
-          if (!divisorType){ setFirstDivisor(); }
-          scope.breadcrumb.push({divisor: divisorType});
+          addDivisor();
         }
 
         scope.breadcrumb.push({label: ' '});
+
+        function addDivisor(){
+          if (!last.divisor){
+            if (!divisorType){ setFirstDivisor(); }
+            scope.breadcrumb.push({divisor: divisorType});
+          }
+        }
+      }
+
+      function setIcon(){
+        scope.breadcrumb.push({icon: 'fa fa-home'});
       }
 
       setFirstDivisor();
