@@ -25,10 +25,14 @@
       function setFirstDivisor() {
         for(var i = 0, length = scope.breadcrumb.length; i < length; i++){
           if (scope.breadcrumb[i].divisor) {
-            scope.breadcrumb[i].firsDivisor = true; 
+            scope.breadcrumb[i].firstDivisor = true; 
             divisorType = scope.breadcrumb[i].divisor;
             break;
           }
+        }
+
+        if (!divisorType) {
+          divisorType = '>';
         }
       }
 
@@ -42,23 +46,18 @@
       }
 
       function addItem(){
-        var last = scope.breadcrumb[scope.breadcrumb.length-1];
+        if (!scope.breadcrumb.length) {setIcon(); return; }
 
-        if (!last) {setIcon(); }
-
+        var last = scope.breadcrumb[scope.breadcrumb.length - 1];
         if (!last.divisor && last.label == ' ') { return false; }
 
-        if (scope.breadcrumb.length > 1) {
-          addDivisor();
-        }
+        if (!last.divisor) {addDivisor(); }
 
         scope.breadcrumb.push({label: ' '});
 
         function addDivisor(){
-          if (!last.divisor){
-            if (!divisorType){ setFirstDivisor(); }
-            scope.breadcrumb.push({divisor: divisorType});
-          }
+          scope.breadcrumb.push({divisor: divisorType});
+          setFirstDivisor(); 
         }
       }
 
