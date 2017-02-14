@@ -48,15 +48,12 @@
       function addItem(){
         var last = scope.breadcrumb[scope.breadcrumb.length - 1];
 
-        if (!last) {
+        if (!last || last.divisor) {
           addLabel();
-          return
+        }else if (last.label) { 
+          addDivisor(); 
+          addLabel();
         }
-
-        if (!last.divisor && last.label == ' ') { return false; }
-        addLabel();
-        if (!last.divisor && last.label) { addDivisor(); }
-
 
         function addDivisor(){
           scope.breadcrumb.push({divisor: divisorType});

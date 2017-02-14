@@ -12,11 +12,16 @@
 
   function elasticField() {
     function link(scope, elem, attrs){
-      elem.on('keypress', elasticfield);
+      elem.attr('style', 'width: '.concat(attrs.elasticField).concat('px') );
+      elem.on('keydown', elasticfield);
 
       function elasticfield(){
-        var elem = angular.element(this);
-        elem.width( elem.width() + 5 );
+        if(this.value.length > 1){
+          var width = ((this.value.length + 1) * 8);
+          this.style.width = width + 'px';
+      }else{
+        this.style.width = 130 + 'px';
+      }
       }
     }    
 
