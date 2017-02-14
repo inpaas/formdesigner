@@ -55,16 +55,17 @@
           addLabel();
         }
 
-        function addDivisor(){
-          scope.breadcrumb.push({divisor: divisorType});
-          setFirstDivisor(); 
-        }
-
-        function addLabel() {
-          scope.breadcrumb.push({label: ' '});
-        }
       }
 
+      function addDivisor(){
+        scope.breadcrumb.push({divisor: divisorType});
+        setFirstDivisor(); 
+      }
+
+      function addLabel() {
+        scope.breadcrumb.push({label: ' '});
+      }
+      
       function setIcon(){
         scope.breadcrumb.push({icon: 'fa fa-home'});
       }
