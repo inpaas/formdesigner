@@ -46,18 +46,25 @@
       }
 
       function addItem(){
-        if (!scope.breadcrumb.length) {setIcon(); return; }
-
         var last = scope.breadcrumb[scope.breadcrumb.length - 1];
+
+        if (!last) {
+          addLabel();
+          return
+        }
+
         if (!last.divisor && last.label == ' ') { return false; }
+        addLabel();
+        if (!last.divisor && last.label) { addDivisor(); }
 
-        if (!last.divisor) {addDivisor(); }
-
-        scope.breadcrumb.push({label: ' '});
 
         function addDivisor(){
           scope.breadcrumb.push({divisor: divisorType});
           setFirstDivisor(); 
+        }
+
+        function addLabel() {
+          scope.breadcrumb.push({label: ' '});
         }
       }
 
