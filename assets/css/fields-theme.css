@@ -1166,3 +1166,8 @@ li.breadcrumb-divisor > span.divisor-item
 
 .table-list tbody tr .table-row-actions
 { float: right; }
+
+.table-list thead th
+{
+  cursor: move;
+}
