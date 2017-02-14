@@ -64,7 +64,7 @@
           ctrl.jsonModel = angular.copy(response);
 
           if ($state.is('forms.new-view-edit') && !ctrl.jsonModel.dataSource.key) {
-            showConfigForm();
+            showConfigForm(true);
           }
 
           buildMainSection(ctrl.jsonModel);
@@ -466,7 +466,7 @@
       ctrl.jsonModel.views[view].actions.splice(index, 1);
     }
 
-    function showConfigForm() {
+    function showConfigForm(firstConfig) {
       ctrl.configForm = {
         label: ctrl.jsonModel.label, 
         dataSource: ctrl.jsonModel.dataSource,
@@ -480,6 +480,7 @@
       });
       
       ctrl.onConfigForm = true;   
+      ctrl.firstConfig = firstConfig;
     }
 
     function getModule(id) {
@@ -515,8 +516,8 @@
       ctrl.configForm.key = ctrl.configForm.label.toLowerCase().replace(/\s/g, '-');
       angular.extend(ctrl.jsonModel, ctrl.configForm);
 
-      if (!ctrl.jsonModel.views.edit.breadcrumb.length && !ctrl.jsonModel.views.list.breadcrumb) {
-        setBreadcrumb();
+      if (ctrl.firstConfig) {
+        setBreadcrumb(); 
       }
 
       ctrl.onConfigForm = false;
