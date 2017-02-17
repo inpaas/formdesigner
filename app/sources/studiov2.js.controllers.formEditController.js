@@ -22,7 +22,7 @@
       activate: activate,
       addButton: addButton,
       saveEditField: saveEditField,
-      setNewField: setNewField,
+      addField: addField,
       setTypeField: setTypeField,
       editField: editField,
       cancelEditField: cancelEditField,
@@ -53,7 +53,8 @@
       getModule: getModule,
       goToList: goToList,
       goToEdit: goToEdit,
-      generateForm: generateForm
+      generateForm: generateForm,
+      removeField: removeField
     });    
 
     init(); 
@@ -357,23 +358,25 @@
 
     function addSection(){}
  
-    function setNewField(field) {
-      if (!ctrl.sections.length) { return false; }
-
-      if (ctrl.sections.length && !ctrl.sectionSelected) {
-        setSectionSelected();
+    function addField(bind) {
+      if ($state.current.url.match('view-edit')){
+        if (!ctrl.sectionSelected) { return false; }
       }
 
-      ctrl.fieldEdit = {
-        meta: {},
-        views: {}
-      }
+      var fieldEdit = {
+            meta: {
+              bind: bind
+            },
+            views: {}
+          }
 
-      if(field){
-        ctrl.fieldEdit.meta.bind = field.alias; 
-      }
+      ctrl.fieldEdit = angular.copy(fieldEdit);
 
-      showTypeFields();
+      if(bind){
+        showEditField();
+      }else{
+        showTypeFields();
+      }
 
       ctrl.sectionSelected.onNewField = true;
     }
@@ -392,7 +395,11 @@
 
     function cancelEditField() {
       ctrl.sectionSelected.onNewField = false;
-      showTypeFields();
+      showComponents();
+    }
+
+    function removeField() {
+      sectionSelected.slice(ctrl.fieldEdit.index, 1);   
     }
 
     function saveForm() {
@@ -535,6 +542,7 @@
 
     function editField(field, index) {
       ctrl.fieldEdit = field;
+      ctrl.fieldEdit.index = index;
       showEditField();
     }
 
