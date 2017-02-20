@@ -1,0 +1,24 @@
+<div class="col-sm-12 col-xs-12 no-padding form-group">
+  <label for="">Tipo de moeda</label>
+  <select  class="form-control input-sm">
+    <option value="BRL">Real</option>
+    <option value="USD">Dolar</option>
+    <option value="EUR">Euro</option>
+    <option value="JPY">Iene</option>
+  </select>
+</div>
+
+<div class="col-sm-12 col-xs-12 no-padding form-group">
+  <label for="">Separador</label>
+  <select  class="form-control input-sm">
+    <option value="comma">,</option>
+    <option value="score">.</option>
+  </select>
+</div>
+
+<div class="col-sm-12 col-xs-12 no-padding form-group">
+  <label for="">Número de casas decimais</label>
+  <input class="form-control input-sm ng-binding" placeholder="Escreva aqui" type="text" ng-bind="ctrl.fieldEdit.meta.formatPattern">
+</div>
+
+{{#include-html}}studiov2.forms.sidebar.config-fields.string{{/include-html}}
