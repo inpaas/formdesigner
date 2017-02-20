@@ -592,6 +592,7 @@ ul.nav-components .inner-item.type-field {
   width: 100%;
   padding: 10px;
   border-bottom: solid 1px #E1E1E1;
+  cursor: pointer;
 }
 .inner-item .list-type .item-type:hover {
   transition: .3s;
