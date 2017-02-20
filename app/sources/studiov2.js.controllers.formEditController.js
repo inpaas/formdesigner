@@ -9,9 +9,9 @@
   FormEditController.$inject = ["$scope", "$q", "$state", "jsonForm", "httpService"];
   
   function FormEditController($scope, $q, $state, jsonForm, httpService) {
-    var ctrl = this, 
+    var ctrl = this,
         jsonModel,
-        idForm = $state.params.id, 
+        idForm = $state.params.id,
         idModule = window.location.hash.split('module=')[1];
 
     angular.extend(ctrl, {
@@ -64,7 +64,7 @@
           ctrl.jsonModel = angular.copy(response);
 
           if ($state.is('forms.new-view-edit') && !ctrl.jsonModel.dataSource.key) {
-            showConfigForm();
+            showConfigForm(true);
           }
 
           buildMainSection(ctrl.jsonModel);
@@ -413,7 +413,7 @@
 
       function setFields(form){
         if (!ctrl.sections.length) { return false; }
-        
+
         form.fields.length = 0;
 
         ctrl.sections[0].fields.forEach(function(item, index){
@@ -466,7 +466,7 @@
       ctrl.jsonModel.views[view].actions.splice(index, 1);
     }
 
-    function showConfigForm() {
+    function showConfigForm(firstConfig) {
       ctrl.configForm = {
         label: ctrl.jsonModel.label, 
         dataSource: ctrl.jsonModel.dataSource,
@@ -480,6 +480,7 @@
       });
       
       ctrl.onConfigForm = true;   
+      ctrl.firstConfig = firstConfig;
     }
 
     function getModule(id) {
@@ -514,8 +515,13 @@
     function saveConfigForm() {
       ctrl.configForm.key = ctrl.configForm.label.toLowerCase().replace(/\s/g, '-');
       angular.extend(ctrl.jsonModel, ctrl.configForm);
+
+      if (ctrl.firstConfig) {
+        setBreadcrumb(); 
+      }
+
       ctrl.onConfigForm = false;
-    } 
+    }
 
     function cancelConfigForm() {
       ctrl.configForm = {};
@@ -602,11 +608,24 @@
 
         buildMainSection(ctrl.jsonModel);
         buildFields(ctrl.jsonModel.fields);
+        setBreadcrumb();
       });
     }
 
     function fieldHasFilterView(field, index, array){
       return field.views.filter;
+    }
+
+    function setBreadcrumb() {
+      var breadcrumb = [];
+
+      breadcrumb.push({icon: 'fa fa-home'});
+      breadcrumb.push({label: ctrl.module.title});
+      breadcrumb.push({divisor: '>', firstDivisor: true});
+      breadcrumb.push({label: ctrl.configForm.dataSource.key});
+
+      ctrl.jsonModel.views.edit.breadcrumb = breadcrumb;
+      ctrl.jsonModel.views.list.breadcrumb = breadcrumb;
     }
   };
 })();

@@ -1,69 +1,64 @@
 <ol class="breadcrumb">
-  <li class="breadcrumb-item breadcrumb-separator">
+  <li class="breadcrumb-item breadcrumb-divisor" ng-if="bc.icon" ng-repeat-start="bc in breadcrumb track by $index">
     <div class="dropdown pull-left">
       <button class="btn btn-primary dropdown-toggle" 
               type="button" 
               id="dropdownMenu1" 
               data-toggle="dropdown" 
               aria-haspopup="true" 
-              aria-expanded="true">
-      	<i class="fa fa-home" aria-hidden="true"></i>
+              aria-expanded="true"
+              ng-show="breadcrumb[0].icon">
+
+        <i class="{[{breadcrumb[0].icon}]}" aria-hidden="true"></i>
       </button>
+
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i></a></li>
-        <li><a href="#" class="li-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remover</a></li>
+        <li ng-click="breadcrumb[0].icon = 'fa fa-home'">
+          <a href="#"><i class="fa fa-home" aria-hidden="true"></i></a>
+        </li>
+        <li ng-click="breadcrumb[0].icon = ''">
+          <a href="#" class="li-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remover</a>
+        </li>
       </ul>
     </div>
   </li>
-  <li class="breadcrumb-item">
+
+  <li class="breadcrumb-item" ng-if="bc.label">
     <input class="form-control input-sm bc-txt" 
            placeholder="Escreva aqui" 
-           onkeypress="this.style.width = ( ((this.value.length + 1) * 8) > 100) ? ((this.value.length + 1) * 8) + 'px': '130px';" 
-           onblur="this.style.width = ( ((this.value.length + 1) * 8) > 100) ? ((this.value.length + 1) * 8) + 'px': '130px';"
+           ng-model="bc.label"
+           elastic-field=130
            type="text" />
+<<<<<<< HEAD
     <a href="" title="Fechar" class="trash-bc-input"><i class="fa fa-trash" aria-hidden="true"></i></a>
+=======
+    <a href="" title="Fechar" class="trash-bc-input" ng-click="removeItem($index)">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+    </a>
+>>>>>>> c705af49a4868a8c8fce56bc00a688b69b08a9ea
   </li>
-  <li class="breadcrumb-item breadcrumb-separator">
-    <div class="dropdown pull-left">
+
+  <li class="breadcrumb-item breadcrumb-divisor" ng-if="bc.divisor" ng-repeat-end>
+    <div class="dropdown pull-left" ng-if="bc.firstDivisor">
       <button class="btn btn-primary dropdown-toggle" 
               type="button" 
               id="dropdownMenu1" 
-              data-toggle="dropdown" 
-              aria-haspopup="true" 
+              ng-bind="bc.divisor"
+              data-toggle="dropdown"
+              aria-haspopup="true"  
               aria-expanded="true">
-        >
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li><a href="#">></a></li>
-        <li><a href="#">/</a></li>
+        <li ng-click="changeDivisor('>')"><a href="">></a></li>
+        <li ng-click="changeDivisor('/')"><a href="">/</a></li>
       </ul>
     </div>
+
+    <span class="separtator-item" ng-if="!bc.firstDivisor" ng-bind="bc.divisor"></span>
   </li>
-  <li class="breadcrumb-item">
-    <input class="form-control input-sm bc-txt" 
-           placeholder="Escreva aqui" 
-           onkeypress="this.style.width = ( ((this.value.length + 1) * 8) > 100) ? ((this.value.length + 1) * 8) + 'px': '130px';" 
-           onblur="this.style.width = ( ((this.value.length + 1) * 8) > 100) ? ((this.value.length + 1) * 8) + 'px': '130px';"
-           type="text" />
-    <a href="" title="Fechar" class="trash-bc-input">
-      <i class="fa fa-trash" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li class="breadcrumb-item breadcrumb-separator">
-    <span class="separtator-item">></span>
-  </li>
-  <li class="breadcrumb-item">
-    <input class="form-control input-sm bc-txt" 
-           placeholder="Escreva aqui"  
-           onkeypress="this.style.width = ( ((this.value.length + 1) * 8) > 100) ? ((this.value.length + 1) * 8) + 'px': '130px';" 
-           onblur="this.style.width = ( ((this.value.length + 1) * 8) > 100) ? ((this.value.length + 1) * 8) + 'px': '130px';"
-           type="text" />
-    <a href="" title="Fechar" class="trash-bc-input">
-      <i class="fa fa-trash" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li class="breadcrumb-item">
-    <button class="btn btn-primary btn-bc"  
+
+  <li class="breadcrumb-item" ng-click="addItem()">
+    <button class="btn btn-primary btn-bc"
             type="button" 
             id="add-bc">
       <i class="fa fa-plus" aria-hidden="true"></i>

@@ -4,7 +4,6 @@
  * 
  */
 /*global require module Java logging scriptContext angular*/
-
 (function() {
   angular
     .module('studio-v2')
