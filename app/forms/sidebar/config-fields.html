@@ -1,4 +1,4 @@
-<!-- Config Field xxx-->
+<!-- Config Field -->
 <ul class="nav-components sb-field-text" ng-show="ctrl.onEditField">
   <!-- Estrutura -->
   <li class="item-components">
@@ -7,7 +7,7 @@
   <div class="inner-item">
     <div class="form-group">
       <label for="">Tipo do Campo</label>
-      <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.meta.type">
+      <select class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.meta.type">
         <option value="string">Campo de Texto</option>
         <option value="select">Lista Suspensa</option>
         <option value="textarea">Área de Texto</option>
@@ -22,43 +22,11 @@
     <div class="row">
       <div class="form-group">
         <label for="">Título do Campo</label>
-        <input  class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label">
+        <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label">
       </div>
     </div>
 
-    <div class="row att-fields field-string">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.string{{/include-html}}
-    </div>
-    <div class="row att-fields field-select">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.select{{/include-html}}
-    </div>
-    <div class="row att-fields field-textarea">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.textarea{{/include-html}}
-    </div>
-    <div class="row att-fields field-radio">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.radio{{/include-html}}
-    </div>
-    <div class="row att-fields field-checkbox">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.checkbox{{/include-html}}
-    </div>
-    <div class="row att-fields field-image">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.image{{/include-html}}
-    </div>
-    <div class="row att-fields field-coin">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.coin{{/include-html}}
-    </div>
-    <div class="row att-fields field-date">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.date{{/include-html}}
-    </div>
-    <div class="row att-fields field-regexp">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.regexp{{/include-html}}
-    </div>
-    <div class="row att-fields field-file">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.file{{/include-html}}
-    </div>
-    <div class="row att-fields field-hidden">
-      {{#include-html}}studiov2.forms.sidebar.config-fields.hidden{{/include-html}}
-    </div>
+    <div class="row" ng-include="'studiov2.forms.sidebar.config-fields.'+ ctrl.fieldEdit.meta.type" ng-show="ctrl.fieldEdit.meta.type"></div>
 
     <div class="row">
       <div class="form-group">
