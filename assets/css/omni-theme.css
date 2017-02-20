@@ -106,7 +106,6 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   margin: 18px 0;
   border-radius: 5px;
 }
-
 .page-content .content-field div.row {
   float: left;
   width: 100%;
@@ -270,6 +269,7 @@ label {
   cursor: default;
 }
 .widget-toolbar {
+  display: inline-block;
   padding: 0 10px;
   line-height: 37px;
   float: right;
