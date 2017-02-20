@@ -359,10 +359,6 @@
     function addSection(){}
  
     function addField(bind) {
-      if ($state.current.url.match('view-edit')){
-        if (!ctrl.sectionSelected) { return false; }
-      }
-
       var fieldEdit = {
             meta: {
               bind: bind
@@ -372,17 +368,49 @@
 
       ctrl.fieldEdit = angular.copy(fieldEdit);
 
-      if(bind){
-        showEditField();
+      if($state.current.url.match('view-edit')) {
+        addFieldOnViewEdit(bind);
       }else{
-        showTypeFields();
+        addFieldOnViewList(bind);
       }
 
-      ctrl.sectionSelected.onNewField = true;
+      function addFieldOnViewEdit(bind){
+        if (!ctrl.sections.length || (bind && findFieldOnJson(bind))){
+          return false;
+        }
+
+        if(!ctrl.sectionSelected){
+          autoSelectSection();
+        }
+
+        showTypeFields();
+
+        ctrl.sectionSelected.onNewField = true;
+      }
+
+      function addFieldOnViewList(bind){
+        showEditField();
+      }
     }
 
+    function autoSelectSection(){
+      ctrl.selectSection = ctrl.sections[0];
+    }
+
+    function findFieldOnJson(bind){
+      var field;
+
+      ctrl.jsonModel.fields.forEach(function(item, index){
+        if (item.meta.bind == bind) {
+          field = item;
+        }
+      });
+
+      return field;
+    }
+    
     function selectSection(index) {
-      if (ctrl.sectionSelected === ctrl.sections[index]) {
+      if (ctrl.sectionSelected == ctrl.sections[index]) {
         return false;
       }
 
@@ -394,8 +422,10 @@
     }
 
     function cancelEditField() {
-      ctrl.sectionSelected.onNewField = false;
       showComponents();
+      if (ctrl.sectionSelected) {
+        ctrl.sectionSelected.onNewField = false;
+      }
     }
 
     function removeField() {
