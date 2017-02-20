@@ -1,4 +1,4 @@
-<!-- Componentes -->
+<!--Componentes -->
 <ul class="nav-components sb-edit" ng-show="ctrl.onComponents">
   <!-- Estrutura -->
   <li class="item-components">
@@ -11,22 +11,23 @@
     <ul class="list-existing">
       <li class="item-list" id="newWidget" ng-click="ctrl.addNewSection()">
         <div class="bx-elements"><span class="ic ic-widget"></span></div>
-        <p class="txt-subtditle">Seção</p>
+        <p class="txt-subtitle">Seção</p>
       </li>
-
-      <li class="item-list" draggable ng-click="ctrl.showConfigBt()">
+      <!--li class="item-list" draggable ng-click="ctrl.showConfigBt()">
         <div class="bx-elements"><span class="ic ic-button"></span></div>
         <p class="txt-subtitle">Botão</p>
       </li>
-
       <li class="item-list">
         <div class="bx-elements"><span class="ic ic-paragraph"></span></div>
         <p class="txt-subtitle">Parágrafo</p>
       </li>
-      
       <li class="item-list">
         <div class="bx-elements"><span class="ic ic-image"></span></div>
         <p class="txt-subtitle">Imagem</p>
+      </li-->
+      <li class="item-list">
+        <div class="bx-elements"><span class="ic ic-blank-space"></span></div>
+        <p class="txt-subtitle">Espaço em branco</p>
       </li>
     </ul>
   </div>
@@ -42,7 +43,7 @@
   <div class="inner-item field-item">
     <button type="button" id="btnNewField" class="btn btn-success btn-block" ng-click="ctrl.addField()">Novo Campo</button>
     <ul class="list-existing" data-ng-repeat="field in ctrl.data.entityFields">
-      <li class="field-existing" data-ng-bind="field.alias" ng-click="ctrl.addField(field)"></li>
+      <li class="field-existing" data-ng-bind="field.alias" ng-click="ctrl.addField(field.alias)"></li>
     </ul>
   </div>
   <!-- Campos -->
@@ -67,7 +68,7 @@
   </div>
   <!-- Botões -->
 
-  <!-- Lista de Dependentes -->
+  <!-- Lista de Dependentes ->
   <li class="item-components">
     Lista de Dependentes
     <div class="widget-toolbar default-toolbar hidden-print">
@@ -79,17 +80,16 @@
       <li class="field-existing" data-ng-bind="dependent"></li>
     </ul>
   </div>
-  <!-- Lista de Dependentes -->
+  <!- Lista de Dependentes -->
 
-  <!-- Gráficos 
-  <li class="item-components">
+  <!-- Gráficos -->
+  <!-- <li class="item-components">
     Graficos para Relatórios
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
-  </li>
-
-  Gráficos -->
+  </li> -->
+  <!-- Gráficos -->
 
 </ul>
-<!-- Componentes -->
+<!-- Componentes
