@@ -38,8 +38,10 @@
               <div class="row" dragula="'1col-bag'" ng-show="section.fields.length">
                 <div class="row row-edit-this"
                     id="field-{[{$index}]}" 
+                    ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
                     ng-repeat="field in section.fields track by $index" 
-                    ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type" ng-click="ctrl.editField(field, $index)">
+                    ng-click="ctrl.editField(field, $index)"
+                    ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
               </div>
             </div>
             <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>

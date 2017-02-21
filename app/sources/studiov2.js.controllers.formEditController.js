@@ -400,7 +400,7 @@
     function findFieldOnJson(bind){
       var field;
 
-      ctrl.jsonModel.fields.forEach(function(item, index){
+      ctrl.sectionSelected.fields.forEach(function(item, index){
         if (item.meta.bind == bind) {
           field = item;
         }
@@ -432,7 +432,8 @@
       if (!ctrl.sectionSelected) {
         autoSelectSection();
       }
-      ctrl.sectionSelected.fields.splice(index, 1);   
+
+      ctrl.sectionSelected.fields.splice(index, 1);
     }
 
     function saveForm() {
