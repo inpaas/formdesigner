@@ -305,7 +305,7 @@
     } 
 
     function setRequiredModel(field){
-      if (!field.required) { return false; }
+      if (!field.hasOwnProperty('required')) { return false; }
 
       
       // field.meta.required = {
@@ -320,7 +320,7 @@
     } 
 
     function setDisabledModel(field){
-      if (!field.disabled) { return false; }
+      if (!field.hasOwnProperty('disabled')) { return false; }
 
       // field.meta.disabled = {
       //   type: field.disabledType,
@@ -329,13 +329,13 @@
 
       field.meta.disabled = {
         type: 'boolean',
-        expression: true
+        expression: field.disabled
       }
 
     }
 
     function setFilterModel(field) {
-      if (!field.filter) { return false; }
+      if (!field.hasOwnProperty('filter')) { return false; }
 
       field.views.filter = {};
 
