@@ -34,29 +34,11 @@
       </div>
       <div class="widget-body">
         <div class="widget-main">
-          <div class="btn-group select-columns pull-right" uib-dropdown keyboard-nav="true" auto-close="outsideClick">
-            <button type="button" class="btn btn-primary" uib-dropdown-toggle>
-              Colunas <i class="caret"></i>
-            </button>
-            <div uib-dropdown-menu role="menu" class="dropdown">
-              <div class="option-filter">
-                <input type="text" class="form-control" placeholder="Filter" ng-model="textFilter"/>
-              </div>
-              <ul class="list-unstyled option-list">
-                <li role="menuitem" ng-repeat="field in ctrl.jsonModel.fields | filter:textFilter track by $index">
-                  <input type="checkbox" id="label{{item}}" ng-model="field.views.list" ng-false-value="undefined" ng-true-value="{}" />
-                  <label for="label{{field.alias}}" ng-bind="field.label"></label>
-                </li>
-              </ul>
-            </div>
-          </div>
           <table role="grid" class="table table-striped table-hover">
             <thead>
               <tr role="row">
                 <th ng-bind="field.label" ng-repeat="field in ctrl.jsonModel.fields track by $index" ng-show="field.views.list"></th>
-                <th class="table-row-actions" rowspan="1" colspan="1" aria-label="" style="width: 110px;">
-
-                </th>
+                <th class="table-row-actions" rowspan="1" colspan="1" aria-label="" style="width: 110px;"> </th>
               </tr>
             </thead>
             <tbody>
