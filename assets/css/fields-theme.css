@@ -561,11 +561,12 @@ ul.nav-components li.item-components .widget-toolbar i {
 }
 .row-edit-this .field-edit-this .fa {
   display: none;
-  margin: 10px 30px;
+  padding: 10px 30px;
+  cursor: pointer;
   color: #419bc7;
 }
 .row-edit-this .field-edit-this:hover .fa {
-  display: block;
+  display: inline-block;
 }
 .row-edit-this .field-edit-this:hover{
   transition: .3s;
