@@ -1,10 +1,11 @@
 <div class="col-sm-12 col-xs-12 no-padding form-group">
   <label for="">Formatação</label>
-  <select  class="form-control input-sm">
-    <option value="01">DD/MM/AAAA</option>
-    <option value="02">MM/DD/AAAA</option>
-    <option value="03">AAAA/MM/DD</option>
-    <option value="04">DD/MM/AA</option>
+  <select  class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.formatPattern">
+    <option value="DD/MM/AAAA">DD/MM/AAAA</option>
+    <option value="MM/DD/AAAA">MM/DD/AAAA</option>
+    <option value="AAAA/MM/DD">AAAA/MM/DD</option>
+    <option value="DD/MM/AA">DD/MM/AA</option>
   </select>
 </div>
+
 {{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}
