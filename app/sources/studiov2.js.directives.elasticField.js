@@ -19,9 +19,9 @@
         if(this.value.length > 1){
           var width = ((this.value.length + 1) * 8);
           this.style.width = width + 'px';
-      }else{
-        this.style.width = 130 + 'px';
-      }
+        }else{
+          this.style.width = 130 + 'px';
+        }
       }
     }    
 
