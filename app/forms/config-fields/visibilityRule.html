@@ -5,8 +5,10 @@
   </div>
   <div class="form-group">
     <label for="">Regras de visibilidade</label>
-    <button class="btn btn-primary btn-sm "><i class="fa fa-location-arrow" aria-hidden="true"></i> Mapa</button>
-    <button class="btn btn-warning btn-sm "><i class="fa fa-code" aria-hidden="true"></i> Função</button>
+    <div class="row">
+      <div class="col-sm-6 col-xs-6"><button class="btn btn-primary btn-sm "><i class="fa fa-location-arrow" aria-hidden="true"></i> Mapa</button></div>
+      <div class="col-sm-6 col-xs-6"><button class="btn btn-warning btn-sm "><i class="fa fa-code" aria-hidden="true"></i> Função</button></div>
+    </div>
   </div>
 </div>
 
@@ -24,6 +26,10 @@
           <td>id</td>
           <td>23</td>
         </tr>
+        <tr>
+          <td>id</td>
+          <td>42</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -33,8 +39,13 @@
   </div>
 
   <div class="form-group">
-    <label for="">Selecione a propriedade:</label>
-    <select class="form-control input-sm"></select>
+    <label for="">Selecione o campo:</label>
+    <select  class="form-control input-sm">
+      <option value="">Campo 1</option>
+      <option value="">Campo 2</option>
+      <option value="">Campo 3</option>
+      <option value="">Campo 4</option>
+    </select>
   </div>
 
   <div class="form-group">
@@ -43,8 +54,7 @@
   </div>
 
   <div class="form-group">
-    <button class="btn btn-primary btn-sm"><i class="fa fa-fw fa-floppy-o"></i> Salvar</button>
-    <button class="btn btn-default btn-sm"><i class="fa fa-fw fa-undo"></i> Cancelar</button> 
     <button class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Remover</button> 
+    <button class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-floppy-o"></i> Salvar</button>
   </div>
 </div>
