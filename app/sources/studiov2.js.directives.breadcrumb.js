@@ -3,14 +3,18 @@
     .module('studio-v2') 
     .directive('breadcrumb', breadcrumb); 
 
-  function breadcrumb(){
+  breadcrumb.$inject = ["$rootScope"];
+
+  function breadcrumb($rootScope){
     function link(scope, elem, attrs){
       var divisorType;
 
       angular.extend(scope, {
         changeDivisor: changeDivisor,
         removeItem: removeItem,
-        addItem: addItem
+        addItem: addItem,
+        enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
+        enableEditBreadcrumb: enableEditBreadcrumb
       });
 
       function changeDivisor(newDivisor){
@@ -49,9 +53,9 @@
       function addItem(){
         var last = scope.breadcrumb[scope.breadcrumb.length - 1];
 
-      if (!last || last.hasOwnProperty('divisor')) {
+        if (!last || last.hasOwnProperty('divisor')) {
           addLabel();
-        }else if (last.hasOwnProperty('label')) { 
+        }else if (last.hasOwnProperty('label') || last.hasOwnProperty('bind')) { 
           addDivisor(); 
           addLabel();
         }
@@ -71,7 +75,14 @@
         scope.breadcrumb.push({icon: 'fa fa-home'});
       }
 
-      setFirstDivisor();
+      function enableSelectFieldToBreadcrumb(indexBreadcrumb){
+        $rootScope.$emit('enableSelectFieldToBreadcrumb', indexBreadcrumb);
+      }
+
+      function enableEditBreadcrumb(bc){
+        bc.label = '';
+        delete bc.bind;
+      }
     }
 
     return{
@@ -79,9 +90,7 @@
       templateUrl: '/forms/studiov2.forms.breadcrumb',
       scope: {
         breadcrumb: '=',
-        onBindBreadcrumb: '=fn'
-      }
-      
+      }  
     }
   };
 

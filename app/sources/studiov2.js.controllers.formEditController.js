@@ -6,9 +6,9 @@
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
 
-  FormEditController.$inject = ["$scope", "$q", "$state", "jsonForm", "httpService"];
+  FormEditController.$inject = ["$scope", "$rootScope", "$q", "$state", "jsonForm", "httpService"];
   
-  function FormEditController($scope, $q, $state, jsonForm, httpService) {
+  function FormEditController($scope, $rootScope, $q, $state, jsonForm, httpService) {
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
@@ -56,10 +56,11 @@
       generateForm: generateForm,
       removeField: removeField,
       bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
-      onBindBreadcrumb: onBindBreadcrumb
+      enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb
     });    
 
     init(); 
+    getWatchers();
 
     function init() {
       getJsonForm(idForm)
@@ -674,15 +675,21 @@
     }
     
     var indexBreadcrumb;
-    function onBindBreadcrumb(index){
+    function enableSelectFieldToBreadcrumb(index){
       ctrl.onBindBreadcrumb = true;
       indexBreadcrumb = index;
     }
-    
+
     function bindFieldOnBreadcrumb(fieldBind){
       var view = $state.current.name.match('view-edit')? 'edit' : 'list';
-      ctrl.jsonModel.views[view].breadcrumb[indexBreadcrumb] = {bind: fieldBind}
+      ctrl.jsonModel.views[view].breadcrumb[indexBreadcrumb] = {bind: fieldBind};
+      ctrl.onBindBreadcrumb = false;
     }
     
+    function getWatchers(){
+      $rootScope.$on('enableSelectFieldToBreadcrumb', function(event, indexBreadcrumb){
+        enableSelectFieldToBreadcrumb(indexBreadcrumb);
+      });
+    } 
   };
 })();
