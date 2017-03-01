@@ -49,7 +49,7 @@
       function addItem(){
         var last = scope.breadcrumb[scope.breadcrumb.length - 1];
 
-        if (!last || last.hasOwnProperty('divisor')) {
+      if (!last || last.hasOwnProperty('divisor')) {
           addLabel();
         }else if (last.hasOwnProperty('label')) { 
           addDivisor(); 
@@ -59,8 +59,8 @@
       }
 
       function addDivisor(){
-        setFirstDivisor();
-        scope.breadcrumb.push({divisor: divisorType});
+        var divisor = divisorType || setFirstDivisor();
+        scope.breadcrumb.push({divisor: divisor});
       }
 
       function addLabel() {
@@ -78,8 +78,10 @@
       link: link, 
       templateUrl: '/forms/studiov2.forms.breadcrumb',
       scope: {
-        breadcrumb: '='
+        breadcrumb: '=',
+        onBindBreadcrumb: '=fn'
       }
+      
     }
   };
 

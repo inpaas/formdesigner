@@ -5,7 +5,7 @@
   angular
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
-    
+
   FormEditController.$inject = ["$scope", "$q", "$state", "jsonForm", "httpService"];
   
   function FormEditController($scope, $q, $state, jsonForm, httpService) {
@@ -54,7 +54,9 @@
       goToList: goToList,
       goToEdit: goToEdit,
       generateForm: generateForm,
-      removeField: removeField
+      removeField: removeField,
+      bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
+      onBindBreadcrumb: onBindBreadcrumb
     });    
 
     init(); 
@@ -394,13 +396,13 @@
     }
 
     function autoSelectSection(){
-      ctrl.sectionSelected = ctrl.sections[0];
+      ctrl.selectSection = ctrl.sections[0];
     }
 
     function findFieldOnJson(bind){
       var field;
 
-      ctrl.sectionSelected.fields.forEach(function(item, index){
+      ctrl.jsonModel.fields.forEach(function(item, index){
         if (item.meta.bind == bind) {
           field = item;
         }
@@ -428,12 +430,8 @@
       }
     }
 
-    function removeField(index) {
-      if (!ctrl.sectionSelected) {
-        autoSelectSection();
-      }
-
-      ctrl.sectionSelected.fields.splice(index, 1);
+    function removeField() {
+      sectionSelected.slice(ctrl.fieldEdit.index, 1);   
     }
 
     function saveForm() {
@@ -575,6 +573,11 @@
     }
 
     function editField(field, index) {
+      if(ctrl.onBindBreadcrumb){
+        bindFieldOnBreadcrumb(field.meta.bind);
+        return;
+      }
+      
       ctrl.fieldEdit = field;
       ctrl.fieldEdit.index = index;
       showEditField();
@@ -669,5 +672,17 @@
       ctrl.jsonModel.views.edit.breadcrumb = breadcrumb;
       ctrl.jsonModel.views.list.breadcrumb = breadcrumb;
     }
+    
+    var indexBreadcrumb;
+    function onBindBreadcrumb(index){
+      ctrl.onBindBreadcrumb = true;
+      indexBreadcrumb = index;
+    }
+    
+    function bindFieldOnBreadcrumb(fieldBind){
+      var view = $state.current.name.match('view-edit')? 'edit' : 'list';
+      ctrl.jsonModel.views[view].breadcrumb[indexBreadcrumb] = {bind: fieldBind}
+    }
+    
   };
 })();
