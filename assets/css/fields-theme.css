@@ -1056,12 +1056,13 @@ div.page-actions .btn{
   float: left;    
   margin-right: 5px;
   transition: .3s;
+      border: solid 8px #f5f5f5;
 }
 
 .breadcrumb > .breadcrumb-item:hover
 {
   background: #efefef;
-  border-color: #ced0d4;
+  border-color: #f5f5f5;
 }
 
 .breadcrumb > .breadcrumb-item.bc-bind:hover
@@ -1071,10 +1072,8 @@ div.page-actions .btn{
   -webkit-box-shadow: 0px 0px 5px 0px rgba(229,229,229,1);
   -moz-box-shadow: 0px 0px 5px 0px rgba(229,229,229,1);
   box-shadow: 0px 0px 5px 0px rgba(229,229,229,1);
-  border: solid 1px #f9f9f9;
-  padding: 8px;
   z-index: 5;
-  margin-top: -8px;
+      border: solid 8px #fff;
 }
 
 .breadcrumb > .breadcrumb-item.bc-bind .trash-bc-input
