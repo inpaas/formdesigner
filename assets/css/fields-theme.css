@@ -1067,7 +1067,7 @@ div.page-actions .btn{
 .breadcrumb > .breadcrumb-item.bc-bind:hover
 {
   background: #fff;
-  position: absolute;
+  position: relative;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(229,229,229,1);
   -moz-box-shadow: 0px 0px 5px 0px rgba(229,229,229,1);
   box-shadow: 0px 0px 5px 0px rgba(229,229,229,1);
@@ -1095,12 +1095,19 @@ div.page-actions .btn{
   display: none;
   padding-top: 35px;
   list-style: none;
+  transition: .3s;
+  position: absolute;
+  padding: 0 8px 8px;
+  left: -8px;
+  right: -8px;
+  background: white;
+  top: 38px;
+  box-shadow: 0px 3px 5px 0px rgba(229,229,229,1);
 }
 
 .breadcrumb > .breadcrumb-item.bc-bind:hover .list-options
 {
   display: block;
-  margin: 0;
 }
 
 .breadcrumb > .breadcrumb-item.bc-bind:hover .item-op
