@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-  <li class="breadcrumb-item breadcrumb-divisor" ng-if="bc.icon" ng-repeat-start="bc in breadcrumb track by $index">
+  <li class="breadcrumb-item breadcrumb-divisor" ng-if="bc.hasOwnProperty('icon')" ng-repeat-start="bc in breadcrumb track by $index">
     <div class="dropdown pull-left">
       <button class="btn btn-primary dropdown-toggle" 
               type="button" 
@@ -23,19 +23,50 @@
     </div>
   </li>
 
-  <li class="breadcrumb-item" ng-if="bc.label">
+  <li class="breadcrumb-item" ng-if="bc.hasOwnProperty('bind')">
     <input class="form-control input-sm bc-txt" 
-           placeholder="Escreva aqui" 
-           ng-model="bc.label"
-           elastic-field=130
+           ng-model="bc.bind"
+           disabled
            type="text" />
     <a href="" title="Fechar" class="trash-bc-input" ng-click="removeItem($index)">
       <i class="fa fa-trash" aria-hidden="true"></i>
     </a>
+    
+    <ul class="list-options">
+      <li class="item-op">
+        <label>ou</label>
+      </li>
+      <li class="item-op">
+        <button class="btn btn-primary btn-block" type="button" ng-click="editFieldBreadcrumb($index)">
+          <i class="fa fa-plus" aria-hidden="true"></i> Editar
+        </button>
+      </li>
+    </ul>
   </li>
 
-  <li class="breadcrumb-item breadcrumb-divisor" ng-if="bc.divisor" ng-repeat-end>
-    <div class="dropdown pull-left" ng-if="bc.firstDivisor">
+  <li class="breadcrumb-item bc-bind" ng-if="bc.hasOwnProperty('label')">
+    <input class="form-control input-sm bc-txt" 
+           placeholder="Escreva aqui"
+           ng-model="bc.label"
+           type="text" />
+    <a href="" title="Fechar" class="trash-bc-input" ng-click="removeItem($index)">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+    </a>
+
+    <ul class="list-options">
+      <li class="item-op">
+        <label>ou</label>
+      </li>
+      <li class="item-op">
+        <button class="btn btn-primary btn-block" type="button" ng-click="onBindBreadcrumb($index)">
+          <i class="fa fa-plus" aria-hidden="true"></i> Selecione um campo
+        </button>
+      </li>
+    </ul>
+  </li>
+  
+  <li class="breadcrumb-item breadcrumb-divisor" ng-if="bc.hasOwnProperty('divisor')" ng-repeat-end>
+    <div class="dropdown pull-left">
       <button class="btn btn-primary dropdown-toggle" 
               type="button" 
               id="dropdownMenu1" 
@@ -49,34 +80,16 @@
         <li ng-click="changeDivisor('/')"><a href="">/</a></li>
       </ul>
     </div>
-
-    <span class="separtator-item" ng-if="!bc.firstDivisor" ng-bind="bc.divisor"></span>
   </li>
 
-  <li class="breadcrumb-item" ng-click="addItem()">
+
+  <li class="breadcrumb-item">
     <button class="btn btn-primary btn-bc"
             type="button" 
+            ng-click="addItem()"
             id="add-bc">
       <i class="fa fa-plus" aria-hidden="true"></i>
     </button>
   </li>
 
-  <li class="breadcrumb-item bc-bind">
-    <input class="form-control input-sm bc-txt" 
-           placeholder="Escreva aqui"
-           type="text" />
-    <a href="" title="Fechar" class="trash-bc-input" ng-click="removeItem($index)">
-      <i class="fa fa-trash" aria-hidden="true"></i>
-    </a>
-    <ul class="list-options">
-      <li class="item-op">
-        <label>ou</label>
-      </li>
-      <li class="item-op">
-        <button class="btn btn-primary btn-block" type="button">
-          <i class="fa fa-plus" aria-hidden="true"></i> Selecione um campo
-        </button>
-      </li>
-    </ul>
-  </li>
 </ol>

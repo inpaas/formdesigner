@@ -34,6 +34,7 @@
         if (!divisorType) {
           divisorType = '>';
         }
+        return divisorType;
       }
 
       function removeItem(index){
@@ -48,9 +49,9 @@
       function addItem(){
         var last = scope.breadcrumb[scope.breadcrumb.length - 1];
 
-        if (!last || last.divisor) {
+      if (!last || last.hasOwnProperty('divisor')) {
           addLabel();
-        }else if (last.label) { 
+        }else if (last.hasOwnProperty('label')) { 
           addDivisor(); 
           addLabel();
         }
@@ -58,12 +59,12 @@
       }
 
       function addDivisor(){
-        scope.breadcrumb.push({divisor: divisorType});
-        setFirstDivisor(); 
+        var divisor = divisorType || setFirstDivisor();
+        scope.breadcrumb.push({divisor: divisor});
       }
 
       function addLabel() {
-        scope.breadcrumb.push({label: ' '});
+        scope.breadcrumb.push({label: ''});
       }
       
       function setIcon(){
@@ -77,8 +78,10 @@
       link: link, 
       templateUrl: '/forms/studiov2.forms.breadcrumb',
       scope: {
-        breadcrumb: '='
+        breadcrumb: '=',
+        onBindBreadcrumb: '=fn'
       }
+      
     }
   };
 
