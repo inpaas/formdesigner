@@ -6,9 +6,9 @@
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
 
-  FormEditController.$inject = ["$scope", "$rootScope", "$q", "$state", "jsonForm", "httpService"];
+  FormEditController.$inject = ["$scope", "$rootScope", "$q", "$state", "jsonForm", "httpService", "labelsService"];
   
-  function FormEditController($scope, $rootScope, $q, $state, jsonForm, httpService) {
+  function FormEditController($scope, $rootScope, $q, $state, jsonForm, httpService, labelsService) {
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
@@ -17,6 +17,7 @@
     angular.extend(ctrl, {
       onComponents: true,
       data: {},
+      form: {},
       sections: [],
       actions: [],
       activate: activate,
@@ -81,6 +82,11 @@
             });
           }
 
+        }).then(function(){
+          if (window.location.hash.match('module')){
+            var moduleId = window.location.hash.split('?module=').pop();
+            getModule(moduleId);
+          }
         });
     }
 
@@ -436,12 +442,15 @@
     }
 
     function saveForm() {
+      var jsonModelClone = angular.copy(ctrl.jsonModel);
+
       updateFieldsOnJsonModel(ctrl.sections);
+      labelsService.buildLabels(jsonModelClone, ctrl.module.id, ctrl.module.key);
 
       if(idForm) {
-        httpService.saveEditForm(ctrl.jsonModel, idForm, idModule);
+        httpService.saveEditForm(jsonModelClone, idForm, idModule);
       }else{
-        httpService.saveNewForm(ctrl.jsonModel, idModule).then(function(response){
+        httpService.saveNewForm(jsonModelClone, idModule).then(function(response){
           var state = $state.current.name.replace('new', 'edit');
           $state.go(state, {id: response.data.id});
         });
@@ -464,9 +473,7 @@
           form.fields.push(clone);
         });
       }
-
     }
-    
     
     function showEditField() {
       ctrl.onEditField = true;
@@ -557,7 +564,7 @@
       angular.extend(ctrl.jsonModel, ctrl.configForm);
 
       if (ctrl.firstConfig) {
-        setBreadcrumb(); 
+        setBreadcrumb();
       }
 
       ctrl.onConfigForm = false;

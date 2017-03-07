@@ -53,7 +53,7 @@
     function resetJsonForm(){
       return {
         'key': '', 
-        'label': 'Form Title',
+        'label': '',
         'pagination': {
           'type': 'server',
           'countPerPage': 10 
@@ -73,7 +73,7 @@
             'actions': [
               {
                 'action': 'save',
-                'label': $filter('translate')('button.save.title'),
+                'label': 'button.save.title',
                 'name': 'save',
                 'visible': {
                   'type': 'map',
@@ -84,7 +84,7 @@
               },
               {
                 'action': 'savenew',
-                'label': $filter('translate')('button.savenew.title'),
+                'label': 'button.savenew.title',
                 'name': 'save_new', 
                 'visible': {
                   'type': 'function', 
@@ -93,17 +93,17 @@
               },
               {
                 'action': 'duplicate',
-                'label': $filter('translate')('button.duplicate.title'),
+                'label': 'button.duplicate.title',
                 'name': 'duplicate',
               },
               {
                 'action': 'remove',
-                'label': $filter('translate')('button.remove.title'),
+                'label': 'button.remove.title',
                 'name': 'remove'
               },
               {
                 'action': 'cancel',
-                'label': $filter('translate')('button.cancel.title'),
+                'label': 'button.cancel.title',
                 'name': 'cancel'
               }
             ],
