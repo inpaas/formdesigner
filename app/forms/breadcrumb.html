@@ -26,7 +26,8 @@
   <li class="breadcrumb-item bc-bind" ng-if="bc.hasOwnProperty('bind')">
     <input class="form-control input-sm bc-txt" 
            placeholder="Escreva aqui"
-           ng-model="bc.label"
+           disabled
+           ng-model="bc.bind"
            type="text" />
     <a href="" title="Fechar" class="trash-bc-input" ng-click="removeItem($index)">
       <i class="fa fa-trash" aria-hidden="true"></i>
@@ -58,9 +59,7 @@
         <label>ou</label>
       </li>
       <li class="item-op">
-        <button class="btn btn-primary btn-block" type="button" ng-click="enableSelectFieldToBreadcrumb($index)">
-          <i class="fa fa-plus" aria-hidden="true"></i> Selecione um campo
-        </button>
+        <button class="btn btn-primary btn-block" type="button" ng-click="enableSelectFieldToBreadcrumb($index)">Selecione um campo</button>
       </li>
     </ul>
   </li>
