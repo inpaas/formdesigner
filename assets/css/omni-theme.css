@@ -109,10 +109,11 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 .page-content .content-field div.row {
   float: left;
   width: 100%;
+    margin: 0;
 }
 
 .page-content .page-breadcrumb {
-  height: 50px;  
+  height: 50px;
   width: 100%;
 }
 /* ==============================| Skeleton |============================== */
@@ -131,7 +132,7 @@ label {
   line-height: auto;
   font-weight: lighter;
   color: #585858;
-  padding: 10px;
+  padding: 2px;
   padding-left: 15px;
   background: #f5f5f5;
   border-radius: 5px;
@@ -257,6 +258,7 @@ label {
   -ms-user-select: none;
   user-select: none;
 }
+
 .widget-header>.widget-title {
   font-size: 12px;
   line-height: 36px;
