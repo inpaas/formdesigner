@@ -17,6 +17,7 @@
         enableEditBreadcrumb: enableEditBreadcrumb
       });
 
+
       function changeDivisor(newDivisor){
         angular.forEach(scope.breadcrumb, function(item, index){
           if (item.divisor) {
@@ -29,7 +30,6 @@
       function setFirstDivisor() {
         for(var i = 0, length = scope.breadcrumb.length; i < length; i++){
           if (scope.breadcrumb[i].divisor) {
-            scope.breadcrumb[i].firstDivisor = true; 
             divisorType = scope.breadcrumb[i].divisor;
             break;
           }
@@ -51,6 +51,10 @@
       }
 
       function addItem(){
+        if(!scope.breadcrumb){
+          scope.breadcrumb = [];
+        }
+        
         var last = scope.breadcrumb[scope.breadcrumb.length - 1];
 
         if (!last || last.hasOwnProperty('divisor')) {

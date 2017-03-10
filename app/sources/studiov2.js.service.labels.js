@@ -3,11 +3,11 @@
     .module('studio-v2')
     .service('labelsService', labelsService);
 
-  labelsService.$inject = ['$http', '$filter', '$l10n'];
+  labelsService.$inject = ['$http', '$filter', '$l10n', '$q', 'jsonFormService'];
 
-  function labelsService($http, $filter, $l10n){
+  function labelsService($http, $filter, $l10n, $q, jsonFormService){
     var _userLocale = getLanguageUser(),
-        labelsNamespace = "labels.{{module}}.forms.{{form}}."; 
+        labelsNamespace = ""; 
         labels = [];
 
     function saveLabel(text, key, idModule){
@@ -24,9 +24,6 @@
           url: url,
           method: 'post',
           data: data
-        }).then(function(response){
-          labels.push(data);
-          $l10n.setNewLabel(key, text);
         });
     }
 
@@ -39,10 +36,8 @@
     }
 
     function setLabelsNamespace(moduleKey, formKey) {
-      labelsNamespace = labelsNamespace
-                          .replace('{{module}}', moduleKey)
-                          .replace('{{form}}', formKey);
-
+      var template = "labels.forms.{{form}}.";
+      labelsNamespace = labelsNamespace || template.replace('{{module}}', moduleKey).replace('{{form}}', formKey);
     }
 
     function getLabelsNamespace(){
@@ -57,38 +52,80 @@
         labels = reponse.data.data;
       });
     }
-
+    
     function buildLabels(jsonForm, moduleId, moduleKey){
       setLabelsNamespace(moduleKey, jsonForm.key);
-      buildLabelsFromTitle(jsonForm, moduleId);
-      buildLabelsFromBreadcrumb(jsonForm.views.list.breadcrumb);
-      buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb);
-      buildLabelsFromActions(jsonForm.views.list.actions);
-      buildLabelsFromActions(jsonForm.views.edit.actions);
-      buildLabelsFromFields(jsonForm.fields);
+
+      var deferred = $q.defer();
+
+      buildLabelsFromTitle(jsonForm.label, moduleId);
+      buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);
+      buildLabelsFromBreadcrumb(jsonForm.views.list.breadcrumb, 'list', moduleId);
+      
+      deferred.resolve();
+
+      return deferred.promise;
     }
 
-    function buildLabelsFromTitle(jsonForm, moduleId){
+    function buildLabelsFromTitle(title, moduleId, lang){
       var key = generateKey('title');
 
-      saveLabel(jsonForm.label, key, moduleId);
-      jsonForm.label = key;
+      $l10n.editLabel(key, title);
+      jsonFormService.editLabel(key);
+
+      saveLabel(title, key, moduleId);
     }
 
-    function buildLabelsFromBreadcrumb(breadcrumb, moduleId){
+    function buildLabelsFromBreadcrumb(breadcrumb, view, moduleId){
       breadcrumb.forEach(function(item, index){
-        if(item.label){
-           
-        } 
+        if (item.hasOwnProperty('label')) {
+          var key = generateKey('breadcrumb-')
+                      .concat(view)
+                      .concat('-')
+                      .concat(index), 
+              value = item.label; 
+              
+          item.label = key;
+          $l10n.editLabel(key, value);
+          saveLabel(value, key, moduleId);
+        }
       });
+
+      jsonFormService.editBreadcrumb(breadcrumb, view);
     }
 
     function buildLabelsFromActions(actions){
-
     }
 
     function buildLabelsFromFields(fields){
+    }
 
+    function isKeyLabel(label){
+      return $l10n.getLabel(label);
+    }
+
+    function translateLabels(form){
+      form.label = translateTitle(form.label);
+      form.views.edit.breadcrumb = translateBreadcrumb(form.views.edit.breadcrumb);
+      form.views.list.breadcrumb = translateBreadcrumb(form.views.list.breadcrumb);
+      // form.views.edit.actions = translateActions(form.views.list.actions);
+      // form.views.list.actions = translateFields(form.views.edit.actions);
+
+      return form;
+    }
+
+    function translateTitle(label){
+      return $l10n.translate(label);
+    }
+
+    function translateBreadcrumb(breadcrumb){
+      breadcrumb.forEach(function(item, index){
+        if (item.hasOwnProperty('label')) {
+          item.label = $l10n.translate(item.label);
+        }
+      });
+
+      return breadcrumb;
     }
 
     return{
@@ -96,7 +133,8 @@
       setLabelsNamespace: setLabelsNamespace,
       buildLabels: buildLabels,
       saveLabel: saveLabel,
-      buildLabelsFromTitle: buildLabelsFromTitle
+      buildLabelsFromTitle: buildLabelsFromTitle,
+      translateLabels: translateLabels
     }
   }
 

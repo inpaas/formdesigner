@@ -3,9 +3,9 @@
     .module('studio-v2')
     .service('httpService', httpService);
   
-  httpService.$inject = ['$q', '$http'];
+  httpService.$inject = ['$q', '$http', 'jsonFormService', 'labelsService'];
   
-  function httpService($q, $http){
+  function httpService($q, $http, jsonFormService, labelsService){
 
     function getModule(id){
       var url = '/api/studio/modules/'.concat(id); 
@@ -51,14 +51,23 @@
       return $http({
         method: 'get',
         url: url
+      }).then(function(response){
+        var form = JSON.parse(response.data.json);
+
+        jsonFormService.setJsonForm(form);
+        form = labelsService.translateLabels(form);
+
+        return form;
       });
     }
 
     function saveNewForm(form, idModule) {
       var url = '/api/studio/modules/'
             .concat(idModule)
-            .concat('/forms-v2')
-
+            .concat('/forms-v2');
+      // Atualmente, a api do módulo salva somente um form novo com a key o name, depois é que podemos 
+      // salvar o form inteiro
+      // TODO: adaptar a api para salvar o form novo de uma vez
       return $http({
         method: 'post',
         url: url,
@@ -67,7 +76,6 @@
           key: form.key
         }
       }).then(function(response){
-        console.log('savenew', response);
         return saveEditForm(form, response.data.id, idModule);
       });
     }
@@ -96,6 +104,13 @@
       return $http({
         method: 'get',
         url: url
+      }).then(function(response){
+        var form = JSON.parse(response.data.json);
+
+        jsonFormService.setJsonForm(form);
+        form = labelsService.translateLabels(form);
+
+        return form;
       });
     }
 

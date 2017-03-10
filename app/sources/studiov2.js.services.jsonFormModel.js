@@ -7,22 +7,22 @@
 (function() {
   angular
     .module('studio-v2')
-    .service('jsonForm', jsonForm);
+    .service('jsonFormService', jsonFormService);
   
-  jsonForm.$inject = ['$q', '$filter', 'httpService'];
+  jsonFormService.$inject = ['$q', '$filter'];
   
-  function jsonForm($q, $filter, httpService){
-    var form = setJsonForm();
+  function jsonFormService($q, $filter){
+    var form = {}
     
-    function setJsonForm(){
-      return resetJsonForm();
+    function setJsonForm(_form){
+      form = _form;
     }
     
-    function editKeyForm(key) {
+    function editKey(key) {
       form.key = key;
     }
 
-    function editLabelForm(label) {
+    function editLabel(label) {
       form.label = label;
     }
 
@@ -30,115 +30,98 @@
       angular.extend(jsonForm.pagination, pagination);
     }
 
-    function editBreadcrumb() {
-       
+    function editBreadcrumb(breadcrumb, view) {
+      form.views[view].breadcrumb = breadcrumb;
     } 
 
     function editDataSource() {
-      
     }
 
     function editViews() {
-      
     }
 
     function buildFields(sections, jsonModel) {
-       
     }
 
     function getFieldsFromSection(section) {
-      
     }
 
-    function resetJsonForm(){
-      return {
-        'key': '', 
-        'label': '',
-        'pagination': {
-          'type': 'server',
-          'countPerPage': 10 
-        },
-        'dataSource': {},
-        'views': {
-          'list': {
-            'actions':[
-              {
-                'action': 'new',
-                'name': 'new'
-              }
-            ],
-            'breadcrumb': []
-          },
-          'edit': {
-            'actions': [
-              {
-                'action': 'save',
-                'label': 'button.save.title',
-                'name': 'save',
-                'visible': {
-                  'type': 'map',
-                  'expression': {
-                    'id': 23
+    function getFormTemplate(){
+      var deferred = $q.defer(),
+          form = {
+            'key': '', 
+            'label': '',
+            'pagination': {
+              'type': 'server',
+              'countPerPage': 10 
+            },
+            'dataSource': {},
+            'views': {
+              'list': {
+                'actions':[
+                  {
+                    'action': 'new',
+                    'name': 'new'
                   }
-                }              
+                ],
+                'breadcrumb': []
               },
-              {
-                'action': 'savenew',
-                'label': 'button.savenew.title',
-                'name': 'save_new', 
-                'visible': {
-                  'type': 'function', 
-                  'expression': '(function (data){ console.log(data) })'
-                }
-              },
-              {
-                'action': 'duplicate',
-                'label': 'button.duplicate.title',
-                'name': 'duplicate',
-              },
-              {
-                'action': 'remove',
-                'label': 'button.remove.title',
-                'name': 'remove'
-              },
-              {
-                'action': 'cancel',
-                'label': 'button.cancel.title',
-                'name': 'cancel'
+              'edit': {
+                'actions': [
+                  {
+                    'action': 'save',
+                    'label': 'button.save.title',
+                    'name': 'save',
+                    'visible': {
+                      'type': 'map',
+                      'expression': {
+                        'id': 23
+                      }
+                    }              
+                  },
+                  {
+                    'action': 'savenew',
+                    'label': 'button.savenew.title',
+                    'name': 'save_new', 
+                    'visible': {
+                      'type': 'function', 
+                      'expression': '(function (data){ console.log(data) })'
+                    }
+                  },
+                  {
+                    'action': 'duplicate',
+                    'label': 'button.duplicate.title',
+                    'name': 'duplicate',
+                  },
+                  {
+                    'action': 'remove',
+                    'label': 'button.remove.title',
+                    'name': 'remove'
+                  },
+                  {
+                    'action': 'cancel',
+                    'label': 'button.cancel.title',
+                    'name': 'cancel'
+                  }
+                ],
+                'breadcrumb': []
               }
-            ],
-            'breadcrumb': []
+            },
+            'fields': []
           }
-        },
-        'fields': []
-    };
-  }
-    
-    function saveJsonForm(formId){
-      
+
+      setJsonForm(form);
+      deferred.resolve(form);
+      return deferred.promise;
     }
     
     function getNewFormId() {
       var deferred = $q.defer();
-      deferred.resolve(resetJsonForm());
+      deferred.resolve(getFormTemplate());
 
       return deferred.promise;
     } 
-       
-    function getJsonForm(id){
-      var promise;
-      if (!id) {
-        promise = getNewFormId();
-      }else{
-        promise = httpService.getForm(id).then(function(response) {
-          var jsonModel = response.data;
-          return JSON.parse(jsonModel.json);
-        });
-      }
-
-      return promise;
-    }
-    
+        
     function getActionsTypes() {
       return [
         'new',
@@ -158,17 +141,22 @@
       ]; 
     }
 
+    function getFormWithLabels(){
+      return form; 
+    }
+
     return {
-      editKeyForm: editKeyForm,
-      editLabelForm: editLabelForm,
+      editKey: editKey,
+      editLabel: editLabel,
       editPagination: editPagination,
       editBreadcrumb: editBreadcrumb,
       editDataSource: editDataSource,
       editViews: editViews,
       buildFields: buildFields,
-      saveJsonForm: saveJsonForm,
-      getJsonForm: getJsonForm,
-      getActionsTypes: getActionsTypes
+      getFormTemplate: getFormTemplate,
+      setJsonForm: setJsonForm,
+      getActionsTypes: getActionsTypes,
+      getFormWithLabels: getFormWithLabels
     };
   }
 })();

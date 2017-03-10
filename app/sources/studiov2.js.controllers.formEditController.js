@@ -6,9 +6,9 @@
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
 
-  FormEditController.$inject = ["$scope", "$rootScope", "$q", "$state", "jsonForm", "httpService", "labelsService"];
+  FormEditController.$inject = ["$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", "$l10n"];
   
-  function FormEditController($scope, $rootScope, $q, $state, jsonForm, httpService, labelsService) {
+  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n) {
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
@@ -81,7 +81,6 @@
               getFieldsByEntity(ctrl.jsonModel.dataSource.key);
             });
           }
-
         }).then(function(){
           if (window.location.hash.match('module')){
             var moduleId = window.location.hash.split('?module=').pop();
@@ -91,7 +90,11 @@
     }
 
     function getJsonForm(id){
-      return jsonForm.getJsonForm(id);
+      if (id) {
+        return httpService.getForm(id); 
+      }else{
+        return jsonFormService.getFormTemplate();
+      }
     }
 
     function buildMainSection(formModel) {
@@ -438,19 +441,18 @@
     }
 
     function removeField() {
-      sectionSelected.slice(ctrl.fieldEdit.index, 1);   
+      sectionSelected.slice(ctrl.fieldEdit.index, 1);
     }
 
     function saveForm() {
-      var jsonModelClone = angular.copy(ctrl.jsonModel);
-
       updateFieldsOnJsonModel(ctrl.sections);
-      labelsService.buildLabels(jsonModelClone, ctrl.module.id, ctrl.module.key);
+       
+      labelsService.buildLabels(angular.copy(ctrl.jsonModel), ctrl.module.id, ctrl.module.key);
 
       if(idForm) {
-        httpService.saveEditForm(jsonModelClone, idForm, idModule);
+        httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModule);
       }else{
-        httpService.saveNewForm(jsonModelClone, idModule).then(function(response){
+        httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModule).then(function(response){
           var state = $state.current.name.replace('new', 'edit');
           $state.go(state, {id: response.data.id});
         });
@@ -560,7 +562,8 @@
     }
 
     function saveConfigForm() {
-      ctrl.configForm.key = ctrl.configForm.label.toLowerCase().replace(/\s/g, '-');
+      jsonFormService.editKey(ctrl.configForm.key || ctrl.configForm.label.toLowerCase().replace(/\s/g, '-'));
+
       angular.extend(ctrl.jsonModel, ctrl.configForm);
 
       if (ctrl.firstConfig) {
@@ -655,8 +658,8 @@
         }
       });
 
-      httpService.generateForm(entityId).then(function(response){
-        ctrl.jsonModel = response.data;
+      httpService.generateForm(entityId).then(function(form){
+        ctrl.jsonModel = form;
         ctrl.onConfigForm = false;
 
         buildMainSection(ctrl.jsonModel);
@@ -677,8 +680,8 @@
       breadcrumb.push({divisor: '>', firstDivisor: true});
       breadcrumb.push({label: ctrl.configForm.dataSource.key});
 
-      ctrl.jsonModel.views.edit.breadcrumb = breadcrumb;
-      ctrl.jsonModel.views.list.breadcrumb = breadcrumb;
+      ctrl.jsonModel.views.edit.breadcrumb = angular.copy(breadcrumb);
+      ctrl.jsonModel.views.list.breadcrumb = angular.copy(breadcrumb);
     }
     
     var indexBreadcrumb;
