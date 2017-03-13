@@ -6,10 +6,10 @@
 /*global require module Java logging scriptContext angular*/
 (function() {
   angular
-    .module('studio-v2')
-    .service('jsonFormService', jsonFormService);
+    .module("studio-v2")
+    .service("jsonFormService", jsonFormService);
   
-  jsonFormService.$inject = ['$q', '$filter'];
+  jsonFormService.$inject = ["$q", "$filter"];
   
   function jsonFormService($q, $filter){
     var form = {}
@@ -34,80 +34,72 @@
       form.views[view].breadcrumb = breadcrumb;
     } 
 
+    function editActions(actions, view){
+      form.views[view].actions = actions;
+    }
+
     function editDataSource() {
     }
 
     function editViews() {
     }
 
-    function buildFields(sections, jsonModel) {
-    }
-
-    function getFieldsFromSection(section) {
+    function editFields(fields) {
+      form.fields = fields;
     }
 
     function getFormTemplate(){
       var deferred = $q.defer(),
           form = {
-            'key': '', 
-            'label': '',
-            'pagination': {
-              'type': 'server',
-              'countPerPage': 10 
+            "key": "", 
+            "label": "",
+            "pagination": {
+              "type": "server",
+              "countPerPage": 10 
             },
-            'dataSource': {},
-            'views': {
-              'list': {
-                'actions':[
+            "dataSource": {},
+            "views": {
+              "list": {
+                "actions":[
                   {
-                    'action': 'new',
-                    'name': 'new'
+                    "action": "new",
+                    "name": "new"
                   }
                 ],
-                'breadcrumb': []
+                "breadcrumb": []
               },
-              'edit': {
-                'actions': [
+              "edit": {
+                "actions": [
                   {
-                    'action': 'save',
-                    'label': 'button.save.title',
-                    'name': 'save',
-                    'visible': {
-                      'type': 'map',
-                      'expression': {
-                        'id': 23
-                      }
-                    }              
+                    "action": "save",
+                    "label": "button.save.title",
+                    "name": "save"
                   },
                   {
-                    'action': 'savenew',
-                    'label': 'button.savenew.title',
-                    'name': 'save_new', 
-                    'visible': {
-                      'type': 'function', 
-                      'expression': '(function (data){ console.log(data) })'
-                    }
+                    "action": "savenew",
+                    "label": "button.savenew.title",
+                    "name": "save_new", 
                   },
                   {
-                    'action': 'duplicate',
-                    'label': 'button.duplicate.title',
-                    'name': 'duplicate',
+                    "action": "duplicate",
+                    "label": "button.duplicate.title",
+                    "name": "duplicate",
                   },
                   {
-                    'action': 'remove',
-                    'label': 'button.remove.title',
-                    'name': 'remove'
+                    "action": "remove",
+                    "label": "button.remove.title",
+                    "name": "remove"
                   },
                   {
-                    'action': 'cancel',
-                    'label': 'button.cancel.title',
-                    'name': 'cancel'
+                    "action": "cancel",
+                    "label": "button.cancel.title",
+                    "name": "cancel"
                   }
                 ],
-                'breadcrumb': []
+                "breadcrumb": []
               }
             },
-            'fields': []
+            "fields": []
           }
 
       setJsonForm(form);
@@ -120,24 +112,24 @@
       deferred.resolve(getFormTemplate());
 
       return deferred.promise;
-    } 
-        
+    }
+ 
     function getActionsTypes() {
       return [
-        'new',
-        'list.remove',
-        'list.view_edit',
-        'list.custom',
-        'list.modal',
-        'modal',
-        'custom',
-        'cancel',
-        'remove',
-        'save',
-        'save_new',
-        'duplicate',
-        'include.add',
-        'include.row.edit'
+        "new",
+        "list.remove",
+        "list.view_edit",
+        "list.custom",
+        "list.modal",
+        "modal",
+        "custom",
+        "cancel",
+        "remove",
+        "save",
+        "save_new",
+        "duplicate",
+        "include.add",
+        "include.row.edit"
       ]; 
     }
 
@@ -152,7 +144,8 @@
       editBreadcrumb: editBreadcrumb,
       editDataSource: editDataSource,
       editViews: editViews,
-      buildFields: buildFields,
+      editFields: editFields,
+      editActions: editActions,
       getFormTemplate: getFormTemplate,
       setJsonForm: setJsonForm,
       getActionsTypes: getActionsTypes,

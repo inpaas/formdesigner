@@ -52,7 +52,7 @@
         labels = reponse.data.data;
       });
     }
-    
+
     function buildLabels(jsonForm, moduleId, moduleKey){
       setLabelsNamespace(moduleKey, jsonForm.key);
 
@@ -61,7 +61,10 @@
       buildLabelsFromTitle(jsonForm.label, moduleId);
       buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);
       buildLabelsFromBreadcrumb(jsonForm.views.list.breadcrumb, 'list', moduleId);
-      
+      buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
+      buildLabelsFromActions(jsonForm.views.list.actions, 'list', moduleId);
+      buildLabelsFromFields(jsonForm.fields, moduleId); 
+
       deferred.resolve();
 
       return deferred.promise;
@@ -94,10 +97,36 @@
       jsonFormService.editBreadcrumb(breadcrumb, view);
     }
 
-    function buildLabelsFromActions(actions){
+    function buildLabelsFromActions(actions, view, moduleId){
+      actions.forEach(function(action, index){
+        if (!isKeyLabel(action.label)) {
+          var key = generateKey('action-')
+                    .concat(view)
+                    .concat('-')
+                    .concat('customAction')
+                    .concat(index), 
+              value = action.label;
+
+          action.label = key;
+          $l10n.editLabel(key, value);
+          saveLabel(value, key, moduleId); 
+        }
+      });
+
+      jsonFormService.editActions(actions, view);
     }
 
-    function buildLabelsFromFields(fields){
+    function buildLabelsFromFields(fields, moduleId){
+      fields.forEach(function(field, index){
+        var key = generateKey('field-').concat(field.name),
+            value = field.label;
+
+        field.label = key;
+        $l10n.editLabel(key, value);
+        saveLabel(value, key, moduleId); 
+      });
+
+      jsonFormService.editFields(fields);
     }
 
     function isKeyLabel(label){
@@ -106,10 +135,11 @@
 
     function translateLabels(form){
       form.label = translateTitle(form.label);
-      form.views.edit.breadcrumb = translateBreadcrumb(form.views.edit.breadcrumb);
-      form.views.list.breadcrumb = translateBreadcrumb(form.views.list.breadcrumb);
-      // form.views.edit.actions = translateActions(form.views.list.actions);
-      // form.views.list.actions = translateFields(form.views.edit.actions);
+      translateBreadcrumb(form.views.edit.breadcrumb);
+      translateBreadcrumb(form.views.list.breadcrumb);
+      translateActions(form.views.list.actions);
+      translateActions(form.views.edit.actions);
+      translateFields(form.fields);
 
       return form;
     }
@@ -124,8 +154,18 @@
           item.label = $l10n.translate(item.label);
         }
       });
+    }
 
-      return breadcrumb;
+    function translateActions(actions){
+      actions.forEach(function(action, index){
+        action.label = $l10n.translate(action.label);
+      }); 
+    }
+
+    function translateFields(fields){
+      fields.forEach(function(field, index){
+        field.label = $l10n.translate(field.label);
+      });
     }
 
     return{
