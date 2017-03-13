@@ -406,7 +406,7 @@
     }
 
     function autoSelectSection(){
-      ctrl.selectSection = ctrl.sections[0];
+      ctrl.sectionSelected = ctrl.sections[0];
     }
 
     function findFieldOnJson(bind){
@@ -441,6 +441,10 @@
     }
 
     function removeField(index) {
+      if (!ctrl.sectionSelected) {
+        autoSelectSection();
+      }
+
       ctrl.sectionSelected.fields.splice(index, 1);
     }
 
