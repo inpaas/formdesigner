@@ -63,7 +63,8 @@
                 "actions":[
                   {
                     "action": "new",
-                    "name": "new"
+                    "name": "new",
+                    "label": "button.new.title"
                   }
                 ],
                 "breadcrumb": []
