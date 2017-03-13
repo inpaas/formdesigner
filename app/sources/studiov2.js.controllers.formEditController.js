@@ -305,7 +305,7 @@
     }
     
     function setNameField(field) {
-      field.name = 'input'.concat(field.label.replace(/\s/g, ''));
+      field.name = 'input'.concat(field.bind);
     } 
 
     function setViewsField(field) {
