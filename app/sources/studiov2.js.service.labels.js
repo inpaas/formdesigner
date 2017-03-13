@@ -99,7 +99,7 @@
 
     function buildLabelsFromActions(actions, view, moduleId){
       actions.forEach(function(action, index){
-        if (!isKeyLabel(action.label)) {
+        if (action.label && !isKeyLabel(action.label)) {
           var key = generateKey('action-')
                     .concat(view)
                     .concat('-')
@@ -109,7 +109,7 @@
 
           action.label = key;
           $l10n.editLabel(key, value);
-          saveLabel(value, key, moduleId); 
+          saveLabel(value, key, moduleId);
         }
       });
 
