@@ -562,6 +562,12 @@
 
       httpService.getFieldsByEntity(entityId).then(function(response) {
         ctrl.data.entityFields = response.data.attributes;
+        
+        ctrl.data.entityFields.forEach(function(field, index){
+          if (field.primaryKey) {
+            jsonFormService.setKeyToDetails(field.alias);
+          } 
+        });
       });
     }
 

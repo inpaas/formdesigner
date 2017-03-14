@@ -138,6 +138,10 @@
       return form; 
     }
 
+    function setKeyToDetails(key){
+      form.views.list.keyToDetails = key;
+    }
+
     return {
       editKey: editKey,
       editLabel: editLabel,
@@ -150,7 +154,8 @@
       getFormTemplate: getFormTemplate,
       setJsonForm: setJsonForm,
       getActionsTypes: getActionsTypes,
-      getFormWithLabels: getFormWithLabels
+      getFormWithLabels: getFormWithLabels,
+      setKeyToDetails: setKeyToDetails
     };
   }
 })();
