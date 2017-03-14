@@ -105,7 +105,7 @@
         method: 'get',
         url: url
       }).then(function(response){
-        var form = JSON.parse(response.data.json);
+        var form = angular.copy(response.data);
 
         jsonFormService.setJsonForm(form);
         form = labelsService.translateLabels(form);
