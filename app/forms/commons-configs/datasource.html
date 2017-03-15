@@ -1,0 +1,33 @@
+<!-- <div class="col-sm-12 col-xs-12 no-padding form-group">
+  <label for="">Origem das opções</label>
+  <select  class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSourceType" ng-change="ctrl.changeDataSourceField()" readyonly>
+    <option value="">Selecione</option>
+    <option value="E">Entidade</option>
+    <option value="S">Serviço</option>
+    <option value="M">Criar opções</option>
+    <option value="D">Seleção de Opções</option>
+  </select>
+</div>
+ -->
+<div class="col-sm-12 col-xs-12 no-padding form-group" ng-if="ctrl.fieldEdit.dataSource.type === 'E'">
+  <label for="">Tabela Relacionada</label>
+  <input type="text" class="form-control" ng-model="ctrl.fieldEdit.dataSource.entity">
+</div>
+<!-- <div class="col-sm-12 col-xs-12 no-padding form-group">
+  <label for="">Tabela Relacionada</label>
+  <select  class="form-control input-sm">
+    <option value="">Cliente</option>
+    <option value="">Time</option>
+    <option value="">Usuário</option>
+    <option value="">Caso</option>
+  </select>
+</div>
+
+<div class="col-sm-12 col-xs-12 no-padding form-group">
+  <label for="">Atributo</label>
+  <select  class="form-control input-sm">
+    <option value="">E-mail</option>
+    <option value="">Usuário</option>
+    <option value="">Status</option>
+  </select>
+</div> -->

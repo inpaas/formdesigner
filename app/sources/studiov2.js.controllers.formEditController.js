@@ -57,7 +57,8 @@
       generateForm: generateForm,
       removeField: removeField,
       bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
-      enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb
+      enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
+      currentEntity: {}
     });    
 
     init(); 
@@ -283,8 +284,38 @@
     
     function setTypeField(type) {
       ctrl.fieldEdit.meta.type = type;
+
+      switch (type){
+        case 'checkbox':
+          setTypeCheckbox();
+          break;
+      }
+
       showEditField();
+
+      function setTypeCheckbox(){
+        if(ctrl.fieldEdit.rawEntityField.domains){
+          ctrl.fieldEdit.dataSourceType = 'D';
+        }else{
+          findReferences(ctrl.fieldEdit);
+        }
+      }
     } 
+
+    function findReferences(fieldForm){
+      ctrl.currentEntity.references.forEach(function(ref, index){
+        if (ref.field === fieldForm.entityName) {
+          fieldForm.dataSource = {
+            type: 'E',
+            key: ref.entity
+          }
+          fieldForm.dataSourceType = 'E';
+        }
+      });
+    }
+
+    function setOptions(type){
+    }
 
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
@@ -294,6 +325,12 @@
       setFilterModel(ctrl.fieldEdit);
       setViewsField(ctrl.fieldEdit);
       setNameField(ctrl.fieldEdit);
+
+      delete ctrl.fieldEdit.rawEntityField;
+
+      if (ctrl.fieldEdit.meta.type.match(/(select)/g)) {
+        setOptions();
+      }
 
       if (angular.isUndefined(ctrl.fieldEdit.id)){
         addNewField();
@@ -370,12 +407,14 @@
 
     function addSection(){}
  
-    function addField(bind) {
-      var fieldEdit = {
+    function addField(entityField) {
+      var bind = entityField.alias,
+          fieldEdit = {
             meta: {
               bind: bind
             },
-            views: {}
+            views: {},
+            rawEntityField: angular.copy(entityField)
           }
 
       ctrl.fieldEdit = angular.copy(fieldEdit);
@@ -561,8 +600,9 @@
       });
 
       httpService.getFieldsByEntity(entityId).then(function(response) {
+        ctrl.currentEntity = response.data;
         ctrl.data.entityFields = response.data.attributes;
-        
+
         ctrl.data.entityFields.forEach(function(field, index){
           if (field.primaryKey) {
             jsonFormService.setKeyToDetails(field.alias);
@@ -593,14 +633,19 @@
       showComponents();
     }
 
-    function editField(field, index) {
+    function editField(formField, index) {
       if(ctrl.onBindBreadcrumb){
-        bindFieldOnBreadcrumb(field.meta.bind);
+        bindFieldOnBreadcrumb(formField.meta.bind);
         return;
       }
       
-      ctrl.fieldEdit = field;
-      ctrl.fieldEdit.index = index;
+      ctrl.currentEntity.attributes.forEach(function(entityField, index){
+        if(entityField.alias === formField.bind){
+          formField.rawEntityField = entityField;
+        }
+      });
+
+      ctrl.fieldEdit = formField;
       showEditField();
     }
 
