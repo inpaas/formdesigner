@@ -306,7 +306,7 @@
 
       function setTypeSelect(){
         if(ctrl.fieldEdit.rawEntityField.domains){
-          ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
+          ctrl.fieldEdit.meta.options = ctrl.fieldEdit.rawEntityField.domains;
         }else{
           findReferences(fieldForm);
         }
@@ -325,9 +325,6 @@
       });
     }
 
-    function setOptions(type){
-    }
-
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
 
@@ -337,12 +334,11 @@
       setViewsField(ctrl.fieldEdit);
       setNameField(ctrl.fieldEdit);
 
-      delete ctrl.fieldEdit.rawEntityField;
-
       if (angular.isUndefined(ctrl.fieldEdit.id)){
         addNewField();
       }
 
+      delete ctrl.fieldEdit.rawEntityField;
       ctrl.sectionSelected.onNewField = false;
       ctrl.fieldEdit = {};
       showComponents();
