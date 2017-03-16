@@ -289,6 +289,9 @@
         case 'checkbox':
           setTypeCheckbox();
           break;
+        case 'select':
+          setTypeSelect();
+          break;
       }
 
       showEditField();
@@ -298,6 +301,14 @@
           ctrl.fieldEdit.dataSourceType = 'D';
         }else{
           findReferences(ctrl.fieldEdit);
+        }
+      }
+
+      function setTypeSelect(){
+        if(ctrl.fieldEdit.rawEntityField.domains){
+          ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
+        }else{
+          findReferences(fieldForm);
         }
       }
     } 
@@ -327,10 +338,6 @@
       setNameField(ctrl.fieldEdit);
 
       delete ctrl.fieldEdit.rawEntityField;
-
-      if (ctrl.fieldEdit.meta.type.match(/(select)/g)) {
-        setOptions();
-      }
 
       if (angular.isUndefined(ctrl.fieldEdit.id)){
         addNewField();
@@ -613,7 +620,7 @@
     function saveConfigForm() {
       angular.extend(ctrl.jsonModel, ctrl.configForm);
       jsonFormService.editConfigForm(ctrl.configForm);
-      
+
       if (ctrl.firstConfig) {
         setBreadcrumb();
       }
@@ -638,7 +645,7 @@
       }
       
       ctrl.currentEntity.attributes.forEach(function(entityField, index){
-        if(entityField.alias === formField.bind){
+        if(entityField.alias === formField.meta.bind){
           formField.rawEntityField = entityField;
         }
       });
