@@ -345,7 +345,7 @@
     }
     
     function setNameField(field) {
-      field.name = 'input'.concat(field.bind);
+      field.name = 'input'.concat(field.meta.bind);
     } 
 
     function setViewsField(field) {
