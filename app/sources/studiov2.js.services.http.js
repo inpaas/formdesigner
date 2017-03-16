@@ -93,6 +93,7 @@
           template: '',
           allowAnon: false,
           key: form.key,
+          name: form.label,
           json: JSON.stringify(form)
         }
       });
