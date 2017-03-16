@@ -489,7 +489,6 @@
 
     function saveForm() {
       updateFieldsOnJsonModel(ctrl.sections);
-       
       labelsService.buildLabels(angular.copy(ctrl.jsonModel), ctrl.module.id, ctrl.module.key);
 
       if(idForm) {
@@ -612,10 +611,9 @@
     }
 
     function saveConfigForm() {
-      jsonFormService.editKey(ctrl.configForm.key || ctrl.configForm.label.toLowerCase().replace(/\s/g, '-'));
-
       angular.extend(ctrl.jsonModel, ctrl.configForm);
-
+      jsonFormService.editConfigForm(ctrl.configForm);
+      
       if (ctrl.firstConfig) {
         setBreadcrumb();
       }
