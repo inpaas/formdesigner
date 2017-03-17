@@ -72,6 +72,8 @@ select.input-sm {
   background: #F6F6F6;
   padding-bottom: 67px;
   border-right: solid 1px #eaeaea;
+  padding-bottom: 0;
+  overflow: hidden;
 }
 
 .edit-form .sidebar .box-sb {
@@ -276,6 +278,14 @@ ul.list-existing li.field-existing.field-active {
   filter: alpha(opacity=95);
   cursor: default;
 }
+
+
+.edit-form ul.nav-components
+{
+  height: 100%;
+  overflow: auto;
+}
+
 .edit-form ul.nav-components,
 .edit-form ul.nav-components li.item-components {
   float: left;
@@ -431,6 +441,9 @@ ul.nav-components li.item-components .widget-toolbar i {
   padding-bottom: 10px;
   z-index: 101;
   border-right: solid 1px #eaeaea;
+  padding: 0;
+  overflow: hidden;
+  padding-bottom: 67px;
 }
 .container-fields .settings .box-advanced {
   margin-top: 20px;
@@ -543,7 +556,7 @@ ul.nav-components li.item-components .widget-toolbar i {
 
 .row-widget .widget-box:hover .widget-body .widget-main .col-wdg:first-child, 
 .row-widget .widget-box:hover .widget-body .widget-main .col-wdg:nth-child(2) {
-    border-right: solid 5px #f8fcfd;
+  border-right: solid 5px #f8fcfd;
 }
 
 .row-widget .widget-box:hover .widget-body .widget-main .col-wdg.col-sm-offset-2
@@ -555,11 +568,11 @@ ul.nav-components li.item-components .widget-toolbar i {
 }
 
 .row-widget .widget-box:hover .widget-body .widget-main .col-wdg:before {
-    content: "";
-    border: dashed 1px #d6e8ea;
-    width: 100%;
-    height: 100%;
-    position: absolute;
+  content: "";
+  border: dashed 1px #d6e8ea;
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 
 .row-widget .widget-main .col-wdg:last-child {
@@ -598,14 +611,14 @@ ul.nav-components li.item-components .widget-toolbar i {
 }
 
 .row-edit-this .field-edit-this:hover .fa.fa-trash {
-    color: #f3543a;
+  color: #f3543a;
 }
 
 .row-edit-this .field-edit-this:hover{
   transition: .3s;
   background: rgba(238, 247, 251, 0.5);
   border: dashed 1px #6BCDFD;
-      padding: 0 20px;
+  padding: 0 20px;
 }
 
 .edit-form .container-fields .dragOver .field-placeholder .active-this{
@@ -614,17 +627,17 @@ ul.nav-components li.item-components .widget-toolbar i {
 }
 
 .main-full .field-bc {
-    border: dashed 1px #50e638;
-    background: #f1fdef;
+  border: dashed 1px #50e638;
+  background: #f1fdef;
 }
 
 .main-full .field-bc .input-sm {
-    background: #f1fdef;
-    border-color: #d1eacd;
+  background: #f1fdef;
+  border-color: #d1eacd;
 }
 
 ul.dropdown-menu li.tlt-drop {
-    padding: 0 10px;
+  padding: 0 10px;
 }
 
 /* ==============================| Sidebar Campo |============================== */
@@ -1118,7 +1131,7 @@ div.page-actions .btn{
   -moz-box-shadow: 0px 0px 5px 0px rgba(229,229,229,1);
   box-shadow: 0px 0px 5px 0px rgba(229,229,229,1);
   z-index: 5;
-      border: solid 8px #fff;
+  border: solid 8px #fff;
 }
 
 .breadcrumb > .breadcrumb-item.bc-bind .trash-bc-input
@@ -1147,11 +1160,11 @@ div.page-actions .btn{
   position: absolute;
   padding: 0 8px 8px;
   left: -7px;
-    right: -8px;
-    background: white;
-    top: 37px;
-    box-shadow: 0px 3px 5px 0px rgba(229,229,229,1);
-    width: 200px;
+  right: -8px;
+  background: white;
+  top: 37px;
+  box-shadow: 0px 3px 5px 0px rgba(229,229,229,1);
+  width: 200px;
 }
 
 .breadcrumb > .breadcrumb-item.bc-bind:hover .item-op
@@ -1491,11 +1504,11 @@ section.modal_st article.modal_st-dialog .modal_st-content
 /* ======================= Fim Modal ======================== */
 
 .form-group {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .row-checkbox .row .form-group .tlt-rule {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .map-rule
