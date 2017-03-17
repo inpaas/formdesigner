@@ -1,139 +1,177 @@
 <!-- Config Form -->
 <div class="settings" ng-show="ctrl.onConfigForm">
-    <!-- Sidebar Propriedades do Formulário -->
-    <div class="sb-property">
-        <ul class="nav-components">
+  <!-- Sidebar Propriedades do Formulário -->
+  <div class="sb-property">
+    <ul class="nav-components">
 
-            <!-- Estrutura -->
-            <li class="item-components">
-                Propriedades do Form
-            </li><!-- Estrutura -->
-            <div class="inner-item">
-                <div class="row">
-                    <div class="form-group">
-                        <label for="">Título do Formulário</label>
-                        <input class="form-control input-sm" 
-                                type="text" 
-                                placeholder="Título do Formulário" 
-                                autofocus 
-                                ng-model="ctrl.configForm.label">
-                    </div>
-                </div>
-                <div class="form-group clearfix">
-                    <div class="col-xs-12 col-sm-12 no-padding">
-                        <label>Tipo do Data Source</label>
-                    </div> 
-                    <div class="col-xs-12 col-sm-6 no-padding">
-                        <label for="type-entity">
-                            <input type="radio" ng-model="ctrl.configForm.dataSource.type" name="type-data" id="type-entity" value="E">
-                            Entidade 
-                        </label>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 no-padding">
-                        <label for="type-service">
-                            <input type="radio" ng-model="ctrl.configForm.dataSource.type" name="type-data" id="type-service" value="S"> 
-                            Serviço 
-                        </label>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <div class="btn-group">
-                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                {[{ ctrl.module.title || 'Módulos' }]} <i class="caret"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-                                <li ng-repeat="mod in app.modules" ng-click="ctrl.getModule(mod.id)"> 
-                                    <a href="" ng-bind="mod.title"></a>
-                                </li>
-                                <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
-                            </ul>
-                        </div>
-                        <!-- <label for="">Módulo</label>
-                            <select  class="form-control input-sm" 
-                                id="input-crm_person-do_type" 
-                                ng-model="ctrl.configForm.dataSource.module"
-                                ng-options="value as label for mod in ctrl.modules">
-                            <option value="">Selecione</option>
-                        </select> -->
-                    </div>
-                </div>
-
-                <div class="row" ng-show="ctrl.configForm.dataSource.type == 'E'">
-                    <div class="form-group">
-                        <label for="">Origem de Dado</label>
-                        <select class="form-control input-sm" 
-                                ng-model="ctrl.configForm.dataSource.key"
-                                ng-change="ctrl.getFieldsByEntity(ctrl.configForm.dataSource.key)"
-                                ng-options="entity.name as entity.name for entity in ctrl.entities">
-                            <option value="">Selecione</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="form-group">
-                        <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.configForm.inactive">
-                        <label for="cbx-unconditional-search">Formulário Inativo</label>
-                    </div>
-                </div>
-                <!-- <div class="row">
-                    <div class="col-xs-12 col-sm-12 no-padding">
-                        <label for="">Template</label>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 no-padding">
-                        <select  class="form-control input-sm" id="input-crm_person-do_type"> </select>
-                    </div>
-                </div> -->
-                <div class="row">
-                    <div class="form-group">
-                        <label for="">Descrição</label>
-                        <textarea class="form-control input-sm input-txt" required="required" ng-model="ctrl.configForm.description"></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <button type="button" id="advancedMode" class="btn btn-success btn-block" ng-click="ctrl.generateForm()">Gerar Formulário</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <button type="button" class="btn btn-danger btn-block">Deletar Formulário</button>
-                    </div>
-                </div>
+      <!-- Estrutura -->
+      <li class="item-components">
+        Propriedades do Form
+      </li><!-- Estrutura -->
+      <div class="inner-item">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <label for="">Título do Formulário</label>
+              <input class="form-control input-sm" autofocus placeholder="Digite aqui" type="text" ng-model="ctrl.configForm.label">
             </div>
-        </ul><!-- End Nav -->
-
-        <div class="action-buttons">                        
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 no-padding col-pdd">
-                    <button type="button" id="btnCancelPropriets" class="btn btn-default btn-block" ng-click="ctrl.cancelConfigForm()">Cancelar</button>
-                </div>
-                <div class="col-xs-12 col-sm-6 no-padding">
-                    <button type="button" class="btn btn-success btn-block" ng-click="ctrl.saveConfigForm()">Salvar</button>
-                </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <label for="">Chave do Formulário</label>
+              <input class="form-control input-sm" placeholder="Digite aqui" type="text">
             </div>
+          </div>
         </div>
-    </div><!-- End Sidebar Propriedades do Formulário -->
-
-    <!-- Sidebar Propriedades do Formulário -->
-    <div class="modal-alert" style="display: none;">
-        <div class="hd-md danger">
-            <h4 class="title-md">Atenção</h4>
-        </div>
-        <div class="bd-md">
-            <p class="txt-info">
-                Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi.
-            </p>
-        </div>
-        <div class="row ft-md">
-            <div class="col-xs-12 col-sm-12 text-right">
-                <button type="button" id="cancelModal" class="btn btn-default">Cancelar</button>
-                <button type="button" id="confirmModal" class="btn btn-primary">Confirmar</button>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <label for="">Módulo do formulário</label>
+              <select  class="form-control input-sm">
+                <option selected>Nenhum selecionado</option>
+                <option value="1">Útils</option>
+                <option value="2">SFA</option>
+                <option value="3">E-mail</option>
+              </select>
             </div>
+          </div>
         </div>
-    </div><!-- End Sidebar Propriedades do Formulário -->
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <label for="">Permissão</label>
+              <select  class="form-control input-sm">
+                <option selected>Nenhum selecionado</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group clearfix">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <label>Tipo do Data Source</label>
+          </div> 
+          <div class="col-xs-12 col-sm-6 no-padding">
+            <label for="type-entity">
+              <input type="radio" ng-model="ctrl.configForm.dataSource.type" name="type-data" id="type-entity" value="E">
+              Entidade 
+            </label>
+          </div>
+          <div class="col-xs-12 col-sm-6 no-padding">
+            <label for="type-service">
+              <input type="radio" ng-model="ctrl.configForm.dataSource.type" name="type-data" id="type-service" value="S"> 
+              Serviço 
+            </label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <div class="btn-group btn-block">
+                <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                  {[{ ctrl.module.title || 'Módulos' }]} <i class="caret"></i>
+                </button>
+                <ul class="dropdown-menu btn-block">
+                  <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+                  <li ng-repeat="mod in app.modules" ng-click="ctrl.getModule(mod.id)"><a href="" ng-bind="mod.title"></a></li>
+                  <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" ng-show="ctrl.configForm.dataSource.type == 'E'">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <label for="">Origem de Dado</label>
+              <select class="form-control input-sm" ng-model="ctrl.configForm.dataSource.key" ng-change="ctrl.getFieldsByEntity(ctrl.configForm.dataSource.key)" ng-options="entity.name as entity.name for entity in ctrl.entities">
+                <option value="">Selecione</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.configForm.inactive">
+              <label for="cbx-unconditional-search">Formulário Inativo</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <label for="">Template</label>
+          </div>
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <select  class="form-control input-sm">
+              <option selected>Nenhum selecionado</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <label for="">Descrição</label>
+              <textarea class="form-control input-sm input-txt" required="required" ng-model="ctrl.configForm.description"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <button type="button" id="advancedMode" class="btn btn-primary btn-block" ng-click="ctrl.generateForm()"><i class="fa fa-magic" aria-hidden="true"></i> Gerar Formulário</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <button type="button" class="btn btn-success btn-block"><i class="fa fa-download" aria-hidden="true"></i> Exportar formulário</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 no-padding">
+              <div class="form-group">
+                <button type="button" class="btn btn-danger btn-block"><i class="fa fa-trash" aria-hidden="true"></i> Deletar Formulário</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ul><!-- End Nav -->
+
+    <div class="action-buttons">                        
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 no-padding col-pdd">
+          <button type="button" id="btnCancelPropriets" class="btn btn-default btn-block" ng-click="ctrl.cancelConfigForm()">Cancelar</button>
+        </div>
+        <div class="col-xs-12 col-sm-6 no-padding">
+          <button type="button" class="btn btn-success btn-block" ng-click="ctrl.saveConfigForm()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- End Sidebar Propriedades do Formulário -->
+
+  <!-- Sidebar Propriedades do Formulário -->
+  <div class="modal-alert" style="display: none;">
+    <div class="hd-md danger">
+      <h4 class="title-md">Atenção</h4>
+    </div>
+    <div class="bd-md">
+      <p class="txt-info">
+        Lorem ipsum dolor sit amet, sapien etiam, nunc amet dolor ac odio mauris justo. Luctus arcu, urna praesent at id quisque ac. Arcu es massa vestibulum malesuada, integer vivamus elit eu mauris eus, cum eros quis aliquam wisi.
+      </p>
+    </div>
+    <div class="row ft-md">
+      <div class="col-xs-12 col-sm-12 text-right">
+        <button type="button" id="cancelModal" class="btn btn-default">Cancelar</button>
+        <button type="button" id="confirmModal" class="btn btn-primary">Confirmar</button>
+      </div>
+    </div>
+  </div><!-- End Sidebar Propriedades do Formulário -->
 </div>
-<!-- End Config form -->
