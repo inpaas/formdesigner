@@ -56,7 +56,10 @@
           <div class="col-xs-12 col-sm-12 no-padding">
             <div class="form-group">
               <label for="">Origem de Dado</label>
-              <select class="form-control input-sm" ng-model="ctrl.configForm.dataSource.key" ng-change="ctrl.getFieldsByEntity(ctrl.configForm.dataSource.key)" ng-options="entity.name as entity.name for entity in ctrl.entities">
+              <select class="form-control input-sm" 
+                      ng-model="ctrl.configForm.dataSource.key" 
+                      ng-change="ctrl.getFieldsByEntity(ctrl.configForm.dataSource.key)" 
+                      ng-options="entity.name as entity.name for entity in ctrl.entities">
                 <option value="">Selecione</option>
               </select>
             </div>
@@ -67,9 +70,12 @@
           <div class="col-xs-12 col-sm-12 no-padding">
             <div class="form-group">
               <label for="">Permissão</label>
-              <select class="form-control input-sm" ng-model="ctrl.configForm.permissions" ng-options="pm.key as pm.title for pm in ctrl.permissions">
-                <option value="">Nenhum selecionado</option>
-              </select>
+              <input type="text" 
+                    class="form-control" 
+                    ng-model="ctrl.configForm.permissions"
+                    placeholder="Permissão" 
+                    uib-typeahead="pm.key as pm.title for pm in ctrl.permissions | filter:{title: $viewValue}" 
+                    typeahead-min-length="1" />
             </div>
           </div>
         </div>
@@ -138,7 +144,7 @@
       </div>
     </ul><!-- End Nav -->
 
-    <div class="action-buttons">                        
+    <div class="action-buttons">
       <div class="row">
         <div class="col-xs-12 col-sm-6 no-padding col-pdd">
           <button type="button" id="btnCancelPropriets" class="btn btn-default btn-block" ng-click="ctrl.cancelConfigForm()">Cancelar</button>
