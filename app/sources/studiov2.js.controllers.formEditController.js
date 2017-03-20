@@ -87,6 +87,9 @@
             var moduleId = window.location.hash.split('?module=').pop();
             getModule(moduleId);
           }
+        })
+        .then(function(){
+          getPermissions(idModule);
         });
     }
 
@@ -583,6 +586,8 @@
         ctrl.entities = response.data['data-sources'];
         idModule = id;
       }); 
+
+      getPermissions(id);
     }
 
     function getEntitiesByModule(idModule) {
@@ -600,6 +605,8 @@
           entityId = entity.id;
         } 
       });
+
+      ctrl.configForm.dataSource.entityId = entityId;
 
       httpService.getFieldsByEntity(entityId).then(function(response) {
         ctrl.currentEntity = response.data;
@@ -706,15 +713,15 @@
     }
 
     function generateForm() {
-      var entityId;
+      if (ctrl.jsonModel.fields.length) {
+        var confirm = window.confirm('Ao gerar um novo formulário, o atual será apagado. Deseja realmente fazer isto?');   
+      }
+      
+      if (ctrl.jsonModel.fields.length && !confirm) {
+        return false; 
+      }
 
-      ctrl.entities.forEach(function(entity, index){
-        if (entity.name == ctrl.configForm.dataSource.key) {
-          entityId = entity.id;
-        }
-      });
-
-      httpService.generateForm(entityId).then(function(form){
+      httpService.generateForm(ctrl.configForm.dataSource.entityId).then(function(form){
         ctrl.jsonModel = form;
         ctrl.onConfigForm = false;
 
@@ -757,5 +764,11 @@
         enableSelectFieldToBreadcrumb(indexBreadcrumb);
       });
     } 
+
+    function getPermissions(moduleId){
+      httpService.getPermissions(moduleId).then(function(response){
+        ctrl.permissions = angular.copy(response.data); 
+      });
+    }
   };
 })();
