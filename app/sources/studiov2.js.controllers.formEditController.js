@@ -652,6 +652,13 @@
     function generateForm() {
       var entityId;
 
+      if (ctrl.jsonModel.fields.length) {
+        var confirm = window.confirm("O formulário em edição será perdido. Deseja realmente gerar um novo?");
+        if (!confirm) {
+          return false;
+        }
+      }
+
       ctrl.entities.forEach(function(entity, index){
         if (entity.name == ctrl.configForm.dataSource.key) {
           entityId = entity.id;
@@ -661,6 +668,7 @@
       httpService.generateForm(entityId).then(function(form){
         ctrl.jsonModel = form;
         ctrl.onConfigForm = false;
+        ctrl.sections.length = 0;
 
         buildMainSection(ctrl.jsonModel);
         buildFields(ctrl.jsonModel.fields);
