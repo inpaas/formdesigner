@@ -581,7 +581,7 @@
     }
 
     function getModule(id) {
-      return httpService.getModule(id).then(function(response) {
+      httpService.getModule(id).then(function(response) {
         ctrl.module = response.data;
         ctrl.entities = response.data['data-sources'];
         idModule = id;
@@ -716,7 +716,7 @@
       if (ctrl.jsonModel.fields.length) {
         var confirm = window.confirm('Ao gerar um novo formulário, o atual será apagado. Deseja realmente fazer isto?');   
       }
-      
+
       if (ctrl.jsonModel.fields.length && !confirm) {
         return false; 
       }
