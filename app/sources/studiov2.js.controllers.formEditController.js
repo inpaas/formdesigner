@@ -441,7 +441,7 @@
     }
 
     function removeField() {
-      sectionSelected.slice(ctrl.fieldEdit.index, 1);
+      ctrl.sectionSelected.fields.splice(ctrl.fieldEdit.index, 1);
     }
 
     function saveForm() {
