@@ -635,6 +635,7 @@
         setBreadcrumb();
       }
 
+      idModule = ctrl.moduleForm.id;
       ctrl.onConfigForm = false;
     }
 

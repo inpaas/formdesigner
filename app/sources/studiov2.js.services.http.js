@@ -76,7 +76,8 @@
         url: url,
         data: {
           name: form.label,
-          key: form.key
+          key: form.key,
+          module: idModule
         }
       }).then(function(response){
         return saveEditForm(form, response.data.id, idModule);
@@ -97,7 +98,8 @@
           allowAnon: false,
           key: form.key,
           name: form.label,
-          json: JSON.stringify(form)
+          json: JSON.stringify(form),
+          module: idModule
         }
       });
     }
