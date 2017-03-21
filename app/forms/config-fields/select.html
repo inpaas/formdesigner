@@ -1,26 +1,20 @@
-<div class="col-sm-12 col-xs-12 no-padding form-group">
-  <label for="">Tabela Relacionada</label>
-  <select  class="form-control input-sm">
-    <option value="">Cliente</option>
-    <option value="">Time</option>
-    <option value="">Usuário</option>
-    <option value="">Caso</option>
-  </select>
-</div>
+{{#include-html}}studiov2.forms.sidebar.config-fields.datasource{{/include-html}}
 
-<div class="col-sm-12 col-xs-12 no-padding form-group">
-  <label for="">Atributo</label>
-  <select  class="form-control input-sm">
-    <option value="">E-mail</option>
-    <option value="">Usuário</option>
-    <option value="">Status</option>
-  </select>
+<label for="">Opções disponíveis</label>
+<div class="row" ng-repeat="option in ctrl.fieldEdit.meta.options">
+  <div class="col-sm-5 col-xs-5 no-padding">
+    <label for="">Chave</label>
+    <input class="form-control input-sm" placeholder="Chave" type="text" ng-model="option.translatedLabel">
+  </div>
+  <div class="col-sm-5 col-xs-5">
+    <label for="">Valor</label>
+    <input class="form-control input-sm" placeholder="Valor" type="text" ng-model="option.value" disabled>
+  </div>
+  <div class="col-sm-2 col-xs-2 no-padding">
+    <label for=""></label>
+    <button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.fieldEdit.meta.options.splice($index, 1)">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+  </div>
 </div>
-
-<div class="col-sm-12 col-xs-12 no-padding form-group">
-  <label for="">Dependencia</label>
-  <select  class="form-control input-sm">
-    <option value="">Status do Evento</option>    
-    <option value="">Id do Usuário</option>
-  </select>
-</div>
+<br>

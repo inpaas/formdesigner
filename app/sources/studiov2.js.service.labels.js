@@ -99,7 +99,7 @@
 
     function buildLabelsFromActions(actions, view, moduleId){
       actions.forEach(function(action, index){
-        if (!isKeyLabel(action.label)) {
+        if (action.label && !isKeyLabel(action.label)) {
           var key = generateKey('action-')
                     .concat(view)
                     .concat('-')
@@ -109,7 +109,7 @@
 
           action.label = key;
           $l10n.editLabel(key, value);
-          saveLabel(value, key, moduleId); 
+          saveLabel(value, key, moduleId);
         }
       });
 
@@ -124,9 +124,25 @@
         field.label = key;
         $l10n.editLabel(key, value);
         saveLabel(value, key, moduleId); 
+
+        if(field.meta.type === 'select') {
+          buildLabelsOptions(field.name, field.meta.options); 
+        }
       });
 
       jsonFormService.editFields(fields);
+
+      function buildLabelsOptions(fieldName, options){
+        options.forEach(function(item, index){
+          var key = generateKey('field-')
+                      .concat(fieldName)
+                      .concat('-option'),
+              value = item.label; 
+
+          $l10n.editLabel(item.label, value);
+          saveLabel(value, item.label, moduleId); 
+        });
+      }
     }
 
     function isKeyLabel(label){
@@ -165,6 +181,10 @@
     function translateFields(fields){
       fields.forEach(function(field, index){
         field.label = $l10n.translate(field.label);
+
+        if (field.meta && field.meta.options) {
+          translateFields(field.meta.options); 
+        }
       });
     }
 

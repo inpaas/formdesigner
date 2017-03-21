@@ -93,6 +93,7 @@
           template: '',
           allowAnon: false,
           key: form.key,
+          name: form.label,
           json: JSON.stringify(form)
         }
       });
@@ -105,7 +106,7 @@
         method: 'get',
         url: url
       }).then(function(response){
-        var form = JSON.parse(response.data.json);
+        var form = angular.copy(response.data);
 
         jsonFormService.setJsonForm(form);
         form = labelsService.translateLabels(form);
@@ -114,6 +115,18 @@
       });
     }
 
+    function getPermissions(moduleId) {
+      var url = '/api/iam/permissions';
+
+      return $http({
+        method: 'get',
+        url: url,
+        params: {
+          module: moduleId
+        }
+      });
+    }
+    
     return {
       getModule: getModule,
       getApps: getApps,
@@ -122,7 +135,8 @@
       getForm: getForm,
       saveEditForm: saveEditForm,
       saveNewForm: saveNewForm,
-      generateForm: generateForm
+      generateForm: generateForm,
+      getPermissions: getPermissions
     }
   }
 

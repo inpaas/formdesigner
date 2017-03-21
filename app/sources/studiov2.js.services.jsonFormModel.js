@@ -38,7 +38,8 @@
       form.views[view].actions = actions;
     }
 
-    function editDataSource() {
+    function editDataSource(dataSource) {
+      form.dataSource = dataSource;
     }
 
     function editViews() {
@@ -63,7 +64,8 @@
                 "actions":[
                   {
                     "action": "new",
-                    "name": "new"
+                    "name": "new",
+                    "label": "button.new.title"
                   }
                 ],
                 "breadcrumb": []
@@ -137,6 +139,17 @@
       return form; 
     }
 
+    function setKeyToDetails(key){
+      form.views.list.keyToDetails = key;
+    }
+
+    function editConfigForm(configForm){
+      var key = configForm.key || configForm.label.toLowerCase().replace(/\s/g, '-');
+      editKey(key);
+      editLabel(configForm.label);
+      editDataSource(configForm.dataSource);
+    }
+
     return {
       editKey: editKey,
       editLabel: editLabel,
@@ -149,7 +162,9 @@
       getFormTemplate: getFormTemplate,
       setJsonForm: setJsonForm,
       getActionsTypes: getActionsTypes,
-      getFormWithLabels: getFormWithLabels
+      getFormWithLabels: getFormWithLabels,
+      setKeyToDetails: setKeyToDetails,
+      editConfigForm: editConfigForm
     };
   }
 })();
