@@ -82,14 +82,6 @@
               getFieldsByEntity(ctrl.jsonModel.dataSource.key);
             });
           }
-        }).then(function(){
-          if (window.location.hash.match('module')){
-            var moduleId = window.location.hash.split('?module=').pop();
-            getModule(moduleId);
-          }
-        })
-        .then(function(){
-          getPermissions(idModule);
         });
     }
 
@@ -495,7 +487,7 @@
 
     function saveForm() {
       updateFieldsOnJsonModel(ctrl.sections);
-      labelsService.buildLabels(angular.copy(ctrl.jsonModel), ctrl.module.id, ctrl.module.key);
+      labelsService.buildLabels(angular.copy(ctrl.jsonModel), ctrl.moduleForm.id, ctrl.moduleForm.key);
 
       if(idForm) {
         httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModule);
@@ -572,11 +564,25 @@
         description: ctrl.jsonModel.description
       };
 
+      getPermissions(idModule);
+
       httpService.getApps().then(function(response){
-        ctrl.apps = response.data;
+        ctrl.apps = response.data; 
+
+        ctrl.apps.forEach(function(app, index){
+          if (app.modules) {
+
+            app.modules.forEach(function(mod, index){
+              if (mod.id == idModule) {
+                ctrl.moduleForm = mod;
+              }
+            });  
+
+          }
+        });
       });
       
-      ctrl.onConfigForm = true;   
+      ctrl.onConfigForm = true;
       ctrl.firstConfig = firstConfig;
     }
 
@@ -584,10 +590,15 @@
       httpService.getModule(id).then(function(response) {
         ctrl.module = response.data;
         ctrl.entities = response.data['data-sources'];
-        idModule = id;
       }); 
 
       getPermissions(id);
+    }
+
+    function getModuleForm(id) {
+      httpService.getModule(id).then(function(response) {
+        ctrl.moduleForm = response.data;
+      }); 
     }
 
     function getEntitiesByModule(idModule) {
@@ -605,8 +616,6 @@
           entityId = entity.id;
         } 
       });
-
-      ctrl.configForm.dataSource.entityId = entityId;
 
       httpService.getFieldsByEntity(entityId).then(function(response) {
         ctrl.currentEntity = response.data;
@@ -687,7 +696,7 @@
       if (!ctrl.jsonModel.views.edit.breadcrumb.length && !idForm) {
         var breadcrumb = ctrl.jsonModel.views.edit.breadcrumb;
 
-        breadcrumb.push({label: ctrl.module.title}); 
+        breadcrumb.push({label: ctrl.moduleForm.title}); 
         breadcrumb.push({divisor: '>'});
         breadcrumb.push({label: ctrl.jsonModel.label});
         breadcrumb.push({divisor: '>'});
@@ -739,9 +748,9 @@
       var breadcrumb = [];
 
       breadcrumb.push({icon: 'fa fa-home'});
-      breadcrumb.push({label: ctrl.module.title});
+      breadcrumb.push({label: ctrl.moduleForm.title});
       breadcrumb.push({divisor: '>', firstDivisor: true});
-      breadcrumb.push({label: ctrl.configForm.dataSource.key});
+      breadcrumb.push({label: ctrl.dataSource.key});
 
       ctrl.jsonModel.views.edit.breadcrumb = angular.copy(breadcrumb);
       ctrl.jsonModel.views.list.breadcrumb = angular.copy(breadcrumb);
