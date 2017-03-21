@@ -65,7 +65,7 @@
     getWatchers();
 
     function init() {
-      getJsonForm(idForm)
+      getJsonForm(idForm, idModule)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
 
@@ -87,7 +87,7 @@
 
     function getJsonForm(id){
       if (id) {
-        return httpService.getForm(id); 
+        return httpService.getForm(id, idModule); 
       }else{
         return jsonFormService.getFormTemplate();
       }
@@ -571,13 +571,11 @@
 
         ctrl.apps.forEach(function(app, index){
           if (app.modules) {
-
             app.modules.forEach(function(mod, index){
               if (mod.id == idModule) {
                 ctrl.moduleForm = mod;
               }
             });  
-
           }
         });
       });

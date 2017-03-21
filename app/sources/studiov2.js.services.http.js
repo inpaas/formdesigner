@@ -45,8 +45,11 @@
       });
     }
 
-    function getForm(id) {
-      var url = '/api/studio/modules/5/forms-v2/'.concat(id);
+    function getForm(id, idModule) {
+      var url = '/api/studio/modules/'
+                  .concat(idModule)
+                  .concat('/forms-v2/')
+                  .concat(id);
 
       return $http({
         method: 'get',
