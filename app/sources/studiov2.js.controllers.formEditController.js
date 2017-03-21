@@ -557,6 +557,7 @@
 
     function showConfigForm(firstConfig) {
       ctrl.configForm = {
+        key: ctrl.jsonModel.key,
         label: ctrl.jsonModel.label, 
         dataSource: ctrl.jsonModel.dataSource,
         module: ctrl.jsonModel.module,
