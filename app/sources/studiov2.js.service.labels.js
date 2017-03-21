@@ -37,7 +37,7 @@
 
     function setLabelsNamespace(moduleKey, formKey) {
       var template = "labels.forms.{{form}}.";
-      labelsNamespace = labelsNamespace || template.replace('{{module}}', moduleKey).replace('{{form}}', formKey);
+      labelsNamespace = labelsNamespace || template.replace('{{form}}', formKey);
     }
 
     function getLabelsNamespace(){
