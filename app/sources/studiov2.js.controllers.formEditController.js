@@ -750,7 +750,7 @@
       breadcrumb.push({icon: 'fa fa-home'});
       breadcrumb.push({label: ctrl.moduleForm.title});
       breadcrumb.push({divisor: '>', firstDivisor: true});
-      breadcrumb.push({label: ctrl.dataSource.key});
+      breadcrumb.push({label: ctrl.jsonModel.label});
 
       ctrl.jsonModel.views.edit.breadcrumb = angular.copy(breadcrumb);
       ctrl.jsonModel.views.list.breadcrumb = angular.copy(breadcrumb);
