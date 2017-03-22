@@ -81,7 +81,7 @@ select.input-sm {
   height: 100%;
   overflow: hidden;
   position: relative;
-  padding-top: 40px;
+  padding-top: 38px;
 }
 .edit-form .sidebar .box-search {
   position: relative;
@@ -92,11 +92,13 @@ select.input-sm {
   top: 0;
   z-index: 3;
   transition: .3s;
+      border-bottom: solid 1px #dedede;
 }
 .edit-form .sidebar:hover .box-search {
   -webkit-box-shadow: 0px 2px 5px 0px rgba(204,204,204,1);
   -moz-box-shadow: 0px 2px 5px 0px rgba(204,204,204,1);
   box-shadow: 0px 2px 5px 0px rgba(204,204,204,1);
+      border-bottom: none;
 }
 .sidebar .box-search .fa-search {
   position: absolute;
