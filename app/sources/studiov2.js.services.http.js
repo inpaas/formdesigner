@@ -76,8 +76,7 @@
         url: url,
         data: {
           name: form.label,
-          key: form.key,
-          module: idModule
+          key: form.key
         }
       }).then(function(response){
         return saveEditForm(form, response.data.id, idModule);
@@ -99,7 +98,7 @@
           key: form.key,
           name: form.label,
           json: JSON.stringify(form),
-          module: idModule
+          template: form.template
         }
       });
     }
