@@ -1513,3 +1513,33 @@ section.modal_st article.modal_st-dialog .modal_st-content
 
 .map-rule
 { display: none; }
+
+ul.nav-components .inner-item .stock-separator
+{
+  width: 100%;
+  padding: 0 5px;
+  margin: -10px 0 10px 0;
+  position: relative;
+  height: 25px;
+}
+
+ul.nav-components .inner-item .stock-separator label
+{
+  font-family: "Open Sans";
+  color: #8c969c;
+  background: #f6f6f6;
+  z-index: 2;
+  position: absolute;
+  padding-right: 10px;
+}
+
+ul.nav-components .inner-item .stock-separator:before 
+{
+  content: "";
+  border-bottom: solid 1px #c7c7c7;
+  height: 1px;
+  width: 95%;
+  display: block;
+  margin-top: 13px;
+  position: absolute;
+}
