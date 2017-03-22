@@ -19,7 +19,7 @@ Rafael Torres
 
 	- Regra de visibilidade 
 		- Obrigatório	
-		- Visibilidade
+		- Visibilidade *Btn
 		- Desabilitado
 
 			Label
@@ -49,3 +49,14 @@ Rafael Torres
 Tarefas realizadas 21 e 22 de março:
 
 - Ajuste no breadcrumb com o posicionamento dos elementos. Problema de CSS resolvido
+- Estilo do agrupamento de botões
+- Criação dos icones dos botões de agrupamento - Sidebar
+
+
+
+-ações dos botoes
+
+	- padrao
+	- customizado
+
+		- regra de visibilidade

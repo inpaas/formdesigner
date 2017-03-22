@@ -4,9 +4,7 @@
   <li class="item-components">
     Básico
     <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="#" data-action="collapse">
-        <i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i>
-      </a>
+      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
   </li>
   <div class="inner-item structure-item">
@@ -16,17 +14,17 @@
         <p class="txt-subtitle">Seção</p>
       </li>
       <!--li class="item-list" draggable ng-click="ctrl.showConfigBt()">
-        <div class="bx-elements"><span class="ic ic-button"></span></div>
-        <p class="txt-subtitle">Botão</p>
-      </li>
-      <li class="item-list">
-        <div class="bx-elements"><span class="ic ic-paragraph"></span></div>
-        <p class="txt-subtitle">Parágrafo</p>
-      </li>
-      <li class="item-list">
-        <div class="bx-elements"><span class="ic ic-image"></span></div>
-        <p class="txt-subtitle">Imagem</p>
-      </li-->
+<div class="bx-elements"><span class="ic ic-button"></span></div>
+<p class="txt-subtitle">Botão</p>
+</li>
+<li class="item-list">
+<div class="bx-elements"><span class="ic ic-paragraph"></span></div>
+<p class="txt-subtitle">Parágrafo</p>
+</li>
+<li class="item-list">
+<div class="bx-elements"><span class="ic ic-image"></span></div>
+<p class="txt-subtitle">Imagem</p>
+</li-->
       <li class="item-list">
         <div class="bx-elements"><span class="ic ic-blank-space"></span></div>
         <p class="txt-subtitle">Espaço em branco</p>
@@ -57,43 +55,57 @@
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
   </li>
-  <div class="inner-item field-item">
-    <button type="button" id="btnNewField" class="btn btn-sm btn-success btn-block" ng-click="ctrl.addCustomButton()"><i class="fa fa-plus" aria-hidden="true"></i> Novo Botão</button>
-  </div>
   <div class="inner-item buttons-item">
-    <div class="stock-separator">
-      <label>Página</label>
+    <div class="btn-cluster">
+      <div class="stock-separator">
+        <label>Página</label>
+      </div>
+      <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'save')"><i class="fa fa-fw fa-floppy-o"></i> Salvar</button>
+      <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'savenew')"><i class="fa fa-fw fa-floppy-o"></i> Salvar & Novo</button>
+      <button type="button" class="btn btn-success btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'duplicate')"><i class="fa fa-fw fa-files-o"></i> Duplicar</button>
+      <button type="button" class="btn btn-default btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'cancel')"><i class="fa fa-fw fa-undo"></i> Cancelar</button>
+      <button type="button" class="btn btn-danger btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'remove')"><i class="fa fa-fw fa-trash-o"></i> Remover</button>
+      <button type="button" class="btn btn-success btn-sm btn-block-half active-form" ng-click="ctrl.addButton('list', 'new')"><i class="fa fa-fw fa-plus"></i> Novo</button>
     </div>
-    <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'save')">Salvar</button>
-    <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'savenew')">Salvar & Novo</button>
-    <button type="button" class="btn btn-success btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'duplicate')">Duplicar</button>
-    <button type="button" class="btn btn-default btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'cancel')">Cancelar</button>
-    <button type="button" class="btn btn-danger btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'remove')">Remover</button>
-    <button type="button" class="btn btn-success btn-sm btn-block-half active-form" ng-click="ctrl.addButton('list', 'new')">Novo</button>
+    <div class="btn-cluster">
+      <div class="stock-separator">
+        <label>List</label>
+      </div>
+      <button type="button" class="btn btn-danger btn-sm btn-block-half active-form"><i class="fa fa-fw fa-trash-o"></i> Remover</button>
+      <button type="button" class="btn btn-primary btn-sm btn-block-half active-form"><i class="fa fa-fw fa-pencil"></i> Editar</button>
+    </div>
+    <div class="btn-cluster">
+      <div class="stock-separator">
+        <label>Botão Customizado</label>
+      </div>
+      <div class="inner-item field-item btn-new-sp">
+        <button type="button" id="btnNewField" class="btn btn-sm btn-info btn-block" ng-click="ctrl.addCustomButton()"><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Botão</button>
+      </div>
+    </div>
   </div>
   <!-- Botões -->
 
   <!-- Lista de Dependentes ->
-  <li class="item-components">
-    Lista de Dependentes
-    <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
-    </div>
-  </li>
-  <div class="inner-item dependents-item">
-    <ul class="list-existing" data-ng-repeat="dependent in ctrl.data.dependents">
-      <li class="field-existing" data-ng-bind="dependent"></li>
-    </ul>
-  </div>
-  <!- Lista de Dependentes -->
+<li class="item-components">
+Lista de Dependentes
+<div class="widget-toolbar default-toolbar hidden-print">
+<a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+</div>
+</li>
+<div class="inner-item dependents-item">
+<ul class="list-existing" data-ng-repeat="dependent in ctrl.data.dependents">
+<li class="field-existing" data-ng-bind="dependent"></li>
+</ul>
+</div>
+<!- Lista de Dependentes -->
 
   <!-- Gráficos -->
   <!-- <li class="item-components">
-    Graficos para Relatórios
-    <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
-    </div>
-  </li> -->
+Graficos para Relatórios
+<div class="widget-toolbar default-toolbar hidden-print">
+<a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+</div>
+</li> -->
   <!-- Gráficos -->
 
 </ul>

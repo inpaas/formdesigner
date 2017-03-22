@@ -79,13 +79,21 @@ select.input-sm {
 .edit-form .sidebar .box-sb {
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
+  position: relative;
+  padding-top: 40px;
 }
 .edit-form .sidebar .box-search {
   position: relative;
   background: #f6f6f6;
   width: 100%;
   height: 40px;
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(204,204,204,1);
+  -moz-box-shadow: 0px 2px 5px 0px rgba(204,204,204,1);
+  box-shadow: 0px 2px 5px 0px rgba(204,204,204,1);
 }
 .sidebar .box-search .fa-search {
   position: absolute;
@@ -1525,7 +1533,6 @@ ul.nav-components .inner-item .stock-separator
 
 ul.nav-components .inner-item .stock-separator label
 {
-  font-family: "Open Sans";
   color: #8c969c;
   background: #f6f6f6;
   z-index: 2;
@@ -1543,3 +1550,21 @@ ul.nav-components .inner-item .stock-separator:before
   margin-top: 13px;
   position: absolute;
 }
+
+.buttons-item button.btn.btn-sm.btn-block-half {
+  padding: 5px;
+}
+
+.buttons-item .btn-cluster {
+  width: 100%;
+  display: block;
+  float: left;
+  margin-top: 20px;
+}
+
+.buttons-item .btn-cluster:first-child {
+  margin-top: 10px;
+}
+
+.btn-new-sp
+{  padding: 0 5px !important; }
