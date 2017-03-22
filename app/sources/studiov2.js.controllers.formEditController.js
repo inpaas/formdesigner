@@ -39,7 +39,6 @@
       addMapToBt: addMapToBt,
       cancelCreateButton: cancelCreateButton,
       removeBt: removeBt,
-      addCustomButton: addCustomButton,
       showComponents: showComponents, 
       saveForm: saveForm,
       showConfigForm: showConfigForm,
@@ -79,6 +78,7 @@
           getDependents();
 
           if (ctrl.jsonModel.dataSource.key) {
+            //Atualmente o id é ignorado mas mesmo assim retorna a entity certa
             getEntitiesByModule(idModule).then(function(response){
               getFieldsByEntity(ctrl.jsonModel.dataSource.key);
             });
@@ -127,47 +127,43 @@
       ctrl.data["permissions"] = permissions;
     };
 
-    function addButton(view, actionName) {
-      editButton(view, undefined, actionName);   
-    }
+    function addButton(actionName, view) {
+      var action = {
+        action : actionName,
+        mapExpression : [],
+        btCustom : (actionName.indexOf('custom') != -1),
+        view : view
+      };
 
-    function addCustomButton() {
-      editButton('', undefined, 'custom');
+      ctrl.editBt = action;
+      showConfigBt();
     }
 
     function editButton(view, index, actionName) {
       var action;
+      action = ctrl.jsonModel.views[view].actions[index]; 
+      action.btCustom = (action.action.indexOf('custom') != -1);
+      action.index = index;
+      action.mapExpression = [];
 
-      if (!angular.isUndefined(index)) {
-        action = ctrl.jsonModel.views[view].actions[index]; 
-        action.btCustom = (action.action.indexOf('custom') != -1);
-        action.index = index;
-        action.mapExpression = [];
+      if (action.visible) {
+        action.visibility = true;
+        action.visibilityType = action.visible.type;
 
-        if (action.visible) {
-          action.visibility = true;
-          action.visibilityType = action.visible.type;
+        if (action.visible.type == 'map') {
+          angular.forEach(action.visible.expression, function(value, key){
+            action.mapExpression.push({prop: key, value: value});
+          });
 
-          if (action.visible.type == 'map') {
-            angular.forEach(action.visible.expression, function(value, key){
-              action.mapExpression.push({prop: key, value: value});
-            });
-
-          }else if(action.visible.type == 'function'){
-            action.fnExpression = action.visible.expression;
-          }else{
-            action.booleanExpression = action.visible.expression;
-          }
+        }else if(action.visible.type == 'function'){
+          action.fnExpression = action.visible.expression;
+        }else{
+          action.booleanExpression = action.visible.expression;
         }
+      }
 
-        if (action.event) {
-          editBt.setEvent = true;
-        }
-
-      }else{
-        action.action = actionName;
-        action.mapExpression = [];
-        action.btCustom = (actionName.indexOf('custom') != -1);
+      if (action.event) {
+        editBt.setEvent = true;
       }
 
       action.view = view;
