@@ -148,6 +148,11 @@
       editKey(key);
       editLabel(configForm.label);
       editDataSource(configForm.dataSource);
+      editTemplate(configForm.template);
+    }
+
+    function editTemplate(template){
+      form.template = template;
     }
 
     return {

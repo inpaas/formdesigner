@@ -52,6 +52,7 @@
       getEntitiesByModule: getEntitiesByModule,
       getFieldsByEntity: getFieldsByEntity,
       getModule: getModule,
+      getModuleForm: getModuleForm,
       goToList: goToList,
       goToEdit: goToEdit,
       generateForm: generateForm,
@@ -597,6 +598,7 @@
     function getModuleForm(id) {
       httpService.getModule(id).then(function(response) {
         ctrl.moduleForm = response.data;
+        ctrl.templates = response.data.templates;
       }); 
     }
 
