@@ -12,7 +12,7 @@
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
-        idModule = window.location.hash.split('module=')[1];
+        idModuleForm;
 
     angular.extend(ctrl, {
       onComponents: true,
@@ -50,7 +50,7 @@
       removeVisibleMap: removeVisibleMap,
       getEntitiesByModule: getEntitiesByModule,
       getFieldsByEntity: getFieldsByEntity,
-      getModule: getModule,
+      getModuleEntity: getModuleEntity,
       getModuleForm: getModuleForm,
       goToList: goToList,
       goToEdit: goToEdit,
@@ -65,9 +65,10 @@
     getWatchers();
 
     function init() {
-      getJsonForm(idForm, idModule)
+      getJsonForm(idForm, 0)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
+          idModuleForm = response.idModuleForm;
 
           if ($state.is('forms.new-view-edit') && !ctrl.jsonModel.dataSource.key) {
             showConfigForm(true);
@@ -78,8 +79,8 @@
           getDependents();
 
           if (ctrl.jsonModel.dataSource.key) {
-            //Atualmente o id é ignorado mas mesmo assim retorna a entity certa
-            getEntitiesByModule(idModule).then(function(response){
+            //Atualmente o id é ignorado mas mesmo assim retorna a entity certa?
+            getEntitiesByModule(ctrl.jsonModel.dataSource.moduleId).then(function(response){
               getFieldsByEntity(ctrl.jsonModel.dataSource.key);
             });
           }
@@ -88,7 +89,7 @@
 
     function getJsonForm(id){
       if (id) {
-        return httpService.getForm(id, idModule); 
+        return httpService.getForm(id, 0); 
       }else{
         return jsonFormService.getFormTemplate();
       }
@@ -487,9 +488,9 @@
       labelsService.buildLabels(angular.copy(ctrl.jsonModel), ctrl.moduleForm.id, ctrl.moduleForm.key);
 
       if(idForm) {
-        httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModule);
+        httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModuleForm);
       }else{
-        httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModule).then(function(response){
+        httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModuleForm).then(function(response){
           var state = $state.current.name.replace('new', 'edit');
           $state.go(state, {id: response.data.id});
         });
@@ -562,7 +563,7 @@
         description: ctrl.jsonModel.description
       };
 
-      getPermissions(idModule);
+      getPermissions(idModuleForm);
 
       httpService.getApps().then(function(response){
         ctrl.apps = response.data; 
@@ -570,8 +571,12 @@
         ctrl.apps.forEach(function(app, index){
           if (app.modules) {
             app.modules.forEach(function(mod, index){
-              if (mod.id == idModule) {
+              if (mod.id == idModuleForm) {
                 ctrl.moduleForm = mod;
+              }
+
+              if (mod.id == ctrl.configForm.dataSource.moduleId) {
+                ctrl.moduleEntity = mod;
               }
             });  
           }
@@ -582,9 +587,10 @@
       ctrl.firstConfig = firstConfig;
     }
 
-    function getModule(id) {
+    function getModuleEntity(id) {
       httpService.getModule(id).then(function(response) {
-        ctrl.module = response.data;
+        ctrl.moduleEntity = response.data;
+        ctrl.configForm.dataSource.moduleId = response.data.id;
         ctrl.entities = response.data['data-sources'];
       }); 
 
@@ -598,8 +604,8 @@
       }); 
     }
 
-    function getEntitiesByModule(idModule) {
-      return httpService.getEntities(idModule).then(function(response) {
+    function getEntitiesByModule(idModuleForm) {
+      return httpService.getEntities(idModuleForm).then(function(response) {
         ctrl.entities = response.data;
         return response;
       });
@@ -634,7 +640,7 @@
         setBreadcrumb();
       }
 
-      idModule = ctrl.moduleForm.id;
+      idModuleForm = ctrl.moduleForm.id;
       ctrl.onConfigForm = false;
     }
 
