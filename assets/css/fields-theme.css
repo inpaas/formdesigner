@@ -92,13 +92,13 @@ select.input-sm {
   top: 0;
   z-index: 3;
   transition: .3s;
-      border-bottom: solid 1px #dedede;
+  border-bottom: solid 1px #dedede;
 }
 .edit-form .sidebar:hover .box-search {
   -webkit-box-shadow: 0px 2px 5px 0px rgba(204,204,204,1);
   -moz-box-shadow: 0px 2px 5px 0px rgba(204,204,204,1);
   box-shadow: 0px 2px 5px 0px rgba(204,204,204,1);
-      border-bottom: none;
+  border-bottom: none;
 }
 .sidebar .box-search .fa-search {
   position: absolute;
@@ -316,6 +316,7 @@ ul.list-existing li.field-existing.field-active {
   margin: 1px 0;
 }
 ul.nav-components li.item-components .widget-toolbar {
+  display: inline-block;
   float: right;
   position: relative;
   line-height: 1;
@@ -1539,7 +1540,7 @@ ul.nav-components .inner-item .stock-separator label
 {
   color: #8c969c;
   background: #f6f6f6;
-  z-index: 2;
+  z-index: 0;
   position: absolute;
   padding-right: 10px;
 }
@@ -1572,3 +1573,48 @@ ul.nav-components .inner-item .stock-separator:before
 
 .btn-new-sp
 {  padding: 0 5px !important; }
+
+ul.nav-components.sb-edit-action .inner-item .stock-separator {
+  margin-top: 20px;
+  padding: 0;
+  margin-bottom: 0px;
+}
+
+ul.nav-components.sb-edit-action .inner-item .stock-separator:before 
+{ width: 100%; }
+
+.type-function .form-control
+{ margin: 10px 0; float: left; }
+
+.type-map .form-group.col-sm-9.no-padding.pull-right
+{ margin-top:5px; }
+
+.type-map .form-group button.btn.btn-success:active,
+.type-map .form-group button.btn.btn-success:focus,
+.btn-style-plus
+{
+  margin-top: 24px;
+  background: transparent;
+  border-color: #f6f6f6;
+  color: #87b87f;
+}
+
+.type-map .form-group button.btn.btn-success:hover 
+{
+  background: #efefef !important;
+  border-color: #f6f6f6;
+  color: #79b070;
+}
+
+.type-map .table.table-striped.table-hover thead th 
+{ font-weight: bold; }
+
+.type-map .table.table-striped.table-hover tbody td 
+{ text-align: center; }
+
+ul.nav-components.sb-field-text.sb-edit-action 
+{ padding-bottom: 67px; }
+
+.type-map .form-group button.btn.btn-success:active,
+.type-map .form-group button.btn.btn-success:focus
+{ border-color: #dedede; }
