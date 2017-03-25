@@ -78,6 +78,10 @@
       field.meta = {};
       field.meta.bind = item.alias;
       
+      if(item.primaryKey){
+        JSONForm.views.list.keyToDetails = item.alias;
+      }  
+      
       if(item.required == true){
         field.meta.required = {
           "type": "boolean",
@@ -103,16 +107,8 @@
           };
         } else if(item.domains.length == 2){
           field.meta.type = "checkbox";
-
-          field.meta.options = [];
-          for(var k in item.domains){
-            var domain =  {};
-
-            domain.value = item.domains[k].value;
-            domain.label = item.domains[k].label;
-
-            field.meta.options.push(domain)
-          };
+          field.meta.checked = item.domains[0].value;
+          field.meta.unchecked = item.domains[1].value;
         }
       } else {
         field.meta.type = item.type.toLowerCase();;
@@ -121,20 +117,12 @@
       if(item.size){
         field.meta.maxLength = item.size;
       };
-
-      if(item.alias == "id"){
-        field.views = {};
-        field.meta.disabled = {
-          "type": "boolean",
-          "expression": true 
-        };
-
-      } else {
-        field.views = {
-          "list" : {},
-          "edit" : {}
-        }
-      };
+      
+      field.views = {
+        "list" : {},
+        "edit" : {}
+      }
+      
       
       JSONForm.fields.push(field);
     };

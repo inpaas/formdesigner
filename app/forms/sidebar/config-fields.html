@@ -7,7 +7,7 @@
   <div class="inner-item">
     <div class="form-group">
       <label for="">Tipo do Campo</label>
-      <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.meta.type">
+       <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.meta.type" ng-change="ctrl.setTypeField(ctrl.fieldEdit.meta.type)">
         <option value="textarea">Área de Texto</option>
         <option value="date">Data</option>
         <option value="string">Campo de Texto</option>
@@ -43,28 +43,25 @@
     </div>
     <div class="row row-checkbox">
       <div class="form-group">
-        <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.required"/>
-        <label for="cbx-unconditional-search">Campo Obrigatório</label>
+    	{{#include-html}}studiov2.forms.rules.required{{/include-html}}
+      </div>
+      <div class="form-group">
+    	{{#include-html}}studiov2.forms.rules.visibility{{/include-html}}
+      </div>
+      <div class="form-group">
+    	{{#include-html}}studiov2.forms.rules.disabled{{/include-html}}
       </div>
       <div class="form-group">
         <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.filter">
         <label for="cbx-unconditional-search">Campo Pesquisável</label>
       </div>
       <div class="form-group">
-        <input type="checkbox" id="cbx-unconditional-visible" ng-model="ctrl.fieldEdit.visible">
-        <label for="cbx-unconditional-search">Campo Visível</label>
-      </div>
-      <div class="form-group">
-        <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.disabled">
-        <label for="cbx-unconditional-search">Campo Desabilitado</label>
-      </div>
-      <div class="form-group">
         <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.viewList">
         <label for="cbx-unconditional-search">Campo Listável</label>
       </div>
-      <div class="form-group">
+      <!--div class="form-group">
         {{#include-html}}studiov2.forms.sidebar.config-fields.visibilityRule{{/include-html}}
-      </div>
+      </div-->
     </div>
     <div class="row">
       <button type="button" class="btn btn-success btn-block">Novo Evento</button>

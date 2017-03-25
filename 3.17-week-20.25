@@ -11,7 +11,6 @@ Rafael Torres
 	- Botão de Exportar Formulário
 	- Exportar formulário JSON - @Rafael OK
 	- Template do form - @Rafael OK
-	- Como montar a tela (apresentação)
 	- Alert de gerar formulário
 	- Agrupamento de conteúdo no sidebar
     - Ajuste na sidebar para barra de rolagem - @Rafael OK
@@ -20,7 +19,7 @@ Rafael Torres
 
 	- Regra de visibilidade 
 		- Obrigatório	
-		- Visibilidade
+		- Visibilidade *Btn
 		- Desabilitado
 
 			Label
@@ -30,9 +29,9 @@ Rafael Torres
 
 	- Checkbox (Evento customizado)
 
-	- Botões 
+	- Botões - Ok
 
-		- Ações da tela 
+		- Ações da tela  
 		- Ações da lista 
 		- Por Tela e por Seção
 
@@ -42,3 +41,24 @@ Rafael Torres
 		- datasource
 		- ou da entidade
 		- fixa
+
+
+
+
+
+Tarefas realizadas 21 e 22 de março:
+
+- Ajuste no breadcrumb com o posicionamento dos elementos. Problema de CSS resolvido @Rafael
+- Estilo do agrupamento de botões @Rafael
+- Criação dos icones dos botões de agrupamento - Sidebar @Rafael
+- Regra de agrupamento de botões na sidebar @Rafael
+- Organização na edição dos botões default e customizados @Rafael
+- Regra de visibilidade dos botões e campos @Rafael
+
+
+-ações dos botoes
+
+	- padrao
+	- customizado
+
+		- regra de visibilidade

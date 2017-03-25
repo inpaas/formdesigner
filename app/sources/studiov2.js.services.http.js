@@ -45,8 +45,11 @@
       });
     }
 
-    function getForm(id) {
-      var url = '/api/studio/modules/5/forms-v2/'.concat(id);
+    function getForm(id, idModule) {
+      var url = '/api/studio/modules/'
+                  .concat(idModule)
+                  .concat('/forms-v2/')
+                  .concat(id);
 
       return $http({
         method: 'get',
@@ -93,7 +96,9 @@
           template: '',
           allowAnon: false,
           key: form.key,
-          json: JSON.stringify(form)
+          name: form.label,
+          json: JSON.stringify(form),
+          template: form.template
         }
       });
     }
@@ -105,7 +110,7 @@
         method: 'get',
         url: url
       }).then(function(response){
-        var form = JSON.parse(response.data.json);
+        var form = angular.copy(response.data);
 
         jsonFormService.setJsonForm(form);
         form = labelsService.translateLabels(form);
@@ -114,6 +119,18 @@
       });
     }
 
+    function getPermissions(moduleId) {
+      var url = '/api/iam/permissions';
+
+      return $http({
+        method: 'get',
+        url: url,
+        params: {
+          module: moduleId
+        }
+      });
+    }
+    
     return {
       getModule: getModule,
       getApps: getApps,
@@ -122,7 +139,8 @@
       getForm: getForm,
       saveEditForm: saveEditForm,
       saveNewForm: saveNewForm,
-      generateForm: generateForm
+      generateForm: generateForm,
+      getPermissions: getPermissions
     }
   }
 
