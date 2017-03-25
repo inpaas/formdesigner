@@ -56,20 +56,25 @@
     </div>
   </li>
   <div class="inner-item buttons-item">
-    <div class="btn-cluster">
+    <div class="btn-cluster" ng-if="ctrl.onEditView">
       <div class="stock-separator">
         <label>Tela de edição</label>
       </div>
-      <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('save', 'edit')"><i class="fa fa-fw fa-floppy-o"></i> Salvar</button>
+      <button type="button"  
+              class="btn btn-primary btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('save', 'edit')">
+        <i class="fa fa-fw fa-floppy-o"></i> Salvar
+      </button>
       <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('savenew', 'edit')"><i class="fa fa-fw fa-floppy-o"></i> Salvar & Novo</button>
       <button type="button" class="btn btn-success btn-sm btn-block-half active-form" ng-click="ctrl.addButton('duplicate', 'edit')"><i class="fa fa-fw fa-files-o"></i> Duplicar</button>
       <button type="button" class="btn btn-default btn-sm btn-block-half active-form" ng-click="ctrl.addButton('cancel', 'edit')"><i class="fa fa-fw fa-undo"></i> Cancelar</button>
       <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ><i class="fa fa-window-restore" aria-hidden="true"></i> Modal</button>
       <button type="button" class="btn btn-danger btn-sm btn-block-half active-form" ng-click="ctrl.addButton('remove', 'edit')"><i class="fa fa-fw fa-trash-o"></i> Remover</button>
     </div>
-    <div class="btn-cluster">
+    <div class="btn-cluster" ng-if="!ctrl.onEditView">
       <div class="stock-separator">
         <label>Tela de lista</label>
+      </div>
       <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ><i class="fa fa-window-restore" aria-hidden="true"></i> Modal</button>
       <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('new', 'list')"><i class="fa fa-fw fa-pencil"></i> Novo </button>
       <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'list')"><i class="fa fa-fw fa-pencil"></i> Editar</button>

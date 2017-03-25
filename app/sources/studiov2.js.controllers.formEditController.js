@@ -63,6 +63,7 @@
     });    
 
     init(); 
+    setCurrentViewFlag();
     getWatchers();
 
     function init() {
@@ -508,7 +509,9 @@
       }else{
         httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModuleForm).then(function(response){
           var state = $state.current.name.replace('new', 'edit');
-          $state.go(state, {id: response.data.id});
+          $state.go(state, {id: response.data.id}).then(function(){
+            setCurrentViewFlag()
+          });
         });
       }
     }
@@ -725,20 +728,33 @@
     }
 
     function goToList() {
+      var promise; 
+
       updateFieldsOnJsonModel();
+
       if (idForm) {
-        $state.go('^.edit-view-list', {id: idForm});
+        promise = $state.go('^.edit-view-list', {id: idForm});
       }else{
-        $state.go('forms.new-view-list');
+        promise = $state.go('forms.new-view-list');
       }
+
+      promise.then(function(){
+        setCurrentViewFlag();
+      });
     }
 
     function goToEdit() {
+      var promise;
+
       if(idForm){
-        $state.go('^.edit-view-edit', {id: idForm});
+        promise = $state.go('^.edit-view-edit', {id: idForm});
       }else{
-        $state.go('forms.new-view-edit');
+        promise = $state.go('forms.new-view-edit');
       }
+
+      promise.then(function(){
+        setCurrentViewFlag();
+      });
     }
 
     function generateForm() {
@@ -798,6 +814,11 @@
       httpService.getPermissions(moduleId).then(function(response){
         ctrl.permissions = angular.copy(response.data); 
       });
+    }
+
+    function setCurrentViewFlag(){
+      var view = $state.current.name.match('view-edit')? 'edit' : 'list';
+      ctrl.currentView = view;
     }
   };
 })();
