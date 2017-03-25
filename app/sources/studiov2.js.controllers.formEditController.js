@@ -851,13 +851,8 @@
     function settingsDragNDrop(){
       dragulaService.options($scope, 'buttons-edit', {
         copy: true,
-        moves: function(el, container, handle){ return true}
+        copySortSource: true
       });
-
-      $scope.$on('buttons-edit.drop', function (e, el) {
-        el.removeClass('btn-block-half');
-      });
-
     }
   };
 })();
