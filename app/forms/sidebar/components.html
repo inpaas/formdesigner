@@ -56,36 +56,103 @@
     </div>
   </li>
   <div class="inner-item buttons-item">
-    <div class="btn-cluster" ng-if="ctrl.onEditView">
+    <div class="btn-cluster" ng-show="ctrl.currentView == 'edit'">
       <div class="stock-separator">
         <label>Tela de edição</label>
       </div>
       <button type="button"  
               class="btn btn-primary btn-sm btn-block-half active-form" 
               ng-click="ctrl.addButton('save', 'edit')">
-        <i class="fa fa-fw fa-floppy-o"></i> Salvar
+        <i class="fa fa-fw fa-floppy-o"></i> {[{ 'button.new.title' | translate }]}
       </button>
-      <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('savenew', 'edit')"><i class="fa fa-fw fa-floppy-o"></i> Salvar & Novo</button>
-      <button type="button" class="btn btn-success btn-sm btn-block-half active-form" ng-click="ctrl.addButton('duplicate', 'edit')"><i class="fa fa-fw fa-files-o"></i> Duplicar</button>
-      <button type="button" class="btn btn-default btn-sm btn-block-half active-form" ng-click="ctrl.addButton('cancel', 'edit')"><i class="fa fa-fw fa-undo"></i> Cancelar</button>
-      <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ><i class="fa fa-window-restore" aria-hidden="true"></i> Modal</button>
-      <button type="button" class="btn btn-danger btn-sm btn-block-half active-form" ng-click="ctrl.addButton('remove', 'edit')"><i class="fa fa-fw fa-trash-o"></i> Remover</button>
+
+      <button type="button" 
+              class="btn btn-success btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('savenew', 'edit')">
+        <i class="fa fa-fw fa-floppy-o"></i> {[{ 'button.save.title' | translate }]}
+      </button>
+
+      <button type="button" 
+              class="btn btn-primary btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('savenew', 'edit')">
+        <i class="fa fa-fw fa-floppy-o"></i> {[{ 'button.savenew.title' | translate }]}
+      </button>
+
+      <button type="button" 
+              class="btn btn-primary btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('duplicate', 'edit')">
+        <i class="fa fa-fw fa-files-o"></i> {[{ 'button.duplicate.title' | translate }]}
+      </button>
+
+      <button type="button" 
+              class="btn btn-default btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('cancel', 'edit')">
+        <i class="fa fa-fw fa-undo"></i> {[{ 'button.cancel.title' | translate }]}
+      </button>
+
+      <button type="button" 
+              class="btn btn-primary btn-sm btn-block-half active-form">
+        <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
+      </button>
+
+      <button type="button" 
+              class="btn btn-danger btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('remove', 'edit')">
+        <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.remove.title' | translate }]}
+      </button>
+
+      <button type="button" 
+              class="btn btn-primary btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('include.add', 'edit')">
+        <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.add.title' | translate }]}
+      </button>
+      <button type="button" 
+              class="btn btn-primary btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('include.edit', 'edit')">
+        <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.edit.title' | translate }]}
+      </button>
     </div>
-    <div class="btn-cluster" ng-if="!ctrl.onEditView">
+
+    <div class="btn-cluster" ng-show="ctrl.currentView == 'list'">
       <div class="stock-separator">
         <label>Tela de lista</label>
       </div>
-      <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ><i class="fa fa-window-restore" aria-hidden="true"></i> Modal</button>
-      <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('new', 'list')"><i class="fa fa-fw fa-pencil"></i> Novo </button>
-      <button type="button" class="btn btn-primary btn-sm btn-block-half active-form" ng-click="ctrl.addButton('edit', 'list')"><i class="fa fa-fw fa-pencil"></i> Editar</button>
-      <button type="button" class="btn btn-danger btn-sm btn-block-half active-form" ng-click="ctrl.addButton('remove', 'list')"><i class="fa fa-fw fa-trash-o"></i> Remover</button>
+
+      <button type="button" 
+              class="btn btn-primary btn-sm btn-block-half active-form" >
+        <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
+      </button>
+
+      <button type="button" 
+              class="btn btn-success btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('new', 'list')">
+        <i class="fa fa-fw fa-pencil"></i> {[{ 'button.new.title' | translate }]} 
+      </button>
+
+      <button type="button" 
+              class="btn btn-primary btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('edit', 'list')">
+        <i class="fa fa-fw fa-pencil"></i> {[{'button.view.title' | translate }]}
+      </button>
+
+      <button type="button" 
+              class="btn btn-danger btn-sm btn-block-half active-form" 
+              ng-click="ctrl.addButton('remove', 'list')">
+        <i class="fa fa-fw fa-trash-o"></i> {[{'button.remove.title' | translate }]}
+      </button>
     </div>
+
     <div class="btn-cluster">
       <div class="stock-separator">
         <label>Botão Customizado</label>
       </div>
       <div class="inner-item field-item btn-new-sp">
-        <button type="button" id="btnNewField" class="btn btn-sm btn-info btn-block" ng-click="ctrl.addButton('custom')"><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Botão</button>
+        <button type="button" 
+                id="btnNewField" 
+                class="btn btn-sm btn-info btn-block" 
+                ng-click="ctrl.addButton('custom')">
+          <i class="fa fa-plus" aria-hidden="true"></i> Adicionar Botão
+        </button>
       </div>
     </div>
   </div>
