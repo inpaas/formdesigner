@@ -43,18 +43,6 @@ select.input-sm {
 .edit-form .container-fields {
   height: 100%;
 }
-.btn-block-half {
-  width: 46%;
-  float: left;
-  margin: 0 2% 5px;
-  font-size: 11px !important;
-  white-space: inherit;
-  text-overflow: ellipsis;
-}
-.btn-block-half.active-form {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-}
 /* ==============================| Sidebar |============================== */
 
 .edit-form .container-fields .sidebar.sb-nopdd {
@@ -1556,8 +1544,14 @@ ul.nav-components .inner-item .stock-separator:before
   position: absolute;
 }
 
-.buttons-item button.btn.btn-sm.btn-block-half {
+.buttons-item button.btn.btn-sm{
   padding: 5px;
+  width: 46%;
+  float: left;
+  margin: 0 2% 5px;
+  font-size: 11px !important;
+  white-space: inherit;
+  text-overflow: ellipsis;
 }
 
 .buttons-item .btn-cluster {
