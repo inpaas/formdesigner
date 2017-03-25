@@ -15,6 +15,7 @@
         idModuleForm;
 
     angular.extend(ctrl, {
+      addedButtons: {edit: {}, list: {}},
       onComponents: true,
       data: {},
       form: {},
@@ -78,6 +79,8 @@
 
           buildMainSection(ctrl.jsonModel);
           buildFields(ctrl.jsonModel.fields);
+          mapAddedButtons(ctrl.jsonModel.views.list.actions, 'list');
+          mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
           getDependents();
 
           if (ctrl.jsonModel.dataSource.key) {
@@ -130,15 +133,31 @@
       ctrl.data["permissions"] = permissions;
     };
 
-    function addButton(actionName, view) {
-      var action = {
+    function mapAddedButtons(buttons, view){
+      buttons.forEach(function(button, index){
+        setAddedButton(button, view);
+      });
+    }
+
+    function setAddedButton(button, view){
+      ctrl.addedButtons[view][button.action] = true;
+    }
+
+    function unsetAddedButton(button, view){
+      ctrl.addedButtons[view][button.action] = false;
+    }
+
+    function addButton(actionName) {
+      var button = {
         action : actionName,
         mapExpression : [],
         btCustom : (actionName.indexOf('custom') != -1),
-        view : view
+        view : ctrl.currentView
       };
 
-      ctrl.editBt = action;
+      setAddedButton(button, ctrl.currentView);
+
+      ctrl.editBt = button;
       showConfigBt();
     }
 
@@ -220,6 +239,14 @@
         }
       }
 
+    }
+
+    function removeBt(view, index) {
+      var bt = ctrl.jsonModel.views[ctrl.currentView].actions.splice(index, 1)[0];
+
+      if (bt.action != 'custom') {
+        unsetAddedButton(bt, ctrl.currentView);
+      }
     }
 
     function addMapToBt(name, value) {
@@ -566,10 +593,6 @@
     function showConfigBt() {
       ctrl.onCreateButton = true;
       ctrl.onComponents = false;
-    }
-
-    function removeBt(view, index) {
-      ctrl.jsonModel.views[view].actions.splice(index, 1);
     }
 
     function showConfigForm(firstConfig) {
