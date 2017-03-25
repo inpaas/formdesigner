@@ -6,9 +6,9 @@
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
 
-  FormEditController.$inject = ["$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", "$l10n"];
+  FormEditController.$inject = ["$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", "$l10n", "$uibModal"];
   
-  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n) {
+  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal) {
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
@@ -36,6 +36,7 @@
       showConfigBt: showConfigBt,
       editButton: editButton,
       saveEditButton: saveEditButton,
+      openModalForConfig: openModalForConfig,
       addMapToBt: addMapToBt,
       cancelCreateButton: cancelCreateButton,
       removeBt: removeBt,
@@ -224,6 +225,21 @@
       var expression = {};
       expression[name] = value;
       ctrl.editBt.map.push(expression);
+    }
+
+    function openModalForConfig(currentEdit, type){
+      var typeFunctionTemplateUrl = "/forms/studiov2.forms.actions.config-function",
+          typeMapTemplateUrl = "/forms/studiov2.forms.actions.config-map";
+
+      $uibModal.open({
+        templateUrl: type == 'function'? typeFunctionTemplateUrl : typeMapTemplateUrl,
+        controller: function(entityFields, map, fn){},
+        resolve: {
+          entityFields: function(){return ctrl.data.entityFields},
+          map: function(){return [{prop: 'value'}]},
+          fn: function(){return currentEdit.v}
+        }
+      });
     }
 
     function getDependents() {
