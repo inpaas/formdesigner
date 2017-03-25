@@ -60,60 +60,62 @@
       <div class="stock-separator">
         <label>Tela de edição</label>
       </div>
-      <button type="button" 
-              class="btn btn-primary btn-sm btn-block-half" 
-              ng-disabled="ctrl.addedButtons.edit.save"
-              ng-click="ctrl.addButton('save')">
-        <i class="fa fa-fw fa-floppy-o"></i> {[{ 'button.save.title' | translate }]}
-      </button>
+      <div dragula="'buttons-edit'">
+        <button type="button" 
+                class="btn btn-primary btn-block-half" 
+                ng-disabled="ctrl.addedButtons.edit.save"
+                ng-click="ctrl.addButton('save')">
+          <i class="fa fa-fw fa-floppy-o"></i> {[{ 'button.save.title' | translate }]}
+        </button>
 
-      <button type="button" 
-              class="btn btn-primary btn-sm btn-block-half" 
-              ng-disabled="ctrl.addedButtons.edit.savenew"
-              ng-click="ctrl.addButton('savenew')">
-        <i class="fa fa-fw fa-floppy-o"></i> {[{ 'button.savenew.title' | translate }]}
-      </button>
+        <button type="button" 
+                class="btn btn-primary btn-block-half" 
+                ng-disabled="ctrl.addedButtons.edit.savenew"
+                ng-click="ctrl.addButton('savenew')">
+          <i class="fa fa-fw fa-floppy-o"></i> {[{ 'button.savenew.title' | translate }]}
+        </button>
 
-      <button type="button" 
-              class="btn btn-success btn-sm btn-block-half" 
-              ng-disabled="ctrl.addedButtons.edit.duplicate"
-              ng-click="ctrl.addButton('duplicate')">
-        <i class="fa fa-fw fa-files-o"></i> {[{ 'button.duplicate.title' | translate }]}
-      </button>
+        <button type="button" 
+                class="btn btn-success btn-block-half" 
+                ng-disabled="ctrl.addedButtons.edit.duplicate"
+                ng-click="ctrl.addButton('duplicate')">
+          <i class="fa fa-fw fa-files-o"></i> {[{ 'button.duplicate.title' | translate }]}
+        </button>
 
-      <button type="button" 
-              class="btn btn-default btn-sm btn-block-half" 
-              ng-disabled="ctrl.addedButtons.edit.cancel"
-              ng-click="ctrl.addButton('cancel')">
-        <i class="fa fa-fw fa-undo"></i> {[{ 'button.cancel.title' | translate }]}
-      </button>
+        <button type="button" 
+                class="btn btn-default btn-block-half" 
+                ng-disabled="ctrl.addedButtons.edit.cancel"
+                ng-click="ctrl.addButton('cancel')">
+          <i class="fa fa-fw fa-undo"></i> {[{ 'button.cancel.title' | translate }]}
+        </button>
 
-      <button type="button" 
-              class="btn btn-primary btn-sm btn-block-half"
-              ng-click="ctrl.addButton('modal')">
-        <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
-      </button>
+        <button type="button" 
+                class="btn btn-primary btn-block-half"
+                ng-click="ctrl.addButton('modal')">
+          <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
+        </button>
 
-      <button type="button" 
-              class="btn btn-danger btn-sm btn-block-half" 
-              ng-disabled="ctrl.addedButtons.edit.remove"
-              ng-click="ctrl.addButton('remove')">
-        <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.remove.title' | translate }]}
-      </button>
+        <button type="button" 
+                class="btn btn-danger btn-block-half" 
+                ng-disabled="ctrl.addedButtons.edit.remove"
+                ng-click="ctrl.addButton('remove')">
+          <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.remove.title' | translate }]}
+        </button>
 
-      <button type="button" 
-              class="btn btn-primary btn-sm btn-block-half" 
-              ng-disabled="ctrl.addedButtons.edit['include-add']"
-              ng-click="ctrl.addButton('include.add', 'edit')">
-        <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.add.title' | translate }]}
-      </button>
+        <button type="button" 
+                class="btn btn-primary btn-block-half" 
+                ng-disabled="ctrl.addedButtons.edit['include-add']"
+                ng-click="ctrl.addButton('include.add', 'edit')">
+          <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.add.title' | translate }]}
+        </button>
 
-      <button type="button" 
-              class="btn btn-primary btn-sm btn-block-half" 
-              ng-disabled="ctrl.addedButtons.edit['include-edit']"
-              ng-click="ctrl.addButton('include.edit')">
-        <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.edit.title' | translate }]}
-      </button>
+        <button type="button" 
+                class="btn btn-primary btn-block-half" 
+                ng-disabled="ctrl.addedButtons.edit['include-edit']"
+                ng-click="ctrl.addButton('include.edit')">
+          <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.edit.title' | translate }]}
+        </button>
+      </div>
     </div>
 
     <div class="btn-cluster" ng-show="ctrl.currentView == 'list'">
@@ -122,28 +124,28 @@
       </div>
 
       <button type="button" 
-              class="btn btn-success btn-sm btn-block-half" 
+              class="btn btn-success btn-block-half" 
               ng-disabled="ctrl.addedButtons.list.new"
               ng-click="ctrl.addButton('new')">
         <i class="fa fa-fw fa-pencil"></i> {[{ 'button.new.title' | translate }]} 
       </button>
 
       <button type="button" 
-              class="btn btn-primary btn-sm btn-block-half" 
+              class="btn btn-primary btn-block-half" 
               ng-disabled="ctrl.addedButtons.list.view_edit"
               ng-click="ctrl.addButton('view_edit')">
         <i class="fa fa-fw fa-pencil"></i> {[{'button.view.title' | translate }]}
       </button>
 
       <button type="button" 
-              class="btn btn-danger btn-sm btn-block-half" 
+              class="btn btn-danger btn-block-half" 
               ng-disabled="ctrl.addedButtons.list.remove"
               ng-click="ctrl.addButton('remove')">
         <i class="fa fa-fw fa-trash-o"></i> {[{'button.remove.title' | translate }]}
       </button>
 
       <button type="button" 
-              class="btn btn-primary btn-sm btn-block-half" 
+              class="btn btn-primary btn-block-half" 
               ng-click="ctrl.addButton('modal')">
         <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
       </button>
@@ -156,7 +158,7 @@
       <div class="inner-item field-item btn-new-sp">
         <button type="button" 
                 id="btnNewField" 
-                class="btn btn-sm btn-info btn-block" 
+                class="btn btn-info btn-block" 
                 ng-click="ctrl.addButton('custom')">
           <i class="fa fa-plus" aria-hidden="true"></i> Botão customizado
         </button>

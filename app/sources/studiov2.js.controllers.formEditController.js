@@ -6,9 +6,12 @@
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
 
-  FormEditController.$inject = ["$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", "$l10n", "$uibModal"];
+  FormEditController.$inject = [
+    "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
+    "$l10n", "$uibModal", "dragulaService"
+    ];
   
-  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal) {
+  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService) {
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
@@ -66,6 +69,7 @@
     init(); 
     setCurrentViewFlag();
     getWatchers();
+    settingsDragNDrop();
 
     function init() {
       getJsonForm(idForm, 0)
@@ -842,6 +846,18 @@
     function setCurrentViewFlag(){
       var view = $state.current.name.match('view-edit')? 'edit' : 'list';
       ctrl.currentView = view;
+    }
+
+    function settingsDragNDrop(){
+      dragulaService.options($scope, 'buttons-edit', {
+        copy: true,
+        moves: function(el, container, handle){ return true}
+      });
+
+      $scope.$on('buttons-edit.drop', function (e, el) {
+        el.removeClass('btn-block-half');
+      });
+
     }
   };
 })();
