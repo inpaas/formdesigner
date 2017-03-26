@@ -11,9 +11,7 @@
         <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.label" ng-readonly="!ctrl.editBt.btCustom">
       </div>
     </div>
-
-    {{#include-html}}studiov2.forms.rules.visibility{{/include-html}}
-
+    
     <div class="btn-cluster">
       <div class="stock-separator">
         <label>Evento</label>
@@ -30,6 +28,29 @@
       </div>
     </div>
 
+    <div class="btn-cluster">
+      <div class="stock-separator">
+        <label>Visibilidade</label>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <select class="form-control input-sm" ng-model="ctrl.editBt.visibilityType">
+            <option value="">Selecione</option>
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+            <option value="function">Função</option>
+            <option value="map">Propriedade/Valor</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.editBt.visibilityType == 'function'" 
+                ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibility', 'function')">Editar função</button>
+
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.editBt.visibilityType == 'map'" 
+                ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibility', 'map')">Editar Propriedade/Valor</button>
+      </div>
+    </div>
 
     <div class="btn-cluster">
       <div class="stock-separator">

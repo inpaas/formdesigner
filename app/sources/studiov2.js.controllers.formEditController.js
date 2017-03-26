@@ -6,15 +6,19 @@
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
 
-  FormEditController.$inject = ["$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", "$l10n"];
+  FormEditController.$inject = [
+    "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
+    "$l10n", "$uibModal", "dragulaService"
+    ];
   
-  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n) {
+  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService) {
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
-        idModule = window.location.hash.split('module=')[1];
+        idModuleForm;
 
     angular.extend(ctrl, {
+      addedButtons: {edit: {}, list: {}},
       onComponents: true,
       data: {},
       form: {},
@@ -36,10 +40,10 @@
       showConfigBt: showConfigBt,
       editButton: editButton,
       saveEditButton: saveEditButton,
+      openModalForConfig: openModalForConfig,
       addMapToBt: addMapToBt,
       cancelCreateButton: cancelCreateButton,
       removeBt: removeBt,
-      addCustomButton: addCustomButton,
       showComponents: showComponents, 
       saveForm: saveForm,
       showConfigForm: showConfigForm,
@@ -51,7 +55,7 @@
       removeVisibleMap: removeVisibleMap,
       getEntitiesByModule: getEntitiesByModule,
       getFieldsByEntity: getFieldsByEntity,
-      getModule: getModule,
+      getModuleEntity: getModuleEntity,
       getModuleForm: getModuleForm,
       goToList: goToList,
       goToEdit: goToEdit,
@@ -63,12 +67,15 @@
     });    
 
     init(); 
+    setCurrentViewFlag();
     getWatchers();
+    settingsDragNDrop();
 
     function init() {
-      getJsonForm(idForm, idModule)
+      getJsonForm(idForm, 0)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
+          idModuleForm = response.idModuleForm;
 
           if ($state.is('forms.new-view-edit') && !ctrl.jsonModel.dataSource.key) {
             showConfigForm(true);
@@ -76,10 +83,13 @@
 
           buildMainSection(ctrl.jsonModel);
           buildFields(ctrl.jsonModel.fields);
+          mapAddedButtons(ctrl.jsonModel.views.list.actions, 'list');
+          mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
           getDependents();
 
           if (ctrl.jsonModel.dataSource.key) {
-            getEntitiesByModule(idModule).then(function(response){
+            //Atualmente o id é ignorado mas mesmo assim retorna a entity certa?
+            getEntitiesByModule(ctrl.jsonModel.dataSource.moduleId).then(function(response){
               getFieldsByEntity(ctrl.jsonModel.dataSource.key);
             });
           }
@@ -88,7 +98,7 @@
 
     function getJsonForm(id){
       if (id) {
-        return httpService.getForm(id, idModule); 
+        return httpService.getForm(id, 0); 
       }else{
         return jsonFormService.getFormTemplate();
       }
@@ -127,47 +137,59 @@
       ctrl.data["permissions"] = permissions;
     };
 
-    function addButton(view, actionName) {
-      editButton(view, undefined, actionName);   
+    function mapAddedButtons(buttons, view){
+      buttons.forEach(function(button, index){
+        setAddedButton(button, view);
+      });
     }
 
-    function addCustomButton() {
-      editButton('', undefined, 'custom');
+    function setAddedButton(button, view){
+      ctrl.addedButtons[view][button.action] = true;
+    }
+
+    function unsetAddedButton(button, view){
+      ctrl.addedButtons[view][button.action] = false;
+    }
+
+    function addButton(actionName) {
+      var button = {
+        action : actionName,
+        mapExpression : [],
+        btCustom : (actionName.indexOf('custom') != -1),
+        view : ctrl.currentView
+      };
+
+      setAddedButton(button, ctrl.currentView);
+
+      ctrl.editBt = button;
+      showConfigBt();
     }
 
     function editButton(view, index, actionName) {
       var action;
+      action = ctrl.jsonModel.views[view].actions[index]; 
+      action.btCustom = (action.action.indexOf('custom') != -1);
+      action.index = index;
+      action.mapExpression = [];
 
-      if (!angular.isUndefined(index)) {
-        action = ctrl.jsonModel.views[view].actions[index]; 
-        action.btCustom = (action.action.indexOf('custom') != -1);
-        action.index = index;
-        action.mapExpression = [];
+      if (action.visible) {
+        action.visibility = true;
+        action.visibilityType = action.visible.type;
 
-        if (action.visible) {
-          action.visibility = true;
-          action.visibilityType = action.visible.type;
+        if (action.visible.type == 'map') {
+          angular.forEach(action.visible.expression, function(value, key){
+            action.mapExpression.push({prop: key, value: value});
+          });
 
-          if (action.visible.type == 'map') {
-            angular.forEach(action.visible.expression, function(value, key){
-              action.mapExpression.push({prop: key, value: value});
-            });
-
-          }else if(action.visible.type == 'function'){
-            action.fnExpression = action.visible.expression;
-          }else{
-            action.booleanExpression = action.visible.expression;
-          }
+        }else if(action.visible.type == 'function'){
+          action.fnExpression = action.visible.expression;
+        }else{
+          action.booleanExpression = action.visible.expression;
         }
+      }
 
-        if (action.event) {
-          editBt.setEvent = true;
-        }
-
-      }else{
-        action.action = actionName;
-        action.mapExpression = [];
-        action.btCustom = (actionName.indexOf('custom') != -1);
+      if (action.event) {
+        editBt.setEvent = true;
       }
 
       action.view = view;
@@ -223,10 +245,33 @@
 
     }
 
+    function removeBt(view, index) {
+      var bt = ctrl.jsonModel.views[ctrl.currentView].actions.splice(index, 1)[0];
+
+      if (bt.action != 'custom') {
+        unsetAddedButton(bt, ctrl.currentView);
+      }
+    }
+
     function addMapToBt(name, value) {
       var expression = {};
       expression[name] = value;
       ctrl.editBt.map.push(expression);
+    }
+
+    function openModalForConfig(currentEdit, type){
+      var typeFunctionTemplateUrl = "/forms/studiov2.forms.actions.config-function",
+          typeMapTemplateUrl = "/forms/studiov2.forms.actions.config-map";
+
+      $uibModal.open({
+        templateUrl: type == 'function'? typeFunctionTemplateUrl : typeMapTemplateUrl,
+        controller: function(entityFields, map, fn){},
+        resolve: {
+          entityFields: function(){return ctrl.data.entityFields},
+          map: function(){return [{prop: 'value'}]},
+          fn: function(){return currentEdit.v}
+        }
+      });
     }
 
     function getDependents() {
@@ -491,11 +536,13 @@
       labelsService.buildLabels(angular.copy(ctrl.jsonModel), ctrl.moduleForm.id, ctrl.moduleForm.key);
 
       if(idForm) {
-        httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModule);
+        httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModuleForm);
       }else{
-        httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModule).then(function(response){
+        httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModuleForm).then(function(response){
           var state = $state.current.name.replace('new', 'edit');
-          $state.go(state, {id: response.data.id});
+          $state.go(state, {id: response.data.id}).then(function(){
+            setCurrentViewFlag()
+          });
         });
       }
     }
@@ -552,10 +599,6 @@
       ctrl.onComponents = false;
     }
 
-    function removeBt(view, index) {
-      ctrl.jsonModel.views[view].actions.splice(index, 1);
-    }
-
     function showConfigForm(firstConfig) {
       ctrl.configForm = {
         key: ctrl.jsonModel.key,
@@ -566,7 +609,7 @@
         description: ctrl.jsonModel.description
       };
 
-      getPermissions(idModule);
+      getPermissions(idModuleForm);
 
       httpService.getApps().then(function(response){
         ctrl.apps = response.data; 
@@ -574,8 +617,12 @@
         ctrl.apps.forEach(function(app, index){
           if (app.modules) {
             app.modules.forEach(function(mod, index){
-              if (mod.id == idModule) {
+              if (mod.id == idModuleForm) {
                 ctrl.moduleForm = mod;
+              }
+
+              if (mod.id == ctrl.configForm.dataSource.moduleId) {
+                ctrl.moduleEntity = mod;
               }
             });  
           }
@@ -586,9 +633,10 @@
       ctrl.firstConfig = firstConfig;
     }
 
-    function getModule(id) {
+    function getModuleEntity(id) {
       httpService.getModule(id).then(function(response) {
-        ctrl.module = response.data;
+        ctrl.moduleEntity = response.data;
+        ctrl.configForm.dataSource.moduleId = response.data.id;
         ctrl.entities = response.data['data-sources'];
       }); 
 
@@ -602,8 +650,8 @@
       }); 
     }
 
-    function getEntitiesByModule(idModule) {
-      return httpService.getEntities(idModule).then(function(response) {
+    function getEntitiesByModule(idModuleForm) {
+      return httpService.getEntities(idModuleForm).then(function(response) {
         ctrl.entities = response.data;
         return response;
       });
@@ -638,7 +686,7 @@
         setBreadcrumb();
       }
 
-      idModule = ctrl.moduleForm.id;
+      idModuleForm = ctrl.moduleForm.id;
       ctrl.onConfigForm = false;
     }
 
@@ -707,20 +755,33 @@
     }
 
     function goToList() {
+      var promise; 
+
       updateFieldsOnJsonModel();
+
       if (idForm) {
-        $state.go('^.edit-view-list', {id: idForm});
+        promise = $state.go('^.edit-view-list', {id: idForm});
       }else{
-        $state.go('forms.new-view-list');
+        promise = $state.go('forms.new-view-list');
       }
+
+      promise.then(function(){
+        setCurrentViewFlag();
+      });
     }
 
     function goToEdit() {
+      var promise;
+
       if(idForm){
-        $state.go('^.edit-view-edit', {id: idForm});
+        promise = $state.go('^.edit-view-edit', {id: idForm});
       }else{
-        $state.go('forms.new-view-edit');
+        promise = $state.go('forms.new-view-edit');
       }
+
+      promise.then(function(){
+        setCurrentViewFlag();
+      });
     }
 
     function generateForm() {
@@ -779,6 +840,18 @@
     function getPermissions(moduleId){
       httpService.getPermissions(moduleId).then(function(response){
         ctrl.permissions = angular.copy(response.data); 
+      });
+    }
+
+    function setCurrentViewFlag(){
+      var view = $state.current.name.match('view-edit')? 'edit' : 'list';
+      ctrl.currentView = view;
+    }
+
+    function settingsDragNDrop(){
+      dragulaService.options($scope, 'buttons-edit', {
+        copy: true,
+        copySortSource: true
       });
     }
   };

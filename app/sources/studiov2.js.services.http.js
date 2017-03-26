@@ -59,6 +59,7 @@
 
         jsonFormService.setJsonForm(form);
         form = labelsService.translateLabels(form);
+        form.idModuleForm = response.data.moduleId;
 
         return form;
       });
@@ -76,7 +77,8 @@
         url: url,
         data: {
           name: form.label,
-          key: form.key
+          key: form.key,
+          moduleId: idModule
         }
       }).then(function(response){
         return saveEditForm(form, response.data.id, idModule);
@@ -93,12 +95,12 @@
         method: 'put',
         url: url,
         data: {
-          template: '',
           allowAnon: false,
           key: form.key,
           name: form.label,
           json: JSON.stringify(form),
-          template: form.template
+          template: form.template,
+          moduleId: idModule
         }
       });
     }
