@@ -479,7 +479,8 @@
       var bind = entityField.alias,
           fieldEdit = {
             meta: {
-              bind: bind
+              bind: bind,
+              maxLength: entityField.size
             },
             views: {},
             rawEntityField: angular.copy(entityField)
