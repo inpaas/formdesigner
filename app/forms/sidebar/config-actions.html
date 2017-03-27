@@ -44,11 +44,35 @@
         </div>
         <button class="btn btn-primary btn-sm" 
                 ng-if="ctrl.editBt.visibilityType == 'function'" 
-                ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibility', 'function')">Editar função</button>
+                ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibilityExpression', 'function')">Editar função</button>
 
         <button class="btn btn-primary btn-sm" 
                 ng-if="ctrl.editBt.visibilityType == 'map'" 
-                ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibility', 'map')">Editar Propriedade/Valor</button>
+                ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
+      </div>
+    </div>
+
+    <div class="btn-cluster">
+      <div class="stock-separator">
+        <label>Campo obrigatório</label>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <select class="form-control input-sm" ng-model="ctrl.editBt.requiredType">
+            <option value="">Selecione</option>
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+            <option value="function">Função</option>
+            <option value="map">Propriedade/Valor</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.editBt.requiredType == 'function'" 
+                ng-click="ctrl.openModalForConfig(ctrl.editBt,'requiredExpression', 'function')">Editar função</button>
+
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.editBt.requiredType == 'map'" 
+                ng-click="ctrl.openModalForConfig(ctrl.editBt,'requiredExpression', 'map')">Editar Propriedade/Valor</button>
       </div>
     </div>
 

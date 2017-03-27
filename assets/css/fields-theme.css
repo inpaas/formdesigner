@@ -1544,7 +1544,7 @@ ul.nav-components .inner-item .stock-separator:before
   position: absolute;
 }
 
-.buttons-item button.btn.btn-sm{
+.buttons-item button.btn{
   padding: 5px;
   width: 46%;
   float: left;
@@ -1552,6 +1552,10 @@ ul.nav-components .inner-item .stock-separator:before
   font-size: 11px !important;
   white-space: inherit;
   text-overflow: ellipsis;
+}
+
+.buttons-item button.btn.btn-block{
+  width: 100%;
 }
 
 .buttons-item .btn-cluster {

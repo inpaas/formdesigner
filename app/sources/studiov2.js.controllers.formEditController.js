@@ -49,10 +49,6 @@
       showConfigForm: showConfigForm,
       saveConfigForm: saveConfigForm,
       cancelConfigForm: cancelConfigForm,
-      saveVisibleMap: saveVisibleMap,
-      addVisibleMap: addVisibleMap,
-      editVisibleMap: editVisibleMap,
-      removeVisibleMap: removeVisibleMap,
       getEntitiesByModule: getEntitiesByModule,
       getFieldsByEntity: getFieldsByEntity,
       getModuleEntity: getModuleEntity,
@@ -167,73 +163,41 @@
 
     function editButton(view, index, actionName) {
       var action;
-      action = ctrl.jsonModel.views[view].actions[index]; 
-      action.btCustom = (action.action.indexOf('custom') != -1);
+
+      action = angular.copy(ctrl.jsonModel.views[view].actions[index]); 
       action.index = index;
-      action.mapExpression = [];
 
       if (action.visible) {
-        action.visibility = true;
-        action.visibilityType = action.visible.type;
-
-        if (action.visible.type == 'map') {
-          angular.forEach(action.visible.expression, function(value, key){
-            action.mapExpression.push({prop: key, value: value});
-          });
-
-        }else if(action.visible.type == 'function'){
-          action.fnExpression = action.visible.expression;
-        }else{
-          action.booleanExpression = action.visible.expression;
-        }
+        angular.extend(action, setDisplayConfigForEdit(action.visible, 'visibilityType', 'visibilityExpression'));
       }
 
       if (action.event) {
-        editBt.setEvent = true;
+        action.event = action.event;
       }
 
-      action.view = view;
       ctrl.editBt = action;
       showConfigBt();
     } 
 
     function saveEditButton() {
       var clone = angular.copy(ctrl.editBt), 
-          action = {};
+          action = {
+            label: clone.label,
+            name: clone.name || clone.label.toLowerCase().replace(/\s/g, '-'),
+            visible: setDisplayConfig(clone.visibilityType, clone.visibilityExpression),
+            event: setEventConfig()
+          };
 
-      action.name = clone.name || clone.label.toLowerCase().replace(/\s/g, '-');
-
-      setVisibilityConfig();
-      setEventConfig();
-      
       if (!angular.isUndefined(clone.index)) {
-        var bt = ctrl.jsonModel.views[clone.view].actions[clone.index];
-        angular.extend(bt, clone);
+        var bt = ctrl.jsonModel.views[ctrl.currentView].actions[clone.index];
+        angular.extend(bt, action);
       }else{
-        ctrl.jsonModel.views[clone.view].actions.push(clone); 
+        ctrl.jsonModel.views[ctrl.currentView].actions.push(action); 
       }
 
+      ctrl.editBt = {};
       showComponents();
-
-      function setVisibilityConfig() {
-        if (clone.visibility && clone.visibilityType === 'map') {
-          action.visible = {
-            type: 'map',
-            expression: {}
-          };
-
-          clone.mapExpression.forEach(function(item, index){
-            angular.extend(action.visible.expression, item);
-          });
-
-        }else if(clone.visibility && clone.visibilityType === 'function'){
-          action.visible = {
-            type: 'function',
-            expression: clone.fnExpression
-          };
-        };
-      }
-
+      
       function setEventConfig() {
         if (clone.setEvent) {
           action.event = {
@@ -242,7 +206,6 @@
           }
         }
       }
-
     }
 
     function removeBt(view, index) {
@@ -259,18 +222,88 @@
       ctrl.editBt.map.push(expression);
     }
 
-    function openModalForConfig(currentEdit, type){
-      var typeFunctionTemplateUrl = "/forms/studiov2.forms.actions.config-function",
-          typeMapTemplateUrl = "/forms/studiov2.forms.actions.config-map";
+    function openModalForConfig(model, modelExpressionKey, typeConfig){
+      var typeFunctionTemplateUrl = "/forms/studiov2.forms.config-function",
+          typeMapTemplateUrl = "/forms/studiov2.forms.config-map";
 
-      $uibModal.open({
-        templateUrl: type == 'function'? typeFunctionTemplateUrl : typeMapTemplateUrl,
-        controller: function(entityFields, map, fn){},
+      var uibModalInstance = $uibModal.open({
+        templateUrl: typeConfig == 'function'? typeFunctionTemplateUrl : typeMapTemplateUrl,
+        controller: function ConfigDisplayController($uibModalInstance, expression, formFields, typeConfig){
+            var $ctrl = this;
+            $ctrl.formFields = formFields;
+            $ctrl.key;
+            $ctrl.value;
+
+            if (typeConfig == 'map') {
+              $ctrl.expression = objToArray(expression);
+            }else{
+              $ctrl.expression = expression;
+            }
+
+            function objToArray(obj) {
+              var arr = [];
+
+              for(key in obj){
+                var singleObject = {}
+                singleObject.key = key;
+                singleObject.value = obj[key];
+
+                arr.push(singleObject);
+              };
+
+              return arr;
+            }
+
+            function arrayToObj(_array) {
+              var map = {};
+
+              _array.forEach(function(item, index){
+                map[item.key] = item.value;
+              });
+
+              return map;
+            }
+
+
+            $ctrl.ok = function () {
+              var result;
+
+              if (typeConfig == 'map') {
+                result = arrayToObj($ctrl.expression);
+                if($ctrl.key && $ctrl.value){
+                  result[$ctrl.key] = $ctrl.value;
+                }
+              }else{
+                result = $ctrl.expression;
+              }
+
+              $uibModalInstance.close(result);
+            };
+
+            $ctrl.cancel = function () {
+              $uibModalInstance.dismiss('cancel');
+            };
+        },
+        controllerAs: "$ctrl",
         resolve: {
-          entityFields: function(){return ctrl.data.entityFields},
-          map: function(){return [{prop: 'value'}]},
-          fn: function(){return currentEdit.v}
+          typeConfig: function(){return typeConfig},
+          expression: function(){
+            var value;
+
+            if (angular.isObject(model[modelExpressionKey]) && typeConfig == 'function') {
+              value = '';
+            }else{
+              value = model[modelExpressionKey];
+            }
+
+            return value || {} ;
+          },
+          formFields: function(){return ctrl.jsonModel.fields}
         }
+      });
+
+      uibModalInstance.result.then(function(result){
+        model[modelExpressionKey] = result;
       });
     }
 
@@ -369,18 +402,39 @@
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
 
-      setRequiredModel(ctrl.fieldEdit);
-      setDisabledModel(ctrl.fieldEdit);
+      setNameField(ctrl.fieldEdit);
       setFilterModel(ctrl.fieldEdit);
       setViewsField(ctrl.fieldEdit);
-      setNameField(ctrl.fieldEdit);
 
-      if (angular.isUndefined(ctrl.fieldEdit.id)){
-        addNewField();
+      if (ctrl.fieldEdit.visibilityType) {
+        ctrl.fieldEdit.meta.visible = setDisplayConfig(ctrl.fieldEdit.visibilityType, ctrl.fieldEdit.visibilityExpression);
+        delete ctrl.fieldEdit.visibilityType;
+        delete ctrl.fieldEdit.visibilityExpression;
+      }
+
+      if (ctrl.fieldEdit.requiredType) {
+        ctrl.fieldEdit.meta.required = setDisplayConfig(ctrl.fieldEdit.requiredType, ctrl.fieldEdit.requiredExpression);
+        delete ctrl.fieldEdit.requiredType;
+        delete ctrl.fieldEdit.requiredExpression;
+      }
+
+      if (ctrl.fieldEdit.disabledType) {
+        ctrl.fieldEdit.meta.disabled = setDisplayConfig(ctrl.fieldEdit.disabledType, ctrl.fieldEdit.disabledExpression);
+        delete ctrl.fieldEdit.disabledType;
+        delete ctrl.fieldEdit.disabledExpression;
       }
 
       delete ctrl.fieldEdit.rawEntityField;
       ctrl.sectionSelected.onNewField = false;
+
+      if (angular.isUndefined(ctrl.fieldEdit.id)){
+        addNewField();
+      }else{
+        var index = ctrl.fieldEdit.id;
+        var field =  ctrl.jsonModel.fields[index];
+        angular.extend(field, ctrl.fieldEdit);
+      }
+
       ctrl.fieldEdit = {};
       showComponents();
     }
@@ -395,36 +449,6 @@
       if (field.viewList) {
         field.views.list = {};
       }
-    } 
-
-    function setRequiredModel(field){
-      if (!field.hasOwnProperty('required')) { return false; }
-
-      
-      // field.meta.required = {
-      //   type: field.requiredType,
-      //   expression: field.requiredExpression
-      // };
-
-      field.meta.required = {
-        type: 'boolean',
-        expression: true
-      }
-    } 
-
-    function setDisabledModel(field){
-      if (!field.hasOwnProperty('disabled')) { return false; }
-
-      // field.meta.disabled = {
-      //   type: field.disabledType,
-      //   expression: field.disabledExpression
-      // }
-
-      field.meta.disabled = {
-        type: 'boolean',
-        expression: field.disabled
-      }
-
     }
 
     function setFilterModel(field) {
@@ -488,6 +512,35 @@
       }
     }
 
+    function editField(formField, index) {
+      formField = angular.copy(formField);
+
+      if(ctrl.onBindBreadcrumb){
+        bindFieldOnBreadcrumb(formField.meta.bind);
+        return;
+      }
+      
+      ctrl.currentEntity.attributes.forEach(function(entityField, index){
+        if(entityField.alias === formField.meta.bind){
+          formField.rawEntityField = entityField;
+        }
+      });
+
+      if (formField.meta.visible) {
+        angular.extend(formField, setDisplayConfigForEdit(formField.meta.visible, 'visibilityType', 'visibilityExpression'));
+      }
+
+      if (formField.meta.required) {
+        angular.extend(formField, setDisplayConfigForEdit(formField.meta.required, 'requiredType', 'requiredExpression'));
+      }
+
+      if (formField.meta.disabled) {
+        angular.extend(formField, setDisplayConfigForEdit(formField.meta.disabled, 'disabledType', 'disabledExpression'));
+      }
+
+      ctrl.fieldEdit = formField;
+      showEditField();
+    }
     function autoSelectSection(){
       ctrl.sectionSelected = ctrl.sections[0];
     }
@@ -533,7 +586,7 @@
 
     function saveForm() {
       updateFieldsOnJsonModel(ctrl.sections);
-      labelsService.buildLabels(angular.copy(ctrl.jsonModel), ctrl.moduleForm.id, ctrl.moduleForm.key);
+      labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
 
       if(idForm) {
         httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModuleForm);
@@ -700,46 +753,38 @@
       showComponents();
     }
 
-    function editField(formField, index) {
-      if(ctrl.onBindBreadcrumb){
-        bindFieldOnBreadcrumb(formField.meta.bind);
-        return;
-      }
-      
-      ctrl.currentEntity.attributes.forEach(function(entityField, index){
-        if(entityField.alias === formField.meta.bind){
-          formField.rawEntityField = entityField;
+    function setDisplayConfig(type, expression) {
+      if ( (!type && !expression) || type == 'default') {return undefined}
+
+      var config;
+
+      if (type == 'map' || type == 'function') {
+        config = {
+          type: type,
+          expression: expression
+        };
+      }else{
+        config = {
+          "type": "boolean",
+          "expression": type == 'true'? true : false
         }
-      });
-
-      ctrl.fieldEdit = formField;
-      showEditField();
+      }
+      return config;
     }
 
-    function saveVisibleMap() {
-      if (angular.isUndefined(ctrl.mapEdit.index)){
-        ctrl.editBt.mapExpression.push(ctrl.mapEdit);
-      } 
+    function setDisplayConfigForEdit(config, keyType, keyExpression) {
+      var result = {};
 
-      cancelEditVisibleMap();
-    }
+      if (!config) {return result};
 
-    function editVisibleMap(map, index) {
-      ctrl.mapEdit = map;
-      ctrl.mapEdit.index = index; 
-    } 
+      if (config.type == 'boolean') {
+        result[keyType] = config.expression.toString();
+      }else{
+        result[keyType] = config.type;
+        result[keyExpression]= config.expression;
+      }
 
-    function cancelEditVisibleMap() {
-      ctrl.mapEdit = false;
-    }
-
-    function addVisibleMap() {
-      ctrl.mapEdit = {newMap: true};
-    }
-
-    function removeVisibleMap() {
-      ctrl.editBt.mapExpression.splice(1, ctrl.mapEdit.index);
-      cancelEditVisibleMap();
+      return result;
     }
 
     function buildBreadcrumb() {
@@ -812,7 +857,7 @@
 
       breadcrumb.push({icon: 'fa fa-home'});
       breadcrumb.push({label: ctrl.moduleForm.title});
-      breadcrumb.push({divisor: '>', firstDivisor: true});
+      breadcrumb.push({divisor: '>'});
       breadcrumb.push({label: ctrl.jsonModel.label});
 
       ctrl.jsonModel.views.edit.breadcrumb = angular.copy(breadcrumb);
@@ -852,6 +897,11 @@
       dragulaService.options($scope, 'buttons-edit', {
         copy: true,
         copySortSource: true
+      });
+
+      $scope
+      .$on('buttons-edit.drop', function (e, el) {
+        
       });
     }
   };

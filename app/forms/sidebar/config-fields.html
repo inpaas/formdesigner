@@ -7,7 +7,7 @@
   <div class="inner-item">
     <div class="form-group">
       <label for="">Tipo do Campo</label>
-       <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.meta.type" ng-change="ctrl.setTypeField(ctrl.fieldEdit.meta.type)">
+      <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.meta.type" ng-change="ctrl.setTypeField(ctrl.fieldEdit.meta.type)">
         <option value="textarea">Área de Texto</option>
         <option value="date">Data</option>
         <option value="string">Campo de Texto</option>
@@ -31,6 +31,70 @@
 
     <div class="row">
       <div class="form-group">
+        <label>Visibilidade</label>
+        <select class="form-control input-sm" ng-model="ctrl.fieldEdit.visibilityType">
+          <option value="">Selecione</option>
+          <option value="true">Sim</option>
+          <option value="false">Não</option>
+          <option value="function">Função</option>
+          <option value="map">Propriedade/Valor</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-sm" 
+      ng-if="ctrl.fieldEdit.visibilityType == 'function'" 
+      ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'visibilityExpression', 'function')">Editar função</button>
+
+      <button class="btn btn-primary btn-sm" 
+      ng-if="ctrl.fieldEdit.visibilityType == 'map'" 
+      ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label>Campo obrigatório</label>
+        <select class="form-control input-sm" ng-model="ctrl.fieldEdit.requiredType">
+          <option value="">Selecione</option>
+          <option value="true">Sim</option>
+          <option value="false">Não</option>
+          <option value="function">Função</option>
+          <option value="map">Propriedade/Valor</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-sm" 
+      ng-if="ctrl.fieldEdit.requiredType == 'function'" 
+      ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'requiredExpression', 'function')">Editar função</button>
+
+      <button class="btn btn-primary btn-sm" 
+      ng-if="ctrl.fieldEdit.requiredType == 'map'" 
+      ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'requiredExpression', 'map')">Editar Propriedade/Valor</button>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label>Campo desabilitado</label>
+        <select class="form-control input-sm" ng-model="ctrl.fieldEdit.disabledType">
+          <option value="default">Selecione</option>
+          <option value="true">Sim</option>
+          <option value="false">Não</option>
+          <option value="function">Função</option>
+          <option value="map">Propriedade/Valor</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary btn-sm" 
+              ng-if="ctrl.fieldEdit.disabledType == 'function'" 
+              ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'disabledExpression', 'function')">
+          Editar função
+      </button>
+
+      <button class="btn btn-primary btn-sm" 
+              ng-if="ctrl.fieldEdit.disabledType == 'map'" 
+              ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'disabledExpression', 'map')">
+        Editar Propriedade/Valor
+      </button>
+    </div>
+    <div class="row">
+      <div class="form-group">
         <label for="">Descrição</label>
         <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.comments"></textarea>
       </div>
@@ -40,31 +104,6 @@
         <label for="">Texto de Ajuda</label>
         <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.help"></textarea>
       </div>
-    </div>
-    <div class="row row-checkbox">
-      <div class="form-group">
-    	{{#include-html}}studiov2.forms.rules.required{{/include-html}}
-      </div>
-      <div class="form-group">
-    	{{#include-html}}studiov2.forms.rules.visibility{{/include-html}}
-      </div>
-      <div class="form-group">
-    	{{#include-html}}studiov2.forms.rules.disabled{{/include-html}}
-      </div>
-      <div class="form-group">
-        <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.filter">
-        <label for="cbx-unconditional-search">Campo Pesquisável</label>
-      </div>
-      <div class="form-group">
-        <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.fieldEdit.viewList">
-        <label for="cbx-unconditional-search">Campo Listável</label>
-      </div>
-      <!--div class="form-group">
-        {{#include-html}}studiov2.forms.sidebar.config-fields.visibilityRule{{/include-html}}
-      </div-->
-    </div>
-    <div class="row">
-      <button type="button" class="btn btn-success btn-block">Novo Evento</button>
     </div>
   </div>
   <!-- Estrutura -->

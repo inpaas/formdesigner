@@ -5,39 +5,36 @@
   <!-- Mapa -->
   <div class="form-group type-map">
 
-    <div class="row" ng-repeat="(k, v) in map">
+    <div class="row" ng-repeat="map in $ctrl.expression">
       <div class="form-group col-sm-4 no-padding">
         <label for="">Propriedade:</label>
-        <select class="form-control input-sm" ng-model="k" ng-options="entityField.alias as entityField.alias for entityField in entityFields"></select>
+        <select class="form-control input-sm" ng-model="map.key" ng-options="field.meta.bind as field.meta.bind for field in $ctrl.formFields"></select>
       </div>
       <div class="form-group col-sm-5 col-sm-offset-1 no-padding">
         <label for="">Valor:</label>
-        <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="v">
+        <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="map.value">
       </div>
       <div class="form-group col-sm-2 no-padding">
-        <button class="btn btn-success btn-style-plus" ng-click="map.push({})"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <button class="btn btn-danger btn-style-plus" ng-click="$ctrl.expression.splice($index, 1)"><i class="fa fa-trash" aria-hidden="true"></i></button>
       </div>
     </div>
 
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Propriedade</th>
-          <th>Valor</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="(k, v) in ctrl.map">
-          <td ng-bind="k"></td>
-          <td ng-bind="v"></td>
-          <td>
-            <button class="btn btn-primary btn-sm"><i class="fa fa-fw fa-pencil"></i></button>
-            <button class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i></button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="row">
+      <div class="form-group col-sm-4 no-padding">
+        <label for="">Propriedade:</label>
+        <select class="form-control input-sm" ng-model="$ctrl.key" ng-options="field.meta.bind as field.meta.bind for field in $ctrl.formFields"></select>
+      </div>
+      <div class="form-group col-sm-5 col-sm-offset-1 no-padding">
+        <label for="">Valor:</label>
+        <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="$ctrl.value">
+      </div>
+      <div class="form-group col-sm-2 no-padding">
+        <button class="btn btn-success btn-style-plus" 
+                ng-click="$ctrl.expression.push({key: $ctrl.key, value: $ctrl.value}); $ctrl.key=''; $ctrl.value='';">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div> 
   </div>
   <!-- Fim Mapa -->
 </div>
