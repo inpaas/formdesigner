@@ -35,7 +35,7 @@
       return $filter('translate')('label.locale'); 
     }
 
-    function setLabelsNamespace(moduleKey, formKey) {
+    function setLabelsNamespace(formKey) {
       var template = "labels.forms.{{form}}.";
       labelsNamespace = labelsNamespace || template.replace('{{form}}', formKey);
     }
@@ -53,8 +53,8 @@
       });
     }
 
-    function buildLabels(jsonForm, moduleId, moduleKey){
-      setLabelsNamespace(moduleKey, jsonForm.key);
+    function buildLabels(jsonForm, moduleId){
+      setLabelsNamespace(jsonForm.key);
 
       var deferred = $q.defer();
 
