@@ -326,11 +326,6 @@
     } 
 
     function setNewSection() {
-      if (!angular.isUndefined(ctrl.newSection.id) ){
-        showComponents();
-        return;
-      }
-
       // Formatar o jsonForm (se não tiver nenhuma é a principal mas se tiver é um include do mesmo data source)
       // setar na view a nova section
       // Mostrar o components no sidebar
@@ -565,22 +560,15 @@
     }
     
     function selectSection(index) {
-
       if (ctrl.sectionSelected == ctrl.sections[index]) {
         return false;
       }
-
-      ctrl.newSection = ctrl.sections[index];
-      ctrl.newSection.id = index;
-      showNewSectionConfig();
-      ctrl.onEditSection = true;      
 
       if (ctrl.sectionSelected) {
         ctrl.sectionSelected.onNewField = false;
       } 
 
       ctrl.sectionSelected = ctrl.sections[index];
-
     }
 
     function cancelEditField() {
@@ -649,7 +637,7 @@
     }
 
     function showNewSectionConfig() {
-      ctrl.onEditSection = true; 
+      ctrl.onNewSection = true; 
       ctrl.onComponents = false;
       ctrl.onTypeField = false; 
     } 
