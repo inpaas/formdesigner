@@ -382,6 +382,7 @@
       function setTypeSelect(){
         if(ctrl.fieldEdit.rawEntityField.domains){
           ctrl.fieldEdit.meta.options = ctrl.fieldEdit.rawEntityField.domains;
+          ctrl.fieldEdit.dataSourceType = 'D';
         }else{
           findReferences(fieldForm);
         }
@@ -543,6 +544,7 @@
       ctrl.fieldEdit = formField;
       showEditField();
     }
+
     function autoSelectSection(){
       ctrl.sectionSelected = ctrl.sections[0];
     }
