@@ -1,36 +1,12 @@
 {{#include-html}}studiov2.forms.sidebar.config-fields.datasource{{/include-html}}
 
-<!-- <div class="relation if-option">
-  <div class="col-sm-12 col-xs-12 no-padding form-group">
-    <div class="row">
-      <div class="col-sm-5 col-xs-5 no-padding">
-        <label for="">Chave</label>
-        <input class="form-control input-sm" placeholder="Sexo" type="text">
-      </div>
-      <div class="col-sm-5 col-xs-5">
-        <label for="">Valor</label>
-        <input class="form-control input-sm" placeholder="Masculino" type="text">
-      </div>
-      <div class="col-sm-2 col-xs-2 no-padding">
-        <label for=""></label>
-        <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-12 col-xs-12 no-padding form-group">
-    <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Opção</button>
-  </div>
-</div> -->
-
-<br>
-<div class="row" ng-if="ctrl.fieldEdit.rawEntityField.domains.length">
+<div class="row" ng-if="ctrl.fieldEdit.meta.dataSource.type == 'D'">
   <div class="col-sm-12 col-xs-12 no-padding form-group">
     <label for="">Valor quando marcado</label>
     <select class="form-control input-sm" 
             ng-model="ctrl.fieldEdit.meta.checked" 
             ng-options="domain.value as domain.value for domain in ctrl.fieldEdit.rawEntityField.domains">
-      <option value="">Selecione</option>           
+      <option value="">Selecione</option>
     </select>
   </div>
 
@@ -44,7 +20,7 @@
   </div>
 </div>
 
-<div class="row" ng-if="ctrl.fieldEdit.dataSourceType === 'M'">
+<div class="row" ng-if="ctrl.fieldEdit.meta.dataSource.type === 'M'">
   <div class="col-sm-12 col-xs-12 no-padding form-group">
     <label for="">Valor quando marcado</label>
     <input class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.checked">

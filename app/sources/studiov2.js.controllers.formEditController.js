@@ -369,7 +369,7 @@
           break;
       }
 
-      if (!ctrl.apps) {
+      if (!setModuleEntity(ctrl.currentEntity.module)) {
         getAppsForField(); 
       }
 
@@ -378,6 +378,7 @@
       function setTypeCheckbox(){
         if(ctrl.fieldEdit.rawEntityField.domains){
           ctrl.fieldEdit.dataSourceType = 'D';
+          ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
         }else{
           findReferences(ctrl.fieldEdit);
         }
@@ -385,10 +386,10 @@
 
       function setTypeSelect(){
         if(ctrl.fieldEdit.rawEntityField.domains){
-          ctrl.fieldEdit.meta.options = ctrl.fieldEdit.rawEntityField.domains;
           ctrl.fieldEdit.dataSourceType = 'D';
+          ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
         }else{
-          findReferences(fieldForm);
+          findReferences(ctrl.fieldEdit);
         }
       }
     } 
@@ -396,29 +397,37 @@
     function getAppsForField(){
       getApps().then(function(apps){
         if (ctrl.fieldEdit.dataSource && ctrl.fieldEdit.dataSource.moduleId) {
-          var id = ctrl.fieldEdit.dataSource.moduleId;
-
-          ctrl.apps.forEach(function(app, index){
-            if (app.modules) {
-              app.modules.forEach(function(mod, index){
-                if (mod.id == id) {
-                  ctrl.moduleForm = mod;
-                }
-              });
-            }
-          });
+          var id = ctrl.fieldEdit.moduleId;
+          setModuleEntity(id);
         }
       });
     }
 
+    function setModuleEntity(idModule){
+      var result;
+
+      ctrl.apps && ctrl.apps.forEach(function(app, index){
+        if (app.modules) {
+          app.modules.forEach(function(mod, index){
+            if (mod.id == idModule) {
+              ctrl.moduleEntity = mod;
+              result = true;
+            }
+          });
+        }
+      });
+
+      return result;
+    }
+
     function findReferences(fieldForm){
       ctrl.currentEntity.references.forEach(function(ref, index){
-        if (ref.field === fieldForm.entityName) {
-          fieldForm.dataSource = {
+        if (ref.field === ctrl.fieldEdit.rawEntityField.name) {
+          ctrl.fieldEdit.meta.dataSource = {
             type: 'E',
-            key: ref.entity
+            key : ref.entity,
+            moduleId: ctrl.currentEntity.id
           }
-          fieldForm.dataSourceType = 'E';
         }
       });
     }
@@ -449,7 +458,6 @@
       }
 
       delete ctrl.fieldEdit.rawEntityField;
-      delete ctrl.fieldEdit.dataSourceType;
       ctrl.sectionSelected.onNewField = false;
 
       if (angular.isUndefined(ctrl.fieldEdit.id)){
@@ -564,7 +572,15 @@
         angular.extend(formField, setDisplayConfigForEdit(formField.meta.disabled, 'disabledType', 'disabledExpression'));
       }
 
-      getAppsForField();
+      if (formField.dataSource) {
+         if (!ctrl.apps) {
+          getAppsForField();
+        }else{
+          setModuleEntity(formField.dataSource.moduleId);
+        }  
+      }
+      
+
       ctrl.fieldEdit = formField;
       showEditField();
     }

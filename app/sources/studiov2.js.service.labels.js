@@ -125,7 +125,7 @@
         $l10n.editLabel(key, value);
         saveLabel(value, key, moduleId); 
 
-        if(field.meta.type === 'select') {
+        if(field.meta.options) {
           buildLabelsOptions(field.name, field.meta.options); 
         }
       });
