@@ -1,20 +1,60 @@
-{{#include-html}}studiov2.forms.sidebar.config-fields.datasource{{/include-html}}
+<div class="row form-group clearfix">
+  <div class="col-xs-12 col-sm-12 no-padding">
+    <label>Origem do Dado</label>
+  </div> 
+  <div class="col-xs-12 col-sm-6 no-padding">
+    <label for="type-entity">
+      <input type="radio" ng-model="ctrl.fieldEdit.dataSourceType" name="type-data" id="type-entity" value="E">
+      Entidade 
+    </label>
+  </div>
+  <div class="col-xs-12 col-sm-6 no-padding">
+    <label for="type-service">
+      <input type="radio" ng-model="ctrl.fieldEdit.dataSourceType" name="type-data" id="type-service" value="S"> 
+      Serviço 
+    </label>
+  </div>
+</div>
 
-<label for="">Opções disponíveis</label>
-<div class="row" ng-repeat="option in ctrl.fieldEdit.meta.options">
-  <div class="col-sm-5 col-xs-5 no-padding">
-    <label for="">Chave</label>
-    <input class="form-control input-sm" placeholder="Chave" type="text" ng-model="option.translatedLabel">
+<div class="row" ng-if="ctrl.fieldEdit.dataSourceType = 'E'">
+  <div class="col-xs-12 col-sm-12 no-padding">
+    <div class="form-group">
+      <div class="btn-group btn-block">
+        <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+          {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+        </button>
+        <ul class="dropdown-menu btn-block">
+          <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+          <li ng-repeat="mod in app.modules" ng-click="ctrl.getModuleEntity(mod.id, ctrl.fieldEdit.dataSource)"><a href="" ng-bind="mod.title"></a></li>
+          <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+        </ul>
+      </div>
+    </div>
   </div>
-  <div class="col-sm-5 col-xs-5">
-    <label for="">Valor</label>
-    <input class="form-control input-sm" placeholder="Valor" type="text" ng-model="option.value" disabled>
+</div>
+
+<div class="row" ng-show="ctrl.fieldEdit.dataSourceType == 'E'">
+  <div class="col-xs-12 col-sm-12 no-padding">
+    <div class="form-group">
+      <label for="">Entidade</label>
+      <select class="form-control input-sm" 
+              ng-model="ctrl.fieldEdit.dataSource.key" 
+              ng-options="entity.name as entity.name for entity in ctrl.entities">
+
+      <option value="">Selecione</option>
+    </select>
   </div>
-  <div class="col-sm-2 col-xs-2 no-padding">
-    <label for=""></label>
-    <button type="button" class="btn btn-danger btn-sm" ng-click="ctrl.fieldEdit.meta.options.splice($index, 1)">
-      <i class="fa fa-trash" aria-hidden="true"></i>
-    </button>
+</div>
+</div>
+
+<div class="row" ng-if="ctrl.fieldEdit.dataSourceType == 'S'">
+  <div class="form-group">
+    <label for="">Source Key:</label>
+    <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.dataSource.sourceKey">
+  </div>
+  <div class="form-group">
+    <label for="">Método:</label>
+    <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.dataSource.value">
   </div>
 </div>
 <br>

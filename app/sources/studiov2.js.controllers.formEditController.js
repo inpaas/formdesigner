@@ -369,6 +369,10 @@
           break;
       }
 
+      if (!ctrl.apps) {
+        getAppsForField(); 
+      }
+
       showEditField();
 
       function setTypeCheckbox(){
@@ -388,6 +392,24 @@
         }
       }
     } 
+
+    function getAppsForField(){
+      getApps().then(function(apps){
+        if (ctrl.fieldEdit.dataSource && ctrl.fieldEdit.dataSource.moduleId) {
+          var id = ctrl.fieldEdit.dataSource.moduleId;
+
+          ctrl.apps.forEach(function(app, index){
+            if (app.modules) {
+              app.modules.forEach(function(mod, index){
+                if (mod.id == id) {
+                  ctrl.moduleForm = mod;
+                }
+              });
+            }
+          });
+        }
+      });
+    }
 
     function findReferences(fieldForm){
       ctrl.currentEntity.references.forEach(function(ref, index){
@@ -427,6 +449,7 @@
       }
 
       delete ctrl.fieldEdit.rawEntityField;
+      delete ctrl.fieldEdit.dataSourceType;
       ctrl.sectionSelected.onNewField = false;
 
       if (angular.isUndefined(ctrl.fieldEdit.id)){
@@ -541,6 +564,7 @@
         angular.extend(formField, setDisplayConfigForEdit(formField.meta.disabled, 'disabledType', 'disabledExpression'));
       }
 
+      getAppsForField();
       ctrl.fieldEdit = formField;
       showEditField();
     }
@@ -668,9 +692,7 @@
 
       getPermissions(idModuleForm);
 
-      httpService.getApps().then(function(response){
-        ctrl.apps = response.data; 
-
+      getApps().then(function(response){
         ctrl.apps.forEach(function(app, index){
           if (app.modules) {
             app.modules.forEach(function(mod, index){
@@ -685,16 +707,22 @@
           }
         });
       });
-      
+
       ctrl.onConfigForm = true;
       ctrl.firstConfig = firstConfig;
     }
 
-    function getModuleEntity(id) {
+    function getApps(){
+      return httpService.getApps().then(function(response){
+        ctrl.apps = response.data; 
+      });
+    }
+
+    function getModuleEntity(id, model) {
       httpService.getModule(id).then(function(response) {
         ctrl.moduleEntity = response.data;
-        ctrl.configForm.dataSource.moduleId = response.data.id;
         ctrl.entities = response.data['data-sources'];
+        model.moduleId = response.data.id;
       }); 
 
       getPermissions(id);
@@ -745,6 +773,7 @@
 
       idModuleForm = ctrl.moduleForm.id;
       ctrl.onConfigForm = false;
+      ctrl.moduleEntity = {};
     }
 
     function cancelConfigForm() {
