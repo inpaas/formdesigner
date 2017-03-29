@@ -28,7 +28,7 @@
     }
 
     function generateKey(name){
-      return labelsNamespace.concat(name);
+      return labelsNamespace.concat(name).toLowerCase();
     }
 
     function getLanguageUser(){
