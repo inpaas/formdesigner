@@ -59,7 +59,8 @@
       removeField: removeField,
       bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
       enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
-      currentEntity: {}
+      currentEntity: {},
+      getQueries: getQueries
     });    
 
     init(); 
@@ -308,33 +309,34 @@
       switch (type){
         case 'checkbox':
           setTypeCheckbox();
+          ctrl.fieldEdit.dataSource = {};
           break;
+
         case 'select':
           setTypeSelect();
+          ctrl.fieldEdit.dataSource = {};
           break;
       }
 
-      if (!setModuleEntity(ctrl.currentEntity.module)) {
-        getAppsForField(); 
-      }
+      getAppsForField(); 
 
       showEditField();
 
       function setTypeCheckbox(){
         if(ctrl.fieldEdit.rawEntityField.domains){
-          ctrl.fieldEdit.dataSourceType = 'D';
+          ctrl.fieldEdit.dataSource.type = 'D';
           ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
         }else{
-          findReferences(ctrl.fieldEdit);
+          // findReferences(ctrl.fieldEdit);
         }
       }
 
       function setTypeSelect(){
         if(ctrl.fieldEdit.rawEntityField.domains){
-          ctrl.fieldEdit.dataSourceType = 'D';
+          ctrl.fieldEdit.dataSource.type = 'D';
           ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
         }else{
-          findReferences(ctrl.fieldEdit);
+          // findReferences(ctrl.fieldEdit);
         }
       }
     } 
@@ -402,7 +404,7 @@
         delete ctrl.fieldEdit.disabledExpression;
       }
 
-      if(ctrl.fieldEdit.type == 'checkbox' || ctrl.fieldEdit.type == 'select'){
+      if(ctrl.fieldEdit.meta.type == 'checkbox' || ctrl.fieldEdit.meta.type == 'select'){
         configDataSource(ctrl.fieldEdit.meta);
       }
       
@@ -428,11 +430,9 @@
           break;
         case 'E':
           delete model.options;
-          delete model.dataSource.method;
           break;
         case 'S':
           delete model.options;
-          delete model.dataSource.type;
           break;
       }
     } 
@@ -537,14 +537,14 @@
         angular.extend(formField, setDisplayConfigForEdit(formField.meta.disabled, 'disabledType', 'disabledExpression'));
       }
 
-      if (formField.dataSource) {
-         if (!ctrl.apps) {
-          getAppsForField();
-        }else{
-          setModuleEntity(formField.dataSource.moduleId);
-        }  
+      if (!ctrl.apps) {
+        getAppsForField();
       }
-      
+
+      if(formField.meta.dataSource && formField.meta.dataSource.moduleId){
+        setModuleEntity(formField.meta.dataSource.moduleId);
+        getQueries(formField.meta.dataSource.key);
+      }  
 
       ctrl.fieldEdit = formField;
       showEditField();
@@ -741,6 +741,20 @@
             jsonFormService.setKeyToDetails(field.alias);
           } 
         });
+      });
+    }
+
+    function getQueries(entityName){
+      var entityId;
+
+      ctrl.entities.forEach(function(entity, index){
+        if (entity.name == entityName) {
+          entityId = entity.id;
+        } 
+      });
+
+      httpService.getFieldsByEntity(entityId).then(function(response) {
+        ctrl.currentQueries = response.data.queries;
       });
     }
 
