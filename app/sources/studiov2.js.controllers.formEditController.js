@@ -222,88 +222,33 @@
       ctrl.editBt.map.push(expression);
     }
 
-    function openModalForConfig(model, modelExpressionKey, typeConfig){
+    function openModalForConfig(model, modelKey, typeConfig){
       var typeFunctionTemplateUrl = "/forms/studiov2.forms.config-function",
           typeMapTemplateUrl = "/forms/studiov2.forms.config-map";
 
       var uibModalInstance = $uibModal.open({
         templateUrl: typeConfig == 'function'? typeFunctionTemplateUrl : typeMapTemplateUrl,
-        controller: function ConfigDisplayController($uibModalInstance, expression, formFields, typeConfig){
-            var $ctrl = this;
-            $ctrl.formFields = formFields;
-            $ctrl.key;
-            $ctrl.value;
-
-            if (typeConfig == 'map') {
-              $ctrl.expression = objToArray(expression);
-            }else{
-              $ctrl.expression = expression;
-            }
-
-            function objToArray(obj) {
-              var arr = [];
-
-              for(key in obj){
-                var singleObject = {}
-                singleObject.key = key;
-                singleObject.value = obj[key];
-
-                arr.push(singleObject);
-              };
-
-              return arr;
-            }
-
-            function arrayToObj(_array) {
-              var map = {};
-
-              _array.forEach(function(item, index){
-                map[item.key] = item.value;
-              });
-
-              return map;
-            }
-
-
-            $ctrl.ok = function () {
-              var result;
-
-              if (typeConfig == 'map') {
-                result = arrayToObj($ctrl.expression);
-                if($ctrl.key && $ctrl.value){
-                  result[$ctrl.key] = $ctrl.value;
-                }
-              }else{
-                result = $ctrl.expression;
-              }
-
-              $uibModalInstance.close(result);
-            };
-
-            $ctrl.cancel = function () {
-              $uibModalInstance.dismiss('cancel');
-            };
-        },
+        controller: 'ConfigDisplayController',
         controllerAs: "$ctrl",
         resolve: {
           typeConfig: function(){return typeConfig},
           expression: function(){
             var value;
 
-            if (angular.isObject(model[modelExpressionKey]) && typeConfig == 'function') {
+            if (angular.isObject(model[modelKey]) && typeConfig == 'function') {
               value = '';
             }else{
-              value = model[modelExpressionKey];
+              value = model[modelKey];
             }
 
-            return value || {} ;
+            return value;
           },
           formFields: function(){return ctrl.jsonModel.fields}
         }
       });
 
       uibModalInstance.result.then(function(result){
-        model[modelExpressionKey] = result;
+        model[modelKey] = result;
       });
     }
 
@@ -457,6 +402,10 @@
         delete ctrl.fieldEdit.disabledExpression;
       }
 
+      if(ctrl.fieldEdit.type == 'checkbox' || ctrl.fieldEdit.type == 'select'){
+        configDataSource(ctrl.fieldEdit.meta);
+      }
+      
       delete ctrl.fieldEdit.rawEntityField;
       ctrl.sectionSelected.onNewField = false;
 
@@ -471,7 +420,23 @@
       ctrl.fieldEdit = {};
       showComponents();
     }
-    
+
+    function configDataSource(model){
+      switch(model.dataSource.type){
+        case ('D' || 'M'):
+          delete model.dataSource;
+          break;
+        case 'E':
+          delete model.options;
+          delete model.dataSource.method;
+          break;
+        case 'S':
+          delete model.options;
+          delete model.dataSource.type;
+          break;
+      }
+    } 
+
     function setNameField(field) {
       field.name = 'input'.concat(field.meta.bind);
     } 
