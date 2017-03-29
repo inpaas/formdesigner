@@ -6,28 +6,42 @@
   <div class="form-group type-map">
 
     <div class="row" ng-repeat="map in $ctrl.expression">
-      <div class="form-group col-sm-4 no-padding">
+      <div class="form-group col-sm-4 no-padding" ng-show="$ctrl.typeConfig == 'map'">
         <label for="">Propriedade:</label>
         <select class="form-control input-sm" ng-model="map.key" ng-options="field.meta.bind as field.meta.bind for field in $ctrl.formFields"></select>
       </div>
+
+      <div class="form-group col-sm-4 no-padding" ng-show="$ctrl.typeConfig == 'options'">
+        <label for="">Título:</label>
+        <input class="form-control input-sm" ng-model="map.key">
+      </div>
+
       <div class="form-group col-sm-5 col-sm-offset-1 no-padding">
         <label for="">Valor:</label>
         <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="map.value">
       </div>
+
       <div class="form-group col-sm-2 no-padding">
         <button class="btn btn-danger btn-style-plus" ng-click="$ctrl.expression.splice($index, 1)"><i class="fa fa-trash" aria-hidden="true"></i></button>
       </div>
     </div>
 
     <div class="row">
-      <div class="form-group col-sm-4 no-padding">
+      <div class="form-group col-sm-4 no-padding" ng-show="$ctrl.typeConfig == 'map'">
         <label for="">Propriedade:</label>
         <select class="form-control input-sm" ng-model="$ctrl.key" ng-options="field.meta.bind as field.meta.bind for field in $ctrl.formFields"></select>
       </div>
+
+      <div class="form-group col-sm-4 no-padding" ng-show="$ctrl.typeConfig == 'options'">
+        <label for="">Título:</label>
+        <input class="form-control input-sm" ng-model="$ctrl.key">
+      </div>
+
       <div class="form-group col-sm-5 col-sm-offset-1 no-padding">
         <label for="">Valor:</label>
         <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="$ctrl.value">
       </div>
+
       <div class="form-group col-sm-2 no-padding">
         <button class="btn btn-success btn-style-plus" 
                 ng-click="$ctrl.expression.push({key: $ctrl.key, value: $ctrl.value}); $ctrl.key=''; $ctrl.value='';">
