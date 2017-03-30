@@ -60,7 +60,8 @@
       bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
       enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
       currentEntity: {},
-      getQueries: getQueries
+      getQueries: getQueries,
+      selectDataSourceType: selectDataSourceType
     });    
 
     init(); 
@@ -324,7 +325,7 @@
 
       function setTypeCheckbox(){
         if(ctrl.fieldEdit.rawEntityField.domains){
-          ctrl.fieldEdit.dataSource.type = 'D';
+          ctrl.fieldEdit.dataSourceType = 'D';
           ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
         }else{
           // findReferences(ctrl.fieldEdit);
@@ -333,7 +334,7 @@
 
       function setTypeSelect(){
         if(ctrl.fieldEdit.rawEntityField.domains){
-          ctrl.fieldEdit.dataSource.type = 'D';
+          ctrl.fieldEdit.dataSourceType = 'D';
           ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
         }else{
           // findReferences(ctrl.fieldEdit);
@@ -343,10 +344,14 @@
 
     function getAppsForField(){
       getApps().then(function(apps){
+        var id;
         if (ctrl.fieldEdit.dataSource && ctrl.fieldEdit.dataSource.moduleId) {
-          var id = ctrl.fieldEdit.moduleId;
-          setModuleEntity(id);
+          id = ctrl.fieldEdit.moduleId;
+        }else{
+          id = ctrl.jsonModel.idModuleForm;
         }
+
+        getModuleEntity(id, ctrl.fieldEdit);
       });
     }
 
@@ -381,42 +386,45 @@
 
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
+      var fieldEdit = ctrl.fieldEdit;
 
-      setNameField(ctrl.fieldEdit);
-      setFilterModel(ctrl.fieldEdit);
-      setViewsField(ctrl.fieldEdit);
+      setNameField(fieldEdit);
+      setFilterModel(fieldEdit);
+      setViewsField(fieldEdit);
 
-      if (ctrl.fieldEdit.visibilityType) {
-        ctrl.fieldEdit.meta.visible = setDisplayConfig(ctrl.fieldEdit.visibilityType, ctrl.fieldEdit.visibilityExpression);
-        delete ctrl.fieldEdit.visibilityType;
-        delete ctrl.fieldEdit.visibilityExpression;
+      if (fieldEdit.visibilityType) {
+        fieldEdit.meta.visible = setDisplayConfig(fieldEdit.visibilityType, fieldEdit.visibilityExpression);
+        delete fieldEdit.visibilityType;
+        delete fieldEdit.visibilityExpression;
       }
 
-      if (ctrl.fieldEdit.requiredType) {
-        ctrl.fieldEdit.meta.required = setDisplayConfig(ctrl.fieldEdit.requiredType, ctrl.fieldEdit.requiredExpression);
-        delete ctrl.fieldEdit.requiredType;
-        delete ctrl.fieldEdit.requiredExpression;
+      if (fieldEdit.requiredType) {
+        fieldEdit.meta.required = setDisplayConfig(fieldEdit.requiredType, fieldEdit.requiredExpression);
+        delete fieldEdit.requiredType;
+        delete fieldEdit.requiredExpression;
       }
 
-      if (ctrl.fieldEdit.disabledType) {
-        ctrl.fieldEdit.meta.disabled = setDisplayConfig(ctrl.fieldEdit.disabledType, ctrl.fieldEdit.disabledExpression);
-        delete ctrl.fieldEdit.disabledType;
-        delete ctrl.fieldEdit.disabledExpression;
+      if (fieldEdit.disabledType) {
+        fieldEdit.meta.disabled = setDisplayConfig(fieldEdit.disabledType, fieldEdit.disabledExpression);
+        delete fieldEdit.disabledType;
+        delete fieldEdit.disabledExpression;
       }
 
-      if(ctrl.fieldEdit.meta.type == 'checkbox' || ctrl.fieldEdit.meta.type == 'select'){
-        configDataSource(ctrl.fieldEdit.meta);
+      if(fieldEdit.dataSourceType){
+        configDataSource(fieldEdit);
+        fieldEdit.dataSource.type = fieldEdit.dataSourceType;
+        delete fieldEdit.dataSourceType;
       }
       
-      delete ctrl.fieldEdit.rawEntityField;
+      delete fieldEdit.rawEntityField;
       ctrl.sectionSelected.onNewField = false;
 
-      if (angular.isUndefined(ctrl.fieldEdit.id)){
+      if (angular.isUndefined(fieldEdit.id)){
         addNewField();
       }else{
-        var index = ctrl.fieldEdit.id;
+        var index = fieldEdit.id;
         var field =  ctrl.jsonModel.fields[index];
-        angular.extend(field, ctrl.fieldEdit);
+        angular.extend(field, fieldEdit);
       }
 
       ctrl.fieldEdit = {};
@@ -424,15 +432,18 @@
     }
 
     function configDataSource(model){
-      switch(model.dataSource.type){
+      switch(model.dataSourceType){
         case ('D' || 'M'):
           delete model.dataSource;
           break;
         case 'E':
           delete model.options;
-          break;
         case 'S':
+          model.dataSource.key = model.dataSource.sourceKey;
+          model.dataSource.method = model.dataSource.sourceMethod;
           delete model.options;
+          delete model.dataSource.sourceKey; 
+          delete model.dataSource.sourceMethod;
           break;
       }
     } 
@@ -541,7 +552,11 @@
         getAppsForField();
       }
 
-      if(formField.dataSource && formField.dataSource.moduleId){
+      if(formField.dataSource || formField.meta.options){
+        formField.dataSourceType = (formField.dataSource && formField.dataSource.type) || formField.meta.options;
+        formField.dataSource.sourceMethod = formField.dataSource.method;
+        formField.dataSource.sourceKey = formField.dataSource.key;
+        
         setModuleEntity(formField.dataSource.moduleId);
         getQueries(formField.dataSource.key);
       }  
@@ -758,6 +773,15 @@
       });
     }
 
+    function getSources(){
+      ctrl.moduleEntitySources = [];
+      angular.forEach(ctrl.moduleEntity.sources, function(source, key){
+        source.forEach(function(item, index){
+          ctrl.moduleEntitySources.push(item);
+        });
+      });
+    }
+
     function saveConfigForm() {
       angular.extend(ctrl.jsonModel, ctrl.configForm);
       jsonFormService.editConfigForm(ctrl.configForm);
@@ -878,6 +902,14 @@
 
     function fieldHasFilterView(field, index, array){
       return field.views.filter;
+    }
+
+    function selectDataSourceType(){
+      switch(ctrl.fieldEdit.dataSourceType){
+        case 'S':
+          getSources();
+          break;
+      }
     }
 
     function setBreadcrumb() {

@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12 col-xs-12 no-padding form-group">
     <label for="">Origem das opções</label>
-    <select class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSource.type">
+    <select class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSourceType" ng-change="ctrl.selectDataSourceType()">
       <option value="">selecione</option>
       <option value="E">Entidade</option>
       <option value="S">Serviço</option>
@@ -11,36 +11,32 @@
   </div> 
 </div>
 
-<div class="form-group" ng-show="ctrl.fieldEdit.dataSource.type == 'D' || ctrl.fieldEdit.dataSource.type == 'M'">
+<div class="form-group" ng-show="ctrl.fieldEdit.dataSourceType == 'D' || ctrl.fieldEdit.dataSourceType == 'M'">
   <button type="button" class="btn btn-primary" ng-click="ctrl.openModalForConfig(ctrl.fieldEdit.meta, 'options', 'options')"> Editar Opções </button>
 </div> 
 
-<div class="row" ng-show="ctrl.fieldEdit.dataSource.type == 'E'">
-  <div class="col-xs-12 col-sm-12 no-padding">
-    <div class="form-group">
-      <div class="btn-group btn-block">
-        <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-          {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
-        </button>
-        <ul class="dropdown-menu btn-block">
-          <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-          <li ng-repeat="mod in app.modules" ng-click="ctrl.getModuleEntity(mod.id, ctrl.fieldEdit.dataSource)"><a href="" ng-bind="mod.title"></a></li>
-          <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
-        </ul>
-      </div>
+<div class="row" ng-show="ctrl.fieldEdit.dataSourceType == 'E'">
+  <div class="form-group">
+    <div class="btn-group btn-block">
+      <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+        {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+      </button>
+      <ul class="dropdown-menu btn-block">
+        <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+        <li ng-repeat="mod in app.modules" ng-click="ctrl.getModuleEntity(mod.id, ctrl.fieldEdit.dataSource)"><a href="" ng-bind="mod.title"></a></li>
+        <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+      </ul>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-12 no-padding">
-    <div class="form-group">
-      <label for="">Entidade</label>
-      <select class="form-control input-sm" 
-              ng-model="ctrl.fieldEdit.dataSource.key" 
-              ng-change="ctrl.getQueries(ctrl.fieldEdit.dataSource.key)"
-              ng-options="entity.name as entity.name for entity in ctrl.entities">
+  <div class="form-group">
+    <label for="">Entidade</label>
+    <select class="form-control input-sm" 
+            ng-model="ctrl.fieldEdit.dataSource.key" 
+            ng-change="ctrl.getQueries(ctrl.fieldEdit.dataSource.key)"
+            ng-options="entity.name as entity.name for entity in ctrl.entities">
       <option value="">Selecione</option>
     </select>
   </div>
-
   <div class="form-group">
     <label for="">Método:</label>
     <select class="form-control input-sm" 
@@ -51,14 +47,16 @@
   </div>
 </div>
 
-<div class="row" ng-if="ctrl.fieldEdit.dataSource.type == 'S'">
+<div class="row" ng-show="ctrl.fieldEdit.dataSourceType == 'S'">
   <div class="form-group">
     <label for="">Source Key:</label>
-    <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.dataSource.key">
+    <select class="form-control input-sm" 
+            ng-model="ctrl.fieldEdit.dataSource.sourceKey" 
+            ng-options="source.key as source.key for source in ctrl.moduleEntitySources">
+    </select>
   </div>
   <div class="form-group">
     <label for="">Método:</label>
-    <select class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSource.method" ng-options=""></select>
+    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSource.sourceMethod">
   </div>
 </div>
-
