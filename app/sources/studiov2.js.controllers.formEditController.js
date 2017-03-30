@@ -370,7 +370,7 @@
     function findReferences(fieldForm){
       ctrl.currentEntity.references.forEach(function(ref, index){
         if (ref.field === ctrl.fieldEdit.rawEntityField.name) {
-          ctrl.fieldEdit.meta.dataSource = {
+          ctrl.fieldEdit.dataSource = {
             type: 'E',
             key : ref.entity,
             moduleId: ctrl.currentEntity.id
@@ -541,9 +541,9 @@
         getAppsForField();
       }
 
-      if(formField.meta.dataSource && formField.meta.dataSource.moduleId){
-        setModuleEntity(formField.meta.dataSource.moduleId);
-        getQueries(formField.meta.dataSource.key);
+      if(formField.dataSource && formField.dataSource.moduleId){
+        setModuleEntity(formField.dataSource.moduleId);
+        getQueries(formField.dataSource.key);
       }  
 
       ctrl.fieldEdit = formField;
