@@ -309,38 +309,32 @@
 
       switch (type){
         case 'checkbox':
-          setTypeCheckbox();
-          ctrl.fieldEdit.dataSource = {};
-          break;
-
         case 'select':
-          setTypeSelect();
+          findDomains();
           ctrl.fieldEdit.dataSource = {};
-          break;
+
+        case 'currency':
+        case 'date':
+          getFormatsPattern();
       }
 
       getAppsForField(); 
 
       showEditField();
 
-      function setTypeCheckbox(){
+      function findDomains(){
         if(ctrl.fieldEdit.rawEntityField.domains){
           ctrl.fieldEdit.dataSourceType = 'D';
           ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
-        }else{
-          // findReferences(ctrl.fieldEdit);
-        }
-      }
-
-      function setTypeSelect(){
-        if(ctrl.fieldEdit.rawEntityField.domains){
-          ctrl.fieldEdit.dataSourceType = 'D';
-          ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
-        }else{
-          // findReferences(ctrl.fieldEdit);
-        }
+        }     
       }
     } 
+
+    function getFormatsPattern(){
+      httpService.getFormats().then(function(response){
+        ctrl.formatsPattern = response.data;
+      });
+    }
 
     function getAppsForField(){
       getApps().then(function(apps){
@@ -414,7 +408,6 @@
         configDataSource(fieldEdit);
       }
       
-
       delete fieldEdit.rawEntityField;
 
       if (angular.isUndefined(fieldEdit.id)){

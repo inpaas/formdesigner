@@ -133,6 +133,15 @@
       });
     }
     
+    function getFormats(){
+      var url = '/api/studio/formats';
+
+      return $http({
+        method: 'get',
+        url: url
+      });
+    } 
+
     return {
       getModule: getModule,
       getApps: getApps,
@@ -142,7 +151,8 @@
       saveEditForm: saveEditForm,
       saveNewForm: saveNewForm,
       generateForm: generateForm,
-      getPermissions: getPermissions
+      getPermissions: getPermissions,
+      getFormats: getFormats
     }
   }
 
