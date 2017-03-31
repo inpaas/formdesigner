@@ -7,20 +7,31 @@
 
   function ConfigDisplayController($uibModalInstance, expression, formFields, typeConfig){
     var $ctrl = this;
+
     $ctrl.formFields = formFields;
     $ctrl.key;
     $ctrl.value;
     $ctrl.typeConfig = typeConfig;
 
-    if (typeConfig == 'map') {
-      $ctrl.expression = (expression && objToArray(expression)) || [];
+    switch(typeConfig){
+      case 'map':
+        $ctrl.expression = (expression && objToArray(expression)) || [];
+        break;
 
-    }else if (typeConfig == 'options'){
-      $ctrl.expression = expression? expression.forEach(function(item, index){
-                            item.key = item.label;
-                          }) : [];
-    }else{
-      $ctrl.expression = expression;
+      case 'options':
+        if (expression) {
+          expression.forEach(function(item, index){
+            item.key = item.label;
+          });
+        }else{
+          expression = [];
+        }
+        $ctrl.expression = expression;
+        break;
+
+      case 'function':
+        $ctrl.expression = expression;
+        break;
     }
 
 
@@ -53,11 +64,15 @@
       var result = angular.copy($ctrl.expression);
 
       if (typeConfig == 'map') {
-        result = arrayToObj(result);
         if($ctrl.key && $ctrl.value){
           result[$ctrl.key] = $ctrl.value;
         }
+        result = arrayToObj(result);
       }else if(typeConfig == 'options'){
+        if($ctrl.key && $ctrl.value){
+          result.push({key: $ctrl.key, value: $ctrl.value});
+        }
+
         result.forEach(function(item, index){
           item.label = item.key;
         });

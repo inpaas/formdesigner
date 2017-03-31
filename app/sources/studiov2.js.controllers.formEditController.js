@@ -412,20 +412,20 @@
 
       if(fieldEdit.dataSourceType){
         configDataSource(fieldEdit);
-        fieldEdit.dataSource.type = fieldEdit.dataSourceType;
-        delete fieldEdit.dataSourceType;
       }
       
+
       delete fieldEdit.rawEntityField;
-      ctrl.sectionSelected.onNewField = false;
+      delete fieldEdit.moduleId;
 
       if (angular.isUndefined(fieldEdit.id)){
         addNewField();
       }else{
         var index = fieldEdit.id;
-        var field =  ctrl.jsonModel.fields[index];
-        angular.extend(field, fieldEdit);
+        ctrl.sectionSelected.fields[index] = fieldEdit;
       }
+
+      ctrl.sectionSelected.onNewField = false;
 
       ctrl.fieldEdit = {};
       showComponents();
@@ -433,11 +433,19 @@
 
     function configDataSource(model){
       switch(model.dataSourceType){
-        case ('D' || 'M'):
+        case 'D':
           delete model.dataSource;
           break;
+
+        case 'M':
+          delete model.dataSource;
+          break;
+
         case 'E':
+          model.dataSource.type = model.dataSourceType;
           delete model.options;
+          break; 
+
         case 'S':
           model.dataSource.key = model.dataSource.sourceKey;
           model.dataSource.method = model.dataSource.sourceMethod;
@@ -446,6 +454,8 @@
           delete model.dataSource.sourceMethod;
           break;
       }
+
+      delete model.dataSourceType;
     } 
 
     function setNameField(field) {
@@ -556,7 +566,7 @@
         formField.dataSourceType = (formField.dataSource && formField.dataSource.type) || formField.meta.options;
         formField.dataSource.sourceMethod = formField.dataSource.method;
         formField.dataSource.sourceKey = formField.dataSource.key;
-        
+
         setModuleEntity(formField.dataSource.moduleId);
         getQueries(formField.dataSource.key);
       }  
@@ -582,6 +592,7 @@
     }
     
     function selectSection(index) {
+      console.log('select section')
       if (ctrl.sectionSelected == ctrl.sections[index]) {
         return false;
       }
