@@ -416,7 +416,6 @@
       
 
       delete fieldEdit.rawEntityField;
-      delete fieldEdit.moduleId;
 
       if (angular.isUndefined(fieldEdit.id)){
         addNewField();
@@ -433,11 +432,7 @@
 
     function configDataSource(model){
       switch(model.dataSourceType){
-        case 'D':
-          delete model.dataSource;
-          break;
-
-        case 'M':
+        case 'O':
           delete model.dataSource;
           break;
 
@@ -562,14 +557,16 @@
         getAppsForField();
       }
 
-      if(formField.dataSource || formField.meta.options){
-        formField.dataSourceType = (formField.dataSource && formField.dataSource.type) || formField.meta.options;
+      if(formField.dataSource){
+        formField.dataSourceType = formField.dataSource.type;
         formField.dataSource.sourceMethod = formField.dataSource.method;
         formField.dataSource.sourceKey = formField.dataSource.key;
 
         setModuleEntity(formField.dataSource.moduleId);
         getQueries(formField.dataSource.key);
-      }  
+      }else{
+        formField.dataSourceType = 'O';
+      }
 
       ctrl.fieldEdit = formField;
       showEditField();
@@ -920,6 +917,9 @@
         case 'S':
           getSources();
           break;
+
+        case 'E':
+          ctrl.fieldEdit.dataSource? ctrl.fieldEdit.dataSource : ctrl.fieldEdit.dataSource = {}
       }
     }
 
