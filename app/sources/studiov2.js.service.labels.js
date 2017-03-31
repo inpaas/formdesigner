@@ -28,7 +28,7 @@
     }
 
     function generateKey(name){
-      return labelsNamespace.concat(name).toLowerCase();
+      return labelsNamespace.concat(name);
     }
 
     function getLanguageUser(){
@@ -118,7 +118,7 @@
 
     function buildLabelsFromFields(fields, moduleId){
       fields.forEach(function(field, index){
-        var key = generateKey('field-').concat(field.name),
+        var key = generateKey('field-').concat(field.name).toLowerCase(),
             value = field.label;
 
         field.label = key;
