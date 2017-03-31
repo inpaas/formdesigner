@@ -139,7 +139,7 @@
                       .concat('-option'),
               value = item.label; 
 
-          if(!iKeyLabel(item.label)){
+          if(!isKeyLabel(item.label)){
             $l10n.editLabel(item.label, value);
             saveLabel(value, item.label, moduleId); 
           }
