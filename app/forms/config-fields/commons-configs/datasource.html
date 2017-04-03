@@ -5,13 +5,13 @@
       <option value="">Selecione</option>
       <option value="E">Entidade</option>
       <option value="S">Serviço</option>
-      <option value="O">Opções editáveis</option>
       <option value="D">Opções pré definidas</option>
+      <option value="O">Opções editáveis</option>
     </select>
   </div> 
 </div>
 
-<div class="form-group" ng-show="ctrl.fieldEdit.dataSourceType == 'O'">
+<div class="form-group" ng-show="ctrl.fieldEdit.dataSourceType == 'O' && ctrl.fieldEdit.meta.type != 'checkbox'">
   <button type="button" class="btn btn-primary" ng-click="ctrl.openModalForConfig(ctrl.fieldEdit.meta, 'options', 'options')"> Editar Opções </button>
 </div> 
 
