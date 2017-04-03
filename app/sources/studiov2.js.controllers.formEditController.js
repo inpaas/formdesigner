@@ -558,7 +558,7 @@
 
         setModuleEntity(formField.dataSource.moduleId);
         getQueries(formField.dataSource.key);
-        
+
       }else if(formField.meta.options){
         formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
@@ -620,8 +620,9 @@
       }else{
         httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModuleForm).then(function(response){
           var state = $state.current.name.replace('new', 'edit');
-          $state.go(state, {id: response.data.id}).then(function(){
-            setCurrentViewFlag()
+          idForm = response.data.id;
+          $state.go(state, {id: idForm}).then(function(){
+            setCurrentViewFlag();
           });
         });
       }
