@@ -426,6 +426,7 @@
     function configDataSource(model){
       switch(model.dataSourceType){
         case 'O':
+        case 'D':
           delete model.dataSource;
           break;
 
@@ -557,8 +558,9 @@
 
         setModuleEntity(formField.dataSource.moduleId);
         getQueries(formField.dataSource.key);
-      }else{
-        formField.dataSourceType = 'O';
+        
+      }else if(formField.meta.options){
+        formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
 
       ctrl.fieldEdit = formField;
