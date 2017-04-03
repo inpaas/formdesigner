@@ -1,6 +1,6 @@
 {{#include-html}}studiov2.forms.sidebar.config-fields.datasource{{/include-html}}
 
-<div class="row" ng-if="ctrl.fieldEdit.meta.dataSource.type == 'D'">
+<div class="row" ng-if="ctrl.fieldEdit.dataSourceType == 'D'">
   <div class="col-sm-12 col-xs-12 no-padding form-group">
     <label for="">Valor quando marcado</label>
     <select class="form-control input-sm" 
@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<div class="row" ng-if="ctrl.fieldEdit.meta.dataSource.type === 'M'">
+<div class="row" ng-if="ctrl.fieldEdit.dataSourceType === 'O'">
   <div class="col-sm-12 col-xs-12 no-padding form-group">
     <label for="">Valor quando marcado</label>
     <input class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.checked">
