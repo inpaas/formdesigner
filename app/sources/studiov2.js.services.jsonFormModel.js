@@ -110,7 +110,8 @@
                   }
                 ],
                 "breadcrumb": []
-              }
+              },
+              "filter":{}
             },
             "fields": []
           }
