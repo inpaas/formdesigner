@@ -724,7 +724,9 @@
       httpService.getModule(id).then(function(response) {
         ctrl.moduleEntity = response.data;
         ctrl.entities = response.data['data-sources'];
-        model.moduleId = response.data.id;
+        if (model) {
+          model.moduleId = response.data.id;
+        }
       }); 
 
       getPermissions(id);
@@ -985,7 +987,7 @@
         var position = el.parent().attr('id').split('-').pop();
         el.scope().$parent.field.position = position;
       }
-      
+
     }
 
     function codeView(){
