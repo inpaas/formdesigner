@@ -54,10 +54,13 @@
         <div class="row" ng-if="section.columns == 2">
           <div class="col-wdg col-sm-6 no-padding">
             <div class="row" dragula="'2col-bag'" ng-show="section.fields.length">
-              <div class="row row-edit-this" 
-                  ng-repeat="field in section.fields track by $index" 
-                  id="field-{[{$index}]}" ng-include="field.templateType" ng-click="ctrl.editField(field, $index)">
-            </div>
+              <div class="row row-edit-this"
+                    id="field-{[{$index}]}" 
+                    ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
+                    ng-repeat="field in section.fields track by $index" 
+                    ng-click="ctrl.editField(field, $index)"
+                    ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
+              </div>
           </div>
           <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
         </div>
@@ -70,10 +73,13 @@
       <div class="row" ng-if="section.columns == 3">
         <div class="col-wdg col-sm-4 no-padding">
           <div class="row" dragula="'3col-bag'" ng-show="section.fields.length">
-            <div class="row row-edit-this" 
-            ng-repeat="field in section.fields track by $index" 
-            id="field-{[{$index}]}" ng-include="field.templateType" ng-click="ctrl.editField(field, $index)"> 
-          </div>
+            <div class="row row-edit-this"
+                    id="field-{[{$index}]}" 
+                    ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
+                    ng-repeat="field in section.fields track by $index" 
+                    ng-click="ctrl.editField(field, $index)"
+                    ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
+              </div>
         </div>
         <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
       </div>
