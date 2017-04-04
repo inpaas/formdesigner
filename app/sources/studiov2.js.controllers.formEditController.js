@@ -467,13 +467,15 @@
       if (!ctrl.jsonModel.views.filter) {
         ctrl.jsonModel.views.filter = {};
       }
-
     }
 
     function addNewField() {
       var newField = angular.copy(ctrl.fieldEdit);
 
       newField.id = ctrl.sectionSelected.fields.length;
+      if (ctrl.sectionSelected.columns != '1' && !ctrl.sectionSelected.fields.length) {
+        newField.position = 'left'; 
+      }
       ctrl.sectionSelected.fields.push(newField);
     } 
 
@@ -970,6 +972,20 @@
         el.addClass('ng-hide');
         addButton(el.attr('id'));
       });
+
+      $scope.$on('2col-bag.drop', function(e, el){
+        setPositionField();
+      });
+
+      $scope.$on('3col-bag.drop', function(e, el){
+        setPositionField();
+      });
+
+      function setPositionField(){
+        var position = el.parent().attr('id').split('-').pop();
+        el.scope().$parent.field.position = position;
+      }
+      
     }
 
     function codeView(){
