@@ -61,7 +61,8 @@
       enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
       currentEntity: {},
       getQueries: getQueries,
-      selectDataSourceType: selectDataSourceType
+      selectDataSourceType: selectDataSourceType,
+      codeView: codeView
     });    
 
     init(); 
@@ -152,13 +153,12 @@
     function addButton(actionName) {
       var button = {
         action : actionName,
-        mapExpression : [],
         btCustom : (actionName.indexOf('custom') != -1),
         view : ctrl.currentView
       };
 
       setAddedButton(button, ctrl.currentView);
-
+      ctrl.jsonModel.views[ctrl.currentView].actions.push(button);
       ctrl.editBt = button;
       showConfigBt();
     }
@@ -966,10 +966,16 @@
         copySortSource: true
       });
 
-      $scope
-      .$on('buttons-edit.drop', function (e, el) {
-        
+      $scope.$on('buttons-edit.drop-model', function (e, el) {
+        el.addClass('ng-hide');
+        addButton(el.attr('id'));
       });
     }
+
+    function codeView(){
+      var url = 'https://studio-v2.inpaas.com/forms/inpaas.devstudio.forms.CreateFormv2/'.concat(idForm);
+      window.open(url);
+    }
   };
+
 })();
