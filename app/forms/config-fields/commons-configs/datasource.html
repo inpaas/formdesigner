@@ -43,7 +43,7 @@
     <label for="">Método:</label>
     <select class="form-control input-sm" 
             ng-model="ctrl.fieldEdit.dataSource.method" 
-            ng-options="query.key as query.key for query in ctrl.currentQueries track by $index">
+            ng-options="query.key as query.key for query in ctrl.currentQueries">
       <option value="">Selecione</option> 
     </select>
   </div>
@@ -54,7 +54,7 @@
     <label for="">Source Key:</label>
     <select class="form-control input-sm" 
             ng-model="ctrl.fieldEdit.dataSource.sourceKey" 
-            ng-options="source.key as source.key for source in ctrl.moduleEntitySources track by $index">
+            ng-options="source.key as source.key for source in ctrl.moduleEntitySources">
     </select>
   </div>
   <div class="form-group">
