@@ -525,7 +525,9 @@
       fieldEdit.visibilityExpression = true;
       fieldEdit.disabledType = 'false';
       fieldEdit.disabledExpression = false;
-
+      fieldEdit.requiredType = entityField.required? 'true' : 'false';
+      fieldEdit.requiredExpression = entityField.required? true : false; 
+      
       if(entityField.alias == 'id' && entityField.primaryKey){
         fieldEdit.viewList = true;
         fieldEdit.requiredType = 'false';
