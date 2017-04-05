@@ -11,15 +11,6 @@
         <div class="row">
           <div class="col-xs-12 col-sm-12 no-padding">
             <div class="form-group">
-              <label for="">Título do Formulário</label>
-              <input class="form-control input-sm" autofocus placeholder="Digite aqui" type="text" ng-model="ctrl.configForm.label">
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 no-padding">
-            <div class="form-group">
               <div class="btn-group btn-block">
                 <label for="">Módulo do formulário</label>
                 <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
@@ -34,7 +25,21 @@
             </div>
           </div>
         </div>
-<br>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 no-padding">
+            <div class="form-group">
+              <label for="">Título do Formulário</label>
+              <input class="form-control input-sm" placeholder="Digite aqui" type="text" ng-model="ctrl.configForm.label" ng-keyup="ctrl.completeKeyForm()">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label for="">Chave do Formulário</label>
+            <input class="form-control input-sm" placeholder="Digite aqui" type="text" ng-model="ctrl.configForm.key">
+          </div>
+        </div>
+
         <div class="row form-group clearfix">
           <div class="col-xs-12 col-sm-12 no-padding">
             <label>Origem do Dado</label>
@@ -70,7 +75,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> 
 
         <div class="row" ng-show="ctrl.configForm.dataSource.type == 'E'">
           <div class="col-xs-12 col-sm-12 no-padding">
@@ -107,13 +112,6 @@
                   ng-options="template.key as template.name for template in ctrl.templates">
             <option value="">Padrão</option>
           </select>
-        </div>
-
-        <div class="row">
-          <div class="form-group">
-            <label for="">Chave do Formulário</label>
-            <input class="form-control input-sm" placeholder="Digite aqui" type="text" ng-model="ctrl.configForm.key">
-          </div>
         </div>
 
         <div class="row">

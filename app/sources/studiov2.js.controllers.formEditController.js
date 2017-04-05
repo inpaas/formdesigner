@@ -62,7 +62,8 @@
       currentEntity: {},
       getQueries: getQueries,
       selectDataSourceType: selectDataSourceType,
-      codeView: codeView
+      codeView: codeView,
+      completeKeyForm: completeKeyForm
     });    
 
     init(); 
@@ -736,6 +737,11 @@
       httpService.getModule(id).then(function(response) {
         ctrl.moduleForm = response.data;
         ctrl.templates = response.data.templates;
+
+        if(!ctrl.configForm.key){
+          ctrl.configForm.key = ctrl.moduleForm.key;
+        }
+
       }); 
     }
 
@@ -993,6 +999,13 @@
     function codeView(){
       var url = 'https://studio-v2.inpaas.com/forms/inpaas.devstudio.forms.CreateFormv2/'.concat(idForm);
       window.open(url);
+    }
+
+    function completeKeyForm(){
+      if(idForm){return}
+      ctrl.configForm.key = ctrl.moduleForm.key
+                              .concat('.')
+                              .concat(ctrl.configForm.label);
     }
   };
 
