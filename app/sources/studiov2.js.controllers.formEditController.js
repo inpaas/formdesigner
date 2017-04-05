@@ -305,14 +305,14 @@
       angular.extend(ctrl.newSection, {});
     }
     
-    function setTypeField(type) {
-      ctrl.fieldEdit.meta.type = type;
+    function setTypeField(type, field) {
+      field.meta.type = type;
 
       switch (type){
         case 'checkbox':
         case 'select':
           findDomains();
-          ctrl.fieldEdit.dataSource = {};
+          field.dataSource = {};
 
         case 'currency':
         case 'date':
@@ -324,9 +324,9 @@
       showEditField();
 
       function findDomains(){
-        if(ctrl.fieldEdit.rawEntityField.domains){
-          ctrl.fieldEdit.dataSourceType = 'D';
-          ctrl.fieldEdit.options = ctrl.fieldEdit.rawEntityField.domains;
+        if(field.rawEntityField.domains){
+          field.dataSourceType = 'D';
+          field.options = ctrl.fieldEdit.rawEntityField.domains;
         }     
       }
     } 
@@ -491,36 +491,46 @@
           fieldEdit = {
             meta: {
               bind: bind,
-              maxLength: entityField.size
+              maxLength: entityField.size,
+              visible: {type: 'boolean', expression: true}
             },
             views: {},
             rawEntityField: angular.copy(entityField)
           }
 
-      ctrl.fieldEdit = angular.copy(fieldEdit);
-
       if($state.current.url.match('view-edit')) {
         addFieldOnViewEdit(bind);
+        showTypeFields();
       }else{
         addFieldOnViewList(bind);
       }
 
-      function addFieldOnViewEdit(bind){
-        if (!ctrl.sections.length || (bind && findFieldOnJson(bind))){
-          return false;
-        }
+      setConfigFieldDefault(entityField, fieldEdit);
+      ctrl.fieldEdit = angular.copy(fieldEdit);
 
+      function addFieldOnViewEdit(bind){
         if(!ctrl.sectionSelected){
           autoSelectSection();
         }
-
-        showTypeFields();
-
         ctrl.sectionSelected.onNewField = true;
       }
 
       function addFieldOnViewList(bind){
         showEditField();
+      }
+    }
+
+    function setConfigFieldDefault(entityField, fieldEdit){
+      if(entityField.alias == 'id' && entityField.primaryKey){
+        fieldEdit.viewList = true;
+        fieldEdit.visibilityType = 'true';
+        fieldEdit.visibilityExpression = true;
+        fieldEdit.requiredType = 'false';
+        fieldEdit.requiredExpression = false;
+        fieldEdit.disabledType = 'true';
+        fieldEdit.disabledExpression  = true;
+
+        setTypeField('number', fieldEdit);
       }
     }
 
