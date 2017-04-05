@@ -305,14 +305,15 @@
       angular.extend(ctrl.newSection, {});
     }
     
-    function setTypeField(type, field) {
-      field.meta.type = type;
+    function setTypeField(type, fieldEdit) {
+      fieldEdit = fieldEdit || ctrl.fieldEdit;
+      fieldEdit.meta.type = type;
 
       switch (type){
         case 'checkbox':
         case 'select':
           findDomains();
-          field.dataSource = {};
+          fieldEdit.dataSource = {};
 
         case 'currency':
         case 'date':
@@ -324,9 +325,9 @@
       showEditField();
 
       function findDomains(){
-        if(field.rawEntityField.domains){
-          field.dataSourceType = 'D';
-          field.options = ctrl.fieldEdit.rawEntityField.domains;
+        if(fieldEdit.rawEntityField.domains){
+          fieldEdit.dataSourceType = 'D';
+          fieldEdit.options = fieldEdit.rawEntityField.domains;
         }     
       }
     } 
@@ -492,7 +493,6 @@
             meta: {
               bind: bind,
               maxLength: entityField.size,
-              visible: {type: 'boolean', expression: true}
             },
             views: {},
             rawEntityField: angular.copy(entityField)
@@ -521,17 +521,26 @@
     }
 
     function setConfigFieldDefault(entityField, fieldEdit){
+      fieldEdit.visibilityType = 'true';
+      fieldEdit.visibilityExpression = true;
+      fieldEdit.disabledType = 'false';
+      fieldEdit.disabledExpression = false;
+
       if(entityField.alias == 'id' && entityField.primaryKey){
         fieldEdit.viewList = true;
-        fieldEdit.visibilityType = 'true';
-        fieldEdit.visibilityExpression = true;
         fieldEdit.requiredType = 'false';
         fieldEdit.requiredExpression = false;
         fieldEdit.disabledType = 'true';
         fieldEdit.disabledExpression  = true;
-
         setTypeField('number', fieldEdit);
       }
+
+      if (entityField.type == 'Char' && entityField.size == 1 && entityField.domains.length) {
+        fieldEdit.meta.checked =  'Y';
+        fieldEdit.meta.unchecked = 'N';
+        setTypeField('checkbox', fieldEdit);
+      }
+
     }
 
     function editField(formField, index) {
