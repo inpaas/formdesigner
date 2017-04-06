@@ -385,7 +385,6 @@
       var fieldEdit = ctrl.fieldEdit;
 
       setNameField(fieldEdit);
-      setFilterModel(fieldEdit);
       setViewsField(fieldEdit);
 
       if (fieldEdit.visibilityType) {
@@ -457,19 +456,14 @@
     function setViewsField(field) {
       field.views.edit = {};
       
-      if (field.viewList) {
+      if (field.list) {
         field.views.list = {};
-        delete field.viewList;
+        delete field.list;
       }
-    }
 
-    function setFilterModel(field) {
-      if (!field.hasOwnProperty('filter')) { return false; }
-
-      field.views.filter = {};
-
-      if (!ctrl.jsonModel.views.filter) {
-        ctrl.jsonModel.views.filter = {};
+      if (field.filter) {
+        field.views.filter = {}; 
+        delete field.filter;
       }
     }
 
@@ -560,6 +554,9 @@
           formField.rawEntityField = entityField;
         }
       });
+
+      formField.filter = !!formField.views.filter;
+      formField.list = !!formField.views.list;
 
       if (formField.meta.visible) {
         angular.extend(formField, setDisplayConfigForEdit(formField.meta.visible, 'visibilityType', 'visibilityExpression'));
