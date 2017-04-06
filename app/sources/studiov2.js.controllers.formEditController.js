@@ -410,6 +410,7 @@
         configDataSource(fieldEdit);
       }
       
+      fieldEdit.columnName = fieldEdit.rawEntityField.name.toLowerCase();
       delete fieldEdit.rawEntityField;
 
       if (angular.isUndefined(fieldEdit.id)){
@@ -586,7 +587,7 @@
       }else if(formField.meta.options){
         formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
-      
+
       if (!ctrl.sectionSelected) {
         autoSelectSection(); 
       }

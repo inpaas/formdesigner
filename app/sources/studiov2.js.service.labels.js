@@ -63,8 +63,7 @@
       buildLabelsFromBreadcrumb(jsonForm.views.list.breadcrumb, 'list', moduleId);
       buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
       buildLabelsFromActions(jsonForm.views.list.actions, 'list', moduleId);
-      buildLabelsFromFields(jsonForm.fields, moduleId); 
-
+      buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase()); 
       deferred.resolve();
 
       return deferred.promise;
@@ -116,27 +115,27 @@
       jsonFormService.editActions(actions, view);
     }
 
-    function buildLabelsFromFields(fields, moduleId){
+    function buildLabelsFromFields(fields, moduleId, dataSourcekey){
       fields.forEach(function(field, index){
-        var key = generateKey('field-').concat(field.name).toLowerCase(),
+        var key = 'label.'.concat(dataSourcekey).concat('.').concat(field.columnName);
             value = field.label;
 
         field.label = key;
         $l10n.editLabel(key, value);
-        saveLabel(value, key, moduleId); 
+        saveLabel(value, key, moduleId);
 
         if(field.meta.options) {
-          buildLabelsOptions(field.name, field.meta.options); 
+          buildLabelsOptions(field.columnName, field.meta.options, dataSourceKey); 
         }
+
+        delete field.columnName;
       });
 
       jsonFormService.editFields(fields);
 
-      function buildLabelsOptions(fieldName, options){
+      function buildLabelsOptions(fieldName, options, dataSourceKey){
         options.forEach(function(item, index){
-          var key = generateKey('field-')
-                      .concat(fieldName)
-                      .concat('-option'),
+          var key = 'label.'.concat(dataSourcekey).concat('.').concat(field.columnName); 
               value = item.label; 
 
           if(!isKeyLabel(item.label)){
