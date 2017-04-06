@@ -143,8 +143,10 @@
         "save_new",
         "duplicate",
         "include.add",
-        "include.row.edit"
+        "include.row.edit",
+        "include.row.remove"
       ]; 
+
     }
 
     function getFormWithLabels(){
