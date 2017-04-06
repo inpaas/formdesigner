@@ -342,7 +342,7 @@
       getApps().then(function(apps){
         var id;
         if (ctrl.fieldEdit.dataSource && ctrl.fieldEdit.dataSource.moduleId) {
-          id = ctrl.fieldEdit.moduleId;
+          id = ctrl.fieldEdit.dataSource.moduleId;
         }else{
           id = ctrl.jsonModel.idModuleForm;
         }
