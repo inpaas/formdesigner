@@ -26,7 +26,7 @@
         <input  class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label">
       </div>
     </div>
-
+    
     <div class="row" ng-include="'studiov2.forms.sidebar.config-fields.'+ ctrl.fieldEdit.meta.type" ng-show="ctrl.fieldEdit.meta.type"></div>
 
     <div class="row">
@@ -41,12 +41,12 @@
         </select>
       </div>
       <button class="btn btn-primary btn-sm" 
-      ng-if="ctrl.fieldEdit.visibilityType == 'function'" 
-      ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'visibilityExpression', 'function')">Editar função</button>
+              ng-if="ctrl.fieldEdit.visibilityType == 'function'" 
+              ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'visibilityExpression', 'function')">Editar função</button>
 
       <button class="btn btn-primary btn-sm" 
-      ng-if="ctrl.fieldEdit.visibilityType == 'map'" 
-      ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
+              ng-if="ctrl.fieldEdit.visibilityType == 'map'" 
+              ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
     </div>
 
     <div class="row">
@@ -61,12 +61,12 @@
         </select>
       </div>
       <button class="btn btn-primary btn-sm" 
-      ng-if="ctrl.fieldEdit.requiredType == 'function'" 
-      ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'requiredExpression', 'function')">Editar função</button>
+              ng-if="ctrl.fieldEdit.requiredType == 'function'" 
+              ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'requiredExpression', 'function')">Editar função</button>
 
       <button class="btn btn-primary btn-sm" 
-      ng-if="ctrl.fieldEdit.requiredType == 'map'" 
-      ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'requiredExpression', 'map')">Editar Propriedade/Valor</button>
+              ng-if="ctrl.fieldEdit.requiredType == 'map'" 
+              ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'requiredExpression', 'map')">Editar Propriedade/Valor</button>
     </div>
 
     <div class="row">
