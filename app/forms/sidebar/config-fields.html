@@ -26,7 +26,20 @@
         <input  class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label">
       </div>
     </div>
-    
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 no-padding">
+        <div class="form-group">
+          <label for="">Campo atribuído</label>
+          <input type="text" 
+                class="form-control input-sm" 
+                ng-model="ctrl.fieldEdit.meta.bind"
+                uib-typeahead="field.alias as field.alias for field in ctrl.data.entityFields | filter:{alias: $viewValue}" 
+                typeahead-min-length="0" />
+        </div>
+      </div>
+    </div>
+
     <div class="row" ng-include="'studiov2.forms.sidebar.config-fields.'+ ctrl.fieldEdit.meta.type" ng-show="ctrl.fieldEdit.meta.type"></div>
 
     <div class="row">
