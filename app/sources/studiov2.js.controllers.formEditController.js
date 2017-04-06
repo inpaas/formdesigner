@@ -586,6 +586,10 @@
       }else if(formField.meta.options){
         formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
+      
+      if (!ctrl.sectionSelected) {
+        autoSelectSection(); 
+      }
 
       ctrl.fieldEdit = formField;
       showEditField();
