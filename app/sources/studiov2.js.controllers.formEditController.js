@@ -8,10 +8,10 @@
 
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
-    "$l10n", "$uibModal", "dragulaService"
+    "$l10n", "$uibModal", "dragulaService", "Notification"
     ];
   
-  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService) {
+  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification) {
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
@@ -646,14 +646,21 @@
       labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
 
       if(idForm) {
-        httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModuleForm);
+        httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModuleForm).then(function success(response){
+          Notification.success('Formulário salvo com sucesso');
+        }, function error(response){
+          Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
+        });
       }else{
         httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModuleForm).then(function(response){
+          Notification.sucesss('Formulário salvo com sucesso');
           var state = $state.current.name.replace('new', 'edit');
           idForm = response.data.id;
           $state.go(state, {id: idForm}).then(function(){
             setCurrentViewFlag();
           });
+        }, function error(response){
+          Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
         });
       }
     }
@@ -830,7 +837,7 @@
       if (ctrl.firstConfig) {
         setBreadcrumb();
       }
-      
+
       if(ctrl.configForm.dataSource.type == 'E' && ctrl.configForm.dataSource.key){
         getFieldsByEntity(ctrl.configForm.dataSource.key);
       }
