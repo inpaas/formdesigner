@@ -81,12 +81,12 @@
           <div class="col-xs-12 col-sm-12 no-padding">
             <div class="form-group">
               <label for="">Entidade</label>
-              <select class="form-control input-sm" 
-                      ng-model="ctrl.configForm.dataSource.key" 
-                      ng-change="ctrl.getFieldsByEntity(ctrl.configForm.dataSource.key)" 
-                      ng-options="entity.name as entity.name for entity in ctrl.entities">
-                <option value="">Selecione</option>
-              </select>
+              <input type="text" 
+                      class="form-control input-sm" 
+                      placeholder= "Selecione"
+                      ng-model="ctrl.configForm.dataSource.key"
+                      uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}" 
+                      typeahead-min-length="0" />
             </div>
           </div>
         </div>
