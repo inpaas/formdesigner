@@ -409,7 +409,7 @@
       if(fieldEdit.dataSourceType){
         configDataSource(fieldEdit);
       }
-      
+
       fieldEdit.columnName = fieldEdit.rawEntityField.name.toLowerCase();
       delete fieldEdit.rawEntityField;
 
@@ -459,6 +459,7 @@
       
       if (field.viewList) {
         field.views.list = {};
+        delete field.viewList;
       }
     }
 
