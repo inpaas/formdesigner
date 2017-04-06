@@ -830,7 +830,11 @@
       if (ctrl.firstConfig) {
         setBreadcrumb();
       }
-
+      
+      if(ctrl.configForm.dataSource.type == 'E' && ctrl.configForm.dataSource.key){
+        getFieldsByEntity(ctrl.configForm.dataSource.key);
+      }
+      
       idModuleForm = ctrl.moduleForm.id;
       ctrl.onConfigForm = false;
       ctrl.moduleEntity = {};
