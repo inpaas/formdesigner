@@ -77,6 +77,8 @@
           ctrl.jsonModel = angular.copy(response);
           idModuleForm = response.idModuleForm;
 
+          getModuleForm(idModuleForm);
+
           if ($state.is('forms.new-view-edit') && !ctrl.jsonModel.dataSource.key) {
             showConfigForm(true);
           }
@@ -769,7 +771,7 @@
         ctrl.moduleForm = response.data;
         ctrl.templates = response.data.templates;
 
-        if(!ctrl.configForm.key){
+        if(ctrl.configForm && !ctrl.configForm.key){
           ctrl.configForm.key = ctrl.moduleForm.key;
         }
 
