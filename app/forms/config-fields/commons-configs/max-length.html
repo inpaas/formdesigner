@@ -1,4 +1,4 @@
-<div class="col-sm-12 col-xs-12 no-padding form-group" ng-hide="ctrl.fieldEdit.bind == 'id'">
+<div class="col-sm-12 col-xs-12 no-padding form-group" ng-hide="ctrl.fieldEdit.bind == 'id' || ctrl.fieldEdit.rawEntityField.type =='Char'">
   <label for="">Máximo de caracter</label>
   <input class="form-control input-sm ng-binding" placeholder="Escreva aqui" type="number" ng-model="ctrl.fieldEdit.meta.maxLength">
 </div>
