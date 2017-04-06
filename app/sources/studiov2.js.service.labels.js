@@ -49,7 +49,7 @@
         url: url,
         method: 'get'
       }).then(function(response){
-        labels = reponse.data.data;
+        labels = response.data.data;
       });
     }
 
@@ -59,11 +59,11 @@
       var deferred = $q.defer();
 
       buildLabelsFromTitle(jsonForm.label, moduleId);
-      buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);
-      buildLabelsFromBreadcrumb(jsonForm.views.list.breadcrumb, 'list', moduleId);
-      buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
-      buildLabelsFromActions(jsonForm.views.list.actions, 'list', moduleId);
-      buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase()); 
+      jsonForm.views.edit.breadcrumb && buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);
+      jsonForm.views.list.breadcrumb && buildLabelsFromBreadcrumb(jsonForm.views.list.breadcrumb, 'list', moduleId);
+      jsonForm.views.edit.actions && buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
+      jsonForm.views.list.action && buildLabelsFromActions(jsonForm.views.list.actions, 'list', moduleId);
+      jsonForm.fields && buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase()); 
       deferred.resolve();
 
       return deferred.promise;
@@ -153,11 +153,11 @@
 
     function translateLabels(form){
       form.label = translateTitle(form.label);
-      translateBreadcrumb(form.views.edit.breadcrumb);
-      translateBreadcrumb(form.views.list.breadcrumb);
-      translateActions(form.views.list.actions);
-      translateActions(form.views.edit.actions);
-      translateFields(form.fields);
+      form.views.edit.breadcrumb && translateBreadcrumb(form.views.edit.breadcrumb);
+      form.views.list.breadcrumb && translateBreadcrumb(form.views.list.breadcrumb);
+      form.views.list.actions && translateActions(form.views.list.actions);
+      form.views.edit.actions && translateActions(form.views.edit.actions);
+      form.fields && translateFields(form.fields);
 
       return form;
     }
