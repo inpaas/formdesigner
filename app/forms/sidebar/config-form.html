@@ -36,7 +36,7 @@
         <div class="row">
           <div class="form-group">
             <label for="">Chave do Formulário</label>
-            <input class="form-control input-sm" placeholder="Digite aqui" type="text" ng-model="ctrl.configForm.key">
+            <input class="form-control input-sm" placeholder="Digite aqui" type="text" ng-model="ctrl.configForm.key" ng-keyup="ctrl.sanitizeKeyForm(ctrl.configForm.key)">
           </div>
         </div>
 

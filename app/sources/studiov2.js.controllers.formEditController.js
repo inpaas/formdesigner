@@ -63,7 +63,8 @@
       getQueries: getQueries,
       selectDataSourceType: selectDataSourceType,
       codeView: codeView,
-      completeKeyForm: completeKeyForm
+      completeKeyForm: completeKeyForm,
+      sanitizeKeyForm: sanitizeKeyForm
     });    
 
     init(); 
@@ -652,7 +653,7 @@
         });
       }else{
         httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModuleForm).then(function(response){
-          Notification.sucesss('Formulário salvo com sucesso');
+          Notification.success('Formulário salvo com sucesso');
           var state = $state.current.name.replace('new', 'edit');
           idForm = response.data.id;
           $state.go(state, {id: idForm}).then(function(){
@@ -1040,9 +1041,14 @@
 
     function completeKeyForm(){
       if(idForm){return}
-      ctrl.configForm.key = ctrl.moduleForm.key
-                              .concat('.')
-                              .concat(ctrl.configForm.label);
+      ctrl.configForm.key = ctrl.moduleForm.key.concat('.').concat(sanitizeKeyForm(ctrl.configForm.label));
+    }
+
+    function sanitizeKeyForm(string){
+      string = Helpers.replaceAccentChars(string);
+      string = Helpers.removeSpace(string);
+      string = Helpers.removeSpecialChars(string);
+      return string.toLowerCase();
     }
   };
 

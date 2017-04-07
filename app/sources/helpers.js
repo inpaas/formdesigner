@@ -1,5 +1,6 @@
-(function(Helpers){
-  
+(function(){
+  window.Helpers = {};
+  //Inspirado em https://gist.github.com/marioluan/6923123 
   Helpers.replaceAccentChars = replaceAccentChars;
   Helpers.removeSpace = removeSpace;
   Helpers.removeSpecialChars = removeSpecialChars;
@@ -38,8 +39,14 @@
   }
 
   function removeSpecialChars(string){
-    var regex = /[\W+_]/g;
-    return string.replace(regex,'');
+    var regex_notDigits = /[\W+]/g;
+
+    string = string.replace(/_/g, '');
+    string = string.replace(/\./g, '_');
+    string = string.replace(regex_notDigits, '');
+    string = string.replace(/_/g, '.');
+
+    return string;
   }
 
-})(Helpers || {});
+})();
