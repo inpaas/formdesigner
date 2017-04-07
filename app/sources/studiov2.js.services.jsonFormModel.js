@@ -84,19 +84,9 @@
               "edit": {
                 "actions": [
                   {
-                    "action": "save",
-                    "label": "button.save.title",
-                    "name": "save"
-                  },
-                  {
-                    "action": "savenew",
-                    "label": "button.savenew.title",
-                    "name": "save_new", 
-                  },
-                  {
-                    "action": "duplicate",
-                    "label": "button.duplicate.title",
-                    "name": "duplicate",
+                    "action": "cancel",
+                    "label": "button.cancel.title",
+                    "name": "cancel"
                   },
                   {
                     "action": "remove",
@@ -104,9 +94,19 @@
                     "name": "remove"
                   },
                   {
-                    "action": "cancel",
-                    "label": "button.cancel.title",
-                    "name": "cancel"
+                    "action": "duplicate",
+                    "label": "button.duplicate.title",
+                    "name": "duplicate",
+                  },
+                  {
+                    "action": "savenew",
+                    "label": "button.savenew.title",
+                    "name": "save"
+                  },
+                  {
+                    "action": "save",
+                    "label": "button.save.title",
+                    "name": "save"
                   }
                 ],
                 "breadcrumb": []
