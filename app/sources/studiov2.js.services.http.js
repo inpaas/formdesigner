@@ -55,12 +55,23 @@
         method: 'get',
         url: url
       }).then(function(response){
-        var form = JSON.parse(response.data.json);
+        var form = {};
 
+        if (response.data.json) {
+          form = JSON.parse(response.data.json);
+          return form;
+        }else{
+          form.key = response.data.key;
+          form.label = response.data.label;
+
+          return jsonFormService.getFormTemplate().then(function(template){
+                  angular.extend(template, form);
+                  return template;
+                });
+        }
+      }).then(function(form){
         jsonFormService.setJsonForm(form);
         form = labelsService.translateLabels(form);
-        form.idModuleForm = response.data.moduleId;
-
         return form;
       });
     }
