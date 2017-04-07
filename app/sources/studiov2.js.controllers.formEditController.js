@@ -458,16 +458,8 @@
 
     function setViewsField(field) {
       field.views.edit = {};
-      
-      if (field.list) {
-        field.views.list = {};
-        delete field.list;
-      }
-
-      if (field.filter) {
-        field.views.filter = {}; 
-        delete field.filter;
-      }
+      field.views.list = field.list? {} : undefined;
+      field.views.filter = field.filter? {}: undefined;
     }
 
     function addNewField() {
@@ -1031,7 +1023,6 @@
         var position = el.parent().attr('id').split('-').pop();
         el.scope().$parent.field.position = position;
       }
-
     }
 
     function codeView(){
