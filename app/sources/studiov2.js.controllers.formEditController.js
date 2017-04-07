@@ -9,7 +9,7 @@
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
     "$l10n", "$uibModal", "dragulaService", "Notification"
-    ];
+  ];
   
   function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification) {
     var ctrl = this,
@@ -64,7 +64,9 @@
       selectDataSourceType: selectDataSourceType,
       codeView: codeView,
       completeKeyForm: completeKeyForm,
-      sanitizeKeyForm: sanitizeKeyForm
+      sanitizeKeyForm: sanitizeKeyForm,
+      deleteForm: deleteForm,
+      formPreview: formPreview
     });    
 
     init(); 
@@ -76,7 +78,7 @@
       getJsonForm(idForm, 0)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
-          idModuleForm = response.idModuleForm;
+          idModuleForm = response.moduleId;
 
           getModuleForm(idModuleForm);
 
@@ -657,6 +659,15 @@
       }
     }
 
+    function deleteForm(){
+      var confirm = window.confirm('Tem certeza?');
+
+      confirm && httpService.deleteForm(idForm, idModuleForm).then(function(response){
+        Notification.success('Formulário deletado')
+        $state.go('forms.new-view-edit');
+      }); 
+    }
+
     function updateFieldsOnJsonModel(sections) {
       setFields(ctrl.jsonModel);
 
@@ -1041,6 +1052,11 @@
       string = Helpers.removeSpecialChars(string);
       return string.toLowerCase();
     }
-  };
 
+    function formPreview(){
+      var url = '/forms-v2/'.concat(ctrl.jsonModel.key);
+      window.open(url);
+    }
+    
+  };
 })();

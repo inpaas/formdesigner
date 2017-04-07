@@ -59,11 +59,14 @@
 
         if (response.data.json) {
           form = JSON.parse(response.data.json);
+          form.moduleId = response.data.moduleId;
           return form;
+
         }else{
           form.key = response.data.key;
           form.label = response.data.label;
-
+          form.moduleId = response.data.moduleId;
+          
           return jsonFormService.getFormTemplate().then(function(template){
                   angular.extend(template, form);
                   return template;
@@ -153,6 +156,18 @@
       });
     } 
 
+    function deleteForm(id, idModule){
+      var url = '/api/studio/modules/'
+                  .concat(idModule)
+                  .concat('/forms-v2/')
+                  .concat(id);
+
+      return $http({
+        method: 'delete',
+        url: url
+      });
+    }
+
     return {
       getModule: getModule,
       getApps: getApps,
@@ -163,7 +178,8 @@
       saveNewForm: saveNewForm,
       generateForm: generateForm,
       getPermissions: getPermissions,
-      getFormats: getFormats
+      getFormats: getFormats,
+      deleteForm: deleteForm
     }
   }
 
