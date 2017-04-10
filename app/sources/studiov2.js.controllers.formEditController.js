@@ -94,9 +94,12 @@
 
           if (ctrl.jsonModel.dataSource.key) {
             //Atualmente o id é ignorado mas mesmo assim retorna a entity certa?
-            getEntitiesByModule(ctrl.jsonModel.dataSource.moduleId).then(function(response){
-              getFieldsByEntity(ctrl.jsonModel.dataSource.key);
-            });
+            getEntitiesByModule(ctrl.jsonModel.dataSource.moduleId)
+              .then(function(response){
+                getFieldsByEntity(ctrl.jsonModel.dataSource.key).then(function(response){
+                  linkColumnNameToFields();
+                });
+              });
           }
         });
     }
@@ -134,6 +137,18 @@
           field.id = index;
           ctrl.sections[0].fields.push(field);
         } 
+      });
+    }
+
+    function linkColumnNameToFields(){
+      if(!ctrl.jsonModel.fields.length){return;}
+
+      ctrl.data.entityFields.forEach(function(entityField){
+        ctrl.sections[0].fields.forEach(function(field){
+          if (entityField.alias == field.meta.bind) {
+            field.columnName = entityField.alias;
+          }
+        });
       });
     }
 
@@ -414,7 +429,7 @@
         configDataSource(fieldEdit);
       }
 
-      fieldEdit.columnName = fieldEdit.rawEntityField.name.toLowerCase();
+      fieldEdit.columnName = fieldEdit.customField? fieldEdit.meta.bind : fieldEdit.rawEntityField.name.toLowerCase();
       delete fieldEdit.rawEntityField;
 
       if (angular.isUndefined(fieldEdit.id)){
@@ -481,24 +496,27 @@
     function addSection(){}
  
     function addField(entityField) {
-      var bind = entityField.alias,
-          fieldEdit = {
-            meta: {
-              bind: bind,
-              maxLength: entityField.size,
-            },
-            views: {},
-            rawEntityField: angular.copy(entityField)
+      var fieldEdit = {
+            meta: {},
+            views: {}
           }
 
-      if($state.current.url.match('view-edit')) {
-        addFieldOnViewEdit(bind);
-        showTypeFields();
+      if(entityField){
+        fieldEdit.meta.bind = entityField.alias;
+        fieldEdit.meta.maxLength = entityField.size;
+        fieldEdit.rawEntityField = angular.copy(entityField)
+        setConfigFieldDefault(entityField, fieldEdit);
       }else{
-        addFieldOnViewList(bind);
+        fieldEdit.customField = true;
       }
 
-      setConfigFieldDefault(entityField, fieldEdit);
+      if(ctrl.currentView == 'edit') {
+        addFieldOnViewEdit();
+        showTypeFields();
+      }else{
+        addFieldOnViewList();
+      }
+
       ctrl.fieldEdit = angular.copy(fieldEdit);
 
       function addFieldOnViewEdit(bind){
@@ -798,7 +816,7 @@
         } 
       });
 
-      httpService.getFieldsByEntity(entityId).then(function(response) {
+      return httpService.getFieldsByEntity(entityId).then(function(response) {
         ctrl.currentEntity = response.data;
         ctrl.data.entityFields = response.data.attributes;
 
@@ -1057,6 +1075,6 @@
       var url = '/forms-v2/'.concat(ctrl.jsonModel.key);
       window.open(url);
     }
-    
+
   };
 })();
