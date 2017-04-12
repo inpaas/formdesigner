@@ -69,7 +69,7 @@
       formPreview: formPreview
     });    
 
-    init(); 
+    init();
     setCurrentViewFlag();
     getWatchers();
     settingsDragNDrop();
@@ -473,7 +473,7 @@
     } 
 
     function setViewsField(field) {
-      field.views.edit = {};
+      field.views.edit = field.edit? {} : undefined;
       field.views.list = field.list? {} : undefined;
       field.views.filter = field.filter? {}: undefined;
     }
@@ -571,6 +571,7 @@
 
       formField.filter = !!formField.views.filter;
       formField.list = !!formField.views.list;
+      formField.edit = !!formField.views.edit;
 
       if (formField.meta.visible) {
         angular.extend(formField, setDisplayConfigForEdit(formField.meta.visible, 'visibilityType', 'visibilityExpression'));
