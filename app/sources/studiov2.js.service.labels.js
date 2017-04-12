@@ -117,8 +117,14 @@
 
     function buildLabelsFromFields(fields, moduleId, dataSourcekey){
       fields.forEach(function(field, index){
-        var key = 'label.'.concat(dataSourcekey).concat('.').concat(field.columnName);
+        var key = 'label.'.concat(dataSourcekey).concat('.');
             value = field.label;
+
+        if (field.columnName) {
+          key = key.concat(field.columnName);
+        }else{
+          key = key.concat(field.meta.bind.toLowerCase());
+        }
 
         field.label = key;
         $l10n.editLabel(key, value);
@@ -135,11 +141,9 @@
 
       function buildLabelsOptions(fieldName, options, dataSourceKey){
         options.forEach(function(item, index){
-          var key = 'label.'.concat(dataSourcekey).concat('.').concat(field.columnName); 
-              value = item.label; 
 
           if(!isKeyLabel(item.label)){
-            $l10n.editLabel(item.label, value);
+            $l10n.editLabel(key, value);
             saveLabel(value, item.label, moduleId); 
           }
 
