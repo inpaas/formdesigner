@@ -66,7 +66,8 @@
           form.key = response.data.key;
           form.label = response.data.label;
           form.moduleId = response.data.moduleId;
-          
+          form.firstConfig = true;
+
           return jsonFormService.getFormTemplate().then(function(template){
                   angular.extend(template, form);
                   return template;

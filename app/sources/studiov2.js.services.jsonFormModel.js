@@ -117,6 +117,7 @@
           }
 
       setJsonForm(form);
+      form.firstConfig = true;
       deferred.resolve(form);
       return deferred.promise;
     }

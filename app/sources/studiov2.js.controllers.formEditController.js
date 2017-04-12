@@ -79,11 +79,10 @@
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
           idModuleForm = response.moduleId;
-
           getModuleForm(idModuleForm);
 
-          if ($state.is('forms.new-view-edit') && !ctrl.jsonModel.dataSource.key) {
-            showConfigForm(true);
+          if (response.firstConfig) {
+            showConfigForm();
           }
 
           buildMainSection(ctrl.jsonModel);
@@ -504,7 +503,7 @@
       if(entityField){
         fieldEdit.meta.bind = entityField.alias;
         fieldEdit.meta.maxLength = entityField.size;
-        fieldEdit.rawEntityField = angular.copy(entityField)
+        fieldEdit.rawEntityField = angular.copy(entityField);
         setConfigFieldDefault(entityField, fieldEdit);
       }else{
         fieldEdit.customField = true;
@@ -738,7 +737,7 @@
       ctrl.onComponents = false;
     }
 
-    function showConfigForm(firstConfig) {
+    function showConfigForm() {
       ctrl.configForm = {
         key: ctrl.jsonModel.key,
         label: ctrl.jsonModel.label, 
@@ -767,7 +766,6 @@
       });
 
       ctrl.onConfigForm = true;
-      ctrl.firstConfig = firstConfig;
     }
 
     function getApps(){
@@ -855,7 +853,8 @@
       angular.extend(ctrl.jsonModel, ctrl.configForm);
       jsonFormService.editConfigForm(ctrl.configForm);
 
-      if (ctrl.firstConfig) {
+      if (ctrl.jsonModel.firstConfig) {
+        delete ctrl.jsonModel.firstConfig;
         setBreadcrumb();
       }
 
