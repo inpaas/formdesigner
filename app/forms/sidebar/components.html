@@ -4,27 +4,18 @@
   <li class="item-components">
     Básico
     <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+      <a href="#" data-toggle="collapse" data-target="#basic-component">
+        <i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i>
+       </a>
     </div>
   </li>
-  <div class="inner-item structure-item">
+  <div class="inner-item structure-item collapse in" id="basic-component">
     <ul class="list-existing">
       <li class="item-list" id="newWidget" ng-click="ctrl.addNewSection()">
         <div class="bx-elements"><span class="ic ic-widget"></span></div>
         <p class="txt-subtitle">Seção</p>
       </li>
-      <!--li class="item-list" draggable ng-click="ctrl.showConfigBt()">
-<div class="bx-elements"><span class="ic ic-button"></span></div>
-<p class="txt-subtitle">Botão</p>
-</li>
-<li class="item-list">
-<div class="bx-elements"><span class="ic ic-paragraph"></span></div>
-<p class="txt-subtitle">Parágrafo</p>
-</li>
-<li class="item-list">
-<div class="bx-elements"><span class="ic ic-image"></span></div>
-<p class="txt-subtitle">Imagem</p>
-</li-->
+
       <li class="item-list">
         <div class="bx-elements"><span class="ic ic-blank-space"></span></div>
         <p class="txt-subtitle">Espaço em branco</p>
@@ -37,10 +28,10 @@
   <li class="item-components">
     Campos
     <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+      <a href="" data-toggle="collapse" data-target="#fields-component"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
   </li>
-  <div class="inner-item field-item">
+  <div class="inner-item field-item collapse in" id="fields-component">
     <!-- <button type="button" id="btnNewField" class="btn btn-success btn-block" ng-click="ctrl.addField()">Novo Campo</button> -->
     <ul class="list-existing" data-ng-repeat="field in ctrl.data.entityFields">
       <li class="field-existing" data-ng-bind="field.alias" ng-click="ctrl.addField(field)"></li>
@@ -52,10 +43,10 @@
   <li class="item-components">
     Botões
     <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+      <a href="" data-toggle="collapse" data-target="#buttons-component"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
   </li>
-  <div class="inner-item buttons-item">
+  <div class="inner-item buttons-item collapse in" id="buttons-component">
     <div class="btn-cluster" ng-show="ctrl.currentView == 'edit'">
       <div class="stock-separator">
         <label>Tela de edição</label>
