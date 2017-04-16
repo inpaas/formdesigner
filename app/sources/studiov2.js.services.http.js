@@ -165,7 +165,11 @@
 
       return $http({
         method: 'delete',
-        url: url
+        url: url,
+        data: {
+          id: parseInt(id), 
+          moduleId: idModule
+        }
       });
     }
 
