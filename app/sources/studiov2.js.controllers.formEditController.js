@@ -643,6 +643,7 @@
       if (ctrl.sectionSelected) {
         ctrl.sectionSelected.onNewField = false;
       }
+      ctrl.fieldEdit = {};
     }
 
     function removeField(index) {
