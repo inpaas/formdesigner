@@ -164,6 +164,11 @@
       editLabel(configForm.label);
       editDataSource(configForm.dataSource);
       editTemplate(configForm.template);
+      editDescription(configForm.description);
+    }
+
+    function editDescription(description){
+      form.description = description;
     }
 
     function editTemplate(template){
