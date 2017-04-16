@@ -1,18 +1,4 @@
 <div class="box-sb">
-    <!-- Search -->
-    <div class="box-search">
-        <i class="fa fa-search" aria-hidden="true"></i>
-        <input  class="form-control input-sm" placeholder="Pesquisa...">
-    </div>
-    <!-- End Search -->
-
-    <!-- Button Actions -->
-    <div class="box-buttons text-center">
-        <button type="button" class="btn" ng-class="{'btn-primary': ctrl.onComponents, 'btn-default': !ctrl.onComponents}">Componentes</button>
-        <button type="button" class="btn btn-default" ng-class="{'btn-default': ctrl.onComponents, 'btn-primary': !ctrl.onComponents}">Editar</button>
-    </div>
-    <!-- End Button Actions -->
-
     {{#include-html}}studiov2.forms.sidebar.components{{/include-html}}
 
     {{#include-html}}studiov2.forms.sidebar.section{{/include-html}}
