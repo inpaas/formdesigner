@@ -170,7 +170,7 @@
       ctrl.addedButtons[view][button.action] = false;
     }
 
-    function addButton(actionName) {
+    function addButton(actionName, position) {
       var button = {
         action : actionName,
         btCustom : (actionName.indexOf('custom') != -1),
@@ -178,7 +178,13 @@
       };
 
       setAddedButton(button, ctrl.currentView);
-      ctrl.jsonModel.views[ctrl.currentView].actions.push(button);
+
+      if(position){
+        ctrl.jsonModel.views[ctrl.currentView].actions.splice(position, 0, button);
+      }else{
+        ctrl.jsonModel.views[ctrl.currentView].actions.push(button);
+      }
+
       ctrl.editBt = button;
       showConfigBt();
     }
@@ -1036,9 +1042,12 @@
         copySortSource: true
       });
 
-      $scope.$on('buttons-edit.drop-model', function (e, el) {
+      $scope.$on('buttons-edit.drop', function (e, el) {
         el.addClass('ng-hide');
-        addButton(el.attr('id'));
+        var positionDOM = angular.element('.page-actions').find('.btn').index(el);
+        var btType = el.attr('id').split('btn-').pop();
+        console.log(positionDOM)
+        addButton(btType, positionDOM);
       });
 
       $scope.$on('2col-bag.drop', function(e, el){

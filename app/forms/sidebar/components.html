@@ -53,7 +53,8 @@
       </div>
       <div dragula="'buttons-edit'" class="buttons-default-group">
         <button type="button" 
-                class="btn btn-primary  " 
+                class="btn btn-primary" 
+                id="btn-save"
                 ng-disabled="ctrl.addedButtons.edit.save"
                 ng-click="ctrl.addButton('save')">
           <i class="fa fa-fw fa-floppy-o"></i> {[{ 'button.save.title' | translate }]}
@@ -61,6 +62,7 @@
 
         <button type="button" 
                 class="btn btn-primary  " 
+                id="btn-savenew"
                 ng-disabled="ctrl.addedButtons.edit.savenew"
                 ng-click="ctrl.addButton('savenew')">
           <i class="fa fa-fw fa-floppy-o"></i> {[{ 'button.savenew.title' | translate }]}
@@ -68,13 +70,15 @@
 
         <button type="button" 
                 class="btn btn-success  " 
+                id="btn-duplicate"
                 ng-disabled="ctrl.addedButtons.edit.duplicate"
                 ng-click="ctrl.addButton('duplicate')">
           <i class="fa fa-fw fa-files-o"></i> {[{ 'button.duplicate.title' | translate }]}
         </button>
 
         <button type="button" 
-                class="btn btn-default  " 
+                class="btn btn-default" 
+                id="btn-cancel"
                 ng-disabled="ctrl.addedButtons.edit.cancel"
                 ng-click="ctrl.addButton('cancel')">
           <i class="fa fa-fw fa-undo"></i> {[{ 'button.cancel.title' | translate }]}
@@ -82,12 +86,14 @@
 
         <button type="button" 
                 class="btn btn-primary  "
+                id="btn-modal"
                 ng-click="ctrl.addButton('modal')">
           <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
         </button>
 
         <button type="button" 
                 class="btn btn-danger  " 
+                id="btn-remove"
                 ng-disabled="ctrl.addedButtons.edit.remove"
                 ng-click="ctrl.addButton('remove')">
           <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.remove.title' | translate }]}
@@ -95,19 +101,21 @@
 
         <button type="button" 
                 class="btn btn-primary  " 
+                id="bnt-include.add"
                 ng-disabled="ctrl.addedButtons.edit['include-add']"
-                ng-click="ctrl.addButton('include.add', 'edit')">
+                ng-click="ctrl.addButton('include.add')">
           <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.add.title' | translate }]}
         </button>
 
         <button type="button" 
-                class="btn btn-primary  " 
+                class="btn btn-primary" 
+                id="btn-include.edit"
                 ng-disabled="ctrl.addedButtons.edit['include-edit']"
                 ng-click="ctrl.addButton('include.edit')">
           <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.edit.title' | translate }]}
         </button>
         <button type="button" 
-                  id="btnNewField" 
+                  id="btn-custom" 
                   class="btn btn-info btn-block" 
                   ng-click="ctrl.addButton('custom')">
             <i class="fa fa-plus" aria-hidden="true"></i> Botão customizado
@@ -123,6 +131,7 @@
         
         <button type="button" 
                 class="btn btn-success  " 
+                id="btn-new"
                 ng-disabled="ctrl.addedButtons.list.new"
                 ng-click="ctrl.addButton('new')">
           <i class="fa fa-fw fa-pencil"></i> {[{ 'button.new.title' | translate }]} 
@@ -130,6 +139,7 @@
 
         <button type="button" 
                 class="btn btn-primary  " 
+                id="btn-view_edit"
                 ng-disabled="ctrl.addedButtons.list.view_edit"
                 ng-click="ctrl.addButton('view_edit')">
           <i class="fa fa-fw fa-pencil"></i> {[{'button.view.title' | translate }]}
@@ -137,6 +147,7 @@
 
         <button type="button" 
                 class="btn btn-danger  " 
+                id="btn-remove"
                 ng-disabled="ctrl.addedButtons.list.remove"
                 ng-click="ctrl.addButton('remove')">
           <i class="fa fa-fw fa-trash-o"></i> {[{'button.remove.title' | translate }]}
@@ -144,11 +155,12 @@
 
         <button type="button" 
                 class="btn btn-primary  " 
+                id="btn-modal"
                 ng-click="ctrl.addButton('modal')">
           <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
         </button>
         <button type="button" 
-                  id="btnNewField" 
+                  id="btn-custom" 
                   class="btn btn-info btn-block" 
                   ng-click="ctrl.addButton('custom')">
             <i class="fa fa-plus" aria-hidden="true"></i> Botão customizado
