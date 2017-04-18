@@ -1,103 +1,97 @@
 <!-- Config Actions -->
 <ul class="nav-components sb-field-text sb-edit-action" ng-show="ctrl.onCreateButton">
-  <!-- Estrutura -->
-  <li class="item-components">
-    Edição
-  </li>
-  <div class="inner-item">
-    <div class="row">
-      <div class="form-group">
-        <label for="">Título do botão:</label>
-        <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.label" ng-readonly="!ctrl.editBt.btCustom">
-      </div>
-    </div>
-    
-    <div class="btn-cluster">
-      <div class="stock-separator">
-        <label>Evento</label>
-      </div>
-      <div class="row">
-        <div class="form-group">
-          <label for="">Source Key:</label>
-          <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.sourceKey">
+    <!-- Estrutura -->
+    <li class="item-components">
+        Edição
+    </li>
+    <div class="inner-item">
+        <div class="row">
+            <div class="form-group">
+                <label for="">Título do botão:</label>
+                <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.label" ng-readonly="!ctrl.editBt.btCustom">
+            </div>
         </div>
-        <div class="form-group">
-          <label for="">Método:</label>
-          <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.method">
-        </div>
-      </div>
-    </div>
 
-    <div class="btn-cluster">
-      <div class="stock-separator">
-        <label>Visibilidade</label>
-      </div>
-      <div class="row">
-        <div class="form-group">
-          <select class="form-control input-sm" ng-model="ctrl.editBt.visibilityType">
+        <div class="btn-cluster" ng-if="ctrl.editBt.action.match(/custom/g)">
+            <div class="stock-separator">
+                <label>Evento</label>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="">Source Key:</label>
+                    <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.sourceKey">
+                </div>
+                <div class="form-group">
+                    <label for="">Método:</label>
+                    <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.method">
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-cluster">
+            <div class="stock-separator">
+                <label>Visibilidade</label>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <select class="form-control input-sm" ng-model="ctrl.editBt.visibilityType">
             <option value="">Selecione</option>
             <option value="true">Sim</option>
             <option value="false">Não</option>
             <option value="function">Função</option>
             <option value="map">Propriedade/Valor</option>
           </select>
+                </div>
+
+                <button class="btn btn-primary btn-sm" ng-if="ctrl.editBt.visibilityType == 'function'" ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibilityExpression', 'function')">Editar função</button>
+
+                <button class="btn btn-primary btn-sm" ng-if="ctrl.editBt.visibilityType == 'map'" ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
+            </div>
         </div>
-        <button class="btn btn-primary btn-sm" 
-                ng-if="ctrl.editBt.visibilityType == 'function'" 
-                ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibilityExpression', 'function')">Editar função</button>
 
-        <button class="btn btn-primary btn-sm" 
-                ng-if="ctrl.editBt.visibilityType == 'map'" 
-                ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
-      </div>
-    </div>
-
-    <div class="btn-cluster">
-      <div class="stock-separator">
-        <label>Campo obrigatório</label>
-      </div>
-      <div class="row">
-        <div class="form-group">
-          <select class="form-control input-sm" ng-model="ctrl.editBt.requiredType">
+        <!-- <div class="btn-cluster">
+            <div class="stock-separator">
+                <label>Campo obrigatório</label>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <select class="form-control input-sm" ng-model="ctrl.editBt.requiredType">
             <option value="">Selecione</option>
             <option value="true">Sim</option>
             <option value="false">Não</option>
             <option value="function">Função</option>
             <option value="map">Propriedade/Valor</option>
           </select>
+                </div>
+                <button class="btn btn-primary btn-sm" ng-if="ctrl.editBt.requiredType == 'function'" ng-click="ctrl.openModalForConfig(ctrl.editBt,'requiredExpression', 'function')">Editar função</button>
+
+                <button class="btn btn-primary btn-sm" ng-if="ctrl.editBt.requiredType == 'map'" ng-click="ctrl.openModalForConfig(ctrl.editBt,'requiredExpression', 'map')">Editar Propriedade/Valor</button>
+            </div>
         </div>
-        <button class="btn btn-primary btn-sm" 
-                ng-if="ctrl.editBt.requiredType == 'function'" 
-                ng-click="ctrl.openModalForConfig(ctrl.editBt,'requiredExpression', 'function')">Editar função</button>
 
-        <button class="btn btn-primary btn-sm" 
-                ng-if="ctrl.editBt.requiredType == 'map'" 
-                ng-click="ctrl.openModalForConfig(ctrl.editBt,'requiredExpression', 'map')">Editar Propriedade/Valor</button>
-      </div>
-    </div>
-
-    <div class="btn-cluster">
-      <div class="stock-separator">
-        <label>Texto de Ajuda</label>
-      </div>
-      <div class="row">
-        <div class="form-group">
-          <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.editBt.help"></textarea>
+ -->        
+        <div class="btn-cluster">
+            <div class="stock-separator">
+                <label>Texto de Ajuda</label>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.editBt.help"></textarea>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-  </div>
-  <!-- Estrutura -->
-  <div class="action-buttons">
-    <div class="row">
-      <div class="col-xs-12 col-sm-6 no-padding col-pdd">
-        <a class="btn btn-default btn-block" ng-click="ctrl.cancelCreateButton()">Cancelar</a>
-      </div>
-      <div class="col-xs-12 col-sm-6 no-padding">
-        <button type="button" class="btn btn-success btn-block" ng-click="ctrl.saveEditButton()">Confirmar</button>
-      </div>
     </div>
-  </div>
+    <!-- Estrutura -->
+    <div class="action-buttons">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 no-padding col-pdd">
+                <a class="btn btn-default btn-block" ng-click="ctrl.cancelCreateButton()">Cancelar</a>
+            </div>
+            <div class="col-xs-12 col-sm-6 no-padding">
+                <button type="button" class="btn btn-success btn-block" ng-click="ctrl.saveEditButton()">Confirmar</button>
+            </div>
+        </div>
+    </div>
 </ul>
 <!--  Config Actions -->
