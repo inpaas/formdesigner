@@ -363,7 +363,7 @@
 
     function getFormatsPattern(){
       httpService.getFormats().then(function(response){
-        ctrl.formatsPattern = response.data;
+        ctrl.formatsPattern = angular.copy(response.data);
       });
     }
 
