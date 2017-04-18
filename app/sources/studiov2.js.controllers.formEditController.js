@@ -692,6 +692,8 @@
       var confirm = window.confirm('Tem certeza?');
 
       confirm && httpService.deleteForm(idForm, idModuleForm).then(function(response){
+        ctrl.configForm = {};
+        ctrl.moduleForm = {};
         Notification.success('Formulário deletado')
         $state.go('forms.new-view-edit');
       }); 
