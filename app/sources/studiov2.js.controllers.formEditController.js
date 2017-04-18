@@ -173,9 +173,13 @@
     function addButton(actionName, position) {
       var button = {
         action : actionName,
-        btCustom : (actionName.indexOf('custom') != -1),
         view : ctrl.currentView
       };
+
+      if (actionName.indexOf('custom') != -1) {
+        button.btCustom = true;
+        button.label = "Custom";
+      }
 
       setAddedButton(button, ctrl.currentView);
 
