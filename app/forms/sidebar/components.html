@@ -61,7 +61,7 @@
         </button>
 
         <button type="button" 
-                class="btn btn-primary  " 
+                class="btn btn-primary" 
                 id="btn-savenew"
                 ng-disabled="ctrl.addedButtons.edit.savenew"
                 ng-click="ctrl.addButton('savenew')">
@@ -69,7 +69,7 @@
         </button>
 
         <button type="button" 
-                class="btn btn-success  " 
+                class="btn btn-success" 
                 id="btn-duplicate"
                 ng-disabled="ctrl.addedButtons.edit.duplicate"
                 ng-click="ctrl.addButton('duplicate')">
@@ -85,14 +85,14 @@
         </button>
 
         <button type="button" 
-                class="btn btn-primary  "
+                class="btn btn-primary"
                 id="btn-modal"
                 ng-click="ctrl.addButton('modal')">
           <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
         </button>
 
         <button type="button" 
-                class="btn btn-danger  " 
+                class="btn btn-danger" 
                 id="btn-remove"
                 ng-disabled="ctrl.addedButtons.edit.remove"
                 ng-click="ctrl.addButton('remove')">
@@ -100,7 +100,7 @@
         </button>
 
         <button type="button" 
-                class="btn btn-primary  " 
+                class="btn btn-primary" 
                 id="bnt-include.add"
                 ng-disabled="ctrl.addedButtons.edit['include-add']"
                 ng-click="ctrl.addButton('include.add')">
@@ -116,7 +116,7 @@
         </button>
         <button type="button" 
                   id="btn-custom" 
-                  class="btn btn-info btn-block" 
+                  class="btn btn-info" 
                   ng-click="ctrl.addButton('custom')">
             <i class="fa fa-plus" aria-hidden="true"></i> Botão customizado
         </button>      
@@ -128,9 +128,8 @@
         <label>Tela de lista</label>
       </div>
       <div dragula="buttons-list" class="buttons-default-group">
-        
         <button type="button" 
-                class="btn btn-success  " 
+                class="btn btn-success" 
                 id="btn-new"
                 ng-disabled="ctrl.addedButtons.list.new"
                 ng-click="ctrl.addButton('new')">
@@ -138,7 +137,7 @@
         </button>
 
         <button type="button" 
-                class="btn btn-primary  " 
+                class="btn btn-primary" 
                 id="btn-view_edit"
                 ng-disabled="ctrl.addedButtons.list.view_edit"
                 ng-click="ctrl.addButton('view_edit')">
@@ -146,7 +145,7 @@
         </button>
 
         <button type="button" 
-                class="btn btn-danger  " 
+                class="btn btn-danger" 
                 id="btn-remove"
                 ng-disabled="ctrl.addedButtons.list.remove"
                 ng-click="ctrl.addButton('remove')">
@@ -154,43 +153,20 @@
         </button>
 
         <button type="button" 
-                class="btn btn-primary  " 
+                class="btn btn-primary" 
                 id="btn-modal"
                 ng-click="ctrl.addButton('modal')">
           <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
         </button>
+
         <button type="button" 
                   id="btn-custom" 
-                  class="btn btn-info btn-block" 
+                  class="btn btn-info" 
                   ng-click="ctrl.addButton('custom')">
             <i class="fa fa-plus" aria-hidden="true"></i> Botão customizado
         </button>
       </div>
     </div>
   <!-- Botões -->
-
-  <!-- Lista de Dependentes ->
-<li class="item-components">
-Lista de Dependentes
-<div class="widget-toolbar default-toolbar hidden-print">
-<a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
-</div>
-</li>
-<div class="inner-item dependents-item">
-<ul class="list-existing" data-ng-repeat="dependent in ctrl.data.dependents">
-<li class="field-existing" data-ng-bind="dependent"></li>
-</ul>
-</div>
-<!- Lista de Dependentes -->
-
-  <!-- Gráficos -->
-  <!-- <li class="item-components">
-Graficos para Relatórios
-<div class="widget-toolbar default-toolbar hidden-print">
-<a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
-</div>
-</li> -->
-  <!-- Gráficos -->
-
 </ul>
 <!-- Componentes
