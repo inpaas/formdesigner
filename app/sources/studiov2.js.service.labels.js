@@ -131,7 +131,7 @@
         saveLabel(value, key, moduleId);
 
         if(field.meta.options) {
-          buildLabelsOptions(field.columnName, field.meta.options, dataSourceKey); 
+          buildLabelsOptions(field.columnName, field.meta.options); 
         }
 
         delete field.columnName;
@@ -139,7 +139,7 @@
 
       jsonFormService.editFields(fields);
 
-      function buildLabelsOptions(fieldName, options, dataSourceKey){
+      function buildLabelsOptions(fieldName, options){
         options.forEach(function(item, index){
 
           if(!isKeyLabel(item.label)){
