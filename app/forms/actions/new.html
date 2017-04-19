@@ -1,5 +1,5 @@
 <button type="button" class="btn btn-success" ng-click="ctrl.editButton('list', $index);">
     <i class="fa fa-fw fa-window-close" ng-click="ctrl.removeBt('list', $index)"></i>
     {{#localization}}button.new.icon{{/localization}}
-    <span class="btn-text">{{#localization}}button.new.title{{/localization}}</span>
+    <span class="btn-text" ng-hide="action.notDisplayLabel">{{#localization}}button.new.title{{/localization}}</span>
 </button>

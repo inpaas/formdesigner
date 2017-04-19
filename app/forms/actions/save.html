@@ -1,5 +1,5 @@
 <button type="button" class="btn btn-primary" ng-click="ctrl.editButton('edit', $index)"> 
-    <i class="fa fa-fw fa-window-close" ng-click="ctrl.removeBt('edit', $index)"></i>
-    {{#localization}}button.save.icon{{/localization}}
-    <span class="btn-text">{{#localization}}button.save.title{{/localization}}</span>
+  <i class="fa fa-fw fa-window-close" ng-click="ctrl.removeBt('edit', $index)"></i>
+  <span class="btn-icon">{{#localization}}button.save.icon{{/localization}}</span>
+  <span class="btn-text" ng-hide="action.notDisplayLabel">{{#localization}}button.save.title{{/localization}}</span>
 </button>

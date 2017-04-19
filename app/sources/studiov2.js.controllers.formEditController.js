@@ -215,6 +215,7 @@
       var clone = angular.copy(ctrl.editBt), 
           action = {
             label: clone.label,
+            notDisplayLabel: !!clone.notDisplayLabel,
             name: clone.name || clone.label.toLowerCase().replace(/\s/g, '-'),
             visible: setDisplayConfig(clone.visibilityType, clone.visibilityExpression),
             event: setEventConfig()
@@ -615,6 +616,10 @@
         autoSelectSection(); 
       }
 
+      if (formField.meta.type.match(/date/g)) {
+        getFormatsPattern();
+      }
+      
       ctrl.fieldEdit = formField;
       showEditField();
     }
