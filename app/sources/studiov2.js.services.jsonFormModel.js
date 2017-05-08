@@ -70,12 +70,14 @@
                   {
                     "action": "list.view_edit", 
                     "name": "view_edit",
-                    "label": "button.viewedit.title"
+                    "label": "button.viewedit.title",
+                    "notDisplayLabel": true
                   },
                   {
                     "action": "list.remove",
                     "name": "listDelete",
-                    "label": "button.remove.title"
+                    "label": "button.remove.title",
+                    "notDisplayLabel": true
                   }
 
                 ],
