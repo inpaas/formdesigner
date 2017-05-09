@@ -1025,8 +1025,7 @@
     }
 
     function bindFieldOnBreadcrumb(fieldBind){
-      var view = $state.current.name.match('view-edit')? 'edit' : 'list';
-      ctrl.jsonModel.views[view].breadcrumb[indexBreadcrumb] = {bind: fieldBind};
+      ctrl.jsonModel.views[ctrl.currentView].breadcrumb[indexBreadcrumb] = {bind: fieldBind};
       ctrl.onBindBreadcrumb = false;
     }
     
