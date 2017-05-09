@@ -32,20 +32,21 @@
   </div>
   <div class="form-group">
     <label for="">Entidade</label>
-    <select class="form-control input-sm" 
-            ng-model="ctrl.fieldEdit.dataSource.key" 
-            ng-change="ctrl.getQueries(ctrl.fieldEdit.dataSource.key)"
-            ng-options="entity.name as entity.name for entity in ctrl.entities">
-      <option value="">Selecione</option>
-    </select>
+    <input type="text" 
+        class="form-control input-sm" 
+        placeholder= "Selecione"
+        ng-model="ctrl.fieldEdit.dataSource.key" 
+        uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}" 
+        typeahead-min-length="0" />
   </div>
   <div class="form-group">
     <label for="">Método:</label>
-    <select class="form-control input-sm" 
-            ng-model="ctrl.fieldEdit.dataSource.method" 
-            ng-options="query.key as query.key for query in ctrl.currentQueries">
-      <option value="">Selecione</option> 
-    </select>
+    <input type="text" 
+          class="form-control input-sm" 
+          placeholder= "Selecione"
+          ng-model="ctrl.fieldEdit.dataSource.method" 
+          uib-typeahead="query.key as query.key for query in ctrl.currentQueries | filter:{name: $viewValue}" 
+          typeahead-min-length="0" />    
   </div>
 </div>
 
