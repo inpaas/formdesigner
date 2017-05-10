@@ -170,15 +170,15 @@
       ctrl.addedButtons[view][button.action] = false;
     }
 
-    function addButton(actionName, position) {
+    function addButton(actionName, position, label) {
       var button = {
         action : actionName,
-        view : ctrl.currentView
+        view : ctrl.currentView,
+        label: label
       };
 
-      if (actionName.indexOf('custom') != -1) {
-        button.btCustom = true;
-        button.label = "Custom";
+      if (actionName.match(/(custom)|(modal)/g)) {
+        button.btCustom = true; 
       }
 
       setAddedButton(button, ctrl.currentView);
@@ -196,7 +196,7 @@
     function editButton(view, index, actionName) {
       var action;
 
-      action = angular.copy(ctrl.jsonModel.views[view].actions[index]); 
+      action = angular.copy(ctrl.jsonModel.views[ctrl.currentView].actions[index]); 
       action.index = index;
 
       if (action.visible) {
@@ -1048,16 +1048,20 @@
 
     function settingsDragNDrop(){
       dragulaService.options($scope, 'buttons-edit', {
-        copy: true,
-        copySortSource: true
+        copySortSource: true,
+        copy: true
       });
 
-      $scope.$on('buttons-edit.drop', function (e, el) {
-        el.addClass('ng-hide');
-        var positionDOM = angular.element('.page-actions').find('.btn').index(el);
-        var btType = el.attr('id').split('btn-').pop();
-        console.log(positionDOM)
-        addButton(btType, positionDOM);
+      $scope.$on('buttons-edit.drop', function (event, el, target, source) {
+        if (target.attr('id') != source.attr('id')) {
+          el.addClass('ng-hide');
+          var positionDOM = angular.element('#edit-actions-top').find('.btn').index(el),
+              btType = el.attr('id').split('btn-').pop(), 
+              label = el.text().replace(/\s/g, '');
+
+          addButton(btType, positionDOM, label);
+        }
+        
       });
 
       $scope.$on('2col-bag.drop', function(e, el){
