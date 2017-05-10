@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="btn-cluster" ng-if="ctrl.editBt.btCustom">
+        <div class="btn-cluster" ng-if="ctrl.editBt.action == 'custom'">
             <div class="stock-separator">
                 <label>Evento</label>
             </div>
@@ -59,27 +59,6 @@
             </div>
         </div>
 
-        <!-- <div class="btn-cluster">
-            <div class="stock-separator">
-                <label>Campo obrigatório</label>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <select class="form-control input-sm" ng-model="ctrl.editBt.requiredType">
-            <option value="">Selecione</option>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-            <option value="function">Função</option>
-            <option value="map">Propriedade/Valor</option>
-          </select>
-                </div>
-                <button class="btn btn-primary btn-sm" ng-if="ctrl.editBt.requiredType == 'function'" ng-click="ctrl.openModalForConfig(ctrl.editBt,'requiredExpression', 'function')">Editar função</button>
-
-                <button class="btn btn-primary btn-sm" ng-if="ctrl.editBt.requiredType == 'map'" ng-click="ctrl.openModalForConfig(ctrl.editBt,'requiredExpression', 'map')">Editar Propriedade/Valor</button>
-            </div>
-        </div>
-
- -->        
         <div class="btn-cluster">
             <div class="stock-separator">
                 <label>Texto de Ajuda</label>
