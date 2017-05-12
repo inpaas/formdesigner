@@ -183,7 +183,7 @@
 
       setAddedButton(button, ctrl.currentView);
 
-      if(position){
+      if(typeof position === 'number'){
         ctrl.jsonModel.views[ctrl.currentView].actions.splice(position, 0, button);
       }else{
         ctrl.jsonModel.views[ctrl.currentView].actions.push(button);
