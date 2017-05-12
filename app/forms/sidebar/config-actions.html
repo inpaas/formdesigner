@@ -37,6 +37,8 @@
                 </div>
             </div>
         </div>
+        
+        <ng-include src="'/forms/studiov2.forms.actions.config-action-modal'" ng-if="ctrl.editBt.action == 'modal'"></ng-include>
 
         <div class="btn-cluster">
             <div class="stock-separator">
@@ -45,12 +47,12 @@
             <div class="row">
                 <div class="form-group">
                     <select class="form-control input-sm" ng-model="ctrl.editBt.visibilityType">
-            <option value="">Selecione</option>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-            <option value="function">Função</option>
-            <option value="map">Propriedade/Valor</option>
-          </select>
+                        <option value="">Selecione</option>
+                        <option value="true">Sim</option>
+                        <option value="false">Não</option>
+                        <option value="function">Função</option>
+                        <option value="map">Propriedade/Valor</option>
+                    </select>
                 </div>
 
                 <button class="btn btn-primary btn-sm" ng-if="ctrl.editBt.visibilityType == 'function'" ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibilityExpression', 'function')">Editar função</button>
