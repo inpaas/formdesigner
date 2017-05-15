@@ -307,7 +307,7 @@
     };
     
     function addNewSection() {
-      showNewSectionConfig(); 
+      showConfigSection(); 
       ctrl.onNewSection = true;
       ctrl.newSection = {};
     } 
@@ -649,7 +649,7 @@
     }
     
     function selectSection(index) {
-      console.log('select section')
+      console.log('select section');
       if (ctrl.sectionSelected == ctrl.sections[index]) {
         return false;
       }
@@ -746,7 +746,7 @@
       ctrl.onCreateButton = false;
     }
 
-    function showNewSectionConfig() {
+    function showConfigSection() {
       ctrl.onNewSection = true; 
       ctrl.onComponents = false;
       ctrl.onTypeField = false; 
