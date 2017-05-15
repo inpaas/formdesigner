@@ -27,7 +27,7 @@
     }
 
     function editPagination(pagination) {
-      angular.extend(jsonForm.pagination, pagination);
+      form.pagination = pagination;
     }
 
     function editBreadcrumb(breadcrumb, view) {
