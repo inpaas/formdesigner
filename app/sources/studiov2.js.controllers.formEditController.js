@@ -53,6 +53,9 @@
       getFieldsByEntity: getFieldsByEntity,
       getModuleEntity: getModuleEntity,
       getModuleForm: getModuleForm,
+      getModuleForms: getModuleForms,
+      getModuleFromApps: getModuleFromApps,
+      getSources: getSources,
       goToList: goToList,
       goToEdit: goToEdit,
       generateForm: generateForm,
@@ -70,6 +73,7 @@
     });    
 
     init();
+    getApps();
     setCurrentViewFlag();
     getWatchers();
     settingsDragNDrop();
@@ -189,6 +193,15 @@
         ctrl.jsonModel.views[ctrl.currentView].actions.push(button);
       }
 
+      if(actionName == 'modal'){
+        angular.extend(button, {
+          onClose: {
+            event: {},
+            updateParentForm: {}
+          }
+        });
+      }
+
       ctrl.editBt = button;
       showConfigBt();
     }
@@ -201,10 +214,6 @@
 
       if (action.visible) {
         angular.extend(action, setDisplayConfigForEdit(action.visible, 'visibilityType', 'visibilityExpression'));
-      }
-
-      if (action.event) {
-        action.event = action.event;
       }
 
       ctrl.editBt = action;
@@ -381,21 +390,20 @@
       });
     }
 
-    function setModuleEntity(idModule){
-      var result;
+    function getModuleFromApps(idModule){
+      var module;
 
       ctrl.apps && ctrl.apps.forEach(function(app, index){
         if (app.modules) {
           app.modules.forEach(function(mod, index){
             if (mod.id == idModule) {
-              ctrl.moduleEntity = mod;
-              result = true;
+              module = mod;
             }
           });
         }
       });
 
-      return result;
+      return module || {};
     }
 
     function findReferences(fieldForm){
@@ -605,7 +613,7 @@
         formField.dataSource.sourceMethod = formField.dataSource.method;
         formField.dataSource.sourceKey = formField.dataSource.key;
 
-        setModuleEntity(formField.dataSource.moduleId);
+        ctrl.moduleEntity = getModuleFromApps(formField.dataSource.moduleId);
         getQueries(formField.dataSource.key);
 
       }else if(formField.meta.options){
@@ -793,8 +801,22 @@
       });
     }
 
-    function getModuleEntity(id, model) {
-      httpService.getModule(id).then(function(response) {
+    function getModuleForms(idModule, model){
+      getModule(idModule).then(function(response){
+        model.title = response.data.title;
+        model.forms = [];
+
+        angular.forEach(response.data.forms, function(forms, keyNamespace){
+          forms.forEach(function(item, index){ 
+            item.type == 'v2' && model.forms.push(item);
+          });
+        });
+
+      });
+    }
+
+    function getModuleEntity(idModule, model) {
+      httpService.getModule(idModule).then(function(response) {
         ctrl.moduleEntity = response.data;
         ctrl.entities = response.data['data-sources'];
         if (model) {
@@ -805,8 +827,8 @@
       getPermissions(id);
     }
 
-    function getModuleForm(id) {
-      httpService.getModule(id).then(function(response) {
+    function getModuleForm(idModule) {
+      httpService.getModule(idModule).then(function(response) {
         ctrl.moduleForm = response.data;
         ctrl.templates = response.data.templates;
 
@@ -815,6 +837,9 @@
         }
 
       }); 
+    }
+    function getModule(idModule){
+      return httpService.getModule(idModule);
     }
 
     function getEntitiesByModule(idModuleForm) {
@@ -859,7 +884,19 @@
       });
     }
 
-    function getSources(){
+    function getSources(idModule, model){
+      if (idModule && model) {
+        getModule(idModule).then(function(response){
+          model.title = response.data.title;
+          model.sources = [];
+
+          angular.forEach(response.data.sources, function(source, key){
+            source.forEach(function(item){ model.sources.push(item) });
+          });
+        });
+        return;
+      }
+
       ctrl.moduleEntitySources = [];
       angular.forEach(ctrl.moduleEntity.sources, function(source, key){
         source.forEach(function(item, index){

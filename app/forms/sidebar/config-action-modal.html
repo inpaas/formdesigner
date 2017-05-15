@@ -1,12 +1,12 @@
-<div class="btn-cluster">
+<div class="btn-cluster" ng-init="currentModule = ctrl.getModuleFromApps(ctrl.editBt.idModuleForm)">
   <div class="form-group">
     <div class="btn-group btn-block">
       <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
-        {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+        {[{ currentModule.title || 'Módulo do Formulário' }]} <i class="caret"></i>
       </button>
       <ul class="dropdown-menu btn-block">
         <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-        <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleForms(mod.id)">
+        <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleForms(mod.id, currentModule); ctrl.editBt.idModuleForm = mod.id">
           <a href="" ng-bind="mod.title"></a>
         </li>
         <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
@@ -18,8 +18,8 @@
     <input type="text" 
           class="form-control input-sm" 
           placeholder= "Selecione"
-          ng-model="ctrl.editBt['form-id']" 
-          uib-typeahead="form.name as form.key for form in ctrl.moduleForms | filter:{name: $viewValue}" 
+          ng-model="ctrl.editBt['form-id']"
+          uib-typeahead="form.key as form.name for form in currentModule.forms | filter:{name: $viewValue}" 
           typeahead-min-length="0" />
   </div>
 </div>
@@ -43,11 +43,11 @@
   </div>
   <div class="form-group">
     <button class="btn btn-primary btn-sm" 
-            ng-if="ctrl.editBt.updateParentForm.type == 'function'" 
+            ng-if="ctrl.editBt.onClose.updateParentForm.type == 'function'" 
             ng-click="ctrl.openModalForConfig(ctrl.editBt.onClose.updateParentForm, 'expression', 'function')">Editar função</button>
 
     <button class="btn btn-primary btn-sm" 
-            ng-if="ctrl.editBt.onClose.updateParentForm == 'map'" 
+            ng-if="ctrl.editBt.onClose.updateParentForm.type == 'map'" 
             ng-click="ctrl.openModalForConfig(ctrl.editBt.onClose.updateParentForm, 'expression', 'map')">Editar Propriedade/Valor</button>
   </div>
 </div>
@@ -55,13 +55,30 @@
 <div class="stock-separator">
   <label for="">Evento ao fechar a modal</label>
 </div>
+<div class="form-group" ng-init="currentModuleEvent = ctrl.getModuleFromApps(ctrl.editBt.idModuleForm)">
+    <div class="btn-group btn-block">
+      <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
+        {[{ currentModuleEvent.title || 'Módulo do Source'}]} <i class="caret"></i>
+      </button>
+      <ul class="dropdown-menu btn-block">
+        <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+        <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getSources(mod.id, currentModuleEvent); ctrl.editBt.idModuleSource">
+          <a href="" ng-bind="mod.title"></a>
+        </li>
+        <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+      </ul>
+    </div>
+  </div>
 <div class="form-group">
   <label for="">Source Key:</label>
-  <select class="form-control input-sm" 
-          ng-model="ctrl.editBt.onClose.event.sourceKey" 
-          ng-options="source.key as source.key for source in ctrl.moduleEntitySources">
-  </select>
+  <input type="text" 
+      class="form-control input-sm" 
+      placeholder= "Selecione"
+      ng-model="ctrl.editBt.onClose.event.sourceKey" 
+      uib-typeahead="source.key as source.key for source in currentModuleEvent.sources | filter:{name: $viewValue}" 
+      typeahead-min-length="0" />
 </div>
+
 <div class="form-group">
   <label for="">Método:</label>
   <input type="text" class="form-control input-sm" ng-model="ctrl.editBt.onClose.event.method">

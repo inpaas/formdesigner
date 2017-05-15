@@ -63,19 +63,23 @@
     $ctrl.ok = function () {
       var result = angular.copy($ctrl.expression);
 
-      if (typeConfig == 'map') {
-        if($ctrl.key && $ctrl.value){
-          result[$ctrl.key] = $ctrl.value;
-        }
-        result = arrayToObj(result);
-      }else if(typeConfig == 'options'){
-        if($ctrl.key && $ctrl.value){
-          result.push({key: $ctrl.key, value: $ctrl.value});
-        }
+      
+      switch(typeConfig){
+        case 'options':
+        case 'map': 
+          if($ctrl.key && $ctrl.value){
+            result.push({key: $ctrl.key, value: $ctrl.value});
+          }
 
-        result.forEach(function(item, index){
-          item.label = item.key;
-        });
+        case 'map':
+          result = arrayToObj(result);
+        break;
+
+        case 'options':
+          result.forEach(function(item, index){
+            item.label = item.key;
+          });
+        break;
       }
 
       $uibModalInstance.close(result);
