@@ -42,7 +42,7 @@
                     id="field-{[{$index}]}" 
                     ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
                     ng-repeat="field in section.fields track by $index" 
-                    ng-click="ctrl.editField(field, $index)"
+                    ng-click="ctrl.editField($event, field, $index)"
                     ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
               </div>
             </div>
@@ -57,7 +57,7 @@
                     id="field-{[{$index}]}" 
                     ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
                     ng-repeat="field in section.fields track by $index" 
-                    ng-click="ctrl.editField(field, $index)"
+                    ng-click="ctrl.editField($event, field, $index)"
                     ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
               </div>
           </div>
@@ -76,7 +76,7 @@
                     id="field-{[{$index}]}" 
                     ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
                     ng-repeat="field in section.fields track by $index" 
-                    ng-click="ctrl.editField(field, $index)"
+                    ng-click="ctrl.editField($event, field, $index)"
                     ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
               </div>
         </div>

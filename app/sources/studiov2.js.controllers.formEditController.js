@@ -90,7 +90,6 @@
           }
 
           buildMainSection(ctrl.jsonModel);
-          buildFields(ctrl.jsonModel.fields);
           mapAddedButtons(ctrl.jsonModel.views.list.actions, 'list');
           mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
           getDependents();
@@ -115,30 +114,21 @@
       }
     }
 
-    function buildMainSection(formModel) {
-      //Talvez seja melhor já iniciar a aplicação com a main section
-      if (!formModel.fields.length) {
-        return false; 
-      }
-
+    function buildMainSection(form) {
       ctrl.sections.push({
-        columns: formModel.views.edit.columns,
-        fields: [], 
-        label: formModel.views.edit.label,
+        columns: form.views.edit.columns,
+        fields: setFieldsToMainSection(form.fields),
+        label: form.views.edit.label,
         displayLabel: true,
         type: 'main'
       });
     } 
 
-    function buildFields(fields) {
-      if (!fields.length) {
-        return false; 
-      }
-
-      fields.forEach(function(field, index){
+    function setFieldsToMainSection(fields) {
+      return fields.map(function(field, index){
         if (field.meta.type != 'include') {
           field.id = index;
-          ctrl.sections[0].fields.push(field);
+          return field;
         } 
       });
     }
@@ -574,7 +564,8 @@
 
     }
 
-    function editField(formField, index) {
+    function editField($event, formField, index) {
+      $event.stopPropagation();
       formField = angular.copy(formField);
 
       if(ctrl.onBindBreadcrumb){
@@ -659,6 +650,7 @@
       } 
 
       ctrl.sectionSelected = ctrl.sections[index];
+      showConfigSection();
     }
 
     function cancelEditField() {
@@ -1023,7 +1015,6 @@
         ctrl.onConfigForm = false;
 
         buildMainSection(ctrl.jsonModel);
-        buildFields(ctrl.jsonModel.fields);
         setBreadcrumb();
       });
     }
