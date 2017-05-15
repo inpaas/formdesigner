@@ -9,9 +9,9 @@
     .module("studio-v2")
     .service("jsonFormService", jsonFormService);
   
-  jsonFormService.$inject = ["$q", "$filter"];
+  jsonFormService.$inject = ["$q", "$filter", 'JSONMODEL'];
   
-  function jsonFormService($q, $filter){
+  function jsonFormService($q, $filter, JSONMODEL){
     var form = {}
     
     function setJsonForm(_form){
@@ -51,76 +51,11 @@
 
     function getFormTemplate(){
       var deferred = $q.defer(),
-          form = {
-            "key": "", 
-            "label": "",
-            "pagination": {
-              "type": "server",
-              "countPerPage": 10 
-            },
-            "dataSource": {},
-            "views": {
-              "list": {
-                "actions":[
-                  {
-                    "action": "new",
-                    "name": "new",
-                    "label": "button.new.title"
-                  },
-                  {
-                    "action": "list.view_edit", 
-                    "name": "view_edit",
-                    "label": "button.viewedit.title",
-                    "notDisplayLabel": true
-                  },
-                  {
-                    "action": "list.remove",
-                    "name": "listDelete",
-                    "label": "button.remove.title",
-                    "notDisplayLabel": true
-                  }
+          form = setJsonForm(JSONMODEL);
 
-                ],
-                "breadcrumb": []
-              },
-              "edit": {
-                "actions": [
-                  {
-                    "action": "cancel",
-                    "label": "button.cancel.title",
-                    "name": "cancel"
-                  },
-                  {
-                    "action": "remove",
-                    "label": "button.remove.title",
-                    "name": "remove"
-                  },
-                  {
-                    "action": "duplicate",
-                    "label": "button.duplicate.title",
-                    "name": "duplicate",
-                  },
-                  {
-                    "action": "savenew",
-                    "label": "button.savenew.title",
-                    "name": "save"
-                  },
-                  {
-                    "action": "save",
-                    "label": "button.save.title",
-                    "name": "save"
-                  }
-                ],
-                "breadcrumb": []
-              },
-              "filter":{}
-            },
-            "fields": []
-          }
-
-      setJsonForm(form);
       form.firstConfig = true;
       deferred.resolve(form);
+
       return deferred.promise;
     }
     
