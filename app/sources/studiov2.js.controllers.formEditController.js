@@ -297,9 +297,17 @@
     };
     
     function addNewSection() {
-      showConfigSection(); 
+      var section = {};
+
+      section.fields = [];
+      section.id = 'section-'.concat(ctrl.sections.length);
+      section.type = 'include';
+      section.meta = {};
+      section.include = {};
+
       ctrl.onNewSection = true;
-      ctrl.currentSection = {};
+      ctrl.currentSection = section;
+      showConfigSection(); 
     } 
 
     function saveSection() {
@@ -307,23 +315,9 @@
 
       if (!angular.isUndefined(ctrl.currentSection.index)) {
         angular.extend(ctrl.sections[ctrl.currentSection.index], ctrl.currentSection);
-        showComponents();
-        return;
+      }else{
+        ctrl.sections.push(currentSection);
       }
-
-      currentSection.fields = [];
-      currentSection.id = 'section-'.concat(ctrl.sections.length);
-      currentSection.type = 'main';
-
-      if(ctrl.sections.length){
-        currentSection.type = 'include';
-        currentSection.meta = {};
-        currentSection.include = {};
-        addFieldInclude(currentSection);
-      }
-
-      ctrl.sections.push(currentSection);
-      editSection(ctrl.sections.length - 1);
 
       showComponents();
     }
@@ -335,6 +329,24 @@
     function cancelEditSection() {
       showComponents();
       ctrl.currentSection = {};
+    }
+    
+    function autoSelectSection(){
+      ctrl.sectionSelected = ctrl.sections[0];
+    }
+
+    function editFirstSection(){
+      ctrl.currentSection = ctrl.sections[0];
+    }
+
+    function editSection(index) {
+      ctrl.currentSection = ctrl.sections[index];
+      ctrl.currentSection.index = index;
+      showConfigSection();
+    }
+
+    function selectSection(index){
+      ctrl.sectionSelected = ctrl.sections[index];
     }
     
     function setTypeField(type, fieldEdit) {
@@ -620,14 +632,6 @@
       showEditField();
     }
 
-    function autoSelectSection(){
-      ctrl.sectionSelected = ctrl.sections[0];
-    }
-
-    function editFirstSection(){
-      ctrl.currentSection = ctrl.sections[0];
-    }
-
     function findFieldOnJson(bind){
       var field;
 
@@ -640,16 +644,7 @@
       return field;
     }
     
-    function editSection(index) {
-      ctrl.currentSection = ctrl.sections[index];
-      ctrl.currentSection.index = index;
-      showConfigSection();
-    }
-
-    function selectSection(index){
-      ctrl.sectionSelected = ctrl.sections[index];
-    }
-
+    
     function cancelEditField() {
       showComponents();
       if (ctrl.sectionSelected) {
