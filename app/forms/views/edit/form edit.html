@@ -31,7 +31,13 @@
   <div class="row row-widget row-xp" ng-click="ctrl.selectSection($index)" ng-repeat="section in ctrl.sections track by $index" id="section-{[{$index}]}" ng-class="{'section-selected': ctrl.sectionSelected.id === section.id}">
     <div role="app-widget" class="widget-box widget-well">
       <div class="widget-header">
-        <h5 class="widget-title" ng-show="section.displayLabel" ng-bind="section.label"></h5>
+        <h5 class="widget-title" ng-bind="section.label"></h5>
+        <div class="widget-toolbar">
+          <div class="btn-group">
+            <i class="fa fa-pencil" ng-click="ctrl.editSection($index)"></i>
+            <i class="fa fa-trash" ng-click="ctrl.removeField($index)"></i>
+          </div>
+        </div>
       </div>
       <div class="widget-body">
         <div class="widget-main clearfix">

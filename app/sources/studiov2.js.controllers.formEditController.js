@@ -31,11 +31,11 @@
       setTypeField: setTypeField,
       editField: editField,
       cancelEditField: cancelEditField,
-      addSection: addSection,
       addNewSection: addNewSection,
-      setNewSection: setNewSection,
+      saveSection: saveSection,
+      editSection: editSection,
       selectSection: selectSection,
-      cancelNewSection: cancelNewSection,
+      cancelEditSection: cancelEditSection,
       showTypeFields: showTypeFields,
       showConfigBt: showConfigBt,
       editButton: editButton,
@@ -299,28 +299,32 @@
     function addNewSection() {
       showConfigSection(); 
       ctrl.onNewSection = true;
-      ctrl.newSection = {};
+      ctrl.currentSection = {};
     } 
 
-    function setNewSection() {
-      // Formatar o jsonForm (se não tiver nenhuma é a principal mas se tiver é um include do mesmo data source)
-      // setar na view a nova section
-      // Mostrar o components no sidebar
-      var newSection = angular.copy(ctrl.newSection);
+    function saveSection() {
+      var currentSection = angular.copy(ctrl.currentSection);
 
-      newSection.fields = [];
-      newSection.id = 'section-'.concat(ctrl.sections.length);
-      newSection.type = 'main';
-
-      if(ctrl.sections.length){
-        newSection.type = 'include';
-        newSection.meta = {};
-        newSection.include = {};
-        addFieldInclude(newSection);
+      if (!angular.isUndefined(ctrl.currentSection.index)) {
+        angular.extend(ctrl.sections[ctrl.currentSection.index], ctrl.currentSection);
+        showComponents();
+        return;
       }
 
-      ctrl.sections.push(newSection);
-      selectSection(ctrl.sections.length - 1);
+      currentSection.fields = [];
+      currentSection.id = 'section-'.concat(ctrl.sections.length);
+      currentSection.type = 'main';
+
+      if(ctrl.sections.length){
+        currentSection.type = 'include';
+        currentSection.meta = {};
+        currentSection.include = {};
+        addFieldInclude(currentSection);
+      }
+
+      ctrl.sections.push(currentSection);
+      editSection(ctrl.sections.length - 1);
+
       showComponents();
     }
 
@@ -328,10 +332,9 @@
       ctrl.jsonModel.fields.push(field);
     }
 
-    function cancelNewSection() {
+    function cancelEditSection() {
       showComponents();
-      //Rever ao editar uma seção
-      angular.extend(ctrl.newSection, {});
+      ctrl.currentSection = {};
     }
     
     function setTypeField(type, fieldEdit) {
@@ -497,12 +500,6 @@
       ctrl.sectionSelected.fields.push(newField);
     } 
 
-    function setSectionSelected() {
-      ctrl.sectionSelected = ctrl.sections[0]; 
-    } 
-
-    function addSection(){}
- 
     function addField(entityField) {
       var fieldEdit = {
             meta: {},
@@ -531,7 +528,7 @@
         if(!ctrl.sectionSelected){
           autoSelectSection();
         }
-        ctrl.sectionSelected.onNewField = true;
+        // ctrl.sectionSelected.onNewField = true;
       }
 
       function addFieldOnViewList(bind){
@@ -627,6 +624,10 @@
       ctrl.sectionSelected = ctrl.sections[0];
     }
 
+    function editFirstSection(){
+      ctrl.currentSection = ctrl.sections[0];
+    }
+
     function findFieldOnJson(bind){
       var field;
 
@@ -639,18 +640,14 @@
       return field;
     }
     
-    function selectSection(index) {
-      console.log('select section');
-      if (ctrl.sectionSelected == ctrl.sections[index]) {
-        return false;
-      }
-
-      if (ctrl.sectionSelected) {
-        ctrl.sectionSelected.onNewField = false;
-      } 
-
-      ctrl.sectionSelected = ctrl.sections[index];
+    function editSection(index) {
+      ctrl.currentSection = ctrl.sections[index];
+      ctrl.currentSection.index = index;
       showConfigSection();
+    }
+
+    function selectSection(index){
+      ctrl.sectionSelected = ctrl.sections[index];
     }
 
     function cancelEditField() {
@@ -724,13 +721,14 @@
     
     function showEditField() {
       ctrl.onEditField = true;
-      ctrl.onNewSection = false;
+      ctrl.onEditSection = false;
       ctrl.onTypeField = false;
       ctrl.onComponents = false;
     }
 
     function showComponents() {
       ctrl.onComponents = true;
+      ctrl.onEditSection = false;  
       ctrl.onNewSection = false;  
       ctrl.onNewField = false;
       ctrl.onTypeField = false;
@@ -739,7 +737,7 @@
     }
 
     function showConfigSection() {
-      ctrl.onNewSection = true; 
+      ctrl.onEditSection = true; 
       ctrl.onComponents = false;
       ctrl.onTypeField = false; 
     } 

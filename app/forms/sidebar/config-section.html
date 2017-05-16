@@ -1,5 +1,5 @@
 <!-- Config Section -->
-<ul class="nav-components sb-widget" ng-show="ctrl.onNewSection">
+<ul class="nav-components sb-widget" ng-show="ctrl.onEditSection">
   <!-- Estrutura -->
   <li class="item-components">
     Propriedades da Seção
@@ -12,10 +12,10 @@
     <div class="row">
       <div class="form-group">
         <label for="">Título da Seção</label>
-        <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.newSection.label">
+        <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.currentSection.label">
       </div>
       <div class="form-group">
-        <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.newSection.displayLabel">
+        <input type="checkbox" id="cbx-unconditional-search" ng-model="ctrl.currentSection.displayLabel">
         <label for="cbx-unconditional-search">Exibir cabeçalho da seção</label>
       </div>
     </div>
@@ -31,14 +31,14 @@
 
   <div class="inner-item template-col">
     <ul class="list-existing">
-      <li class="item-list" ng-click="ctrl.newSection.columns = 1" ng-class="{'item-list-selected' : ctrl.newSection.columns == 1}">
+      <li class="item-list" ng-click="ctrl.currentSection.columns = 1" ng-class="{'item-list-selected' : ctrl.currentSection.columns == 1}">
         <div class="row-bx">
           <div class="col-amount col-am-1"></div>
         </div>
         <p class="txt-info-col">1 Coluna</p>
       </li>
 
-      <li class="item-list" ng-click="ctrl.newSection.columns = 2" ng-class="{'item-list-selected' : ctrl.newSection.columns == 2}">
+      <li class="item-list" ng-click="ctrl.currentSection.columns = 2" ng-class="{'item-list-selected' : ctrl.currentSection.columns == 2}">
         <div class="row-bx">
           <div class="col-amount col-am-2"></div>
           <div class="col-amount col-am-2"></div>
@@ -46,7 +46,7 @@
         <p class="txt-info-col">2 Coluna</p>
       </li>
 
-      <li class="item-list" ng-click="ctrl.newSection.columns = 3" ng-class="{'item-list-selected' : ctrl.newSection.columns == 3}">
+      <li class="item-list" ng-click="ctrl.currentSection.columns = 3" ng-class="{'item-list-selected' : ctrl.currentSection.columns == 3}">
         <div class="row-bx">
           <div class="col-amount col-am-3"></div>
           <div class="col-amount col-am-3"></div>
@@ -66,12 +66,12 @@
   </li><!-- Botões -->
   <div class="inner-item template-col order-tab">
     <ul class="list-existing">
-      <li class="item-list" ng-click="ctrl.newSection.tabSort = 1" ng-class="{'item-list-selected' : ctrl.newSection.tabSort == 1}">
+      <li class="item-list" ng-click="ctrl.currentSection.tabSort = 1" ng-class="{'item-list-selected' : ctrl.currentSection.tabSort == 1}">
         <div class="row-bx tab-1"></div>
         <p class="txt-info-col">Tab 1</p>
       </li>
 
-      <li class="item-list" ng-click="ctrl.newSection.tabSort = 2" ng-class="{'item-list-selected' : ctrl.newSection.tabSort == 2}">
+      <li class="item-list" ng-click="ctrl.currentSection.tabSort = 2" ng-class="{'item-list-selected' : ctrl.currentSection.tabSort == 2}">
         <div class="row-bx tab-2"></div>
         <p class="txt-info-col">Tab 2</p>
       </li>
@@ -80,10 +80,10 @@
   <div class="action-buttons" style="z-index: 1;">
     <div class="row">
       <div class="col-xs-12 col-sm-6 no-padding col-pdd">
-        <button type="button" id="btnWidgetCancel" class="btn btn-default btn-block" ng-click="ctrl.cancelNewSection()">Cancelar</button>
+        <button type="button" id="btnWidgetCancel" class="btn btn-default btn-block" ng-click="ctrl.cancelEditSection()">Cancelar</button>
       </div>
       <div class="col-xs-12 col-sm-6 no-padding">
-        <button type="button" id="btnWidgetSave" class="btn btn-success btn-block" ng-click="ctrl.setNewSection()">Confirmar</button>
+        <button type="button" id="btnWidgetSave" class="btn btn-success btn-block" ng-click="ctrl.saveSection()">Confirmar</button>
       </div>
     </div>
   </div>
