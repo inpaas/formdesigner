@@ -1178,7 +1178,6 @@ ul.nav-components .inner-item.type-field {
   background: rgba(238, 247, 251, 0.4);
 }
 .row-table .col-action-table label.tlt-list:before,
-.content-field .row-widget .widget-body:before,
 .row-table .col-table .col-item-table:before {
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -1458,8 +1457,7 @@ div.page-actions .btn{
   padding-bottom: 0;
 }
 
-.txt-bx-dd input[type="search"]
-{
+.txt-bx-dd input[type="search"] {
   padding: 5px;
   font-size: 12px;
   width: 100%;
@@ -1467,7 +1465,18 @@ div.page-actions .btn{
 
 .widget-toolbar .btn-group {
   cursor: pointer;
+  display: none;
 }
+
+.widget-box:hover .widget-toolbar .btn-group{
+  display: inherit;
+}
+
+.widget-toolbar .btn-group i.fa{
+  margin: 0 5px;
+  color: #419bc7;
+}
+
 .btn-group, .btn-group-vertical {
   position: relative;
   display: inline-block;
