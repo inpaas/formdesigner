@@ -20,7 +20,69 @@
       </div>
     </div>
   </div>
+  <div class="inner-item propriets-section" ng-show="ctrl.currentSection.type == 'include'">
+    
+    <div class="form-group">
+      <label for="">Chave do Formulário</label>
+      <input class="form-control input-sm" 
+            type="text" 
+            placeholder="Digite aqui" 
+            ng-model="ctrl.currentSection.include.key" 
+            ng-keyup="ctrl.sanitizeKeyForm(ctrl.currentSection.include.key)">
+    </div>
+    <div class="row" ng-hide="true">
+      <div class="stock-separator">
+        <label for="">Origem do dado</label>
+      </div>
+      <div class="form-group clearfix">
+        <div class="col-xs-12 col-sm-6 no-padding">
+          <label for="type-entity">
+            <input type="radio" ng-model="ctrl.currentSection.dataSource.type" name="type-data" id="type-entity" value="E">
+            Entidade 
+          </label>
+        </div>
+        <div class="col-xs-12 col-sm-6 no-padding">
+          <label for="type-service">
+            <input type="radio" ng-model="ctrl.currentSection.dataSource.type" name="type-data" id="type-service" value="S"> 
+            Serviço 
+          </label>
+        </div>
+      </div>
 
+      <div class="form-group clearfix" ng-if="ctrl.currentSection.dataSource.type">
+        <div class="col-xs-12 col-sm-12 no-padding">
+          <div class="form-group">
+            <div class="btn-group btn-block">
+              <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+              </button>
+              <ul class="dropdown-menu btn-block">
+                <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+                <li ng-repeat="mod in app.modules" ng-click="ctrl.getModuleEntity(mod.id, ctrl.currentSection.dataSource)">
+                  <a href="" ng-bind="mod.title"></a>
+                </li>
+                <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <div class="form-group clearfix" ng-show="ctrl.currentSection.dataSource.type == 'E'">
+        <div class="col-xs-12 col-sm-12 no-padding">
+          <div class="form-group">
+            <label for="">Entidade</label>
+            <input type="text" 
+                    class="form-control input-sm" 
+                    placeholder= "Selecione"
+                    ng-model="ctrl.currentSection.dataSource.key"
+                    uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}" 
+                    typeahead-min-length="0" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Campos -->
   <li class="item-components">
     Template da Coluna
