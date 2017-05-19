@@ -45,7 +45,7 @@
       });
     }
 
-    function getForm(id, idModule) {
+    function getForm(id, idModule){
       var url = '/api/studio/modules/'
                   .concat(idModule)
                   .concat('/forms-v2/')
@@ -55,35 +55,67 @@
         method: 'get',
         url: url
       }).then(function(response){
-        var form = {};
+          var form = {};
 
-        if (response.data.json) {
-          form = JSON.parse(response.data.json);
-          form.moduleId = response.data.moduleId;
-          return form;
+          if (response.data.json) {
+            form = JSON.parse(response.data.json);
+            form.moduleId = response.data.moduleId;
+            form.id = id;
+            return form;
 
-        }else{
-          form.key = response.data.key;
-          form.label = response.data.label;
-          form.moduleId = response.data.moduleId;
-          form.firstConfig = true;
+          }else{
+            form.key = response.data.key;
+            form.label = response.data.label;
+            form.moduleId = response.data.moduleId;
+            form.firstConfig = true;
 
-          return jsonFormService.getFormTemplate().then(function(template){
-                  angular.extend(template, form);
-                  return template;
-                });
-        }
-      }).then(function(form){
-        jsonFormService.setJsonForm(form);
-        form = labelsService.translateLabels(form);
-        return form;
+            return jsonFormService.getFormTemplate().then(function(template){
+                    angular.extend(template, form);
+                    return template;
+                  });
+          }
       });
+    }
+
+    function getMasterForm(id, idModule) {
+      return getForm(id, idModule).then(function(form){
+        jsonFormService.setJsonForm(form);
+        jsonFormService.storeForms(form);
+        labelsService.translateLabels(form);
+
+        return form;
+      }).then(function(form){
+        return getFormInclude(form, idModule).then(function(response){
+          return form
+        });
+      });
+    }
+
+    function getFormInclude(form, idModule){
+      var defer = $q.all,
+          promises = []; 
+
+      form.fields.forEach(function(field){
+        if (field.meta.type == 'include') {
+          var thenFn = callback.bind(null, field),
+              promise = getForm(field.include.idForm, idModule).then(thenFn);
+
+          promises.push(promise); 
+        }
+      });
+
+      return defer(promises);
+
+      function callback(field, form){
+        field.fields = form.fields; 
+      }
     }
 
     function saveNewForm(form, idModule) {
       var url = '/api/studio/modules/'
             .concat(idModule)
             .concat('/forms-v2');
+
       // Atualmente, a api do módulo salva somente um form novo com a key o name, depois é que podemos 
       // salvar o form inteiro
       // TODO: adaptar a api para salvar o form novo de uma vez
@@ -95,8 +127,6 @@
           key: form.key,
           moduleId: idModule
         }
-      }).then(function(response){
-        return saveEditForm(form, response.data.id, idModule);
       });
     }
 
@@ -184,7 +214,8 @@
       generateForm: generateForm,
       getPermissions: getPermissions,
       getFormats: getFormats,
-      deleteForm: deleteForm
+      deleteForm: deleteForm,
+      getMasterForm: getMasterForm
     }
   }
 

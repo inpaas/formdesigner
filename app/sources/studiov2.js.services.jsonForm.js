@@ -12,12 +12,34 @@
   jsonFormService.$inject = ["$q", "$filter", 'JSONMODEL'];
   
   function jsonFormService($q, $filter, JSONMODEL){
-    var form = {}
-    
+    var forms = {}, form = {};
+    x_forms = forms;
+
+    function storeForms(form){
+      forms[form.id] = form;
+    }
+
     function setJsonForm(_form){
       form = _form;
     }
-    
+
+    function getKeysIncludes(masterForm){
+      return masterForm.fields.map(function(field){ 
+        if(field.type == 'include'){ 
+          return field['id'];
+        }
+      });
+    }
+
+    function getFormTemplate(){
+      var deferred = $q.defer(),
+          form = setJsonForm(angular.copy(JSONMODEL));
+
+      deferred.resolve(form);
+
+      return deferred.promise;
+    }
+   
     function editKey(key) {
       form.key = key;
     }
@@ -47,16 +69,6 @@
 
     function editFields(fields) {
       form.fields = fields;
-    }
-
-    function getFormTemplate(){
-      var deferred = $q.defer(),
-          form = setJsonForm(JSONMODEL);
-
-      form.firstConfig = true;
-      deferred.resolve(form);
-
-      return deferred.promise;
     }
     
     function getNewFormId() {
@@ -90,6 +102,9 @@
     function getFormWithLabels(){
       return form; 
     }
+    function getFormsWithLabels(){
+      return forms;
+    }
 
     function setKeyToDetails(key){
       form.views.list.keyToDetails = key;
@@ -112,7 +127,20 @@
       form.template = template;
     }
 
+    function setNewForm(key){
+      var newForm = angular.copy(JSONMODEL);
+      newForm.key = key;
+      angular.extend(newForm.dataSource, form.dataSource);
+
+      return newForm;
+    }
+
+    function getFormsFromMasterForm(masterForm){
+      
+    }
+
     return {
+      forms: forms,
       editKey: editKey,
       editLabel: editLabel,
       editPagination: editPagination,
@@ -126,7 +154,11 @@
       getActionsTypes: getActionsTypes,
       getFormWithLabels: getFormWithLabels,
       setKeyToDetails: setKeyToDetails,
-      editConfigForm: editConfigForm
+      editConfigForm: editConfigForm,
+      setNewForm: setNewForm,
+      getKeysIncludes: getKeysIncludes,
+      getFormsWithLabels: getFormsWithLabels,
+      storeForms: storeForms
     };
   }
 })();

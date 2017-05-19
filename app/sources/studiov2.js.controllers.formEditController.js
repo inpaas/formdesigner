@@ -82,6 +82,7 @@
       getJsonForm(idForm, 0)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
+          currentFormId = response.key;
           idModuleForm = response.moduleId;
           getModuleForm(idModuleForm);
 
@@ -108,7 +109,7 @@
 
     function getJsonForm(id){
       if (id) {
-        return httpService.getForm(id, 0); 
+        return httpService.getMasterForm(id, 0); 
       }else{
         return jsonFormService.getFormTemplate();
       }
@@ -122,10 +123,17 @@
         displayLabel: true,
         type: 'main'
       });
+
+      form.fields.forEach(function(field, index){
+        if (field.meta.type == 'include') {
+          field.type = 'include';
+          ctrl.sections.push(field);
+        }
+      });
     } 
 
     function setFieldsToMainSection(fields) {
-      return fields.map(function(field, index){
+      return fields.filter(function(field, index){
         if (field.meta.type != 'include') {
           field.id = index;
           return field;
@@ -297,13 +305,29 @@
     };
     
     function addNewSection() {
-      var section = {};
-
-      section.fields = [];
-      section.id = 'section-'.concat(ctrl.sections.length);
-      section.type = 'include';
-      section.meta = {};
-      section.include = {};
+      var section = {
+            fields : [],
+            newInclude: true,
+            name: ctrl.jsonModel.key.concat('.include-').concat(new Date().getTime()),
+            id: 'section-'.concat(ctrl.sections.length),
+            type : 'include',
+            meta: {
+              type: 'include'
+            },
+            include: {
+              idModuleForm: idModuleForm,
+              multivalue: false,
+              key : ctrl.jsonModel.key.concat('.include-').concat(new Date().getTime()),
+              link: {},
+              pagination: {
+                type: 'front',
+                countPerPage: 10
+              }
+            },
+            views: {
+              edit: {}
+            }
+          };
 
       ctrl.onNewSection = true;
       ctrl.currentSection = section;
@@ -348,7 +372,7 @@
     function selectSection(index){
       ctrl.sectionSelected = ctrl.sections[index];
     }
-    
+
     function setTypeField(type, fieldEdit) {
       fieldEdit = fieldEdit || ctrl.fieldEdit;
       fieldEdit.meta.type = type;
@@ -497,7 +521,7 @@
     } 
 
     function setViewsField(field) {
-      field.views.edit = field.edit? {} : undefined;
+      field.views.edit = {};
       field.views.list = field.list? {} : undefined;
       field.views.filter = field.filter? {}: undefined;
     }
@@ -540,7 +564,7 @@
         if(!ctrl.sectionSelected){
           autoSelectSection();
         }
-        // ctrl.sectionSelected.onNewField = true;
+        ctrl.sectionSelected.onNewField = true;
       }
 
       function addFieldOnViewList(bind){
@@ -574,7 +598,6 @@
     }
 
     function editField($event, formField, index) {
-      $event.stopPropagation();
       formField = angular.copy(formField);
 
       if(ctrl.onBindBreadcrumb){
@@ -647,9 +670,7 @@
     
     function cancelEditField() {
       showComponents();
-      if (ctrl.sectionSelected) {
-        ctrl.sectionSelected.onNewField = false;
-      }
+      ctrl.sectionSelected.onNewField = false;
       ctrl.fieldEdit = {};
     }
 
@@ -662,26 +683,31 @@
     }
 
     function saveForm() {
-      updateFieldsOnJsonModel(ctrl.sections);
-      labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
+      setFormsForNewIncludes(ctrl.sections).then(function(){
+        setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
+      }).then(function(){
+        labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
+        var forms = jsonFormService.getFormsWithLabels();
+        angular.forEach(forms, save);
+      });
 
-      if(idForm) {
-        httpService.saveEditForm(jsonFormService.getFormWithLabels(), idForm, idModuleForm).then(function success(response){
-          Notification.success('Formulário salvo com sucesso');
-        }, function error(response){
-          Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
-        });
-      }else{
-        httpService.saveNewForm(jsonFormService.getFormWithLabels(), idModuleForm).then(function(response){
-          Notification.success('Formulário salvo com sucesso');
-          var state = $state.current.name.replace('new', 'edit');
-          idForm = response.data.id;
-          $state.go(state, {id: idForm}).then(function(){
-            setCurrentViewFlag();
+      function save(form){
+        if(form.id) {
+          httpService.saveEditForm(form, form.id, idModuleForm).then(function success(response){
+            Notification.success('Formulário salvo com sucesso');
+          }, function error(response){
+            Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
           });
-        }, function error(response){
-          Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
-        });
+        }else{
+          httpService.saveNewForm(form, idModuleForm)
+            .then(function(response){
+              return jsonFormService.saveEditForm(form, response.data.id, idModuleForm).then(function(response){
+                Notification.success('Formulário salvo com sucesso');
+              });
+          }, function error(response){
+            Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
+          });
+        }
       }
     }
 
@@ -696,22 +722,52 @@
       }); 
     }
 
-    function updateFieldsOnJsonModel(sections) {
-      setFields(ctrl.jsonModel);
+    function setFormsForNewIncludes(sections){
+      var deferred = $q.defer(),
+          promises = [];
 
-      function setFields(form){
-        if (!ctrl.sections.length) { return false; }
-
-        form.fields.length = 0;
-
-        ctrl.sections[0].fields.forEach(function(item, index){
-          var clone = angular.copy(item);
-
-          delete clone.id;
-          delete clone.templateType;
-          form.fields.push(clone);
-        });
+      function callback(section, form, response){
+        section.include.idForm = form.id = Number(response.data.id);
+        setFieldsOnForm(section, form);
+        jsonFormService.storeForms(form); 
       }
+
+      sections.filter(function(section){ return section.newInclude; })
+              .forEach(function(section){
+                var form = jsonFormService.setNewForm(section.include.key),
+                    thenFn = callback.bind(null, section, form),
+                    promise = httpService.saveNewForm(form, section.include.idModuleForm).then(thenFn);
+
+                promises.push(promise);
+              });
+
+      $q.all(promises).then(function(response){
+          deferred.resolve();
+        });
+
+      return deferred.promise;
+    }
+
+    function setFieldsOnForm(section, form){
+      section.fields.forEach(function(field){
+        var _field = angular.copy(field);
+        delete _field.id;
+        delete _field.templateType;
+        form.fields.push(_field);
+      });
+    }
+
+    function setFieldsOnMainForm(form, sections){
+      form.fields.length = 0;
+      sections.forEach(function(section, index){
+        if (section.type == 'main') {
+          setFieldsOnForm(section, form);
+        }else{
+          var field = angular.copy(section);
+          delete field.fields;
+          form.fields.push(field);
+        }
+      });
     }
     
     function showEditField() {
@@ -809,7 +865,8 @@
         }
       }); 
 
-      getPermissions(id);
+      //TODO: Tirar essa chamada daqui
+      getPermissions(idModule);
     }
 
     function getModuleForm(idModule) {
@@ -893,6 +950,7 @@
     function saveConfigForm() {
       angular.extend(ctrl.jsonModel, ctrl.configForm);
       jsonFormService.editConfigForm(ctrl.configForm);
+      jsonFormService.editConfigForm(ctrl.configForm, currentFormId);
 
       if (ctrl.jsonModel.firstConfig) {
         delete ctrl.jsonModel.firstConfig;
@@ -967,7 +1025,6 @@
     function goToList() {
       var promise; 
 
-      updateFieldsOnJsonModel();
 
       if (idForm) {
         promise = $state.go('^.edit-view-list', {id: idForm});
