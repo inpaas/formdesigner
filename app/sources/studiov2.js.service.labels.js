@@ -120,14 +120,13 @@
         var key = 'label.'.concat(dataSourcekey).concat('.');
             value = field.label;
 
-        key = key.concat(field.columnName || field.meta.bind.toLowerCase() || ('field-'.concat(index)) )
+        key = key.concat(field.columnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) )
         field.label = key;
 
-        if (value) {
+        if (key && value) {
           $l10n.editLabel(key, value);
+          saveLabel(value, key, moduleId);
         }
-        
-        saveLabel(value, key, moduleId);
 
         if(field.meta.options) {
           buildLabelsOptions(field.columnName, field.meta.options); 
