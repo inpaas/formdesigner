@@ -2,6 +2,7 @@ Issues Forms Designer V2
 ========================
 
 ## Issues funcionalidade
+  - Não é possível fazer dropar um field quando o include não tem fields
   - Carregar as labels do campo 
   - Messagem de validação (não tem especificamente no json atualmente)
   - Modo avançado (?)
