@@ -33,10 +33,11 @@
 
     function getFormTemplate(){
       var deferred = $q.defer(),
-          form = setJsonForm(angular.copy(JSONMODEL));
-
+          form = angular.copy(JSONMODEL);
+          
+      form.firstConfig = true;
+      setJsonForm(form);
       deferred.resolve(form);
-
       return deferred.promise;
     }
    
@@ -136,7 +137,7 @@
     }
 
     function getFormsFromMasterForm(masterForm){
-      
+
     }
 
     return {
