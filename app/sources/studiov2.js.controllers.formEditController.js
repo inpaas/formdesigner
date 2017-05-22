@@ -135,7 +135,6 @@
     function setFieldsToMainSection(fields) {
       return fields.filter(function(field, index){
         if (field.meta.type != 'include') {
-          field.id = index;
           return field;
         } 
       });
@@ -479,11 +478,10 @@
       fieldEdit.columnName = fieldEdit.customField? fieldEdit.meta.bind : fieldEdit.rawEntityField.name.toLowerCase();
       delete fieldEdit.rawEntityField;
 
-      if (angular.isUndefined(fieldEdit.id)){
+      if (angular.isUndefined(fieldEdit.index)){
         addNewField();
       }else{
-        var index = fieldEdit.id;
-        ctrl.sectionSelected.fields[index] = fieldEdit;
+        ctrl.sectionSelected.fields[fieldEdit.index] = fieldEdit;
       }
 
       ctrl.sectionSelected.onNewField = false;
@@ -533,6 +531,7 @@
       if (ctrl.sectionSelected.columns != '1' && !ctrl.sectionSelected.fields.length) {
         newField.position = 'left'; 
       }
+
       ctrl.sectionSelected.fields.push(newField);
     } 
 
@@ -597,8 +596,9 @@
 
     }
 
-    function editField($event, formField, index) {
+    function editField($event, formField, index, section) {
       formField = angular.copy(formField);
+      formField.index = index;
 
       if(ctrl.onBindBreadcrumb){
         bindFieldOnBreadcrumb(formField.meta.bind);
@@ -643,9 +643,7 @@
         formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
 
-      if (!ctrl.sectionSelected) {
-        autoSelectSection(); 
-      }
+      ctrl.sectionSelected = section;
 
       if (formField.meta.type.match(/date/g)) {
         getFormatsPattern();

@@ -28,7 +28,11 @@
 <div class="main-view-edit">
 
   <!-- Sections -->
-  <div class="row row-widget row-xp" ng-click="ctrl.selectSection($index)" ng-repeat="section in ctrl.sections track by $index" id="section-{[{$index}]}" ng-class="{'section-selected': ctrl.sectionSelected.id === section.id}">
+  <div class="row row-widget row-xp" 
+      id="section-{[{$index}]}" 
+      ng-click="ctrl.selectSection($index)" 
+      ng-repeat="section in ctrl.sections track by $index" 
+      ng-class="{'section-selected': ctrl.sectionSelected.id === section.id}">
     <div role="app-widget" class="widget-box widget-well">
       <div class="widget-header">
         <h5 class="widget-title" ng-bind="section.label"></h5>
@@ -48,7 +52,7 @@
                     id="field-{[{$index}]}" 
                     ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
                     ng-repeat="field in section.fields track by $index" 
-                    ng-click="ctrl.editField($event, field, $index)"
+                    ng-click="ctrl.editField($event, field, $index, section)"
                     ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
               </div>
             </div>
