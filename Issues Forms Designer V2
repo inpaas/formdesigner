@@ -1,0 +1,29 @@
+Issues Forms Designer V2
+========================
+
+## Issues funcionalidade
+  - Carregar as labels do campo 
+  - Messagem de validação (não tem especificamente no json atualmente)
+  - Modo avançado (?)
+  - Edição do bind no breadcrumbs
+  - Adicionar datepicker
+  - Tipo de campo html através do tipo da coluna
+  - Colocar o code mirror
+  - Minificar os assets 
+  - Colocar todos os includes e template do angular em um arquivo no studio (ng-includes)
+  - Validações
+    - Key do form
+    - Configs que são requeridas
+  - Alertas
+
+## Issues de layout
+  - Criar comunicação de sections selecionados para edição
+  - Marcar a coluna da entity quando já incluída em um field
+  - Colocar um campo na nova seção para definir um dataSource (qnd for os includes)
+  - Adicionar ícones informando o tipo de campo da entity (sidebar)
+  - Padronizar o bt de conclusão de edição (hj está salvar ou confirmar e trocar para concluir)
+
+## Doc
+  - Modificar a doc do breadcrumb, que está nas views e não mais no root do json
+  - Add os atributos dos fields
+  - Docs de props novas
