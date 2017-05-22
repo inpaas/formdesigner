@@ -950,7 +950,6 @@
     function saveConfigForm() {
       angular.extend(ctrl.jsonModel, ctrl.configForm);
       jsonFormService.editConfigForm(ctrl.configForm);
-      jsonFormService.editConfigForm(ctrl.configForm, currentFormId);
 
       if (ctrl.jsonModel.firstConfig) {
         delete ctrl.jsonModel.firstConfig;
