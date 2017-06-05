@@ -381,7 +381,8 @@
         case 'select':
           findDomains();
           fieldEdit.dataSource = {};
-
+          break;
+          
         case 'currency':
         case 'date':
           getFormatsPattern();
