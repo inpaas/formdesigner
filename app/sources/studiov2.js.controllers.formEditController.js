@@ -82,7 +82,6 @@
       getJsonForm(idForm, 0)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
-          currentFormId = response.key;
           idModuleForm = response.moduleId;
           getModuleForm(idModuleForm);
 
@@ -382,7 +381,7 @@
           findDomains();
           fieldEdit.dataSource = {};
           break;
-          
+
         case 'currency':
         case 'date':
           getFormatsPattern();
