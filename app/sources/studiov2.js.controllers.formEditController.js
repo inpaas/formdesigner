@@ -1140,14 +1140,14 @@
       });
 
       $scope.$on('2col-bag.drop', function(e, el){
-        setPositionField();
+        setPositionField(el);
       });
 
       $scope.$on('3col-bag.drop', function(e, el){
-        setPositionField();
+        setPositionField(el);
       });
 
-      function setPositionField(){
+      function setPositionField(el){
         var position = el.parent().attr('id').split('-').pop();
         el.scope().$parent.field.position = position;
       }
