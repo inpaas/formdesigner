@@ -5,7 +5,7 @@
   angular
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
-
+    
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
     "$l10n", "$uibModal", "dragulaService", "Notification"

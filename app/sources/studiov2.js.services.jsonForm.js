@@ -13,7 +13,6 @@
   
   function jsonFormService($q, $filter, JSONMODEL){
     var forms = {}, form = {};
-    x_forms = forms;
 
     function storeForms(form){
       forms[form.id] = form;

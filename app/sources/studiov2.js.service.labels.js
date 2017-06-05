@@ -2,7 +2,7 @@
   angular
     .module('studio-v2')
     .service('labelsService', labelsService);
-
+    
   labelsService.$inject = ['$http', '$filter', '$l10n', '$q', 'jsonFormService'];
 
   function labelsService($http, $filter, $l10n, $q, jsonFormService){
