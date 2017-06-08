@@ -203,6 +203,29 @@
       });
     }
 
+    function getFinders(entityName){
+      var url = '/api/entity/'
+                  .concat(entityName)
+                  .concat('/finders');
+
+      return $http({
+        method: 'get',
+        url: url
+      });
+    }
+
+    function getFinder(entityName, name){
+      var url = '/api/entity/' 
+                  .concat(entityName)
+                  .concat('/finders/')
+                  .concat(name);
+
+      return $http({
+        method: 'get',
+        url: url
+      });
+    }
+
     return {
       getModule: getModule,
       getApps: getApps,
@@ -215,7 +238,9 @@
       getPermissions: getPermissions,
       getFormats: getFormats,
       deleteForm: deleteForm,
-      getMasterForm: getMasterForm
+      getMasterForm: getMasterForm,
+      getFinders: getFinders,
+      getFinder: getFinder
     }
   }
 

@@ -1,6 +1,6 @@
+//Inspirado em https://gist.github.com/marioluan/6923123 
 (function(){
   window.Helpers = {};
-  //Inspirado em https://gist.github.com/marioluan/6923123 
   Helpers.replaceAccentChars = replaceAccentChars;
   Helpers.removeSpace = removeSpace;
   Helpers.removeSpecialChars = removeSpecialChars;

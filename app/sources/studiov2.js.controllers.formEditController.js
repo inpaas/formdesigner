@@ -5,7 +5,7 @@
   angular
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
-    
+
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
     "$l10n", "$uibModal", "dragulaService", "Notification"
@@ -55,6 +55,8 @@
       getModuleForm: getModuleForm,
       getModuleForms: getModuleForms,
       getModuleFromApps: getModuleFromApps,
+      getFinders: getFinders,
+      getFinder: getFinder,
       getSources: getSources,
       goToList: goToList,
       goToEdit: goToEdit,
@@ -70,7 +72,7 @@
       sanitizeKeyForm: sanitizeKeyForm,
       deleteForm: deleteForm,
       formPreview: formPreview
-    });    
+    });
 
     init();
     getApps();
@@ -419,7 +421,7 @@
     }
 
     function getModuleFromApps(idModule){
-      var module;
+      var module = {};
 
       ctrl.apps && ctrl.apps.forEach(function(app, index){
         if (app.modules) {
@@ -431,7 +433,7 @@
         }
       });
 
-      return module || {};
+      return module;
     }
 
     function findReferences(fieldForm){
@@ -638,9 +640,14 @@
 
         ctrl.moduleEntity = getModuleFromApps(formField.dataSource.moduleId);
         getQueries(formField.dataSource.key);
+        getFinders(formField.dataSource.key);
 
       }else if(formField.meta.options){
         formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
+      }
+
+      if (formField.finder) {
+        getFinder(formField.dataSource.key, formField.finder.key);   
       }
 
       ctrl.sectionSelected = section;
@@ -851,6 +858,18 @@
           });
         });
 
+      });
+    }
+
+    function getFinders(entityName){
+      httpService.getFinders(entityName).then(function(response){
+        ctrl.finders = response.data;
+      });
+    }
+
+    function getFinder(entityName, finderName){
+      httpService.getFinder(entityName, finderName).then(function(response){
+        ctrl.finder = response.data; 
       });
     }
 
@@ -1077,7 +1096,7 @@
           break;
 
         case 'E':
-          ctrl.fieldEdit.dataSource? ctrl.fieldEdit.dataSource : ctrl.fieldEdit.dataSource = {}
+          ctrl.fieldEdit.dataSource? ctrl.fieldEdit.dataSource : ctrl.fieldEdit.dataSource = {finder: {}};
       }
     }
 
