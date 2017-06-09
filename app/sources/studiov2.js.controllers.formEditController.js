@@ -640,14 +640,14 @@
 
         ctrl.moduleEntity = getModuleFromApps(formField.dataSource.moduleId);
         getQueries(formField.dataSource.key);
-        getFinders(formField.dataSource.key);
 
       }else if(formField.meta.options){
         formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
 
       if (formField.finder) {
-        getFinder(formField.dataSource.key, formField.finder.key);   
+        getFinders(formField.finder.entityName);
+        getFinder(formField.finder.entityName, formField.finder.key);   
       }
 
       ctrl.sectionSelected = section;

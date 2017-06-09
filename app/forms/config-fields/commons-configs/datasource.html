@@ -23,7 +23,7 @@
       </button>
       <ul class="dropdown-menu btn-block">
         <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-        <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.fieldEdit.dataSource)">
+        <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.fieldEdit.finder)">
           <a href="" ng-bind="mod.title"></a>
         </li>
         <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
@@ -46,10 +46,8 @@
     <div class="form-group">
       <label for="">Finder:</label>
       <select class="form-control input-sm" 
-              ng-change="ctrl.getFinder(ctrl.fieldEdit.dataSource.key, ctrl.fieldEdit.finder.key)"
+              ng-change="ctrl.getFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)"
               ng-model="ctrl.fieldEdit.finder.key">
-
-        <option value="{[{'finder.' + ctrl.fieldEdit.dataSource.key.toLowerCase() + '.default'}]}">{[{'label.finder.allrecords' | translate}]}</option>
         <option value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders">{[{finder.title}]}</option>
       </select>
       <!-- <input type="text" 
