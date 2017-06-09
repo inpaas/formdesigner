@@ -88,7 +88,7 @@
           idModuleForm = response.moduleId;
           getModuleForm(idModuleForm);
 
-          if (response.firstConfig) {
+          if (!response.id) {
             showConfigForm();
           }
 
@@ -967,13 +967,12 @@
     }
 
     function saveConfigForm() {
-      angular.extend(ctrl.jsonModel, ctrl.configForm);
-      jsonFormService.editConfigForm(ctrl.configForm);
-
-      if (ctrl.jsonModel.firstConfig) {
-        delete ctrl.jsonModel.firstConfig;
+      if (!ctrl.jsonModel.id) {
         setBreadcrumb();
       }
+
+      angular.extend(ctrl.jsonModel, ctrl.configForm);
+      jsonFormService.editConfigForm(ctrl.configForm);
 
       if(ctrl.configForm.dataSource.type == 'E' && ctrl.configForm.dataSource.key){
         getFieldsByEntity(ctrl.configForm.dataSource.key);
