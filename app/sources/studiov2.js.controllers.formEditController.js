@@ -648,7 +648,8 @@
 
       if (formField.finder) {
         getFinders(formField.finder.entityName);
-        getFinder(formField.finder.entityName, formField.finder.key);   
+        getFinder(formField.finder.entityName, formField.finder.key);
+        ctrl.moduleEntity = getModuleFromApps(formField.finder.moduleId);
       }
 
       ctrl.sectionSelected = section;
@@ -689,13 +690,19 @@
     }
 
     function saveForm() {
-      setFormsForNewIncludes(ctrl.sections).then(function(){
-        setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
-      }).then(function(){
-        labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
-        var forms = jsonFormService.getFormsWithLabels();
-        angular.forEach(forms, save);
-      });
+      //TODO: Rever isso com a mudança para includes de finder
+      // setFormsForNewIncludes(ctrl.sections).then(function(){
+      //   setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
+      // }).then(function(){
+      //   setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
+      //   var forms = jsonFormService.getFormsWithLabels();
+      //   angular.forEach(forms, save);
+      // });
+
+      setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
+      labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
+      var form = jsonFormService.getFormWithLabels();
+      save(form);
 
       function save(form){
         if(form.id) {
@@ -708,8 +715,10 @@
           httpService.saveNewForm(form, idModuleForm)
             .then(function(response){
               return httpService.saveEditForm(form, response.data.id, idModuleForm).then(function(response){
-                goToEdit(response.data.id, false);
+                ctrl.jsonModel.id = response.data.id;
+                jsonFormService.editIdForm(response.data.id);
                 Notification.success('Formulário salvo com sucesso');
+                goToEdit(response.data.id, false);
               });
           }, function error(response){
             Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));

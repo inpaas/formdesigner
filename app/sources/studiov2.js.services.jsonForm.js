@@ -48,6 +48,10 @@
       form.label = label;
     }
 
+    function editIdForm(id){
+      form.id = id;
+    }
+
     function editPagination(pagination) {
       form.pagination = pagination;
     }
@@ -142,6 +146,7 @@
     return {
       forms: forms,
       editKey: editKey,
+      editIdForm: editIdForm,
       editLabel: editLabel,
       editPagination: editPagination,
       editBreadcrumb: editBreadcrumb,
