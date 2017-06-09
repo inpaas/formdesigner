@@ -83,6 +83,7 @@
     function init() {
       getJsonForm(idForm, 0)
         .then(function(response){
+          jsonFormService.setJsonForm(response);
           ctrl.jsonModel = angular.copy(response);
           idModuleForm = response.moduleId;
           getModuleForm(idModuleForm);
@@ -706,7 +707,8 @@
         }else{
           httpService.saveNewForm(form, idModuleForm)
             .then(function(response){
-              return jsonFormService.saveEditForm(form, response.data.id, idModuleForm).then(function(response){
+              return httpService.saveEditForm(form, response.data.id, idModuleForm).then(function(response){
+                goToEdit(response.data.id, false);
                 Notification.success('Formulário salvo com sucesso');
               });
           }, function error(response){
@@ -1038,14 +1040,13 @@
       }
     }
 
-    function goToList() {
+    function goToList(forceReload) {
       var promise; 
 
-
       if (idForm) {
-        promise = $state.go('^.edit-view-list', {id: idForm});
+        promise = $state.go('^.edit-view-list', {id: idForm}, {reload: forceReload});
       }else{
-        promise = $state.go('forms.new-view-list');
+        promise = $state.go('forms.new-view-list', {});
       }
 
       promise.then(function(){
@@ -1053,11 +1054,11 @@
       });
     }
 
-    function goToEdit() {
+    function goToEdit(idForm, forceReload) {
       var promise;
 
       if(idForm){
-        promise = $state.go('^.edit-view-edit', {id: idForm});
+        promise = $state.go('^.edit-view-edit', {id: idForm}, {reload: forceReload});
       }else{
         promise = $state.go('forms.new-view-edit');
       }

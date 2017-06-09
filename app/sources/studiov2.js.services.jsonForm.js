@@ -20,6 +20,7 @@
 
     function setJsonForm(_form){
       form = _form;
+      storeForms(_form);
     }
 
     function getKeysIncludes(masterForm){
@@ -35,7 +36,6 @@
           form = angular.copy(JSONMODEL);
           
       form.firstConfig = true;
-      setJsonForm(form);
       deferred.resolve(form);
       return deferred.promise;
     }

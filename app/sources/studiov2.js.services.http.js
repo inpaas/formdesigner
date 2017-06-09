@@ -80,7 +80,6 @@
     function getMasterForm(id, idModule) {
       return getForm(id, idModule).then(function(form){
         jsonFormService.setJsonForm(form);
-        jsonFormService.storeForms(form);
         labelsService.translateLabels(form);
 
         return form;
