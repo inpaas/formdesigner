@@ -148,7 +148,7 @@
       ctrl.data.entityFields.forEach(function(entityField){
         ctrl.sections[0].fields.forEach(function(field){
           if (entityField.alias == field.meta.bind) {
-            field.columnName = entityField.alias;
+            field.columnName = entityField.name.toLowerCase();
           }
         });
       });
