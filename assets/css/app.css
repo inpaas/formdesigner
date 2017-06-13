@@ -1973,10 +1973,10 @@ section.modal_st article.modal_st-dialog .modal_st-content
 ul.nav-components .inner-item .stock-separator
 {
   width: 100%;
-  padding: 0 5px;
-  margin: -10px 0 10px 0;
   position: relative;
   height: 25px;
+  margin: 20px 0 0;
+  padding: 0;
 }
 
 ul.nav-components .inner-item .stock-separator label
@@ -1997,6 +1997,12 @@ ul.nav-components .inner-item .stock-separator:before
   display: block;
   margin-top: 13px;
   position: absolute;
+}
+
+
+ul.nav-components .inner-item .stock-separator:before 
+{ 
+  width: 100%; 
 }
 
 .buttons-item .buttons-default-group button.btn{
@@ -2023,14 +2029,6 @@ ul.nav-components .inner-item .stock-separator:before
 .btn-new-sp
 {  padding: 0 5px !important; }
 
-ul.nav-components.sb-edit-action .inner-item .stock-separator {
-  margin-top: 20px;
-  padding: 0;
-  margin-bottom: 0px;
-}
-
-ul.nav-components.sb-edit-action .inner-item .stock-separator:before 
-{ width: 100%; }
 
 .type-function .form-control
 { margin: 10px 0; float: left; }
@@ -2067,3 +2065,7 @@ ul.nav-components.sb-field-text.sb-edit-action
 .type-map .form-group button.btn.btn-success:active,
 .type-map .form-group button.btn.btn-success:focus
 { border-color: #dedede; }
+
+select[multiple]{
+  max-height: 60px;
+}

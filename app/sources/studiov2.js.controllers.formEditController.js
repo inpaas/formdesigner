@@ -10,8 +10,8 @@
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
     "$l10n", "$uibModal", "dragulaService", "Notification"
   ];
-  
-  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification) {
+ 
+ function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification) {
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
@@ -486,7 +486,7 @@
       }else{
         ctrl.sectionSelected.fields[fieldEdit.index] = fieldEdit;
       }
-
+      
       ctrl.sectionSelected.onNewField = false;
 
       ctrl.fieldEdit = {};
@@ -614,6 +614,7 @@
         }
       });
 
+      //TODO: Rever esse model
       formField.filter = !!formField.views.filter;
       formField.list = !!formField.views.list;
       formField.edit = !!formField.views.edit;
@@ -650,6 +651,7 @@
         getFinders(formField.finder.entityName);
         getFinder(formField.finder.entityName, formField.finder.key);
         ctrl.moduleEntity = getModuleFromApps(formField.finder.moduleId);
+        filterSelectFields();
       }
 
       ctrl.sectionSelected = section;
@@ -659,6 +661,7 @@
       }
       
       ctrl.fieldEdit = formField;
+
       showEditField();
     }
 
@@ -1182,7 +1185,7 @@
     }
 
     function codeView(){
-      var url = 'https://studio-v2.inpaas.com/forms/inpaas.devstudio.forms.CreateFormv2/'.concat(idForm);
+      var url = '/forms/inpaas.devstudio.forms.CreateFormv2/'.concat(idForm);
       window.open(url);
     }
 
@@ -1201,6 +1204,20 @@
     function formPreview(){
       var url = '/forms-v2/'.concat(ctrl.jsonModel.key);
       window.open(url);
+    }
+
+    function filterSelectFields(){
+      var selectFields = [];
+
+      ctrl.sections.forEach(function(section){
+        selectFields = selectFields.concat(section.fields.filter(getSelectField));
+      });
+
+      ctrl.selectFields = selectFields;
+
+      function getSelectField(field){
+        return field.meta.type == 'select';
+      }
     }
 
   };

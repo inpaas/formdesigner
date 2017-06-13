@@ -1,6 +1,9 @@
 <div class="row">
-  <div class="col-sm-12 col-xs-12 no-padding form-group">
+  <div class="stock-separator">
     <label for="">Origem das opções</label>
+  </div>
+  <div class="form-group">
+    <label for="">Tipo</label>
     <select class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSourceType" ng-change="ctrl.selectDataSourceType()">
       <option value="">Selecione</option>
       <option value="E">Entidade</option>
@@ -8,12 +11,12 @@
       <option value="D">Opções pré definidas</option>
       <option value="O">Opções editáveis</option>
     </select>
-  </div> 
+  </div>
 </div>
 
 <div class="form-group" ng-show="ctrl.fieldEdit.dataSourceType == 'O' && ctrl.fieldEdit.meta.type != 'checkbox'">
   <button type="button" class="btn btn-primary" ng-click="ctrl.openModalForConfig(ctrl.fieldEdit.meta, 'options', 'options')"> Editar Opções </button>
-</div> 
+</div>
 
 <div class="row" ng-show="ctrl.fieldEdit.dataSourceType == 'E'">
   <div class="form-group">
@@ -35,43 +38,38 @@
     <label for="">Entidade</label>
     <input type="text" 
           class="form-control input-sm" 
-          placeholder= "Selecione"
-          ng-model="ctrl.fieldEdit.finder.entityName"
-          typeahead-on-select="ctrl.getFinders($model)"
-          uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}" 
+          placeholder="Selecione" 
+          ng-model="ctrl.fieldEdit.finder.entityName" 
+          typeahead-on-select="ctrl.getFinders($model)" 
+          uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
           typeahead-min-length="0" />
   </div>
 
-  <div class="row">
-    <div class="form-group">
-      <label for="">Finder:</label>
-      <select class="form-control input-sm" 
-              ng-change="ctrl.getFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)"
-              ng-model="ctrl.fieldEdit.finder.key">
-        <option value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders">{[{finder.title}]}</option>
-      </select>
-      <!-- <input type="text" 
-            class="form-control input-sm" 
-            placeholder= "Selecione"
-            ng-model="finderkey" 
-            uib-typeahead="" 
-            typeahead-min-length="0" /> -->
-    </div>
+  <div class="form-group">
+    <label for="">Finder:</label>
+    <select class="form-control input-sm" 
+            ng-change="ctrl.getFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)" 
+            ng-model="ctrl.fieldEdit.finder.key">
+      <option value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders">{[{finder.title}]}</option>
+    </select>
+  </div>
 
   <div class="form-group">
     <label for="">Campo</label>
-    <select class="form-control input-sm" 
-            ng-model="ctrl.fieldEdit.finder.fieldIndex">
+    <select class="form-control input-sm" ng-model="ctrl.fieldEdit.finder.fieldIndex">
       <option value="{[{ $index }]}" ng-repeat="field in ctrl.finder.fields">{[{ field.fieldName }]}</option>
     </select>
-    <!-- <input type="text" 
-          class="form-control input-sm" 
-          placeholder="Selecione"
-          ng-model="finderfieldIndex" 
-          uib-typeahead="" 
-          typeahead-min-length="0" />     -->
   </div>
+
+  <div class="form-group">
+    <label for="">Combo dependente</label>
+    <select class="form-control input-sm" 
+            multiple 
+            ng-options="field.meta.bind as field.label for field in ctrl.selectFields" 
+            ng-model="ctrl.fieldEdit.finder.dependencies">
+    </select>
   </div>
+</div>
 
 <div class="row" ng-show="ctrl.fieldEdit.dataSourceType == 'S'">
   <div class="form-group">
@@ -81,6 +79,7 @@
             ng-options="source.key as source.key for source in ctrl.moduleEntitySources">
     </select>
   </div>
+  
   <div class="form-group">
     <label for="">Método:</label>
     <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSource.sourceMethod">
