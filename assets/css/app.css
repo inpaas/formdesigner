@@ -1035,6 +1035,7 @@ ul.nav-components li.item-components .widget-toolbar i {
 .row-edit-this { 
   position: relative;
 }
+
 .row-edit-this .field-edit-this {
   transition: .3s;
   position: absolute;
@@ -1052,6 +1053,7 @@ ul.nav-components li.item-components .widget-toolbar i {
   cursor: pointer;
   color: #419bc7;
 }
+
 .row-edit-this .field-edit-this:hover .fa {
   display: inline-block;
   padding: 10px 8px;
@@ -1061,11 +1063,11 @@ ul.nav-components li.item-components .widget-toolbar i {
   color: #f3543a;
 }
 
+.row-edit-this.active-field,
 .row-edit-this .field-edit-this:hover{
   transition: .3s;
   background: rgba(238, 247, 251, 0.5);
   border: dashed 1px #6BCDFD;
-  padding: 0 20px;
 }
 
 .edit-form .container-fields .dragOver .field-placeholder .active-this{
