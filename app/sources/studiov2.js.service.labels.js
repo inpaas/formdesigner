@@ -11,6 +11,10 @@
         labels = [];
 
     function saveLabel(text, key, idModule){
+      if ($l10n.translate(key) == text){
+        return false;
+      }
+
       var url = '/api/studio/modules/'.concat(idModule).concat('/labels'), 
           data = {
             "key": key,
@@ -24,6 +28,9 @@
           url: url,
           method: 'post',
           data: data
+        }).then(function(response){
+          $l10n.editLabel(key, text);
+          return response;
         });
     }
 
@@ -72,9 +79,7 @@
     function buildLabelsFromTitle(title, moduleId, lang){
       var key = generateKey('title');
 
-      $l10n.editLabel(key, title);
       jsonFormService.editLabel(key);
-
       saveLabel(title, key, moduleId);
     }
 
@@ -88,7 +93,7 @@
               value = item.label; 
               
           item.label = key;
-          $l10n.editLabel(key, value);
+
           saveLabel(value, key, moduleId);
         }
       });
@@ -107,7 +112,7 @@
               value = action.label;
 
           action.label = key;
-          $l10n.editLabel(key, value);
+
           saveLabel(value, key, moduleId);
         }
       });
@@ -117,16 +122,14 @@
 
     function buildLabelsFromFields(fields, moduleId, dataSourcekey){
       fields.forEach(function(field, index){
-        var key = 'label.'.concat(dataSourcekey).concat('.');
-            value = field.label;
+        var key = 'label.'.concat(dataSourcekey).concat('.'),
+            value = field.label,
+            hasLabel;
 
-        key = key.concat(field.columnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) )
-        field.label = key;
+        key = key.concat(field.columnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) );
+        field.label = key; 
 
-        if (key && value) {
-          $l10n.editLabel(key, value);
-          saveLabel(value, key, moduleId);
-        }
+        saveLabel(value, key, moduleId);
 
         if(field.meta.options) {
           buildLabelsOptions(field.columnName, field.meta.options); 
@@ -139,12 +142,7 @@
 
       function buildLabelsOptions(fieldName, options){
         options.forEach(function(item, index){
-
-          if(!isKeyLabel(item.label)){
-            $l10n.editLabel(key, value);
-            saveLabel(value, item.label, moduleId); 
-          }
-
+          saveLabel(value, item.label, moduleId); 
         });
       }
     }
