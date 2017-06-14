@@ -478,7 +478,10 @@
         configDataSource(fieldEdit);
       }
 
-      fieldEdit.columnName = fieldEdit.customField? fieldEdit.meta.bind : fieldEdit.rawEntityField.name.toLowerCase();
+      if (fieldEdit.label != fieldEdit.rawEntityField.translatedName) {
+        fieldEdit.rawEntityField.translatedName = fieldEdit.label;
+      }
+
       delete fieldEdit.rawEntityField;
 
       if (angular.isUndefined(fieldEdit.index)){
@@ -542,7 +545,9 @@
       var fieldEdit = {
             meta: {},
             views: {}
-          }
+          };
+
+      fieldEdit.label = entityField.translatedName || field.alias;
 
       if(entityField){
         fieldEdit.meta.bind = entityField.alias;
@@ -651,7 +656,7 @@
         getFinders(formField.finder.entityName);
         getFinder(formField.finder.entityName, formField.finder.key);
         ctrl.moduleEntity = getModuleFromApps(formField.finder.moduleId);
-        filterSelectFields();
+        filterSelectFields(formField);
       }
 
       ctrl.sectionSelected = section;
@@ -939,6 +944,8 @@
           if (field.primaryKey) {
             jsonFormService.setKeyToDetails(field.alias);
           } 
+          var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();
+          field.translatedName = $l10n.hasLabel(label)? $l10n.translate(label) : null;
         });
       });
     }
@@ -1206,7 +1213,7 @@
       window.open(url);
     }
 
-    function filterSelectFields(){
+    function filterSelectFields(fieldEdit){
       var selectFields = [];
 
       ctrl.sections.forEach(function(section){
@@ -1216,7 +1223,7 @@
       ctrl.selectFields = selectFields;
 
       function getSelectField(field){
-        return field.meta.type == 'select';
+        return field.meta.type == 'select' && field.meta.bind != fieldEdit.meta.bind;
       }
     }
 
