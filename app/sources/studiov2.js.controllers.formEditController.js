@@ -1209,7 +1209,7 @@
     }
 
     function formPreview(){
-      var url = '/forms-v2/'.concat(ctrl.jsonModel.key);
+      var url = '/forms-v2/'.concat(ctrl.jsonModel.key).concat('/new');
       window.open(url);
     }
 
