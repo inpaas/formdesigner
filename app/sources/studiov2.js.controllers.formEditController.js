@@ -1116,6 +1116,7 @@
 
         case 'E':
           ctrl.fieldEdit.dataSource? ctrl.fieldEdit.dataSource : ctrl.fieldEdit.dataSource = {finder: {}};
+          filterSelectFields(ctrl.fieldEdit);
       }
     }
 
@@ -1220,10 +1221,14 @@
         selectFields = selectFields.concat(section.fields.filter(getSelectField));
       });
 
+      if (getSelectField(fieldEdit)) {
+        selectFields.push(fieldEdit);
+      }
+      
       ctrl.selectFields = selectFields;
 
       function getSelectField(field){
-        return field.meta.type == 'select' && field.meta.bind != fieldEdit.meta.bind;
+        return field.meta.type == 'select';
       }
     }
 
