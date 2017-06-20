@@ -545,7 +545,7 @@
             views: {}
           };
 
-      fieldEdit.label = entityField.translatedName || field.alias;
+      fieldEdit.label = entityField.translatedName || entityField.alias;
 
       if(entityField){
         fieldEdit.meta.bind = entityField.alias;
