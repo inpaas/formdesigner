@@ -86,25 +86,22 @@
           jsonFormService.setJsonForm(response);
           ctrl.jsonModel = angular.copy(response);
           idModuleForm = response.moduleId;
+
           getModuleForm(idModuleForm);
-
-          if (!response.id) {
-            showConfigForm();
-          }
-
           buildMainSection(ctrl.jsonModel);
           mapAddedButtons(ctrl.jsonModel.views.list.actions, 'list');
           mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
           getDependents();
 
           if (ctrl.jsonModel.dataSource.key) {
-            //Atualmente o id é ignorado mas mesmo assim retorna a entity certa?
             getEntitiesByModule(ctrl.jsonModel.dataSource.moduleId)
               .then(function(response){
                 getFieldsByEntity(ctrl.jsonModel.dataSource.key).then(function(response){
                   linkColumnNameToFields();
                 });
               });
+          }else{
+            showConfigForm();
           }
         });
     }
