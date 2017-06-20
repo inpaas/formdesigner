@@ -976,7 +976,7 @@
     }
 
     function saveConfigForm() {
-      if (!ctrl.jsonModel.id) {
+      if (!ctrl.jsonModel.views.edit.breadcrumb.length) {
         setBreadcrumb();
       }
 
