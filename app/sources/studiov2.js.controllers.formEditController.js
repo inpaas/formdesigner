@@ -526,8 +526,6 @@
 
     function setViewsField(field) {
       field.views.edit = {};
-      field.views.list = field.list? {} : undefined;
-      field.views.filter = field.filter? {}: undefined;
     }
 
     function addNewField() {
@@ -618,11 +616,6 @@
           formField.rawEntityField = entityField;
         }
       });
-
-      //TODO: Rever esse model
-      formField.filter = !!formField.views.filter;
-      formField.list = !!formField.views.list;
-      formField.edit = !!formField.views.edit;
 
       if (formField.meta.visible) {
         angular.extend(formField, setDisplayConfigForEdit(formField.meta.visible, 'visibilityType', 'visibilityExpression'));
@@ -1224,7 +1217,7 @@
       if (getSelectField(fieldEdit)) {
         selectFields.push(fieldEdit);
       }
-      
+
       ctrl.selectFields = selectFields;
 
       function getSelectField(field){
