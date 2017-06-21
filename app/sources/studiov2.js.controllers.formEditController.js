@@ -91,7 +91,6 @@
           buildMainSection(ctrl.jsonModel);
           mapAddedButtons(ctrl.jsonModel.views.list.actions, 'list');
           mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
-          getDependents();
 
           if (ctrl.jsonModel.dataSource.key) {
             getEntitiesByModule(ctrl.jsonModel.dataSource.moduleId)
@@ -289,18 +288,6 @@
         model[modelKey] = result;
       });
     }
-
-    function getDependents() {
-      ctrl.data.dependents = [
-        // "Arquivos",
-        // "Atividades Abertas",
-        // "Ativos",
-        // "Casos",
-        // "Contratos",
-        // "Contatos",
-        // "Grupos"
-      ]; 
-    };
     
     function addNewSection() {
       var section = {
