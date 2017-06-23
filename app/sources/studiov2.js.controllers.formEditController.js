@@ -118,7 +118,6 @@
         columns: form.views.edit.columns,
         fields: setFieldsToMainSection(form.fields),
         label: form.views.edit.label,
-        displayLabel: true,
         type: 'main'
       });
 
