@@ -48,9 +48,6 @@
   </li>
   <div class="inner-item buttons-item collapse in" id="buttons-component">
     <div class="btn-cluster" ng-show="ctrl.currentView == 'edit'">
-      <div class="stock-separator">
-        <label>Tela de edição</label>
-      </div>
       <div dragula="'buttons-edit'" class="buttons-default-group">
         <button type="button" 
                 class="btn btn-primary" 
@@ -84,12 +81,12 @@
           <i class="fa fa-fw fa-undo"></i> {[{ 'button.cancel.title' | translate }]}
         </button>
 
-        <button type="button" 
+<!--         <button type="button" 
                 class="btn btn-primary"
                 id="btn-modal"
                 ng-click="ctrl.addButton('modal')">
           <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
-        </button>
+        </button> -->
 
         <button type="button" 
                 class="btn btn-danger" 
@@ -99,30 +96,31 @@
           <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.remove.title' | translate }]}
         </button>
 
-        <button type="button" 
+<!--         <button type="button" 
                 class="btn btn-primary" 
                 id="btn-include.add"
                 ng-disabled="ctrl.addedButtons.edit['include-add']"
                 ng-click="ctrl.addButton('include.add')">
           <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.add.title' | translate }]}
-        </button>
+        </button> -->
 
-        <button type="button" 
+<!--         <button type="button" 
                 class="btn btn-primary" 
                 id="btn-include.edit"
                 ng-disabled="ctrl.addedButtons.edit['include-edit']"
                 ng-click="ctrl.addButton('include.edit')">
           <i class="fa fa-fw fa-trash-o"></i> {[{ 'button.edit.title' | translate }]}
-        </button>
-        <button type="button" 
+        </button> -->
+<!--         <button type="button" 
                   id="btn-custom" 
                   class="btn btn-info" 
                   ng-click="ctrl.addButton('custom')">
             <i class="fa fa-plus" aria-hidden="true"></i> Botão customizado
-        </button>      
+        </button>  -->
       </div>
     </div>
 
+    <!--
     <div class="btn-cluster" ng-show="ctrl.currentView == 'list'">
       <div class="stock-separator">
         <label>Tela de lista</label>
@@ -152,20 +150,20 @@
           <i class="fa fa-fw fa-trash-o"></i> {[{'button.remove.title' | translate }]}
         </button>
 
-        <button type="button" 
+         <button type="button" 
                 class="btn btn-primary" 
                 id="btn-modal"
                 ng-click="ctrl.addButton('modal')">
           <i class="fa fa-window-restore" aria-hidden="true"></i> Modal
         </button>
 
-        <button type="button" 
+         <button type="button" 
                   id="btn-custom" 
                   class="btn btn-info" 
                   ng-click="ctrl.addButton('custom')">
             <i class="fa fa-plus" aria-hidden="true"></i> Botão customizado
-        </button>
-      </div>
+        </button> 
+      </div> -->
     </div>
   <!-- Botões -->
 </ul>
