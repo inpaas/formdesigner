@@ -363,11 +363,6 @@
       fieldEdit.meta.type = type;
 
       switch (type){
-        case 'checkbox':
-        case 'select':
-          findDomains();
-          break;
-
         case 'currency':
         case 'date':
           getFormatsPattern();
@@ -376,12 +371,6 @@
       getAppsForField(); 
       showEditField();
 
-      function findDomains(){
-        if(fieldEdit.rawEntityField.domains){
-          fieldEdit.dataSourceType = 'D';
-          fieldEdit.options = fieldEdit.rawEntityField.domains;
-        }     
-      }
     } 
 
     function getFormatsPattern(){
@@ -487,13 +476,11 @@
 
         case 'E':
           model.dataSource.type = model.dataSourceType;
-          delete model.options;
           break; 
 
         case 'S':
           model.dataSource.key = model.dataSource.sourceKey;
           model.dataSource.method = model.dataSource.sourceMethod;
-          delete model.options;
           delete model.dataSource.sourceKey; 
           delete model.dataSource.sourceMethod;
           break;
@@ -624,7 +611,7 @@
         ctrl.moduleEntity = getModuleFromApps(formField.dataSource.moduleId);
         getQueries(formField.dataSource.key);
 
-      }else if(formField.meta.options){
+      }else if(formField.meta.type == 'checkbox'){
         formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
 
