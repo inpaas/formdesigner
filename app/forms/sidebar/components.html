@@ -34,7 +34,7 @@
   <div class="inner-item field-item collapse in" id="fields-component">
     <!-- <button type="button" id="btnNewField" class="btn btn-success btn-block" ng-click="ctrl.addField()">Novo Campo</button> -->
     <ul class="list-existing" data-ng-repeat="field in ctrl.data.entityFields">
-      <li class="field-existing" ng-click="ctrl.addField(field)" ng-bind="field.translatedName || (field.name | lowercase)"></li>
+      <li class="field-existing" ng-click="ctrl.addField(field)" ng-bind="field.translatedName"></li>
     </ul>
   </div>
   <!-- Campos -->

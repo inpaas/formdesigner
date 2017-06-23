@@ -144,7 +144,7 @@
       ctrl.data.entityFields.forEach(function(entityField){
         ctrl.sections[0].fields.forEach(function(field){
           if (entityField.alias == field.meta.bind) {
-            field.columnName = entityField.name.toLowerCase();
+            field.collumnName = entityField.name.toLowerCase();
           }
         });
       });
@@ -533,6 +533,7 @@
         fieldEdit.meta.bind = entityField.alias;
         fieldEdit.meta.maxLength = entityField.size;
         fieldEdit.rawEntityField = angular.copy(entityField);
+        fieldEdit.collumnName = entityField.name.toLowerCase();
         setConfigFieldDefault(entityField, fieldEdit);
       }else{
         fieldEdit.customField = true;
@@ -920,7 +921,7 @@
             jsonFormService.setKeyToDetails(field.alias);
           } 
           var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();
-          field.translatedName = $l10n.hasLabel(label)? $l10n.translate(label) : null;
+          field.translatedName = $l10n.hasLabel(label)? $l10n.translate(label) : field.alias;
         });
       });
     }

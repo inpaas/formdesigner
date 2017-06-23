@@ -120,13 +120,13 @@
       jsonFormService.editActions(actions, view);
     }
 
-    function buildLabelsFromFields(fields, moduleId, dataSourcekey){
+    function buildLabelsFromFields(_fields, moduleId, dataSourcekey){
+      fields = angular.copy(_fields);
       fields.forEach(function(field, index){
         var key = 'label.'.concat(dataSourcekey).concat('.'),
-            value = field.label,
-            hasLabel;
+            value = field.label;
 
-        key = key.concat(field.columnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) );
+        key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) );
         field.label = key; 
 
         saveLabel(value, key, moduleId);
@@ -135,7 +135,7 @@
           buildLabelsOptions(field.columnName, field.meta.options); 
         }
 
-        delete field.columnName;
+        delete field.collumnName;
       });
 
       jsonFormService.editFields(fields);
