@@ -9,7 +9,9 @@
         "type": "server",
         "countPerPage": 10 
       },
-      "dataSource": {},
+      "dataSource": {
+        "type": "E"
+      },
       "views": {
         "list": {
           "actions":[

@@ -33,6 +33,7 @@
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="form-group">
             <label for="">Chave do Formulário</label>
@@ -40,7 +41,7 @@
           </div>
         </div>
 
-        <div class="row form-group clearfix">
+<!--         <div class="row form-group clearfix">
           <div class="col-xs-12 col-sm-12 no-padding">
             <label>Origem do Dado</label>
           </div> 
@@ -50,15 +51,13 @@
               Entidade 
             </label>
           </div>
-          <div class="col-xs-12 col-sm-6 no-padding">
-            <label for="type-service">
-              <input type="radio" ng-model="ctrl.configForm.dataSource.type" name="type-data" id="type-service" value="S"> 
-              Serviço 
-            </label>
-          </div>
-        </div>
+        </div> -->
 
-        <div class="row" ng-if="ctrl.configForm.dataSource.type">
+        <!-- <div class="row" ng-if="ctrl.configForm.dataSource.type"> -->
+        <div class="row">
+          <div class="stock-separator">
+            <label>Origem do Dado</label>
+          </div>
           <div class="col-xs-12 col-sm-12 no-padding">
             <div class="form-group">
               <div class="btn-group btn-block">
@@ -75,9 +74,7 @@
               </div>
             </div>
           </div>
-        </div> 
-
-        <div class="row" ng-show="ctrl.configForm.dataSource.type == 'E'">
+          
           <div class="col-xs-12 col-sm-12 no-padding">
             <div class="form-group">
               <label for="">Entidade</label>
