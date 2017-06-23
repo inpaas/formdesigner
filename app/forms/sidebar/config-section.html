@@ -21,7 +21,21 @@
     </div>
   </div>
   <div class="inner-item propriets-section" ng-show="ctrl.currentSection.type == 'include'">
-    
+    <div class="stock-separator">
+      <label for="">Tipo do seção</label>
+    </div> 
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="section-type-list">
+          <input type="radio" id="section-type-list" name="includeType" ng-model="ctrl.currentSection.includeType" value="list"> Lista 
+        </label>
+      </div>
+      <div class="col-sm-6">
+        <label for="section-type-edit">
+          <input type="radio" id="section-type-edit" name="includeType" ng-model="ctrl.currentSection.includeType" value="edit"> Edição
+        </label>
+      </div>
+    </div>
     <div class="form-group">
       <label for="">Chave do Formulário</label>
       <input class="form-control input-sm" 
