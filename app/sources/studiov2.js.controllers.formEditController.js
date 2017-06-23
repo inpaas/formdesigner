@@ -366,7 +366,6 @@
         case 'checkbox':
         case 'select':
           findDomains();
-          fieldEdit.dataSource = {};
           break;
 
         case 'currency':
@@ -375,7 +374,6 @@
       }
 
       getAppsForField(); 
-
       showEditField();
 
       function findDomains(){
