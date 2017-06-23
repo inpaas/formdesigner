@@ -71,6 +71,8 @@
       jsonForm.views.edit.actions && buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
       jsonForm.views.list.action && buildLabelsFromActions(jsonForm.views.list.actions, 'list', moduleId);
       jsonForm.fields && buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase()); 
+      
+      jsonFormService.setLabelSection(jsonForm.views.edit.label);
       deferred.resolve();
 
       return deferred.promise;

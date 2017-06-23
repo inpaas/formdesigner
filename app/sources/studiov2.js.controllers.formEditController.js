@@ -327,6 +327,9 @@
         ctrl.sections.push(currentSection);
       }
 
+      if (ctrl.sections.length == 1) {
+        ctrl.jsonModel.views.edit.label = currentSection.label;
+      }
       showComponents();
     }
 
@@ -1131,6 +1134,7 @@
       $scope.$on('buttons-edit.drop', function (event, el, target, source) {
         if (target.attr('id') != source.attr('id')) {
           el.addClass('ng-hide');
+
           var positionDOM = angular.element('#edit-actions-top').find('.btn').index(el),
               btType = el.attr('id').split('btn-').pop(), 
               label = el.text().replace(/\s/g, '');

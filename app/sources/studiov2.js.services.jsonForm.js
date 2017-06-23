@@ -143,6 +143,10 @@
 
     }
 
+    function setLabelSection(label){
+      form.views.edit.label = label;
+    }
+
     return {
       forms: forms,
       editKey: editKey,
@@ -163,7 +167,8 @@
       setNewForm: setNewForm,
       getKeysIncludes: getKeysIncludes,
       getFormsWithLabels: getFormsWithLabels,
-      storeForms: storeForms
+      storeForms: storeForms,
+      setLabelSection: setLabelSection
     };
   }
 })();
