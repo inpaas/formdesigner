@@ -111,21 +111,21 @@
       </button>
     </div>
 
-    <div class="row">
+<!--     <div class="row">
       <div class="form-group">
         <label for="">Descrição</label>
         <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.comments"></textarea>
       </div>
-    </div>
+    </div> -->
 
     <div class="row">
       <div class="form-group">
         <label for="">Texto de Ajuda</label>
-        <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.fieldEdit.help"></textarea>
+        <textarea class="form-control input-sm input-txt" required="required" ng-model="ctrl.fieldEdit.meta.help"></textarea>
       </div>
     </div>
   </div>
-  <!-- Estrutura -->
+
   <div class="action-buttons">
     <div class="row">
       <div class="col-xs-12 col-sm-6 no-padding col-pdd">

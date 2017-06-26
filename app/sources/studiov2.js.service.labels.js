@@ -125,18 +125,22 @@
     function buildLabelsFromFields(_fields, moduleId, dataSourcekey){
       fields = angular.copy(_fields);
       fields.forEach(function(field, index){
-        var key = 'label.'.concat(dataSourcekey).concat('.'),
-            keyPlaceholder;
+        var key = 'label.'.concat(dataSourcekey).concat('.');
 
         key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) );
-        keyPlaceholder = key.concat('.').concat('placeholder');
-
         saveLabel(field.label, key, moduleId);
         field.label = key; 
 
         if (field.meta.placeholder) {
+          var keyPlaceholder = key.concat('.').concat('placeholder');
           saveLabel(field.meta.placeholder, keyPlaceholder, moduleId);
           field.meta.placeholder = keyPlaceholder;
+        }
+
+        if(field.meta.help){
+          var keyHelp = key.concat('help');
+          saveLabel(field.meta.help, keyHelp, moduleId);
+          field.meta.help = keyHelp;
         }
 
         if(field.meta.options) {
@@ -191,9 +195,16 @@
     function translateFields(fields){
       fields.forEach(function(field, index){
         field.label = $l10n.translate(field.label);
-        field.meta.placeholder = $l10n.translate(field.meta.placeholder);
+
+        if (field.meta.placeholder) {
+          field.meta.placeholder = $l10n.translate(field.meta.placeholder);
+        }
         
-        if (field.meta && field.meta.options) {
+        if(field.meta.help){
+          field.meta.placeholder = $l10n.translate(field.meta.help);
+        }        
+
+        if (field.meta.options) {
           translateFields(field.meta.options); 
         }
       });
