@@ -1,17 +1,16 @@
 /*eslint-env browser */
 /*globals moment angular jQuery debounce*/
 (function(){
- 
   angular
     .module("studio-v2")
     .controller("FormEditController", FormEditController);
 
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
-    "$l10n", "$uibModal", "dragulaService", "Notification"
+    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS"
   ];
  
- function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification) {
+ function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS) {
     var ctrl = this,
         jsonModel,
         idForm = $state.params.id,
@@ -19,11 +18,11 @@
 
     angular.extend(ctrl, {
       addedButtons: {edit: {}, list: {}},
+      actions: ACTIONS,
       onComponents: true,
       data: {},
       form: {},
       sections: [],
-      actions: [],
       activate: activate,
       addButton: addButton,
       saveEditField: saveEditField,
@@ -210,6 +209,7 @@
         angular.extend(action, setDisplayConfigForEdit(action.visible, 'visibilityType', 'visibilityExpression'));
       }
 
+      action.label = $l10n.translate(action.label);
       ctrl.editBt = action;
       showConfigBt();
     } 
@@ -1128,20 +1128,14 @@
     function settingsDragNDrop(){
       dragulaService.options($scope, 'buttons-edit', {
         copySortSource: true,
-        copy: true
+        copy: function(el, container){
+          return container.id == 'buttons-component';
+        },
+        revertOnSpill: true
       });
 
-      $scope.$on('buttons-edit.drop', function (event, el, target, source) {
-        if (target.attr('id') != source.attr('id')) {
-          el.addClass('ng-hide');
-
-          var positionDOM = angular.element('#edit-actions-top').find('.btn').index(el),
-              btType = el.attr('id').split('btn-').pop(), 
-              label = el.text().replace(/\s/g, '');
-
-          addButton(btType, positionDOM, label);
-        }
-        
+      $scope.$on('buttons-edit.drop-model', function(e, el){
+        mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');          
       });
 
       $scope.$on('2col-bag.drop', function(e, el){
