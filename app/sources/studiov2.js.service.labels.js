@@ -126,17 +126,17 @@
       fields = angular.copy(_fields);
       fields.forEach(function(field, index){
         var key = 'label.'.concat(dataSourcekey).concat('.'),
-            keyPlaceholder,
-            value = field.label;
+            keyPlaceholder;
 
         key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) );
         keyPlaceholder = key.concat('.').concat('placeholder');
-        field.label = key; 
 
-        saveLabel(value, key, moduleId);
+        saveLabel(field.label, key, moduleId);
+        field.label = key; 
 
         if (field.meta.placeholder) {
           saveLabel(field.meta.placeholder, keyPlaceholder, moduleId);
+          field.meta.placeholder = keyPlaceholder;
         }
 
         if(field.meta.options) {
