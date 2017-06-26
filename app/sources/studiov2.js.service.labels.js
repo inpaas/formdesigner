@@ -191,7 +191,8 @@
     function translateFields(fields){
       fields.forEach(function(field, index){
         field.label = $l10n.translate(field.label);
-
+        field.meta.placeholder = $l10n.translate(field.meta.placeholder);
+        
         if (field.meta && field.meta.options) {
           translateFields(field.meta.options); 
         }
