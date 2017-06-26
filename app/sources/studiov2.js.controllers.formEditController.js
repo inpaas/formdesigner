@@ -296,7 +296,6 @@
       var section = {
             fields : [],
             newInclude: true,
-            name: ctrl.jsonModel.key.concat('.include-').concat(new Date().getTime()),
             id: 'section-'.concat(ctrl.sections.length),
             type : 'include',
             meta: {
@@ -305,7 +304,7 @@
             include: {
               idModuleForm: idModuleForm,
               multivalue: false,
-              key : ctrl.jsonModel.key.concat('.include-').concat(new Date().getTime()),
+              key : '.include-'.concat(new Date().getTime()),
               link: {},
               pagination: {
                 type: 'front',
