@@ -250,6 +250,10 @@
       if (bt.action != 'custom') {
         unsetAddedButton(bt, ctrl.currentView);
       }
+
+      if(bt.name == ctrl.editBt.name){
+        showComponents();
+      }
     }
 
     function addMapToBt(name, value) {
@@ -659,7 +663,11 @@
         autoSelectSection();
       }
 
-      ctrl.sectionSelected.fields.splice(index, 1);
+      var field = ctrl.sectionSelected.fields.splice(index, 1);
+
+      if (field[0].name == ctrl.fieldEdit.name) {
+        showComponents();
+      }
     }
 
     function saveForm() {
