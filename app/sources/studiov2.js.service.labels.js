@@ -201,7 +201,7 @@
         }
         
         if(field.meta.help){
-          field.meta.placeholder = $l10n.translate(field.meta.help);
+          field.meta.help = $l10n.translate(field.meta.help);
         }        
 
         if (field.meta.options) {
