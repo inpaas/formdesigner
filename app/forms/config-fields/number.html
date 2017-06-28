@@ -1,4 +1,12 @@
-{{#include-html}}studiov2.forms.sidebar.config-fields.min-length{{/include-html}}
-{{#include-html}}studiov2.forms.sidebar.config-fields.max-length{{/include-html}}
+<div class="form-group">
+  <label for="">Valor Mínimo</label>
+  <input type="number" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.minCount" step="1">
+</div>
+
+<div class="form-group">
+  <label for="">Valor Máximo</label>
+  <input type="number" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxCount" step="1">
+</div>
+
 {{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}
 {{#include-html}}studiov2.forms.sidebar.config-fields.mask{{/include-html}}
