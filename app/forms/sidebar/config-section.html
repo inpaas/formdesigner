@@ -16,10 +16,12 @@
       </div>
     </div>
   </div>
+
   <div class="inner-item propriets-section" ng-show="ctrl.currentSection.type == 'include'">
     <div class="stock-separator">
       <label for="">Tipo do seção</label>
     </div> 
+
     <div class="row">
       <div class="col-sm-6">
         <label for="section-type-list">
@@ -32,64 +34,57 @@
         </label>
       </div>
     </div>
-    <div class="form-group">
-      <label for="">Chave do Formulário</label>
-      <input class="form-control input-sm" 
-            type="text" 
-            placeholder="Digite aqui" 
-            ng-model="ctrl.currentSection.include.key" 
-            ng-keyup="ctrl.sanitizeKeyForm(ctrl.currentSection.include.key)">
-    </div>
-    <div class="row" ng-hide="true">
+
+    <div class="row" ng-show="ctrl.currentSection.includeType == 'list'">
       <div class="stock-separator">
-        <label for="">Origem do dado</label>
+        <label for="">Origem da lista</label>
       </div>
-      <div class="form-group clearfix">
-        <div class="col-xs-12 col-sm-6 no-padding">
-          <label for="type-entity">
-            <input type="radio" ng-model="ctrl.currentSection.dataSource.type" name="type-data" id="type-entity" value="E">
-            Entidade 
-          </label>
-        </div>
-        <div class="col-xs-12 col-sm-6 no-padding">
-          <label for="type-service">
-            <input type="radio" ng-model="ctrl.currentSection.dataSource.type" name="type-data" id="type-service" value="S"> 
-            Serviço 
-          </label>
+
+      <div class="form-group">
+        <div class="btn-group btn-block">
+          <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
+            {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+          </button>
+          <ul class="dropdown-menu btn-block">
+            <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+            <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.fieldEdit.finder)">
+              <a href="" ng-bind="mod.title"></a>
+            </li>
+            <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+          </ul>
         </div>
       </div>
 
-      <div class="form-group clearfix" ng-if="ctrl.currentSection.dataSource.type">
-        <div class="col-xs-12 col-sm-12 no-padding">
-          <div class="form-group">
-            <div class="btn-group btn-block">
-              <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
-              </button>
-              <ul class="dropdown-menu btn-block">
-                <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-                <li ng-repeat="mod in app.modules" ng-click="ctrl.getModuleEntity(mod.id, ctrl.currentSection.dataSource)">
-                  <a href="" ng-bind="mod.title"></a>
-                </li>
-                <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div> 
+      <div class="form-group">
+        <label for="">Entidade</label>
+        <input type="text" 
+              class="form-control input-sm" 
+              placeholder="Selecione" 
+              ng-model="ctrl.currentSection.finder.entityName" 
+              typeahead-on-select="ctrl.getFinders($model)" 
+              uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
+              typeahead-min-length="0" />
+      </div>
 
-      <div class="form-group clearfix" ng-show="ctrl.currentSection.dataSource.type == 'E'">
-        <div class="col-xs-12 col-sm-12 no-padding">
-          <div class="form-group">
-            <label for="">Entidade</label>
-            <input type="text" 
-                    class="form-control input-sm" 
-                    placeholder= "Selecione"
-                    ng-model="ctrl.currentSection.dataSource.key"
-                    uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}" 
-                    typeahead-min-length="0" />
-          </div>
-        </div>
+      <div class="form-group">
+        <label for="">Finder:</label>
+        <select class="form-control input-sm" 
+                ng-change="ctrl.getFinder(ctrl.currentSection.finder.entityName, ctrl.currentSection.finder.key)" 
+                ng-model="ctrl.currentSection.finder.key">
+          <option value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders">{[{ finder.title }]}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="">Relacionamento com o form principal</label>
+      <div class="form-group">
+        <label for="">Primary Keys</label>
+        <select class="form-control input-sm" 
+                multiple 
+                ng-options="ref for in ctrl.referencies" 
+                ng-model="ctrl.currentSection.finder.dependencies">
+        </select>
       </div>
     </div>
   </div>

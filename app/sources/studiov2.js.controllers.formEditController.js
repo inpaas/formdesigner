@@ -304,7 +304,7 @@
             include: {
               idModuleForm: idModuleForm,
               multivalue: false,
-              key : '.include-'.concat(new Date().getTime()),
+              key : 'include-'.concat(new Date().getTime()),
               link: {},
               pagination: {
                 type: 'front',
