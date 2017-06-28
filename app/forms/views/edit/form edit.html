@@ -1,20 +1,20 @@
 <div class="page-breadcrumb" breadcrumb="ctrl.jsonModel.views.edit.breadcrumb"></div>
 
-  <!-- Title and Button Page -->
-  <div class="row row-title">
-    <div class="col-xs-12 col-sm-5 no-padding">
-      <label class="title-form no-padding" ng-bind="">{[{ctrl.jsonModel.label}]}</label>
-    </div>
-
-    <div class="page-actions pull-right" id="edit-actions-top" dragula="'buttons-edit'" dragula-model="ctrl.jsonModel.views.edit.actions">
-      <ng-include src="'/forms/studiov2.forms.actions.' + action.action"
-                  ng-repeat="action in ctrl.jsonModel.views.edit.actions track by $index">
-      </ng-include>
-    </div>
+<!-- Title and Button Page -->
+<div class="row row-title">
+  <div class="col-xs-12 col-sm-5 no-padding">
+    <label class="title-form no-padding" ng-bind="">{[{ctrl.jsonModel.label}]}</label>
   </div>
-  <!-- End Title and Button Page -->
+
+  <div class="page-actions pull-right" id="edit-actions-top" dragula="'buttons-edit'" dragula-model="ctrl.jsonModel.views.edit.actions">
+    <ng-include src="'/forms/studiov2.forms.actions.' + action.action"
+                ng-repeat="action in ctrl.jsonModel.views.edit.actions track by $index">
+    </ng-include>
+  </div>
+</div>
+<!-- End Title and Button Page -->
  
-  {{#include-html}}studiov2.forms.actions-form{{/include-html}}
+{{#include-html}}studiov2.forms.actions-form{{/include-html}}
 
 
 <!-- <div class="row row-alert-template">
@@ -25,13 +25,13 @@
 
 <!-- Main View Edit -->
 <div class="main-view-edit">
-
   <!-- Sections -->
   <div class="row row-widget row-xp" 
       id="section-{[{$index}]}" 
       ng-click="ctrl.selectSection($index)" 
       ng-repeat="section in ctrl.sections track by $index" 
       ng-class="{'section-selected': ctrl.sectionSelected.id === section.id}">
+
     <div role="app-widget" class="widget-box widget-well">
       <div class="widget-header">
         <h5 class="widget-title" ng-bind="section.label"></h5>
@@ -53,66 +53,62 @@
                     ng-repeat="field in section.fields track by $index" 
                     ng-click="ctrl.editField($event, field, $index, section)"
                     ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
+                </div>
               </div>
+              <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
             </div>
-            <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
           </div>
-        </div>
 
-        <div class="row" ng-if="section.columns == 2">
-          <div class="col-wdg col-sm-6 no-padding">
-            <div class="row" dragula="'2col-bag'" dragula-model="section.fields" ng-show="section.fields.length">
-              <div class="row row-edit-this"
-                    id="field-{[{$index}]}" 
-                    ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
-                    ng-repeat="field in section.fields track by $index" 
-                    ng-click="ctrl.editField($event, field, $index)"
-                    ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
+          <div class="row" ng-if="section.columns == 2">
+            <div class="col-wdg col-sm-6 no-padding">
+              <div class="row" dragula="'2col-bag'" dragula-model="section.fields" ng-show="section.fields.length">
+                <div class="row row-edit-this"
+                      id="field-{[{$index}]}" 
+                      ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
+                      ng-repeat="field in section.fields track by $index" 
+                      ng-click="ctrl.editField($event, field, $index)"
+                      ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
+                </div>
               </div>
-          </div>
-          <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
-        </div>
-        <div class="col-wdg col-sm-6 no-padding">
-          <div class="row" dragula="'2col-bag'" ng-show="section.fields.length">
-          </div>
-        </div>
-      </div> 
+              <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
+            </div>
+            <div class="col-wdg col-sm-6 no-padding">
+              <div class="row" dragula="'2col-bag'" ng-show="section.fields.length"> </div>
+            </div>
+          </div> 
 
-      <div class="row" ng-if="section.columns == 3">
-        <div class="col-wdg col-sm-4 no-padding">
-          <div class="row" dragula="'3col-bag'" dragula-model="section.fields" ng-show="section.fields.length">
-            <div class="row row-edit-this"
-                    id="field-{[{$index}]}" 
-                    ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
-                    ng-repeat="field in section.fields track by $index" 
-                    ng-click="ctrl.editField($event, field, $index)"
-                    ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
+          <div class="row" ng-if="section.columns == 3">
+            <div class="col-wdg col-sm-4 no-padding">
+              <div class="row" dragula="'3col-bag'" dragula-model="section.fields" ng-show="section.fields.length">
+                <div class="row row-edit-this"
+                      id="field-{[{$index}]}" 
+                      ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
+                      ng-repeat="field in section.fields track by $index" 
+                      ng-click="ctrl.editField($event, field, $index)"
+                      ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
+                </div>
               </div>
+              <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
+            </div>
+            <div class="col-wdg col-sm-4 no-padding">
+              <div class="row" dragula="'3col-bag'" ng-show="section.fields.length"> </div>
+            </div>
+            <div class="col-wdg col-sm-4 no-padding">
+              <div class="row" dragula="'3col-bag'" ng-show="section.fields.length">  </div>
+            </div> 
+          </div>  
         </div>
-        <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
       </div>
-      <div class="col-wdg col-sm-4 no-padding">
-        <div class="row" dragula="'3col-bag'" ng-show="section.fields.length">
-        </div>
-      </div>
-      <div class="col-wdg col-sm-4 no-padding">
-        <div class="row" dragula="'3col-bag'" ng-show="section.fields.length">
-        </div>
-      </div> 
-    </div>  
+    </div>
   </div>
-</div>
-</div>
-</div>
-<!-- Sections-->
+  <!-- Sections-->
 
-<!-- New Widget -->
-<div class="row row-new-widget" ng-show="ctrl.onNewSection">
-  <div class="active-this">
-    <span class="new-txt">Nova Seção</span>
+  <!-- New Widget -->
+  <div class="row row-new-widget" ng-show="ctrl.onNewSection">
+    <div class="active-this">
+      <span class="new-txt">Nova Seção</span>
+    </div>
   </div>
-</div>
-<!-- End New Widget -->
-
+  <!-- End New Widget -->
 </div>
 <!-- End Main View Edit -->
