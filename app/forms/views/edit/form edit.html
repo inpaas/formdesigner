@@ -38,11 +38,11 @@
         <div class="widget-toolbar">
           <div class="btn-group">
             <i class="fa fa-pencil" ng-click="ctrl.editSection($index)"></i>
-            <i class="fa fa-trash" ng-click="ctrl.removeField($index)"></i>
+            <i class="fa fa-trash" ng-click="ctrl.removeSection($index)"></i>
           </div>
         </div>
       </div>
-      <div class="widget-body" ng-hide="section.type == 'include'">
+      <div class="widget-body" ng-hide="section.meta.type == 'include'">
         <div class="widget-main clearfix">
           <div class="row" ng-if="section.columns == 1 || !section.columns">
             <div class="col-wdg col-sm-6 no-padding col-sm-offset-2">
@@ -100,9 +100,11 @@
         </div>
       </div>
 
-      <div class="widget-body finder-include" ng-show="section.type == 'include'">
+      <div class="widget-body finder-include" ng-show="section.meta.type == 'include'">
         <p class="text-center"> 
-          <a href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.key}]}"> {[{ section.finder.title }]}</a>
+          <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.key}]}">
+            Lista:  {[{ section.finder.title }]}
+          </a>
         </p>
       </div>
     </div>

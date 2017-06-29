@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="inner-item propriets-section" ng-show="ctrl.currentSection.type == 'include'">
+  <div class="inner-item propriets-section" ng-show="ctrl.currentSection.meta.type == 'include'">
     <div class="stock-separator">
       <label for="">Tipo do seção</label>
     </div> 
@@ -25,17 +25,17 @@
     <div class="row">
       <div class="col-sm-6">
         <label for="section-type-list">
-          <input type="radio" id="section-type-list" name="includeType" ng-model="ctrl.currentSection.includeType" value="list"> Lista 
+          <input type="radio" id="section-type-list" name="includeType" ng-model="ctrl.currentSection.include.includeType" value="list"> Lista 
         </label>
       </div>
       <div class="col-sm-6">
         <label for="section-type-edit">
-          <input type="radio" id="section-type-edit" name="includeType" ng-model="ctrl.currentSection.includeType" value="edit"> Edição
+          <input type="radio" id="section-type-edit" name="includeType" ng-model="ctrl.currentSection.include.includeType" value="edit"> Edição
         </label>
       </div>
     </div>
 
-    <div class="row" ng-show="ctrl.currentSection.includeType == 'list'">
+    <div class="row" ng-show="ctrl.currentSection.include.includeType == 'list'">
       <div class="stock-separator">
         <label for="">Origem da lista</label>
       </div>
@@ -47,7 +47,7 @@
           </button>
           <ul class="dropdown-menu btn-block">
             <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-            <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.fieldEdit.finder)">
+            <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.currentSection.finder)">
               <a href="" ng-bind="mod.title"></a>
             </li>
             <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
@@ -69,20 +69,20 @@
       <div class="form-group">
         <label for="">Finder:</label>
         <select class="form-control input-sm" 
-                ng-change="ctrl.getFinder(ctrl.currentSection.finder.entityName, ctrl.currentSection.finder.key, finder.key)" 
-                ng-model="ctrl.currentSection.finder">
-          <option ng-value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders track by $index">{[{ finder.title }]}</option>
+                ng-change="ctrl.getFinderForIncludes(ctrl.currentSection.finder.entityName, ctrl.currentSection.finder.key)" 
+                ng-model="ctrl.currentSection.finder.key">
+          <option value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders track by $index">{[{ finder.title }]}</option>
         </select>
       </div>
 
-<!--       <div class="form-group">
+      <div class="form-group">
         <label for="">Dependências</label>
         <select class="form-control input-sm" 
                 multiple 
-                ng-options="ref for in ctrl.references" 
+                ng-options="ref for ref in ctrl.references" 
                 ng-model="ctrl.currentSection.finder.dependencies">
         </select>
-      </div> -->
+      </div>
     </div>
   </div>
   

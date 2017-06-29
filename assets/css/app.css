@@ -2071,3 +2071,7 @@ ul.nav-components.sb-field-text.sb-edit-action
 select[multiple]{
   max-height: 60px;
 }
+
+.finder-include{
+  padding: 10px 0;
+}

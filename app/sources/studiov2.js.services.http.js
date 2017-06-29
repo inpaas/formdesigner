@@ -81,13 +81,13 @@
       return getForm(id, idModule).then(function(form){
         jsonFormService.setJsonForm(form);
         labelsService.translateLabels(form);
-
         return form;
-      }).then(function(form){
-        return getFormInclude(form, idModule).then(function(response){
-          return form
-        });
-      });
+      })
+      // .then(function(form){
+      //   return getFormInclude(form, idModule).then(function(response){
+      //     return form
+      //   });
+      // });
     }
 
     function getFormInclude(form, idModule){

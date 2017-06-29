@@ -70,7 +70,9 @@
       completeKeyForm: completeKeyForm,
       sanitizeKeyForm: sanitizeKeyForm,
       deleteForm: deleteForm,
-      formPreview: formPreview
+      formPreview: formPreview,
+      getFinderForIncludes: getFinderForIncludes,
+      removeSection: removeSection
     });
 
     init();
@@ -122,7 +124,6 @@
 
       form.fields.forEach(function(field, index){
         if (field.meta.type == 'include') {
-          field.type = 'include';
           ctrl.sections.push(field);
         }
       });
@@ -297,20 +298,10 @@
             fields : [],
             newInclude: true,
             id: 'section-'.concat(ctrl.sections.length),
-            type : 'include',
             meta: {
               type: 'include'
             },
-            include: {
-              idModuleForm: idModuleForm,
-              multivalue: false,
-              key : 'include-'.concat(new Date().getTime()),
-              link: {},
-              pagination: {
-                type: 'front',
-                countPerPage: 10
-              }
-            },
+            include: {},
             views: {
               edit: {}
             }
@@ -318,17 +309,11 @@
 
       ctrl.onNewSection = true;
       ctrl.currentSection = section;
-      showConfigSection(); 
+      showConfigSection();
     } 
 
     function saveSection() {
       var currentSection = angular.copy(ctrl.currentSection);
-
-      if (currentSection.type == 'include' && currentSection.finder.key) {
-        currentSection.finder.dependencies = ['id'];         
-        
-        currentSection.finder.title = $l10n.translate(currentSection.finder.key);
-      }
 
       if (!angular.isUndefined(ctrl.currentSection.index)) {
         angular.extend(ctrl.sections[ctrl.currentSection.index], ctrl.currentSection);
@@ -341,6 +326,18 @@
       }
 
       showComponents();
+    }
+
+    function getFinderForIncludes(entityName, finderKey){
+      getFinder(entityName, finderKey).then(function(finder){
+        ctrl.currentSection.finder.title = finder.title;
+      });
+
+      ctrl.entities.forEach(function(entity, index){
+        if (entity.name == entityName) {
+          entityId = entity.id;
+        } 
+      });
     }
 
     function addFieldInclude(field){
@@ -361,9 +358,25 @@
     }
 
     function editSection(index) {
-      ctrl.currentSection = ctrl.sections[index];
-      ctrl.currentSection.index = index;
-      showConfigSection();
+      var currentSection = ctrl.sections[index];
+      currentSection.index = index;
+
+      if (currentSection.finder) {
+        getFinders(currentSection.finder.entityName);
+        getFinder(currentSection.finder.entityName, currentSection.finder.key);
+
+        var entityId = ctrl.entities.filter(function(e){return e.name === currentSection.finder.entityName; })[0].id;
+        ctrl.currentSection = currentSection;
+        ctrl.references = [];
+        
+        httpService.getFieldsByEntity(entityId).then(function(response){
+          response.data.references.forEach(function(ref, index){
+            ctrl.references.push(ref.field);
+            showConfigSection();
+          });
+        });
+      }
+
     }
 
     function selectSection(index){
@@ -511,8 +524,10 @@
 
     function addNewField() {
       var newField = angular.copy(ctrl.fieldEdit);
+      autoSelectSection();
 
       newField.id = ctrl.sectionSelected.fields.length;
+
       if (ctrl.sectionSelected.columns != '1' && !ctrl.sectionSelected.fields.length) {
         newField.position = 'left'; 
       }
@@ -676,6 +691,10 @@
       }
     }
 
+    function removeSection(index){
+      ctrl.sections.splice(index, 1);
+    }
+
     function saveForm() {
       //TODO: Rever isso com a mudança para includes de finder
       // setFormsForNewIncludes(ctrl.sections).then(function(){
@@ -687,6 +706,7 @@
       // });
 
       setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
+      setFieldsIncludes(ctrl.jsonModel, ctrl.sections);
       labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
       var form = jsonFormService.getFormWithLabels();
       save(form);
@@ -723,6 +743,18 @@
         Notification.success('Formulário deletado')
         $state.go('forms.new-view-edit');
       }); 
+    }
+
+    function setFieldsIncludes(form, sections){
+      sections.slice(1, sections.length).forEach(function(section){
+        var field = angular.copy(section);
+
+        delete field.newInclude;
+        delete field.id;
+        delete field.fields; 
+
+        form.fields.push(field);
+      });
     }
 
     function setFormsForNewIncludes(sections){
@@ -866,8 +898,9 @@
     }
 
     function getFinder(entityName, finderName){
-      httpService.getFinder(entityName, finderName).then(function(response){
+      return httpService.getFinder(entityName, finderName).then(function(response){
         ctrl.finder = response.data; 
+        return response.data;
       });
     }
 
@@ -1191,18 +1224,20 @@
     function filterSelectFields(fieldEdit){
       var selectFields = [];
 
-      ctrl.sections.forEach(function(section){
-        selectFields = selectFields.concat(section.fields.filter(getSelectField));
-      });
-
-      if (getSelectField(fieldEdit)) {
+      if (fieldEdit.meta.type == 'select'){
         selectFields.push(fieldEdit);
       }
+
+      ctrl.sections.forEach(function(section){
+        if (section.fields) {
+          selectFields = selectFields.concat(section.fields.filter(getSelectField));
+        } 
+      });
 
       ctrl.selectFields = selectFields;
 
       function getSelectField(field){
-        return field.meta.type == 'select';
+        return field.meta.type == 'select' && field.meta.bind != fieldEdit.meta.bind;
       }
     }
 
