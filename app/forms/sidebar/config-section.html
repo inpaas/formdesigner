@@ -69,23 +69,20 @@
       <div class="form-group">
         <label for="">Finder:</label>
         <select class="form-control input-sm" 
-                ng-change="ctrl.getFinder(ctrl.currentSection.finder.entityName, ctrl.currentSection.finder.key)" 
-                ng-model="ctrl.currentSection.finder.key">
-          <option value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders">{[{ finder.title }]}</option>
+                ng-change="ctrl.getFinder(ctrl.currentSection.finder.entityName, ctrl.currentSection.finder.key, finder.key)" 
+                ng-model="ctrl.currentSection.finder">
+          <option ng-value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders track by $index">{[{ finder.title }]}</option>
         </select>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="">Relacionamento com o form principal</label>
-      <div class="form-group">
-        <label for="">Primary Keys</label>
+<!--       <div class="form-group">
+        <label for="">Dependências</label>
         <select class="form-control input-sm" 
                 multiple 
-                ng-options="ref for in ctrl.referencies" 
+                ng-options="ref for in ctrl.references" 
                 ng-model="ctrl.currentSection.finder.dependencies">
         </select>
-      </div>
+      </div> -->
     </div>
   </div>
   

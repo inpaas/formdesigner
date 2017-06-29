@@ -324,6 +324,12 @@
     function saveSection() {
       var currentSection = angular.copy(ctrl.currentSection);
 
+      if (currentSection.type == 'include' && currentSection.finder.key) {
+        currentSection.finder.dependencies = ['id'];         
+        
+        currentSection.finder.title = $l10n.translate(currentSection.finder.key);
+      }
+
       if (!angular.isUndefined(ctrl.currentSection.index)) {
         angular.extend(ctrl.sections[ctrl.currentSection.index], ctrl.currentSection);
       }else{
@@ -333,6 +339,7 @@
       if (ctrl.sections.length == 1) {
         ctrl.jsonModel.views.edit.label = currentSection.label;
       }
+
       showComponents();
     }
 
