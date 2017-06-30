@@ -16,64 +16,6 @@
         idForm = $state.params.id,
         idModuleForm;
 
-    angular.extend(ctrl, {
-      addedButtons: {edit: {}, list: {}},
-      actions: ACTIONS,
-      onComponents: true,
-      data: {},
-      form: {},
-      sections: [],
-      activate: activate,
-      addButton: addButton,
-      saveEditField: saveEditField,
-      addField: addField,
-      setTypeField: setTypeField,
-      editField: editField,
-      cancelEditField: cancelEditField,
-      addNewSection: addNewSection,
-      saveSection: saveSection,
-      editSection: editSection,
-      selectSection: selectSection,
-      cancelEditSection: cancelEditSection,
-      showTypeFields: showTypeFields,
-      showConfigBt: showConfigBt,
-      editButton: editButton,
-      saveEditButton: saveEditButton,
-      openModalForConfig: openModalForConfig,
-      addMapToBt: addMapToBt,
-      cancelCreateButton: cancelCreateButton,
-      removeBt: removeBt,
-      showComponents: showComponents, 
-      saveForm: saveForm,
-      showConfigForm: showConfigForm,
-      saveConfigForm: saveConfigForm,
-      cancelConfigForm: cancelConfigForm,
-      getEntitiesByModule: getEntitiesByModule,
-      getFieldsByEntity: getFieldsByEntity,
-      getModuleEntity: getModuleEntity,
-      getModuleForm: getModuleForm,
-      getModuleForms: getModuleForms,
-      getModuleFromApps: getModuleFromApps,
-      getFinders: getFinders,
-      getFinder: getFinder,
-      getSources: getSources,
-      goToList: goToList,
-      goToEdit: goToEdit,
-      generateForm: generateForm,
-      removeField: removeField,
-      bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
-      enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
-      currentEntity: {},
-      getQueries: getQueries,
-      selectDataSourceType: selectDataSourceType,
-      codeView: codeView,
-      completeKeyForm: completeKeyForm,
-      sanitizeKeyForm: sanitizeKeyForm,
-      deleteForm: deleteForm,
-      formPreview: formPreview,
-      getFinderForIncludes: getFinderForIncludes,
-      removeSection: removeSection
-    });
 
     init();
     getApps();
@@ -301,7 +243,10 @@
             meta: {
               type: 'include'
             },
-            include: {},
+            include: {
+              multivalue: false,
+              pagination: {}
+            },
             views: {
               edit: {}
             }
@@ -362,21 +307,27 @@
       currentSection.index = index;
 
       if (currentSection.finder) {
-        getFinders(currentSection.finder.entityName);
+        getFindersForIncludes(currentSection.finder.entityName);
         getFinder(currentSection.finder.entityName, currentSection.finder.key);
-
-        var entityId = ctrl.entities.filter(function(e){return e.name === currentSection.finder.entityName; })[0].id;
-        ctrl.currentSection = currentSection;
-        ctrl.references = [];
-        
-        httpService.getFieldsByEntity(entityId).then(function(response){
-          response.data.references.forEach(function(ref, index){
-            ctrl.references.push(ref.field);
-            showConfigSection();
-          });
-        });
       }
 
+      ctrl.currentSection = currentSection;
+      showConfigSection();
+    }
+
+    function getReferences(){
+      var entityId = ctrl.entities.filter(function(e){return e.name === ctrl.currentSection.finder.entityName; })[0].id;
+          ctrl.references = [];
+        
+      httpService.getFieldsByEntity(entityId).then(function(response){
+        response.data.references.forEach(function(ref, index){
+          response.data.attributes.forEach(function(attr, index){
+            if (ref.field == attr.name) {
+              ctrl.references.push(attr.alias);
+            }
+          })
+        });
+      });
     }
 
     function selectSection(index){
@@ -797,10 +748,6 @@
       sections.forEach(function(section, index){
         if (section.type == 'main') {
           setFieldsOnForm(section, form);
-        }else{
-          var field = angular.copy(section);
-          delete field.fields;
-          form.fields.push(field);
         }
       });
     }
@@ -892,8 +839,15 @@
     }
 
     function getFinders(entityName){
-      httpService.getFinders(entityName).then(function(response){
+      return httpService.getFinders(entityName).then(function(response){
         ctrl.finders = response.data;
+        return response;
+      });
+    }
+
+    function getFindersForIncludes(entityName){
+      getFinders(entityName).then(function(response){
+        getReferences();
       });
     }
 
@@ -960,6 +914,14 @@
           field.translatedName = $l10n.hasLabel(label)? $l10n.translate(label) : field.alias;
         });
       });
+    }
+
+    function getEntityForms(entityName){
+      var entityId = ctrl.entities.filter(function(e){return e.name === entityName; })[0].id;
+
+      httpService.getFieldsByEntity(entityId).then(function(response){
+        ctrl.entityForms = response.data.forms.filter(function(form){ return form.type == 'v2'});
+      }); 
     }
 
     function getQueries(entityName){
@@ -1241,5 +1203,65 @@
       }
     }
 
+    angular.extend(ctrl, {
+      addedButtons: {edit: {}, list: {}},
+      actions: ACTIONS,
+      onComponents: true,
+      data: {},
+      form: {},
+      sections: [],
+      activate: activate,
+      addButton: addButton,
+      saveEditField: saveEditField,
+      addField: addField,
+      setTypeField: setTypeField,
+      editField: editField,
+      cancelEditField: cancelEditField,
+      addNewSection: addNewSection,
+      saveSection: saveSection,
+      editSection: editSection,
+      selectSection: selectSection,
+      cancelEditSection: cancelEditSection,
+      showTypeFields: showTypeFields,
+      showConfigBt: showConfigBt,
+      editButton: editButton,
+      saveEditButton: saveEditButton,
+      openModalForConfig: openModalForConfig,
+      addMapToBt: addMapToBt,
+      cancelCreateButton: cancelCreateButton,
+      removeBt: removeBt,
+      showComponents: showComponents, 
+      saveForm: saveForm,
+      showConfigForm: showConfigForm,
+      saveConfigForm: saveConfigForm,
+      cancelConfigForm: cancelConfigForm,
+      getEntitiesByModule: getEntitiesByModule,
+      getFieldsByEntity: getFieldsByEntity,
+      getModuleEntity: getModuleEntity,
+      getModuleForm: getModuleForm,
+      getModuleForms: getModuleForms,
+      getModuleFromApps: getModuleFromApps,
+      getFinders: getFinders,
+      getFinder: getFinder,
+      getSources: getSources,
+      goToList: goToList,
+      goToEdit: goToEdit,
+      generateForm: generateForm,
+      removeField: removeField,
+      bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
+      enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
+      currentEntity: {},
+      getQueries: getQueries,
+      selectDataSourceType: selectDataSourceType,
+      codeView: codeView,
+      completeKeyForm: completeKeyForm,
+      sanitizeKeyForm: sanitizeKeyForm,
+      deleteForm: deleteForm,
+      formPreview: formPreview,
+      getFinderForIncludes: getFinderForIncludes,
+      removeSection: removeSection,
+      getFindersForIncludes: getFindersForIncludes,
+      getEntityForms: getEntityForms
+    }); 
   };
 })();
