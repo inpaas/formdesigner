@@ -18,14 +18,14 @@
   </div>
 
   <div class="inner-item propriets-section" ng-show="ctrl.currentSection.meta.type == 'include'">
-    <div class="stock-separator">
+    <!--     <div class="stock-separator">
       <label for="">Tipo do seção</label>
-    </div> 
+    </div>  -->
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-sm-6">
         <label for="section-type-list">
-          <input type="radio" id="section-type-list" name="includeType" ng-model="ctrl.currentSection.include.includeType" value="list"> Lista 
+          <input type="radio" id="section-type-list" name="includeType" ng-model="ctrl.currentSection.include.includeType" value="list" checked> Detalhe
         </label>
       </div>
       <div class="col-sm-6">
@@ -33,11 +33,11 @@
           <input type="radio" id="section-type-edit" name="includeType" ng-model="ctrl.currentSection.include.includeType" value="edit"> Edição
         </label>
       </div>
-    </div>
+    </div> -->
 
-    <div class="row" ng-show="ctrl.currentSection.include.includeType == 'list'">
+    <div class="row" ng-show="true">
       <div class="stock-separator">
-        <label for="">Origem da lista</label>
+        <label for="">Master/Detail</label>
       </div>
 
       <div class="form-group">
@@ -61,7 +61,7 @@
               class="form-control input-sm" 
               placeholder="Selecione" 
               ng-model="ctrl.currentSection.finder.entityName" 
-              typeahead-on-select="ctrl.getFinders($model)" 
+              typeahead-on-select="ctrl.getFindersForIncludes($model)" 
               uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
               typeahead-min-length="0" />
       </div>
@@ -81,6 +81,41 @@
                 multiple 
                 ng-options="ref for ref in ctrl.references" 
                 ng-model="ctrl.currentSection.finder.dependencies">
+        </select>
+      </div>
+    </div>
+    <div class="row" ng-hide="true">
+      <div class="form-group">
+        <div class="btn-group btn-block">
+          <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
+            {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+          </button>
+          <ul class="dropdown-menu btn-block">
+            <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+            <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.currentSection.dataSource)">
+              <a href="" ng-bind="mod.title"></a>
+            </li>
+            <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="">Entidade</label>
+        <input type="text" 
+              class="form-control input-sm" 
+              placeholder="Selecione" 
+              ng-model="entity" 
+              typeahead-on-select="ctrl.getEntityForms($model)" 
+              uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
+              typeahead-min-length="0" />
+      </div>
+
+      <div class="form-group">
+        <label for="">Forms</label>
+        <select class="form-control input-sm" 
+                ng-model="ctrl.currentSection.include.key"
+                ng-options="form.key as form.key for form in ctrl.entityForms">
         </select>
       </div>
     </div>
