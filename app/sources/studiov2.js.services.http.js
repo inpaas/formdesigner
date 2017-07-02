@@ -36,7 +36,7 @@
       });
     }
 
-    function getFieldsByEntity(id) {
+    function getEntity(id) {
       var url = '/api/studio/entities/'.concat(id);
 
       return $http({
@@ -229,7 +229,7 @@
       getModule: getModule,
       getApps: getApps,
       getEntities: getEntities,
-      getFieldsByEntity: getFieldsByEntity,
+      getEntity: getEntity,
       getForm: getForm,
       saveEditForm: saveEditForm,
       saveNewForm: saveNewForm,
