@@ -295,25 +295,30 @@
       currentSection.index = index;
 
       if (currentSection.finder) {
-        getFindersForIncludes(currentSection.finder.entityName);
+        getFinders(currentSection.finder.entityName);
+        getReferences(currentSection.finder.entityName).then(function(refs){ currentSection.references = refs; });
+        getModuleEntity(currentSection.finder.moduleId);
       }
 
       ctrl.currentSection = currentSection;
       showConfigSection();
     }
 
-    function getReferences(){
-      var entityId = ctrl.entities.filter(function(e){return e.name === ctrl.currentSection.finder.entityName; })[0].id;
-          ctrl.references = [];
+    function getReferences(entityName){
+      var entityId = ctrl.entities.filter(function(e){return e.name === entityName; })[0].id;
         
-      httpService.getFieldsByEntity(entityId).then(function(response){
+      return httpService.getFieldsByEntity(entityId).then(function(response){
+        var references = [];
+
         response.data.references.forEach(function(ref, index){
           response.data.attributes.forEach(function(attr, index){
             if (ref.field == attr.name) {
-              ctrl.references.push(attr.alias);
+              references.push(attr.alias);
             }
           })
         });
+
+        return references;
       });
     }
 
@@ -831,12 +836,6 @@
       });
     }
 
-    function getEntityFinders(entityName){
-      getFinders(entityName).then(function(response){
-        getReferences();
-      });
-    }
-
     function getModuleEntity(idModule, model) {
       httpService.getModule(idModule).then(function(response) {
         ctrl.moduleEntity = response.data;
@@ -1237,7 +1236,6 @@
       deleteForm: deleteForm,
       formPreview: formPreview,
       removeSection: removeSection,
-      getEntityFinders: getEntityFinders,
       getEntityForms: getEntityForms
     }); 
   };

@@ -61,7 +61,7 @@
               class="form-control input-sm" 
               placeholder="Selecione" 
               ng-model="ctrl.currentSection.finder.entityName" 
-              typeahead-on-select="ctrl.getFindersForIncludes($model)" 
+              typeahead-on-select="ctrl.getFinders($model)" 
               uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
               typeahead-min-length="0" />
       </div>
@@ -69,9 +69,8 @@
       <div class="form-group">
         <label for="">Finder:</label>
         <select class="form-control input-sm" 
-                ng-change="ctrl.getFinderForIncludes(ctrl.currentSection.finder.entityName, ctrl.currentSection.finder.key)" 
-                ng-model="ctrl.currentSection.finder.key">
-          <option value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders track by $index">{[{ finder.title }]}</option>
+                ng-model="ctrl.currentSection.finder.key"
+                ng-options="finder.key as finder.title for finder in ctrl.finders">
         </select>
       </div>
 
@@ -79,7 +78,7 @@
         <label for="">Dependências</label>
         <select class="form-control input-sm" 
                 multiple 
-                ng-options="ref for ref in ctrl.references" 
+                ng-options="ref for ref in ctrl.currentSection.references" 
                 ng-model="ctrl.currentSection.finder.dependencies">
         </select>
       </div>
