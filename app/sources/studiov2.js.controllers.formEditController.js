@@ -273,18 +273,6 @@
       showComponents();
     }
 
-    function getFinderForIncludes(entityName, finderKey){
-      getFinder(entityName, finderKey).then(function(finder){
-        ctrl.currentSection.finder.title = finder.title;
-      });
-
-      ctrl.entities.forEach(function(entity, index){
-        if (entity.name == entityName) {
-          entityId = entity.id;
-        } 
-      });
-    }
-
     function addFieldInclude(field){
       ctrl.jsonModel.fields.push(field);
     }
@@ -308,7 +296,6 @@
 
       if (currentSection.finder) {
         getFindersForIncludes(currentSection.finder.entityName);
-        getFinder(currentSection.finder.entityName, currentSection.finder.key);
       }
 
       ctrl.currentSection = currentSection;
@@ -595,7 +582,6 @@
 
       if (formField.finder) {
         getFinders(formField.finder.entityName);
-        getFinder(formField.finder.entityName, formField.finder.key);
         ctrl.moduleEntity = getModuleFromApps(formField.finder.moduleId);
         filterSelectFields(formField);
       }
@@ -845,16 +831,9 @@
       });
     }
 
-    function getFindersForIncludes(entityName){
+    function getEntityFinders(entityName){
       getFinders(entityName).then(function(response){
         getReferences();
-      });
-    }
-
-    function getFinder(entityName, finderName){
-      return httpService.getFinder(entityName, finderName).then(function(response){
-        ctrl.finder = response.data; 
-        return response.data;
       });
     }
 
@@ -1242,7 +1221,6 @@
       getModuleForms: getModuleForms,
       getModuleFromApps: getModuleFromApps,
       getFinders: getFinders,
-      getFinder: getFinder,
       getSources: getSources,
       goToList: goToList,
       goToEdit: goToEdit,
@@ -1258,9 +1236,8 @@
       sanitizeKeyForm: sanitizeKeyForm,
       deleteForm: deleteForm,
       formPreview: formPreview,
-      getFinderForIncludes: getFinderForIncludes,
       removeSection: removeSection,
-      getFindersForIncludes: getFindersForIncludes,
+      getEntityFinders: getEntityFinders,
       getEntityForms: getEntityForms
     }); 
   };
