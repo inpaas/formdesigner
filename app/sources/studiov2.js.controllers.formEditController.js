@@ -240,6 +240,7 @@
             fields : [],
             newInclude: true,
             id: 'section-'.concat(ctrl.sections.length),
+            name:'include-'.concat(ctrl.sections.length), 
             meta: {
               type: 'include'
             },
@@ -258,10 +259,32 @@
     } 
 
     function saveSection() {
-      var currentSection = angular.copy(ctrl.currentSection);
+      var currentSection = angular.copy(ctrl.currentSection),
+          dependencies = {};
 
-      if (!angular.isUndefined(ctrl.currentSection.index)) {
-        angular.extend(ctrl.sections[ctrl.currentSection.index], ctrl.currentSection);
+      if (currentSection.finder && currentSection.dependenciesKeys.length) {
+        currentSection.dependenciesKeys.forEach(function(key){ 
+          var ref = currentSection.entity.references.filter(function(ref){return ref.alias == key; })[0];
+
+          if (ref.entity == ctrl.jsonModel.dataSource.key) {
+            var field = ctrl.data.entityFields.filter(function(field){return field.name == ref.field; })[0];
+            dependencies[ref.alias] = field.alias;
+          } else{
+            var entity = currentSection.referencesChild.filter(function(entity){ return entity.alias == ref.entity })[0];
+            dependencies[ref.alias] = entity.attributes.filter(function(attr){ return attr.name == ref.field })[0].alias;
+          }
+        });
+
+        delete currentSection.entity;
+        delete currentSection.dependenciesKeys;
+        delete currentSection.references;
+        delete currentSection.referencesChild;
+
+        currentSection.finder.dependencies = dependencies;
+      }
+
+      if (!angular.isUndefined(currentSection.index)) {
+        angular.extend(ctrl.sections[currentSection.index], currentSection);
       }else{
         ctrl.sections.push(currentSection);
       }
@@ -295,30 +318,41 @@
       currentSection.index = index;
 
       if (currentSection.finder) {
-        getFinders(currentSection.finder.entityName);
-        getReferences(currentSection.finder.entityName).then(function(refs){ currentSection.references = refs; });
+        currentSection.dependenciesKeys = Object.keys(currentSection.finder.dependencies);
+
         getModuleEntity(currentSection.finder.moduleId);
-      }
-
-      ctrl.currentSection = currentSection;
-      showConfigSection();
-    }
-
-    function getReferences(entityName){
-      var entityId = ctrl.entities.filter(function(e){return e.name === entityName; })[0].id;
-        
-      return httpService.getFieldsByEntity(entityId).then(function(response){
-        var references = [];
-
-        response.data.references.forEach(function(ref, index){
-          response.data.attributes.forEach(function(attr, index){
-            if (ref.field == attr.name) {
-              references.push(attr.alias);
-            }
-          })
+        getFinders(currentSection.finder.entityName);
+        getEntityAndSetReferences(currentSection.finder.entityName, currentSection).then(function(entity){
+          ctrl.currentSection = currentSection;
+          showConfigSection();
         });
 
-        return references;
+      }else{
+        ctrl.currentSection = currentSection;
+        showConfigSection();
+      }
+
+    }
+
+    function getEntityAndSetReferences(entityName, model){
+      return getEntity(entityName, model).then(function(entity){
+        model.references = [];
+        model.referencesChild = [];
+        model.finder.formKey = entity.formKey;
+        model.finder.formType = entity.formType;
+        
+        if (model && entity) {
+          entity.references.forEach(function(ref, index){
+            model.references.push(ref.alias);
+            if (ref.entity != ctrl.jsonModel.dataSource.key) {
+              getEntity(ref.entity).then(function(entity){
+                model.referencesChild.push(entity);
+              });
+            }
+          });
+        }
+
+        return entity;
       });
     }
 
@@ -880,7 +914,7 @@
         } 
       });
 
-      return httpService.getFieldsByEntity(entityId).then(function(response) {
+      return httpService.getEntity(entityId).then(function(response) {
         ctrl.currentEntity = response.data;
         ctrl.data.entityFields = response.data.attributes;
 
@@ -897,9 +931,24 @@
     function getEntityForms(entityName){
       var entityId = ctrl.entities.filter(function(e){return e.name === entityName; })[0].id;
 
-      httpService.getFieldsByEntity(entityId).then(function(response){
+      httpService.getEntity(entityId).then(function(response){
         ctrl.entityForms = response.data.forms.filter(function(form){ return form.type == 'v2'});
       }); 
+    }
+
+    function getEntity(entityName, model, fragment){
+      var entity = ctrl.entities.filter(function(e){return e.name === entityName; })[0];
+
+      var id = (entity && entity.id)? entity.id : 0; 
+
+      return httpService.getEntity(id).then(function(response){
+        if (fragment) {
+          model[fragment] = response.data[fragment]; 
+        }else if(model){
+          model.entity = response.data;
+        }
+        return response.data;
+      }, function(){ return {}}); 
     }
 
     function getQueries(entityName){
@@ -911,7 +960,7 @@
         } 
       });
 
-      httpService.getFieldsByEntity(entityId).then(function(response) {
+      httpService.getEntity(entityId).then(function(response) {
         ctrl.currentQueries = response.data.queries;
       });
     }
@@ -1221,6 +1270,8 @@
       getModuleFromApps: getModuleFromApps,
       getFinders: getFinders,
       getSources: getSources,
+      getEntityForms: getEntityForms,
+      getEntity: getEntity,
       goToList: goToList,
       goToEdit: goToEdit,
       generateForm: generateForm,
@@ -1236,7 +1287,7 @@
       deleteForm: deleteForm,
       formPreview: formPreview,
       removeSection: removeSection,
-      getEntityForms: getEntityForms
+      getEntityAndSetReferences: getEntityAndSetReferences
     }); 
   };
 })();

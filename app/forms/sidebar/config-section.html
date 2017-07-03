@@ -61,7 +61,7 @@
               class="form-control input-sm" 
               placeholder="Selecione" 
               ng-model="ctrl.currentSection.finder.entityName" 
-              typeahead-on-select="ctrl.getFinders($model)" 
+              typeahead-on-select="ctrl.getEntityAndSetReferences($model, ctrl.currentSection)" 
               uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
               typeahead-min-length="0" />
       </div>
@@ -70,7 +70,7 @@
         <label for="">Finder:</label>
         <select class="form-control input-sm" 
                 ng-model="ctrl.currentSection.finder.key"
-                ng-options="finder.key as finder.title for finder in ctrl.finders">
+                ng-options="finder.key as finder.title for finder in ctrl.currentSection.entity.finders">
         </select>
       </div>
 
@@ -78,11 +78,12 @@
         <label for="">Dependências</label>
         <select class="form-control input-sm" 
                 multiple 
-                ng-options="ref for ref in ctrl.currentSection.references" 
-                ng-model="ctrl.currentSection.finder.dependencies">
+                ng-options="ref as ref in ctrl.currentSection.references" 
+                ng-model="ctrl.currentSection.dependenciesKeys">
         </select>
       </div>
     </div>
+
     <div class="row" ng-hide="true">
       <div class="form-group">
         <div class="btn-group btn-block">
