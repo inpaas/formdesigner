@@ -870,6 +870,12 @@
       });
     }
 
+    function getFinder(entityName, finderKey){
+      return httpService.getFinder(entityName, finderKey).then(function(response){
+        ctrl.finder = response.data;
+      });
+    }
+
     function getModuleEntity(idModule, model) {
       httpService.getModule(idModule).then(function(response) {
         ctrl.moduleEntity = response.data;
@@ -1269,6 +1275,7 @@
       getModuleForms: getModuleForms,
       getModuleFromApps: getModuleFromApps,
       getFinders: getFinders,
+      getFinder: getFinder,
       getSources: getSources,
       getEntityForms: getEntityForms,
       getEntity: getEntity,
