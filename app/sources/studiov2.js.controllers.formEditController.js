@@ -264,14 +264,14 @@
 
       if (currentSection.finder && currentSection.dependenciesKeys.length) {
         currentSection.dependenciesKeys.forEach(function(key){ 
-          var ref = currentSection.entity.references.filter(function(ref){return ref.alias == key; })[0];
+          var attr = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0];
+          var field = ctrl.data.entityFields.filter(function(field){return field.name == key; })[0];
 
-          if (ref.entity == ctrl.jsonModel.dataSource.key) {
-            var field = ctrl.data.entityFields.filter(function(field){return field.name == ref.field; })[0];
-            dependencies[ref.alias] = field.alias;
+          if (attr && field) {
+            dependencies[attr.alias] = field.alias;
           } else{
             var entity = currentSection.referencesChild.filter(function(entity){ return entity.alias == ref.entity })[0];
-            dependencies[ref.alias] = entity.attributes.filter(function(attr){ return attr.name == ref.field })[0].alias;
+            dependencies[attr.alias] = entity.attributes.filter(function(attr){ return attr.name == ref.field })[0].alias;
           }
         });
 
@@ -318,11 +318,20 @@
       currentSection.index = index;
 
       if (currentSection.finder) {
-        currentSection.dependenciesKeys = Object.keys(currentSection.finder.dependencies);
-
         getModuleEntity(currentSection.finder.moduleId);
         getFinders(currentSection.finder.entityName);
         getEntityAndSetReferences(currentSection.finder.entityName, currentSection).then(function(entity){
+          var dependencesKeys = []; 
+
+          angular.forEach(function(value, key){
+            var field = ctrl.data.entityFields.filter(function(field){return field.name == value; })[0];
+
+            if (field) {
+              dependencesKeys.push(field.name);
+            }
+            
+          });
+
           ctrl.currentSection = currentSection;
           showConfigSection();
         });
@@ -343,7 +352,7 @@
         
         if (model && entity) {
           entity.references.forEach(function(ref, index){
-            model.references.push(ref.alias);
+            model.references.push(ref.field);
             if (ref.entity != ctrl.jsonModel.dataSource.key) {
               getEntity(ref.entity).then(function(entity){
                 model.referencesChild.push(entity);
