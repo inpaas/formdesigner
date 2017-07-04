@@ -78,7 +78,7 @@
         <label for="">Dependências</label>
         <select class="form-control input-sm" 
                 multiple 
-                ng-options="ref as ref in ctrl.currentSection.references" 
+                ng-options="ref for ref in ctrl.currentSection.references" 
                 ng-model="ctrl.currentSection.dependenciesKeys">
         </select>
       </div>
