@@ -678,6 +678,7 @@
 
     function removeSection(index){
       ctrl.sections.splice(index, 1);
+      showComponents();
     }
 
     function saveForm() {
