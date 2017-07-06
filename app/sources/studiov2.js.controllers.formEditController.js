@@ -262,25 +262,29 @@
       var currentSection = angular.copy(ctrl.currentSection),
           dependencies = {};
 
-      if (currentSection.finder && currentSection.dependenciesKeys.length) {
-        currentSection.dependenciesKeys.forEach(function(key){ 
-          var attr = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0];
-          var field = ctrl.data.entityFields.filter(function(field){return field.name == key; })[0];
+      if (currentSection.finder) {
+        currentSection.meta.bind = currentSection.finder.entityName.toLowerCase();
 
-          if (attr && field) {
-            dependencies[attr.alias] = field.alias;
-          } else{
-            var entity = currentSection.referencesChild.filter(function(entity){ return entity.alias == ref.entity })[0];
-            dependencies[attr.alias] = entity.attributes.filter(function(attr){ return attr.name == ref.field })[0].alias;
-          }
-        });
+        if (currentSection.dependenciesKeys.length) {
+          currentSection.dependenciesKeys.forEach(function(key){ 
+            var attr = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0];
+            var field = ctrl.data.entityFields.filter(function(field){return field.name == key; })[0];
 
-        delete currentSection.entity;
-        delete currentSection.dependenciesKeys;
-        delete currentSection.references;
-        delete currentSection.referencesChild;
+            if (attr && field) {
+              dependencies[attr.alias] = field.alias;
+            } else{
+              var entity = currentSection.referencesChild.filter(function(entity){ return entity.alias == ref.entity })[0];
+              dependencies[attr.alias] = entity.attributes.filter(function(attr){ return attr.name == ref.field })[0].alias;
+            }
+          });
 
-        currentSection.finder.dependencies = dependencies;
+          delete currentSection.entity;
+          delete currentSection.dependenciesKeys;
+          delete currentSection.references;
+          delete currentSection.referencesChild;
+
+          currentSection.finder.dependencies = dependencies;
+        }
       }
 
       if (!angular.isUndefined(currentSection.index)) {
@@ -314,7 +318,7 @@
     }
 
     function editSection(index) {
-      var currentSection = ctrl.sections[index];
+      var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
 
       if (currentSection.finder) {
