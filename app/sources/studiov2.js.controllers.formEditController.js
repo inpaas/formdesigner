@@ -264,6 +264,7 @@
 
       if (currentSection.finder) {
         currentSection.meta.bind = currentSection.finder.entityName.toLowerCase();
+        currentSection.finder.title = getFinderTitleByKey(currentSection.entity.finders, currentSection.finder.key);
 
         if (currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
@@ -345,6 +346,14 @@
         showConfigSection();
       }
 
+    }
+
+    function getFinderTitleByKey(finders, key){
+      var finder = finders.filter(function(f){ 
+        return f.key == key;
+      })[0];
+      
+      return finder.title;
     }
 
     function getEntityAndSetReferences(entityName, model){
