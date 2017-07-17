@@ -3,9 +3,16 @@
     .module('studio-v2')
     .service('httpService', httpService);
   
-  httpService.$inject = ['$q', '$http', 'jsonFormService', 'labelsService'];
+  httpService.$inject = ['$q', '$http', 'jsonFormService', 'labelsService', 'Notification'];
   
-  function httpService($q, $http, jsonFormService, labelsService){
+  function httpService($q, $http, jsonFormService, labelsService, Notification){
+    function onError(response){
+      Notification.error(response.data.message);
+      return response;
+    }
+    function onSuccess(response){
+      return response;
+    }
 
     function getModule(id){
       var url = '/api/studio/modules/'.concat(id); 
@@ -13,7 +20,7 @@
       return $http({
         method: 'get',
         url: url
-      });
+      }, onSuccess, onError);
     }
 
     function getApps() {
@@ -22,7 +29,7 @@
       return $http({
         method: 'get',
         url: url
-      });
+      }, onSuccess, onError);
     }
 
     function getEntities(idModule) {
@@ -33,7 +40,7 @@
       return $http({
         method: 'get',
         url: url
-      });
+      }, onSuccess, onError);
     }
 
     function getEntity(id) {
@@ -42,7 +49,7 @@
       return $http({
         method: 'get',
         url: url
-      });
+      }, onSuccess, onError);
     }
 
     function getForm(id, idModule){
@@ -74,7 +81,7 @@
                     return template;
                   });
           }
-      });
+      }, onError);
     }
 
     function getMasterForm(id, idModule) {
@@ -82,7 +89,7 @@
         jsonFormService.setJsonForm(form);
         labelsService.translateLabels(form);
         return form;
-      })
+      }, onError);
       // .then(function(form){
       //   return getFormInclude(form, idModule).then(function(response){
       //     return form
@@ -126,7 +133,7 @@
           key: form.key,
           moduleId: idModule
         }
-      });
+      }, onSuccess, onError);
     }
 
     function saveEditForm(form, idForm, idModule) {
@@ -146,7 +153,7 @@
           template: form.template,
           moduleId: idModule
         }
-      });
+      }, onSuccess, onError);
     }
 
     function generateForm(entityId) {
@@ -162,7 +169,7 @@
         form = labelsService.translateLabels(form);
 
         return form;
-      });
+      }, onError);
     }
 
     function getPermissions(moduleId) {
@@ -174,7 +181,7 @@
         params: {
           module: moduleId
         }
-      });
+      }, onSuccess, onError);
     }
     
     function getFormats(){
@@ -183,7 +190,7 @@
       return $http({
         method: 'get',
         url: url
-      });
+      }, onSuccess, onError);
     } 
 
     function deleteForm(id, idModule){
@@ -199,7 +206,7 @@
           id: parseInt(id), 
           moduleId: idModule
         }
-      });
+      }, onSuccess, onError);
     }
 
     function getFinders(entityName){
@@ -210,7 +217,7 @@
       return $http({
         method: 'get',
         url: url
-      });
+      }, onSuccess, onError);
     }
 
     function getFinder(entityName, name){
@@ -222,7 +229,7 @@
       return $http({
         method: 'get',
         url: url
-      });
+      }, onSuccess, onError);
     }
 
     return {
