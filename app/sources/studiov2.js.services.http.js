@@ -69,18 +69,15 @@
             form.moduleId = response.data.moduleId;
             form.id = id;
             return form;
-
-          }else{
-            form.key = response.data.key;
-            form.label = response.data.label;
-            form.moduleId = response.data.moduleId;
-            form.id = response.data.id;
-
-            return jsonFormService.getFormTemplate().then(function(template){
-                    angular.extend(template, form);
-                    return template;
-                  });
           }
+          
+          form.key = response.data.key;
+          form.label = response.data.label;
+          form.moduleId = response.data.moduleId;
+          form.id = response.data.id;
+
+          angular.extend(template, jsonFormService.getFormTemplate());
+          return form;
       }, onError);
     }
 

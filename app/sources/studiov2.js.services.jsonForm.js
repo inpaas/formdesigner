@@ -32,12 +32,8 @@
     }
 
     function getFormTemplate(){
-      var deferred = $q.defer(),
-          form = angular.copy(JSONMODEL);
-          
-      form.firstConfig = true;
-      deferred.resolve(form);
-      return deferred.promise;
+      var form = angular.copy(JSONMODEL);
+      return form;
     }
    
     function editKey(key) {
@@ -73,13 +69,6 @@
 
     function editFields(fields) {
       form.fields = fields;
-    }
-    
-    function getNewFormId() {
-      var deferred = $q.defer();
-      deferred.resolve(getFormTemplate());
-
-      return deferred.promise;
     }
  
     function getActionsTypes() {
