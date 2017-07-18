@@ -28,16 +28,21 @@
   <li class="item-components">
     Campos
     <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="" data-toggle="collapse" data-target="#fields-component"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+      <a href="" data-toggle="collapse" data-target="#fields-component">
+        <i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i>
+      </a>
     </div>
   </li>
-  <div class="inner-item field-item collapse in" id="fields-component">
-    <!-- <button type="button" id="btnNewField" class="btn btn-success btn-block" ng-click="ctrl.addField()">Novo Campo</button> -->
-    <ul class="list-existing" data-ng-repeat="field in ctrl.data.entityFields">
-      <li class="field-existing" ng-click="ctrl.addField(field)" ng-bind="field.translatedName"></li>
+  <div class="inner-item field-item collapse in">
+    <ul class="list-existing" id="fields-component">
+      <li class="field-existing" 
+          ng-repeat="field in ctrl.data.entityFields" 
+          ng-click="ctrl.addField(field)" 
+          ng-bind="field.translatedName">
+      </li>
     </ul>
   </div>
-  <!-- Campos -->
+  <!-- /Campos -->
 
   <!-- Botões -->
   <li class="item-components">

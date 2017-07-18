@@ -62,20 +62,21 @@
 
     function buildLabels(jsonForm, moduleId){
       setLabelsNamespace(jsonForm.key);
-
-      var deferred = $q.defer();
-
       buildLabelsFromTitle(jsonForm.label, moduleId);
-      jsonForm.views.edit.breadcrumb && buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);
-      jsonForm.views.list.breadcrumb && buildLabelsFromBreadcrumb(jsonForm.views.list.breadcrumb, 'list', moduleId);
-      jsonForm.views.edit.actions && buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
-      jsonForm.views.list.action && buildLabelsFromActions(jsonForm.views.list.actions, 'list', moduleId);
-      jsonForm.fields && buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase()); 
-      
-      jsonFormService.setLabelSection(jsonForm.views.edit.label);
-      deferred.resolve();
 
-      return deferred.promise;
+      if (jsonForm.views.edit.breadcrumb) {
+        jsonForm.views.edit.actions = buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);  
+      }
+      
+      if(jsonForm.views.edit.actions){
+        jsonForm.views.edit.actions = buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
+      }
+
+      if(jsonForm.fields){
+        jsonForm.fields = buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase()); 
+      }
+      
+      return jsonForm;
     }
 
     function buildLabelsFromTitle(title, moduleId, lang){
@@ -99,8 +100,6 @@
           saveLabel(value, key, moduleId);
         }
       });
-
-      jsonFormService.editBreadcrumb(breadcrumb, view);
     }
 
     function buildLabelsFromActions(actions, view, moduleId){
@@ -119,14 +118,12 @@
         }
       });
 
-      jsonFormService.editActions(actions, view);
+      return actions;
     }
 
-    function buildLabelsFromFields(_fields, moduleId, dataSourcekey){
-      fields = angular.copy(_fields);
+    function buildLabelsFromFields(fields, moduleId, dataSourcekey){
       fields.forEach(function(field, index){
         var key = 'label.'.concat(dataSourcekey).concat('.');
-
         key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) );
         saveLabel(field.label, key, moduleId);
         field.label = key; 
@@ -150,7 +147,7 @@
         delete field.collumnName;
       });
 
-      jsonFormService.editFields(fields);
+      return fields;
 
       function buildLabelsOptions(fieldName, options){
         options.forEach(function(item, index){
@@ -165,11 +162,18 @@
 
     function translateLabels(form){
       form.label = translateTitle(form.label);
-      form.views.edit.breadcrumb && translateBreadcrumb(form.views.edit.breadcrumb);
-      form.views.list.breadcrumb && translateBreadcrumb(form.views.list.breadcrumb);
-      form.views.list.actions && translateActions(form.views.list.actions);
-      form.views.edit.actions && translateActions(form.views.edit.actions);
-      form.fields && translateFields(form.fields);
+
+      if (form.views.edit.breadcrumb) {
+        form.views.edit.breadcrumb = translateBreadcrumb(form.views.edit.breadcrumb);
+      }
+
+      if(form.views.edit.actions){
+        form.views.edit.actions = translateActions(form.views.edit.actions);
+      }
+
+      if(form.fields){
+        form.fields = translateFields(form.fields);
+      }
 
       return form;
     }
@@ -184,12 +188,15 @@
           item.label = $l10n.translate(item.label);
         }
       });
+      return breadcrumb;
     }
 
     function translateActions(actions){
       actions.forEach(function(action, index){
         action.label = $l10n.translate(action.label);
       }); 
+
+      return actions;
     }
 
     function translateFields(fields){
@@ -208,6 +215,8 @@
           translateFields(field.meta.options); 
         }
       });
+
+      return fields;
     }
 
     return{

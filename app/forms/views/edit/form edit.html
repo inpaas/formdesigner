@@ -30,11 +30,11 @@
       id="section-{[{$index}]}" 
       ng-click="ctrl.selectSection($index)" 
       ng-repeat="section in ctrl.sections track by $index" 
-      ng-class="{'section-selected': ctrl.sectionSelected.id === section.id}">
+      ng-class="{'section-selected': ctrl.sectionSelectedIndex === $index}">
 
     <div role="app-widget" class="widget-box widget-well">
       <div class="widget-header">
-        <h5 class="widget-title" ng-bind="section.label"></h5>
+        <h5 class="widget-title" ng-bind="section.label"> </h5>
         <div class="widget-toolbar">
           <div class="btn-group">
             <i class="fa fa-pencil" ng-click="ctrl.editSection($index)"></i>
@@ -42,11 +42,12 @@
           </div>
         </div>
       </div>
-      <div class="widget-body" ng-hide="section.meta.type == 'include'">
+
+      <div class="widget-body" ng-if="section.type == 'main' || section.isSameDataSource">
         <div class="widget-main clearfix">
           <div class="row" ng-if="section.columns == 1 || !section.columns">
             <div class="col-wdg col-sm-6 no-padding col-sm-offset-2">
-              <div class="row" dragula="'1col-bag'" dragula-model="section.fields" ng-show="section.fields.length">
+              <div class="row" dragula="'1col-bag'" dragula-model="section.fields">
                 <div class="row row-edit-this"
                     id="field-{[{$index}]}" 
                     ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
@@ -61,7 +62,7 @@
 
           <div class="row" ng-if="section.columns == 2">
             <div class="col-wdg col-sm-6 no-padding">
-              <div class="row" dragula="'2col-bag'" dragula-model="section.fields" ng-show="section.fields.length">
+              <div class="row" dragula="'2col-bag'" dragula-model="section.fields">
                 <div class="row row-edit-this"
                       id="field-{[{$index}]}" 
                       ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
@@ -100,7 +101,7 @@
         </div>
       </div>
 
-      <div class="widget-body finder-include" ng-show="section.meta.type == 'include' && section.finder">
+      <div class="widget-body" ng-if="section.finder">
         <p class="text-center"> 
           <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.key}]}">
             Lista:  {[{ section.finder.title }]}
@@ -108,9 +109,9 @@
         </p>
       </div>
 
-      <div class="widget-body finder-include" ng-show="section.meta.type == 'include' && !section.finder">
+      <div class="widget-body" ng-if="section.include.key && !section.isSameDataSource">
         <p class="text-center"> 
-          <a target="_blank" href="/forms/studiov2.forms.main#/forms/">
+          <a target="_blank" href="/forms/studiov2.forms.main#/forms/{[{section.include.idForm}]}">
             Form:  {[{ section.include.key }]}
           </a>
         </p>

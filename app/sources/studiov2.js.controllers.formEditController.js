@@ -52,7 +52,9 @@
       if (id) {
         return httpService.getMasterForm(id, 0); 
       }else{
-        return jsonFormService.getFormTemplate();
+        var deferred = $q.defer();
+        deferred.resolve(jsonFormService.getFormTemplate());
+        return deferred.promise;
       }
     }
 
@@ -69,6 +71,8 @@
           ctrl.sections.push(field);
         }
       });
+
+      ctrl.selectedSectionIndex = 0;
     } 
 
     function setFieldsToMainSection(fields) {
@@ -236,25 +240,23 @@
     }
     
     function addNewSection() {
-      var section = {
-            fields : [],
-            newInclude: true,
-            id: 'section-'.concat(ctrl.sections.length),
-            name:'include-'.concat(ctrl.sections.length), 
-            meta: {
-              type: 'include'
-            },
-            include: {
-              multivalue: false,
-              pagination: {}
-            },
-            views: {
-              edit: {}
-            }
-          };
-
       ctrl.onNewSection = true;
-      ctrl.currentSection = section;
+      ctrl.currentSection = {
+        type: 'include',
+        name:'include-'.concat(ctrl.sections.length), 
+        id: 'section-'.concat(ctrl.sections.length),
+        newInclude: true,
+        meta: {
+          type: 'include'
+        },
+        name: (new Date().getTime()),
+        isSameDataSource: true,
+        fields: [],
+        views: {
+          edit: {}
+        }
+      };
+
       showConfigSection();
     } 
 
@@ -262,10 +264,8 @@
       var currentSection = angular.copy(ctrl.currentSection),
           dependencies = {};
 
-      if (currentSection.finder) {
-        currentSection.meta.bind = currentSection.finder.entityName.toLowerCase();
+      if (currentSection.includeType == 'list') {
         currentSection.finder.title = getFinderTitleByKey(currentSection.entity.finders, currentSection.finder.key);
-
         if (currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
             var attr = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0];
@@ -286,6 +286,15 @@
 
           currentSection.finder.dependencies = dependencies;
         }
+      
+      }else if(currentSection.isSameDataSource){
+        var jsonForm = jsonFormService.getFormTemplate();
+        jsonForm.key = 'form-include-'.concat(new Date().getTime());
+        jsonForm.dataSource = ctrl.jsonModel.dataSource;
+        currentSection.jsonForm = jsonForm;
+        currentSection.include = {
+          key: jsonForm.key
+        }
       }
 
       if (!angular.isUndefined(currentSection.index)) {
@@ -298,6 +307,7 @@
         ctrl.jsonModel.views.edit.label = currentSection.label;
       }
 
+      ctrl.selectedSectionIndex = currentSection.index || ctrl.sections.length - 1;
       showComponents();
     }
 
@@ -311,7 +321,7 @@
     }
     
     function autoSelectSection(){
-      ctrl.sectionSelected = ctrl.sections[0];
+      selectSection(0);
     }
 
     function editFirstSection(){
@@ -330,18 +340,19 @@
 
           angular.forEach(function(value, key){
             var field = ctrl.data.entityFields.filter(function(field){return field.name == value; })[0];
-
             if (field) {
               dependencesKeys.push(field.name);
             }
-            
           });
 
+          currentSection.includeType = 'list';
           ctrl.currentSection = currentSection;
+
           showConfigSection();
         });
 
       }else{
+        currentSection.includeType = 'edit';
         ctrl.currentSection = currentSection;
         showConfigSection();
       }
@@ -379,7 +390,7 @@
     }
 
     function selectSection(index){
-      ctrl.sectionSelected = ctrl.sections[index];
+      ctrl.sectionSelectedIndex = index;
     }
 
     function setTypeField(type, fieldEdit) {
@@ -482,10 +493,9 @@
       if (angular.isUndefined(fieldEdit.index)){
         addNewField();
       }else{
-        ctrl.sectionSelected.fields[fieldEdit.index] = fieldEdit;
+        ctrl.sections[ctrl.sectionSelectedIndex].fields[fieldEdit.index] = fieldEdit;
       }
       
-      ctrl.sectionSelected.onNewField = false;
 
       ctrl.fieldEdit = {};
       showComponents();
@@ -522,16 +532,20 @@
     }
 
     function addNewField() {
-      var newField = angular.copy(ctrl.fieldEdit);
-      autoSelectSection();
+      if (!ctrl.selectedSectionIndex) {
+        autoSelectSection();
+      }
 
-      newField.id = ctrl.sectionSelected.fields.length;
+      var sectionSelected = ctrl.sections[ctrl.sectionSelectedIndex],
+          newField = angular.copy(ctrl.fieldEdit);
 
-      if (ctrl.sectionSelected.columns != '1' && !ctrl.sectionSelected.fields.length) {
+      newField.id = sectionSelected.fields.length;
+
+      if (sectionSelected.columns != '1' && !sectionSelected.fields.length) {
         newField.position = 'left'; 
       }
 
-      ctrl.sectionSelected.fields.push(newField);
+      sectionSelected.fields.push(newField);
     } 
 
     function addField(entityField) {
@@ -552,25 +566,13 @@
         fieldEdit.customField = true;
       }
 
-      if(ctrl.currentView == 'edit') {
-        addFieldOnViewEdit();
-        showTypeFields();
-      }else{
-        addFieldOnViewList();
-      }
-
       ctrl.fieldEdit = angular.copy(fieldEdit);
 
-      function addFieldOnViewEdit(bind){
-        if(!ctrl.sectionSelected){
-          autoSelectSection();
-        }
-        ctrl.sectionSelected.onNewField = true;
+      if(!ctrl.sectionSelectedIndex){
+        autoSelectSection();
       }
 
-      function addFieldOnViewList(bind){
-        showEditField();
-      }
+      showTypeFields();
     }
 
     function setConfigFieldDefault(entityField, fieldEdit){
@@ -600,7 +602,8 @@
 
     function editField($event, formField, index, section) {
       formField = angular.copy(formField);
-      formField.index = index;
+      formField.index = index,
+      sectionIndex = ctrl.sections.indexOf(section);
 
       if(ctrl.onBindBreadcrumb){
         bindFieldOnBreadcrumb(formField.meta.bind);
@@ -647,7 +650,7 @@
         filterSelectFields(formField);
       }
 
-      ctrl.sectionSelected = section;
+      ctrl.sectionSelectedIndex = sectionIndex;
 
       if (formField.meta.type.match(/date/g)) {
         getFormatsPattern();
@@ -673,16 +676,15 @@
     
     function cancelEditField() {
       showComponents();
-      ctrl.sectionSelected.onNewField = false;
       ctrl.fieldEdit = {};
     }
 
     function removeField(index) {
-      if (!ctrl.sectionSelected) {
+      if (!ctrl.sectionSelectedIndex) {
         autoSelectSection();
       }
 
-      var field = ctrl.sectionSelected.fields.splice(index, 1);
+      var field = ctrl.sections[ctrl.sectionSelectedIndex].fields.splice(index, 1);
 
       if (field[0].name == ctrl.fieldEdit.name) {
         showComponents();
@@ -694,42 +696,37 @@
       showComponents();
     }
 
-    function saveForm() {
-      //TODO: Rever isso com a mudança para includes de finder
-      // setFormsForNewIncludes(ctrl.sections).then(function(){
-      //   setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
-      // }).then(function(){
-      //   setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
-      //   var forms = jsonFormService.getFormsWithLabels();
-      //   angular.forEach(forms, save);
-      // });
-
+    function saveForm(){
       setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
-      setFieldsIncludes(ctrl.jsonModel, ctrl.sections);
-      labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
-      var form = jsonFormService.getFormWithLabels();
-      save(form);
 
-      function save(form){
-        if(form.id) {
-          httpService.saveEditForm(form, form.id, idModuleForm).then(function success(response){
-            Notification.success('Formulário salvo com sucesso');
-          }, function error(response){
-            Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
-          });
-        }else{
-          httpService.saveNewForm(form, idModuleForm)
-            .then(function(response){
-              return httpService.saveEditForm(form, response.data.id, idModuleForm).then(function(response){
-                ctrl.jsonModel.id = response.data.id;
-                jsonFormService.editIdForm(response.data.id);
-                Notification.success('Formulário salvo com sucesso');
-                goToEdit(response.data.id, false);
-              });
-          }, function error(response){
-            Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
-          });
-        }
+      if(ctrl.sections.length > 1){
+        setFieldsIncludes(ctrl.jsonModel, ctrl.sections.slice(1, ctrl.sections.length));
+        saveIncludeForms(ctrl.sections);
+      }
+
+      var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
+      save(form);
+    }
+
+    function save(form){
+      if(form.id) {
+        httpService.saveEditForm(form, form.id, idModuleForm).then(function success(response){
+          Notification.success('Formulário salvo com sucesso');
+        }, function error(response){
+          Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
+        });
+      }else{
+        httpService.saveNewForm(form, idModuleForm)
+          .then(function(response){
+            return httpService.saveEditForm(form, response.data.id, idModuleForm).then(function(response){
+              ctrl.jsonModel.id = response.data.id;
+              jsonFormService.editIdForm(response.data.id);
+              Notification.success('Formulário salvo com sucesso');
+              goToEdit(response.data.id, false);
+            });
+        }, function error(response){
+          Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
+        });
       }
     }
 
@@ -745,50 +742,53 @@
     }
 
     function setFieldsIncludes(form, sections){
-      sections.slice(1, sections.length).forEach(function(section){
-        var field = angular.copy(section);
-
-        delete field.newInclude;
-        delete field.id;
-        delete field.fields; 
+      sections.forEach(function(section){
+        var field = {
+          label: section.label,
+          meta: section.meta,
+          name: section.name,
+          include: section.include,
+          views: section.views
+        }
 
         form.fields.push(field);
       });
     }
 
-    function setFormsForNewIncludes(sections){
+    function saveIncludeForms(sections){
       var deferred = $q.defer(),
           promises = [];
 
-      function callback(section, form, response){
-        section.include.idForm = form.id = Number(response.data.id);
+      var includes = sections.filter(function(section){ return section.isSameDataSource; });
+      includes.forEach(function(section){
+        var form = angular.copy(section.jsonForm);
+
         setFieldsOnForm(section, form);
-        jsonFormService.storeForms(form); 
-      }
+        form = labelsService.buildLabels(form, idModuleForm); 
 
-      sections.filter(function(section){ return section.newInclude; })
-              .forEach(function(section){
-                var form = jsonFormService.setNewForm(section.include.key),
-                    thenFn = callback.bind(null, section, form),
-                    promise = httpService.saveNewForm(form, section.include.idModuleForm).then(thenFn);
+        if(form.id){
+          httpService.saveEditForm(form, form.id, idModuleForm).then(
+            angular.noop,
+            function(response){
+              Notification.error(response.data.message);
+          });
+          return;
+        }
 
-                promises.push(promise);
-              });
-
-      $q.all(promises).then(function(response){
-          deferred.resolve();
+        httpService.saveNewForm(form, idModuleForm).then(function(response){
+          form.id = response.data.id;
+          section.include.idForm = form.id
+          return form;
+        }).then(function(form){
+          httpService.saveEditForm(form, form.id, idModuleForm).then(angular.noop,
+            function(response){
+              Notification.error(response.data.message);
+            });
         });
 
-      return deferred.promise;
-    }
-
-    function setFieldsOnForm(section, form){
-      section.fields.forEach(function(field){
-        var _field = angular.copy(field);
-        delete _field.id;
-        delete _field.templateType;
-        form.fields.push(_field);
       });
+
+      return deferred.promise;
     }
 
     function setFieldsOnMainForm(form, sections){
@@ -797,6 +797,15 @@
         if (section.type == 'main') {
           setFieldsOnForm(section, form);
         }
+      });
+    }
+
+    function setFieldsOnForm(section, form){
+      section.fields.forEach(function(field){
+        var _field = angular.copy(field);
+        delete _field.id;
+        delete _field.templateType;
+        form.fields.push(_field);
       });
     }
     
@@ -825,6 +834,7 @@
 
     function showTypeFields() {
       ctrl.onTypeField = true; 
+      ctrl.onNewField = true;
       ctrl.onEdit = false;
       ctrl.onComponents = false;
       ctrl.onEditField = false; 
@@ -963,6 +973,11 @@
       httpService.getEntity(entityId).then(function(response){
         ctrl.entityForms = response.data.forms.filter(function(form){ return form.type == 'v2'});
       }); 
+    }
+
+    function getEntityFormsByBind(bind){
+      var ref = ctrl.currentEntity.references.filter(function(ref){ return ref.alias == bind})[0];
+      getEntityForms(ref.entity);
     }
 
     function getEntity(entityName, model, fragment){
@@ -1218,7 +1233,7 @@
     }
 
     function codeView(){
-      var url = '/forms/inpaas.devstudio.forms.CreateFormv2/'.concat(idForm);
+      var url = '/forms/inpaas.devstudio.forms.CreateFormv2/'.concat(ctrl.jsonModel.id);
       window.open(url);
     }
 
@@ -1317,7 +1332,8 @@
       deleteForm: deleteForm,
       formPreview: formPreview,
       removeSection: removeSection,
-      getEntityAndSetReferences: getEntityAndSetReferences
+      getEntityAndSetReferences: getEntityAndSetReferences,
+      getEntityFormsByBind: getEntityFormsByBind
     }); 
   };
 })();
