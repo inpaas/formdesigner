@@ -992,10 +992,12 @@ ul.nav-components li.item-components .widget-toolbar i {
   float: left;
   margin-bottom: 5px;
 }
+
 .row-widget .widget-main .col-wdg {
-  background-color: rgb(245, 245, 245);
+  background-color: inherit;
   min-height: 30px;
 }
+
 .row-widget .widget-main .col-wdg:first-child,
 .row-widget .widget-main .col-wdg:nth-child(2) {
   border-right: solid 5px #f5f5f5;
@@ -1009,19 +1011,19 @@ ul.nav-components li.item-components .widget-toolbar i {
 .row-widget .widget-box:hover .widget-body .widget-main .col-wdg.col-sm-offset-2
 { border-right: none; }
 
-.row-widget .widget-box:hover .widget-body .widget-main .col-wdg {
+/*.row-widget .widget-box:hover .widget-body .widget-main .col-wdg {
   background-color: rgb(244, 250, 251);
   position: relative;
-}
+}*/
 
-.row-widget .widget-box:hover .widget-body .widget-main .col-wdg:before {
+/*.row-widget .widget-box:hover .widget-body .widget-main .col-wdg:before {
   content: "";
   border: dashed 1px #d6e8ea;
   width: 100%;
   height: 100%;
   position: absolute;
 }
-
+*/
 .row-widget .widget-main .col-wdg:last-child {
   border-right: none;
 }
@@ -1175,10 +1177,13 @@ ul.nav-components .inner-item.type-field {
   font-size: 10px;
   font-style: italic;
 }
-.content-field .row-widget .widget-box:hover .widget-body {
+
+.content-field .row-widget .widget-box:hover .widget-body, 
+.content-field .section-selected .widget-box .widget-body{
   transition: .3s;
   background: rgba(238, 247, 251, 0.4);
 }
+
 .row-table .col-action-table label.tlt-list:before,
 .row-table .col-table .col-item-table:before {
   font: normal normal normal 14px/1 FontAwesome;
@@ -1470,6 +1475,7 @@ div.page-actions .btn{
   display: none;
 }
 
+.section-selected .widget-box .widget-toolbar .btn-group,
 .widget-box:hover .widget-toolbar .btn-group{
   display: inherit;
 }
@@ -2067,11 +2073,3 @@ ul.nav-components.sb-field-text.sb-edit-action
 .type-map .form-group button.btn.btn-success:active,
 .type-map .form-group button.btn.btn-success:focus
 { border-color: #dedede; }
-
-select[multiple]{
-  max-height: 60px;
-}
-
-.finder-include{
-  padding: 10px 0;
-}
