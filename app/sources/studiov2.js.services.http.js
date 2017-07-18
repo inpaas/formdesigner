@@ -68,50 +68,46 @@
             form = JSON.parse(response.data.json);
             form.moduleId = response.data.moduleId;
             form.id = id;
+
+            labelsService.translateLabels(form);
+            if (form.fields.filter(function(f){ return f.include; }).length) {
+              return getFormInclude(form).then(function(){
+                return form;
+              });
+            }else{
+              return form;
+            }
+
+          }else{
+            form.key = response.data.key;
+            form.label = response.data.label;
+            form.moduleId = response.data.moduleId;
+            form.id = response.data.id;
+
+            angular.extend(template, jsonFormService.getFormTemplate());
+            labelsService.translateLabels(form);
             return form;
           }
-          
-          form.key = response.data.key;
-          form.label = response.data.label;
-          form.moduleId = response.data.moduleId;
-          form.id = response.data.id;
 
-          angular.extend(template, jsonFormService.getFormTemplate());
-          return form;
       }, onError);
-    }
-
-    function getMasterForm(id, idModule) {
-      return getForm(id, idModule).then(function(form){
-        jsonFormService.setJsonForm(form);
-        labelsService.translateLabels(form);
-        return form;
-      }, onError);
-      // .then(function(form){
-      //   return getFormInclude(form, idModule).then(function(response){
-      //     return form
-      //   });
-      // });
     }
 
     function getFormInclude(form, idModule){
-      var defer = $q.all,
-          promises = []; 
-
+      var promises = [];
+      
       form.fields.forEach(function(field){
-        if (field.meta.type == 'include') {
-          var thenFn = callback.bind(null, field),
-              promise = getForm(field.include.idForm, idModule).then(thenFn);
+        if (field.include) {
+          var p = getForm(field.include.idForm, idModule).then(function(formInclude){ 
+                    labelsService.translateLabels(formInclude);
+                    field.jsonForm = formInclude;
+                    field.fields = angular.copy(formInclude.fields); 
+                  });
 
-          promises.push(promise); 
+          promises.push(p);
         }
       });
 
-      return defer(promises);
-
-      function callback(field, form){
-        field.fields = form.fields; 
-      }
+      return $q.all(promises);
     }
 
     function saveNewForm(form, idModule) {
@@ -241,9 +237,9 @@
       getPermissions: getPermissions,
       getFormats: getFormats,
       deleteForm: deleteForm,
-      getMasterForm: getMasterForm,
       getFinders: getFinders,
-      getFinder: getFinder
+      getFinder: getFinder,
+      getFormInclude: getFormInclude
     }
   }
 

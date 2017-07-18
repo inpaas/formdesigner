@@ -26,13 +26,11 @@
     function init() {
       getJsonForm(idForm, 0)
         .then(function(response){
-          jsonFormService.setJsonForm(response);
           ctrl.jsonModel = angular.copy(response);
           idModuleForm = response.moduleId;
 
           getModuleForm(idModuleForm);
-          buildMainSection(ctrl.jsonModel);
-          mapAddedButtons(ctrl.jsonModel.views.list.actions, 'list');
+          buildSection(ctrl.jsonModel);
           mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
 
           if (ctrl.jsonModel.dataSource.key) {
@@ -50,7 +48,7 @@
 
     function getJsonForm(id){
       if (id) {
-        return httpService.getMasterForm(id, 0); 
+        return httpService.getForm(id, 0); 
       }else{
         var deferred = $q.defer();
         deferred.resolve(jsonFormService.getFormTemplate());
@@ -58,7 +56,7 @@
       }
     }
 
-    function buildMainSection(form) {
+    function buildSection(form) {
       ctrl.sections.push({
         columns: form.views.edit.columns,
         fields: setFieldsToMainSection(form.fields),
@@ -66,13 +64,13 @@
         type: 'main'
       });
 
-      form.fields.forEach(function(field, index){
-        if (field.meta.type == 'include') {
-          ctrl.sections.push(field);
-        }
+      httpService.getFormInclude(form, idModuleForm).then(function(){
+        ctrl.jsonModel.fields.forEach(function(field, index){
+          if (field.fields) {
+            ctrl.sections.push(field);
+          }
+        });
       });
-
-      ctrl.selectedSectionIndex = 0;
     } 
 
     function setFieldsToMainSection(fields) {
@@ -679,12 +677,9 @@
       ctrl.fieldEdit = {};
     }
 
-    function removeField(index) {
-      if (!ctrl.sectionSelectedIndex) {
-        autoSelectSection();
-      }
-
-      var field = ctrl.sections[ctrl.sectionSelectedIndex].fields.splice(index, 1);
+    function removeField(index, section) {
+      var sectionIndex = ctrl.sections.indexOf(section);
+      var field = ctrl.sections[sectionIndex].fields.splice(index, 1);
 
       if (field[0].name == ctrl.fieldEdit.name) {
         showComponents();
@@ -697,15 +692,19 @@
     }
 
     function saveForm(){
-      setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
-
-      if(ctrl.sections.length > 1){
+      if(ctrl.sections.length == 1){
+        setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
         setFieldsIncludes(ctrl.jsonModel, ctrl.sections.slice(1, ctrl.sections.length));
-        saveIncludeForms(ctrl.sections);
+        var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
+        save(form);
+      }else{
+        saveIncludeForms().then(function(responses){
+          setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
+          setFieldsIncludes(ctrl.jsonModel, ctrl.sections.slice(1, ctrl.sections.length));
+          var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
+          save(form);
+        });
       }
-
-      var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
-      save(form);
     }
 
     function save(form){
@@ -720,7 +719,6 @@
           .then(function(response){
             return httpService.saveEditForm(form, response.data.id, idModuleForm).then(function(response){
               ctrl.jsonModel.id = response.data.id;
-              jsonFormService.editIdForm(response.data.id);
               Notification.success('Formulário salvo com sucesso');
               goToEdit(response.data.id, false);
             });
@@ -755,40 +753,33 @@
       });
     }
 
-    function saveIncludeForms(sections){
-      var deferred = $q.defer(),
-          promises = [];
+    function saveIncludeForms(){
+      var promises = [];
+      
+      ctrl.sections.forEach(function(section){
+        if (section.jsonForm) {
+          var form = section.jsonForm;
+          form.fields.length = 0;
+          setFieldsOnForm(section, form);
+          form = labelsService.buildLabels(form, idModuleForm); 
 
-      var includes = sections.filter(function(section){ return section.isSameDataSource; });
-      includes.forEach(function(section){
-        var form = angular.copy(section.jsonForm);
+          if(form.id){
+            var p = httpService.saveEditForm(form, form.id, idModuleForm);
+            promises.push(p);
+          }else{
+            var p = httpService.saveNewForm(form, idModuleForm).then(function(response){
+                      section.include.idForm = form.id = response.data.id;
+                      return form;
+                    }).then(function(form){
+                      return httpService.saveEditForm(form, form.id, idModuleForm);
+                    });
 
-        setFieldsOnForm(section, form);
-        form = labelsService.buildLabels(form, idModuleForm); 
-
-        if(form.id){
-          httpService.saveEditForm(form, form.id, idModuleForm).then(
-            angular.noop,
-            function(response){
-              Notification.error(response.data.message);
-          });
-          return;
+            promises.push(p);
+          }
         }
-
-        httpService.saveNewForm(form, idModuleForm).then(function(response){
-          form.id = response.data.id;
-          section.include.idForm = form.id
-          return form;
-        }).then(function(form){
-          httpService.saveEditForm(form, form.id, idModuleForm).then(angular.noop,
-            function(response){
-              Notification.error(response.data.message);
-            });
-        });
-
       });
 
-      return deferred.promise;
+      return $q.all(promises);
     }
 
     function setFieldsOnMainForm(form, sections){
@@ -958,9 +949,6 @@
         ctrl.data.entityFields = response.data.attributes;
 
         ctrl.data.entityFields.forEach(function(field, index){
-          if (field.primaryKey) {
-            jsonFormService.setKeyToDetails(field.alias);
-          } 
           var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();
           field.translatedName = $l10n.hasLabel(label)? $l10n.translate(label) : field.alias;
         });
@@ -1144,7 +1132,7 @@
         ctrl.jsonModel = form;
         ctrl.onConfigForm = false;
 
-        buildMainSection(ctrl.jsonModel);
+        buildSection(ctrl.jsonModel);
         setBreadcrumb();
       });
     }

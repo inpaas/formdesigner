@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div class="widget-body" ng-if="section.type == 'main' || section.isSameDataSource">
+      <div class="widget-body" ng-if="section.type == 'main' || section.fields">
         <div class="widget-main clearfix">
           <div class="row" ng-if="section.columns == 1 || !section.columns">
             <div class="col-wdg col-sm-6 no-padding col-sm-offset-2">
@@ -91,9 +91,11 @@
               </div>
               <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
             </div>
+
             <div class="col-wdg col-sm-4 no-padding">
               <div class="row" dragula="'3col-bag'" ng-show="section.fields.length"> </div>
             </div>
+            
             <div class="col-wdg col-sm-4 no-padding">
               <div class="row" dragula="'3col-bag'" ng-show="section.fields.length">  </div>
             </div> 
@@ -105,14 +107,6 @@
         <p class="text-center"> 
           <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.key}]}">
             Lista:  {[{ section.finder.title }]}
-          </a>
-        </p>
-      </div>
-
-      <div class="widget-body" ng-if="section.include.key && !section.isSameDataSource">
-        <p class="text-center"> 
-          <a target="_blank" href="/forms/studiov2.forms.main#/forms/{[{section.include.idForm}]}">
-            Form:  {[{ section.include.key }]}
           </a>
         </p>
       </div>

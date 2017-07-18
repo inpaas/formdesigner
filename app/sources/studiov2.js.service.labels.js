@@ -65,15 +65,15 @@
       buildLabelsFromTitle(jsonForm.label, moduleId);
 
       if (jsonForm.views.edit.breadcrumb) {
-        jsonForm.views.edit.actions = buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);  
+        buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);  
       }
       
       if(jsonForm.views.edit.actions){
-        jsonForm.views.edit.actions = buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
+        buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
       }
 
       if(jsonForm.fields){
-        jsonForm.fields = buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase()); 
+        buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase()); 
       }
       
       return jsonForm;
@@ -164,15 +164,15 @@
       form.label = translateTitle(form.label);
 
       if (form.views.edit.breadcrumb) {
-        form.views.edit.breadcrumb = translateBreadcrumb(form.views.edit.breadcrumb);
+        translateBreadcrumb(form.views.edit.breadcrumb);
       }
 
       if(form.views.edit.actions){
-        form.views.edit.actions = translateActions(form.views.edit.actions);
+        translateActions(form.views.edit.actions);
       }
 
       if(form.fields){
-        form.fields = translateFields(form.fields);
+        translateFields(form.fields);
       }
 
       return form;
