@@ -79,12 +79,12 @@
             }
 
           }else{
+            form = jsonFormService.getFormTemplate();
             form.key = response.data.key;
             form.label = response.data.label;
             form.moduleId = response.data.moduleId;
             form.id = response.data.id;
 
-            angular.extend(template, jsonFormService.getFormTemplate());
             labelsService.translateLabels(form);
             return form;
           }
