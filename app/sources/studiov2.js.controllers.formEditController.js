@@ -29,7 +29,7 @@
           ctrl.jsonModel = angular.copy(response);
           idModuleForm = response.moduleId;
 
-          getModuleForm(idModuleForm);
+          
           buildSections(ctrl.jsonModel);
           mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
 
@@ -42,6 +42,10 @@
               });
           }else{
             showConfigForm();
+          }
+
+          if (idModuleForm) {
+            getModuleForm(idModuleForm);
           }
         });
     }
@@ -844,7 +848,6 @@
         description: ctrl.jsonModel.description
       };
 
-      getPermissions(idModuleForm);
 
       getApps().then(function(response){
         ctrl.apps.forEach(function(app, index){
@@ -906,9 +909,6 @@
           model.moduleId = response.data.id;
         }
       }); 
-
-      //TODO: Tirar essa chamada daqui
-      getPermissions(idModule);
     }
 
     function getModuleForm(idModule) {
@@ -920,8 +920,11 @@
           ctrl.configForm.key = ctrl.moduleForm.key;
         }
 
+        getPermissions(idModule);
       }); 
+
     }
+
     function getModule(idModule){
       return httpService.getModule(idModule);
     }
