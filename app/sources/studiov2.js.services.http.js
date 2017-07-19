@@ -70,7 +70,7 @@
             form.id = id;
 
             labelsService.translateLabels(form);
-            if (form.fields.filter(function(f){ return f.include; }).length) {
+            if (form.fields.filter(function(f){ return f.isSameDataSource; }).length) {
               return getFormInclude(form).then(function(){
                 return form;
               });
@@ -96,7 +96,7 @@
       var promises = [];
       
       form.fields.forEach(function(field){
-        if (field.include) {
+        if (field.meta.type == 'include' && field.isSameDataSource) {
           var p = getForm(field.include.idForm, idModule).then(function(formInclude){ 
                     labelsService.translateLabels(formInclude);
                     field.jsonForm = formInclude;

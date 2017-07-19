@@ -30,7 +30,7 @@
           idModuleForm = response.moduleId;
 
           getModuleForm(idModuleForm);
-          buildSection(ctrl.jsonModel);
+          buildSections(ctrl.jsonModel);
           mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
 
           if (ctrl.jsonModel.dataSource.key) {
@@ -56,7 +56,7 @@
       }
     }
 
-    function buildSection(form) {
+    function buildSections(form) {
       ctrl.sections.push({
         columns: form.views.edit.columns,
         fields: setFieldsToMainSection(form.fields),
@@ -64,12 +64,10 @@
         type: 'main'
       });
 
-      httpService.getFormInclude(form, idModuleForm).then(function(){
-        ctrl.jsonModel.fields.forEach(function(field, index){
-          if (field.fields) {
-            ctrl.sections.push(field);
-          }
-        });
+      form.fields.forEach(function(field, index){
+        if (field.meta.type == 'include') {
+          ctrl.sections.push(field);
+        }
       });
     } 
 
@@ -285,7 +283,7 @@
           currentSection.finder.dependencies = dependencies;
         }
       
-      }else if(currentSection.isSameDataSource){
+      }else if(currentSection.isSameDataSource && !currentSection.jsonForm){
         var jsonForm = jsonFormService.getFormTemplate();
         jsonForm.key = 'form-include-'.concat(new Date().getTime());
         jsonForm.dataSource = ctrl.jsonModel.dataSource;
@@ -734,20 +732,20 @@
       confirm && httpService.deleteForm(idForm, idModuleForm).then(function(response){
         ctrl.configForm = {};
         ctrl.moduleForm = {};
-        Notification.success('Formulário deletado')
+
+        Notification.success('Formulário deletado');
         $state.go('forms.new-view-edit');
       }); 
     }
 
     function setFieldsIncludes(form, sections){
       sections.forEach(function(section){
-        var field = {
-          label: section.label,
-          meta: section.meta,
-          name: section.name,
-          include: section.include,
-          views: section.views
-        }
+        var field = angular.copy(section);
+
+        delete field.fields;
+        delete field.newInclude;
+        delete field.jsonForm;
+        delete field.type;
 
         form.fields.push(field);
       });
@@ -1132,7 +1130,7 @@
         ctrl.jsonModel = form;
         ctrl.onConfigForm = false;
 
-        buildSection(ctrl.jsonModel);
+        buildSections(ctrl.jsonModel);
         setBreadcrumb();
       });
     }

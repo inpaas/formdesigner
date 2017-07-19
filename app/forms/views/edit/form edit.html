@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div class="widget-body" ng-if="section.type == 'main' || section.fields">
+      <div class="widget-body" ng-if="section.type == 'main' || section.isSameDataSource">
         <div class="widget-main clearfix">
           <div class="row" ng-if="section.columns == 1 || !section.columns">
             <div class="col-wdg col-sm-6 no-padding col-sm-offset-2">
@@ -110,6 +110,15 @@
           </a>
         </p>
       </div>
+
+      <div class="widget-body" ng-if="section.include.key && !section.isSameDataSource">
+        <p class="text-center"> 
+          <a target="_blank" href="/forms/studiov2.forms.main#/forms/{[{section.include.idForm}]}">
+            Form:  {[{ section.include.key }]}
+          </a>
+        </p>
+      </div>
+
     </div>
   </div>
   <!-- Sections-->
