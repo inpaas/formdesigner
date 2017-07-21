@@ -266,7 +266,7 @@
 
       if (currentSection.includeType == 'list') {
         currentSection.finder.title = getFinderTitleByKey(currentSection.entity.finders, currentSection.finder.key);
-        if (currentSection.dependenciesKeys.length) {
+        if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
             var attr = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0];
             var field = ctrl.data.entityFields.filter(function(field){return field.name == key; })[0];
@@ -954,8 +954,16 @@
       });
 
       return httpService.getEntity(entityId).then(function(response) {
-        ctrl.currentEntity = response.data;
         ctrl.data.entityFields = response.data.attributes;
+        ctrl.currentEntity = response.data;
+
+
+        ctrl.currentEntity.references.forEach(function(ref, index){
+          var titleEntityReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ) );
+          var titleFieldReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ).concat('.'.concat(ref.field.toLowerCase()) ));
+
+          ref.label = titleFieldReference.concat(' (').concat(titleEntityReference).concat(')');
+        });
 
         ctrl.data.entityFields.forEach(function(field, index){
           var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();

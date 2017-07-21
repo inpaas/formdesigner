@@ -98,7 +98,7 @@
         <select class="form-control input-sm" 
                 ng-model="ctrl.currentSection.meta.bind"
                 ng-change="ctrl.getEntityFormsByBind(ctrl.currentSection.meta.bind)"
-                ng-options="ref.alias as ref.entity for ref in ctrl.currentEntity.references">
+                ng-options="ref.alias as ref.label for ref in ctrl.currentEntity.references">
         </select>
       </div>
       
@@ -106,7 +106,7 @@
         <label for="">Forms</label>
         <select class="form-control input-sm" 
                 ng-model="ctrl.currentSection.include.key"
-                ng-options="form.key as form.key for form in ctrl.entityForms">
+                ng-options="form.key as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
         </select>
       </div>
     </div>
