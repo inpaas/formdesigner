@@ -1,5 +1,4 @@
 (function(){
-
   angular
     .module('studio-v2')
     .constant('JSONMODEL', {

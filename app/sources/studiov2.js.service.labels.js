@@ -43,8 +43,9 @@
     }
 
     function setLabelsNamespace(formKey) {
-      var template = "labels.forms.{{form}}.";
-      labelsNamespace = labelsNamespace || template.replace('{{form}}', formKey);
+      var template = "label.forms.{{form}}.";
+      labelsNamespace = template.replace('{{form}}', formKey);
+      return labelsNamespace;
     }
 
     function getLabelsNamespace(){
@@ -62,7 +63,8 @@
 
     function buildLabels(jsonForm, moduleId){
       setLabelsNamespace(jsonForm.key);
-      buildLabelsFromTitle(jsonForm.label, moduleId);
+
+      jsonForm.label = buildLabelsFromTitle(jsonForm.label, moduleId);
 
       if (jsonForm.views.edit.breadcrumb) {
         buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);  
@@ -81,9 +83,8 @@
 
     function buildLabelsFromTitle(title, moduleId, lang){
       var key = generateKey('title');
-
-      jsonFormService.editLabel(key);
       saveLabel(title, key, moduleId);
+      return key;
     }
 
     function buildLabelsFromBreadcrumb(breadcrumb, view, moduleId){

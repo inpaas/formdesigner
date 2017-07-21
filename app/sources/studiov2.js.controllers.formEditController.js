@@ -373,7 +373,14 @@
         model.referencesChild = [];
         model.finder.formKey = entity.formKey;
         model.finder.formType = entity.formType;
-        
+
+        if(entity && !entity.finders.length){
+          var key = entity.name.toLowerCase().concat('.all.active.desc'),
+              title = $l10n.translate('label.finder.allrecords');
+
+          entity.finders.push({key: key, title: title});
+        } 
+
         if (model && entity) {
           entity.references.forEach(function(ref, index){
             model.references.push(ref.field);
