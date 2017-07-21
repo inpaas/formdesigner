@@ -1,17 +1,22 @@
-<!-- <div class="col-sm-12 col-xs-12 no-padding form-group">
-  <label for="">Direção de digitação</label>
-  <select  class="form-control input-sm">
-    <option value="leftRight">Esquerda para Direita</option>
-    <option value="rightLeft">Direita para Esquerda</option>
+<div class="col-sm-12 col-xs-12 no-padding form-group">
+  <label for="">Largura do campo</label>
+  <select class="form-control input-sm" ng-bind="ctrl.fieldEdit.width">
+    <option value="small">Pequeno</option>
+    <option value="medium">Médio</option>
+    <option value="large">Grande</option>
   </select>
-</div> -->
+</div>
+
+<div class="col-sm-12 col-xs-12 no-padding form-group">
+  <label for="">Linhas</label>
+  <select class="form-control input-sm" ng-bind="ctrl.fieldEdit.rows">
+    <option value="4">Pequeno</option>
+    <option value="6">Médio</option>
+    <option value="8">Grande</option>
+  </select>
+</div>
 
 {{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}
 {{#include-html}}studiov2.forms.sidebar.config-fields.max-length{{/include-html}}
 
-<!-- <div class="row row-checkbox">
-  <div class="form-group">
-    <input type="checkbox" id="wrap"/>
-    <label for="wrap">Quebra de linha</label>
-  </div>
-</div> -->
+<textarea name="" id="" cols="30" rows="10"></textarea>
