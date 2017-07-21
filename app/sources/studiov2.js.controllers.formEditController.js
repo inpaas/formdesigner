@@ -332,7 +332,7 @@
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
 
-      if (currentSection.finder) {
+      if (currentSection.meta.type == 'include' && currentSection.finder) {
         getModuleEntity(currentSection.finder.moduleId);
         getFinders(currentSection.finder.entityName);
         getEntityAndSetReferences(currentSection.finder.entityName, currentSection).then(function(entity){
@@ -351,9 +351,10 @@
           showConfigSection();
         });
 
-      }else{
+      }else if(currentSection.meta.type == 'include' && currentSection.include){
         currentSection.includeType = 'edit';
         ctrl.currentSection = currentSection;
+        getEntityFormsByBind(ctrl.currentSection.meta.bind);
         showConfigSection();
       }
 
