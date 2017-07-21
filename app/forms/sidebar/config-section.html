@@ -1,13 +1,13 @@
 <!-- Config Section -->
 <ul class="nav-components sb-widget" ng-show="ctrl.onEditSection">
-  <!-- Estrutura -->
+
   <li class="item-components">
     Propriedades da Seção
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
   </li>
-  <!-- Estrutura -->
+  Estrutura
   <div class="inner-item propriets-section">
     <div class="row">
       <div class="form-group">
@@ -16,13 +16,51 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-if="ctrl.currentSection.type != 'main'">
       <input type="checkbox" id="section-dataSorce" ng-model="ctrl.currentSection.isSameDataSource"> 
       <label for="section-dataSorce"> Usar a entidade do Form </label>
     </div>
   </div>
   
-  <div class="inner-item propriets-section" ng-show="!ctrl.currentSection.isSameDataSource">
+  <!-- Config Collumns-->
+  <li class="item-components" ng-show="ctrl.currentSection.includeType != 'list'">
+    Colunas da seção
+    <div class="widget-toolbar default-toolbar hidden-print">
+      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+    </div>
+  </li>
+
+  <div class="inner-item template-col">
+    <ul class="list-existing">
+      <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 1" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 1 || !ctrl.currentSection.views.edit.collumns}">
+        <div class="row-bx">
+          <div class="col-amount col-am-1"></div>
+        </div>
+        <p class="txt-info-col">1 Coluna</p>
+      </li>
+
+      <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 2" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 2}">
+        <div class="row-bx">
+          <div class="col-amount col-am-2"></div>
+          <div class="col-amount col-am-2"></div>
+        </div>
+        <p class="txt-info-col">2 Colunas</p>
+      </li>
+
+      <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 3" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 3}">
+        <div class="row-bx">
+          <div class="col-amount col-am-3"></div>
+          <div class="col-amount col-am-3"></div>
+          <div class="col-amount col-am-3"></div>
+        </div>
+        <p class="txt-info-col">3 Colunas</p>
+      </li>
+    </ul>
+  </div> 
+  <!-- /Config Collumns-->
+  
+  <!-- Config include Datasource-->
+  <div class="inner-item propriets-section" ng-show="ctrl.currentSection.type != 'main' && !ctrl.currentSection.isSameDataSource">
     <div class="stock-separator">
       <label for="">Tipo do seção</label>
     </div>
@@ -38,134 +76,77 @@
           <input type="radio" id="section-type-edit" name="includeType" ng-model="ctrl.currentSection.includeType" value="edit"> Edição
         </label>
       </div>
-    </div>
-    
-    <!-- Config Finder Include -->
-    <div class="row" ng-show="ctrl.currentSection.includeType == 'list'">
-      <div class="stock-separator">
-        <label for="">Master/Detail</label>
-      </div>
+      <br>
+      <!-- Config Finder Include -->
+      <div ng-show="ctrl.currentSection.includeType == 'list'">
+        <div class="form-group">
+          <div class="btn-group btn-block">
+            <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
+              {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+            </button>
+            <ul class="dropdown-menu btn-block">
+              <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+              <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.currentSection.finder)">
+                <a href="" ng-bind="mod.title"></a>
+              </li>
+              <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+            </ul>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <div class="btn-group btn-block">
-          <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
-            {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
-          </button>
-          <ul class="dropdown-menu btn-block">
-            <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-            <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.currentSection.finder)">
-              <a href="" ng-bind="mod.title"></a>
-            </li>
-            <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
-          </ul>
+        <div class="form-group">
+          <label for="">Entidade</label>
+          <input type="text" 
+                class="form-control input-sm" 
+                placeholder="Selecione" 
+                ng-model="ctrl.currentSection.finder.entityName" 
+                typeahead-on-select="ctrl.getEntityAndSetReferences($model, ctrl.currentSection)" 
+                uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
+                typeahead-min-length="0" />
+        </div>
+
+        <div class="form-group">
+          <label for="">Finder:</label>
+          <select class="form-control input-sm" 
+                  ng-model="ctrl.currentSection.finder.key"
+                  ng-options="finder.key as finder.title for finder in ctrl.currentSection.entity.finders">
+          </select>
+
+        </div>
+
+        <div class="form-group">
+          <label for="">Dependências</label>
+          <select class="form-control input-sm" 
+                  multiple 
+                  ng-options="ref for ref in ctrl.currentSection.references" 
+                  ng-model="ctrl.currentSection.dependenciesKeys">
+          </select>
         </div>
       </div>
-
-      <div class="form-group">
-        <label for="">Entidade</label>
-        <input type="text" 
-              class="form-control input-sm" 
-              placeholder="Selecione" 
-              ng-model="ctrl.currentSection.finder.entityName" 
-              typeahead-on-select="ctrl.getEntityAndSetReferences($model, ctrl.currentSection)" 
-              uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
-              typeahead-min-length="0" />
-      </div>
-
-      <div class="form-group">
-        <label for="">Finder:</label>
-        <select class="form-control input-sm" 
-                ng-model="ctrl.currentSection.finder.key"
-                ng-options="finder.key as finder.title for finder in ctrl.currentSection.entity.finders">
-        </select>
-
-      </div>
-
-      <div class="form-group">
-        <label for="">Dependências</label>
-        <select class="form-control input-sm" 
-                multiple 
-                ng-options="ref for ref in ctrl.currentSection.references" 
-                ng-model="ctrl.currentSection.dependenciesKeys">
-        </select>
-      </div>
-    </div>
-    
-    <!-- Config include edit  -->
-    <div class="row" ng-show="ctrl.currentSection.includeType == 'edit'">
-      <div class="form-group">
-        <label for="">Referência</label>
-        <select class="form-control input-sm" 
-                ng-model="ctrl.currentSection.meta.bind"
-                ng-change="ctrl.getEntityFormsByBind(ctrl.currentSection.meta.bind)"
-                ng-options="ref.alias as ref.label for ref in ctrl.currentEntity.references">
-        </select>
-      </div>
       
-      <div class="form-group">
-        <label for="">Forms</label>
-        <select class="form-control input-sm" 
-                ng-model="ctrl.currentSection.include.key"
-                ng-options="form.key as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
-        </select>
+      <!-- Config include edit  -->
+      <div ng-show="ctrl.currentSection.includeType == 'edit'">
+        <div class="form-group">
+          <label for="">Referência</label>
+          <select class="form-control input-sm" 
+                  ng-model="ctrl.currentSection.meta.bind"
+                  ng-change="ctrl.getEntityFormsByBind(ctrl.currentSection.meta.bind)"
+                  ng-options="ref.alias as ref.label for ref in ctrl.currentEntity.references">
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="">Forms</label>
+          <select class="form-control input-sm" 
+                  ng-model="ctrl.currentSection.include.key"
+                  ng-options="form.key as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
+          </select>
+        </div>
       </div>
     </div>
   </div>
-  
-<!--   <li class="item-components">
-    Template da Coluna
-    <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
-    </div>
-  </li> -->
+  <!-- /Config include Datasource-->
 
-<!--   <div class="inner-item template-col">
-    <ul class="list-existing">
-      <li class="item-list" ng-click="ctrl.currentSection.columns = 1" ng-class="{'item-list-selected' : ctrl.currentSection.columns == 1}">
-        <div class="row-bx">
-          <div class="col-amount col-am-1"></div>
-        </div>
-        <p class="txt-info-col">1 Coluna</p>
-      </li>
-
-      <li class="item-list" ng-click="ctrl.currentSection.columns = 2" ng-class="{'item-list-selected' : ctrl.currentSection.columns == 2}">
-        <div class="row-bx">
-          <div class="col-amount col-am-2"></div>
-          <div class="col-amount col-am-2"></div>
-        </div>
-        <p class="txt-info-col">2 Coluna</p>
-      </li>
-
-      <li class="item-list" ng-click="ctrl.currentSection.columns = 3" ng-class="{'item-list-selected' : ctrl.currentSection.columns == 3}">
-        <div class="row-bx">
-          <div class="col-amount col-am-3"></div>
-          <div class="col-amount col-am-3"></div>
-          <div class="col-amount col-am-3"></div>
-        </div>
-        <p class="txt-info-col">3 Coluna</p>
-      </li>
-    </ul>
-  </div> -->
-
-<!--   <li class="item-components">
-    Ordem de Tabulação
-    <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
-    </div>
-  </li>
-  <div class="inner-item template-col order-tab">
-    <ul class="list-existing">
-      <li class="item-list" ng-click="ctrl.currentSection.tabSort = 1" ng-class="{'item-list-selected' : ctrl.currentSection.tabSort == 1}">
-        <div class="row-bx tab-1"></div>
-        <p class="txt-info-col">Tab 1</p>
-      </li>
-
-      <li class="item-list" ng-click="ctrl.currentSection.tabSort = 2" ng-class="{'item-list-selected' : ctrl.currentSection.tabSort == 2}">
-        <div class="row-bx tab-2"></div>
-        <p class="txt-info-col">Tab 2</p>
-      </li>
-    </ul>
-  </div> -->
   <div class="action-buttons" style="z-index: 1;">
     <div class="row">
       <div class="col-xs-12 col-sm-6 no-padding col-pdd">

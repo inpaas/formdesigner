@@ -62,10 +62,10 @@
 
     function buildSections(form) {
       ctrl.sections.push({
-        columns: form.views.edit.columns,
         fields: setFieldsToMainSection(form.fields),
         label: form.views.edit.label,
-        type: 'main'
+        type: 'main',
+        views: form.views
       });
 
       form.fields.forEach(function(field, index){
@@ -297,6 +297,10 @@
         }
       }
 
+      if(currentSection.type == 'main'){
+        ctrl.jsonModel.views.edit.collumns = currentSection.views.edit.collumns;
+      }
+
       if (!angular.isUndefined(currentSection.index)) {
         angular.extend(ctrl.sections[currentSection.index], currentSection);
       }else{
@@ -332,11 +336,15 @@
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
 
-      if (currentSection.meta.type == 'include' && currentSection.finder) {
+      if (currentSection.type == 'main') {
+        ctrl.currentSection = currentSection;
+        showConfigSection();
+        
+      }else if (currentSection.meta.type == 'include' && currentSection.finder) {
         getModuleEntity(currentSection.finder.moduleId);
         getFinders(currentSection.finder.entityName);
         getEntityAndSetReferences(currentSection.finder.entityName, currentSection).then(function(entity){
-          var dependencesKeys = []; 
+          var dependencesKeys = [];
 
           angular.forEach(function(value, key){
             var field = ctrl.data.entityFields.filter(function(field){return field.name == value; })[0];
