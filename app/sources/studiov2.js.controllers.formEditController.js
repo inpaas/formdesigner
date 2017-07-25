@@ -537,8 +537,6 @@
         fieldEdit.rawEntityField.translatedName = fieldEdit.label;
       }
 
-      delete fieldEdit.rawEntityField;
-
       if (angular.isUndefined(fieldEdit.index)){
         addNewField();
       }else if(fieldEdit.col == 1){
@@ -548,6 +546,9 @@
       }else{
         ctrl.sections[ctrl.sectionSelectedIndex].fieldsCol3[fieldEdit.index] = fieldEdit;
       }
+
+      delete fieldEdit.rawEntityField;
+      delete fieldEdit.col;
 
       ctrl.fieldEdit = {};
       showComponents();
@@ -813,6 +814,9 @@
         delete field.newInclude;
         delete field.jsonForm;
         delete field.type;
+        delete field.fieldsCol1;
+        delete field.fieldsCol2;
+        delete field.fieldsCol3;
 
         form.fields.push(field);
       });
