@@ -10,20 +10,20 @@
   
   <div class="inner-item propriets-section">
     <div class="row">
-      <div class="form-group">
+      <div class="form-group" ng-if="ctrl.currentSection.type != 'main'">
+        <input type="checkbox" id="section-dataSorce" ng-model="ctrl.currentSection.isSameDataSource"> 
+        <label for="section-dataSorce"> Usar a entidade do Form </label>
+      </div>
+
+      <div class="form-group" ng-show="ctrl.currentSection.type == 'main' || ctrl.currentSection.includeType == 'list'">
         <label for="">Título da Seção</label>
         <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.currentSection.label">
       </div>
     </div>
-
-    <div class="form-group" ng-if="ctrl.currentSection.type != 'main'">
-      <input type="checkbox" id="section-dataSorce" ng-model="ctrl.currentSection.isSameDataSource"> 
-      <label for="section-dataSorce"> Usar a entidade do Form </label>
-    </div>
   </div>
   
   <!-- Config Collumns-->
-  <li class="item-components" ng-show="ctrl.currentSection.includeType != 'list'">
+  <li class="item-components" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource && !ctrl.currentSection.jsonForm)">
     Colunas da seção
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
