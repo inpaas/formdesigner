@@ -263,7 +263,7 @@
       ctrl.onNewSection = true;
       ctrl.currentSection = {
         type: 'include',
-        name:'include-'.concat(ctrl.sections.length), 
+        name: 'include-'.concat(ctrl.sections.length), 
         id: 'section-'.concat(ctrl.sections.length),
         newInclude: true,
         meta: {type: 'include'},
@@ -309,6 +309,8 @@
         }
       
       }else if(currentSection.isSameDataSource && !currentSection.jsonForm){
+        currentSection.includeType = 'edit';
+
         var jsonForm = jsonFormService.getFormTemplate();
         jsonForm.key = 'form-include-'.concat(new Date().getTime());
         jsonForm.dataSource = ctrl.jsonModel.dataSource;
@@ -316,9 +318,8 @@
         currentSection.include = {
           key: jsonForm.key
         }
-      }
 
-      if(currentSection.type == 'main'){
+      }else if(currentSection.type == 'main'){
         ctrl.jsonModel.views.edit.collumns = currentSection.views.edit.collumns;
       }
 
@@ -367,11 +368,7 @@
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
 
-      if (currentSection.type == 'main') {
-        ctrl.currentSection = currentSection;
-        showConfigSection();
-        
-      }else if (currentSection.meta.type == 'include' && currentSection.finder) {
+      if (currentSection.includeType == 'list' && currentSection.meta.type == 'include') {
         getModuleEntity(currentSection.finder.moduleId);
         getFinders(currentSection.finder.entityName);
         getEntityAndSetReferences(currentSection.finder.entityName, currentSection).then(function(entity){
@@ -379,24 +376,24 @@
 
           angular.forEach(function(value, key){
             var field = ctrl.data.entityFields.filter(function(field){return field.name == value; })[0];
+
             if (field) {
               dependencesKeys.push(field.name);
             }
           });
 
-          currentSection.includeType = 'list';
           ctrl.currentSection = currentSection;
-
           showConfigSection();
         });
-
-      }else if(currentSection.meta.type == 'include' && currentSection.include){
-        currentSection.includeType = 'edit';
-        ctrl.currentSection = currentSection;
-        getEntityFormsByBind(ctrl.currentSection.meta.bind);
-        showConfigSection();
+        return;
       }
 
+      if(currentSection.includeType == 'edit' && !currentSection.isSameDataSource){
+        getEntityFormsByBind(currentSection.meta.bind);
+      }
+
+      ctrl.currentSection = currentSection;
+      showConfigSection();
     }
 
     function getFinderTitleByKey(finders, key){
