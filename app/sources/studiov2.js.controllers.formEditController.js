@@ -506,6 +506,7 @@
 
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
+
       var fieldEdit = ctrl.fieldEdit;
 
       setNameField(fieldEdit);
@@ -540,10 +541,13 @@
 
       if (angular.isUndefined(fieldEdit.index)){
         addNewField();
+      }else if(fieldEdit.col == 1){
+        ctrl.sections[ctrl.sectionSelectedIndex].fieldsCol1[fieldEdit.index] = fieldEdit;
+      }else if(fieldEdit.col == 2){
+        ctrl.sections[ctrl.sectionSelectedIndex].fieldsCol2[fieldEdit.index] = fieldEdit;
       }else{
-        ctrl.sections[ctrl.sectionSelectedIndex].fields[fieldEdit.index] = fieldEdit;
+        ctrl.sections[ctrl.sectionSelectedIndex].fieldsCol3[fieldEdit.index] = fieldEdit;
       }
-      
 
       ctrl.fieldEdit = {};
       showComponents();
@@ -643,8 +647,17 @@
 
     }
 
-    function editField($event, formField, index, section) {
-      formField = angular.copy(formField);
+    function editField(_formField, index, section) {
+      if(section.fieldsCol1.indexOf(_formField) != -1){
+        _formField.col = 1;
+      }else if(section.fieldsCol2.indexOf(_formField) != -1){
+        _formField.col = 2;
+      }else{
+        _formField.col = 3;
+      };
+
+      formField = angular.copy(_formField);
+
       formField.index = index,
       sectionIndex = ctrl.sections.indexOf(section);
 
@@ -698,7 +711,7 @@
       if (formField.meta.type.match(/date/g)) {
         getFormatsPattern();
       }
-      
+
       ctrl.fieldEdit = formField;
 
       showEditField();
