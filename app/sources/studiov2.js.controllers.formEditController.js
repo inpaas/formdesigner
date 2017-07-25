@@ -267,7 +267,6 @@
         id: 'section-'.concat(ctrl.sections.length),
         newInclude: true,
         meta: {type: 'include'},
-        name: (new Date().getTime()),
         isSameDataSource: true,
         fieldsCol1: [],
         fieldsCol2: [],
@@ -312,7 +311,7 @@
         currentSection.includeType = 'edit';
 
         var jsonForm = jsonFormService.getFormTemplate();
-        jsonForm.key = 'form-include-'.concat(new Date().getTime());
+        jsonForm.key = ctrl.jsonModel.key.concat('.form-include-').concat( (new Date().getTime()) ),
         jsonForm.dataSource = ctrl.jsonModel.dataSource;
         currentSection.jsonForm = jsonForm;
         currentSection.include = {
