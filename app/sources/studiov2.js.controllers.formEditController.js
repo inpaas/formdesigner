@@ -65,13 +65,38 @@
         fields: setFieldsToMainSection(form.fields),
         label: form.views.edit.label,
         type: 'main',
-        views: form.views
+        views: form.views,
+        fieldsCol1: [],
+        fieldsCol2: [],
+        fieldsCol3: []
       });
 
       form.fields.forEach(function(field, index){
         if (field.meta.type == 'include') {
+          field.fieldsCol1 = [];
+          field.fieldsCol2 = [];
+          field.fieldsCol3 = [];
+
           ctrl.sections.push(field);
         }
+      });
+
+      ctrl.sections.forEach(function(section, index){
+        section.fields.forEach(function(field, index){
+          switch(field.views.edit.position) {
+            case undefined:
+            case 1:
+              section.fieldsCol1.push(field);
+              break;
+
+            case 2:
+              section.fieldsCol2.push(field);
+              break;
+
+            case 3:
+              section.fieldsCol3.push(field);
+          }
+        });
       });
     } 
 
@@ -94,11 +119,6 @@
         });
       });
     }
-
-    function activate(permissions) {
-      ctrl.ready = true;
-      ctrl.data["permissions"] = permissions;
-    };
 
     function mapAddedButtons(buttons, view){
       buttons.forEach(function(button, index){
@@ -251,6 +271,9 @@
         },
         name: (new Date().getTime()),
         isSameDataSource: true,
+        fieldsCol1: [],
+        fieldsCol2: [],
+        fieldsCol3: [],
         fields: [],
         views: {
           edit: {}
@@ -301,6 +324,17 @@
         ctrl.jsonModel.views.edit.collumns = currentSection.views.edit.collumns;
       }
 
+      switch(currentSection.views.edit.collumns) {
+        case 1:
+          currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol2);
+          currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol3);
+          currentSection.fieldsCol2.length = 0;
+          currentSection.fieldsCol3.length = 0;
+        case 2:
+          currentSection.fieldsCol2 = currentSection.fieldsCol3.concat(currentSection.fieldsCol3);
+          currentSection.fieldsCol3.length = 0;
+      }
+
       if (!angular.isUndefined(currentSection.index)) {
         angular.extend(ctrl.sections[currentSection.index], currentSection);
       }else{
@@ -311,7 +345,6 @@
         ctrl.jsonModel.views.edit.label = currentSection.label;
       }
 
-      ctrl.selectedSectionIndex = currentSection.index || ctrl.sections.length - 1;
       showComponents();
     }
 
@@ -476,7 +509,6 @@
       var fieldEdit = ctrl.fieldEdit;
 
       setNameField(fieldEdit);
-      setViewsField(fieldEdit);
 
       if (fieldEdit.visibilityType) {
         fieldEdit.meta.visible = setDisplayConfig(fieldEdit.visibilityType, fieldEdit.visibilityExpression);
@@ -543,10 +575,6 @@
       field.name = 'input'.concat(field.meta.bind);
     } 
 
-    function setViewsField(field) {
-      field.views.edit = {};
-    }
-
     function addNewField() {
       if (!ctrl.selectedSectionIndex) {
         autoSelectSection();
@@ -556,18 +584,17 @@
           newField = angular.copy(ctrl.fieldEdit);
 
       newField.id = sectionSelected.fields.length;
-
-      if (sectionSelected.columns != '1' && !sectionSelected.fields.length) {
-        newField.position = 'left'; 
-      }
-
-      sectionSelected.fields.push(newField);
+      sectionSelected.fieldsCol1.push(newField);
     } 
 
     function addField(entityField) {
       var fieldEdit = {
             meta: {},
-            views: {}
+            views: {
+              edit:{
+                position: 1
+              }
+            }
           };
 
       fieldEdit.label = entityField.translatedName || entityField.alias;
@@ -582,11 +609,11 @@
         fieldEdit.customField = true;
       }
 
-      ctrl.fieldEdit = angular.copy(fieldEdit);
-
       if(!ctrl.sectionSelectedIndex){
         autoSelectSection();
       }
+
+      ctrl.fieldEdit = angular.copy(fieldEdit);
 
       showTypeFields();
     }
@@ -695,11 +722,18 @@
       ctrl.fieldEdit = {};
     }
 
-    function removeField(index, section) {
-      var sectionIndex = ctrl.sections.indexOf(section);
-      var field = ctrl.sections[sectionIndex].fields.splice(index, 1);
+    function removeField(field, section) {
+      if (section.fieldsCol1.indexOf(field) != -1) {
+        section.fieldsCol1.splice(field, 1);
+      
+      }else if(section.fieldsCol2.indexOf(field) != -1){
+        section.fieldsCol2.splice(section.fieldsCol2.indexOf(field), 1);
 
-      if (field[0].name == ctrl.fieldEdit.name) {
+      }else {
+        section.fieldsCol3.splice(section.fieldsCol3.indexOf(field), 1);
+      }
+
+      if (ctrl.fieldEdit && ctrl.fieldEdit.name == field.name) {
         showComponents();
       }
     }
@@ -810,12 +844,14 @@
     }
 
     function setFieldsOnForm(section, form){
-      section.fields.forEach(function(field){
-        var _field = angular.copy(field);
-        delete _field.id;
-        delete _field.templateType;
-        form.fields.push(_field);
-      });
+      section.fieldsCol1 && section.fieldsCol1.forEach(setPositionField.bind(this, 1));
+      section.fieldsCol2 && section.fieldsCol2.forEach(setPositionField.bind(this, 2));
+      section.fieldsCol3 && section.fieldsCol3.forEach(setPositionField.bind(this, 3));
+
+      function setPositionField(position, field){
+        field.views.edit.position = position;
+        form.fields.push(field);
+      };
     }
     
     function showEditField() {
@@ -1230,19 +1266,6 @@
       $scope.$on('buttons-edit.drop-model', function(e, el){
         mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');          
       });
-
-      $scope.$on('2col-bag.drop', function(e, el){
-        setPositionField(el);
-      });
-
-      $scope.$on('3col-bag.drop', function(e, el){
-        setPositionField(el);
-      });
-
-      function setPositionField(el){
-        var position = el.parent().attr('id').split('-').pop();
-        el.scope().$parent.field.position = position;
-      }
     }
 
     function codeView(){
@@ -1294,7 +1317,6 @@
       data: {},
       form: {},
       sections: [],
-      activate: activate,
       addButton: addButton,
       saveEditField: saveEditField,
       addField: addField,

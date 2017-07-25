@@ -1,16 +1,16 @@
 Issues Forms Designer V2
 ========================
 
+
+
 ## Issues funcionalidade
-  - Não é possível fazer dropar um field quando o include não tem fields
-  - Carregar as labels do campo 
-  - Messagem de validação (não tem especificamente no json atualmente)
+  - não deixar mais de um field com o mesmo bind
+  - colocar o id do módulo e da entity na ref para para facilitar a consulta 
+  - Tirar as chamadas que dão erro no backend
+  - Não é possível fazer drop de um field quando o include não tem fields
   - Modo avançado (?)
-  - Edição do bind no breadcrumbs
   - Adicionar datepicker
-  - Tipo de campo html através do tipo da coluna
   - Colocar o code mirror
-  - Minificar os assets 
   - Colocar todos os includes e template do angular em um arquivo no studio (ng-includes)
   - Validações
     - Key do form
@@ -18,13 +18,32 @@ Issues Forms Designer V2
   - Alertas
 
 ## Issues de layout
+  - colocar a barra de config do form em cima  
   - Criar comunicação de sections selecionados para edição
   - Marcar a coluna da entity quando já incluída em um field
   - Colocar um campo na nova seção para definir um dataSource (qnd for os includes)
   - Adicionar ícones informando o tipo de campo da entity (sidebar)
   - Padronizar o bt de conclusão de edição (hj está salvar ou confirmar e trocar para concluir)
-
+  - Colocar ícones do tipo de dado do field
 ## Doc
   - Modificar a doc do breadcrumb, que está nas views e não mais no root do json
   - Add os atributos dos fields
   - Docs de props novas
+
+
+  field include com finder
+  {
+    ...
+    meta: {
+      type: include
+    }
+    
+    include:{
+      finder:{
+        key: '',
+        entityName: '',
+        fieldIndex: ''
+      }
+    }
+
+  }

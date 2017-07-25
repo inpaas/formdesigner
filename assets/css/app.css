@@ -2023,3 +2023,7 @@ ul.nav-components.sb-field-text.sb-edit-action
 .type-map .form-group button.btn.btn-success:active,
 .type-map .form-group button.btn.btn-success:focus
 { border-color: #dedede; }
+
+.item-config-selected{
+  background: #3399CC;
+}
