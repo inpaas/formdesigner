@@ -82,21 +82,23 @@
       });
 
       ctrl.sections.forEach(function(section, index){
-        section.fields.forEach(function(field, index){
-          switch(field.views.edit.position) {
-            case undefined:
-            case 1:
-              section.fieldsCol1.push(field);
-              break;
+        if (section.fields) {
+          section.fields.forEach(function(field, index){
+            switch(field.views.edit.position) {
+              case undefined:
+              case 1:
+                section.fieldsCol1.push(field);
+                break;
 
-            case 2:
-              section.fieldsCol2.push(field);
-              break;
+              case 2:
+                section.fieldsCol2.push(field);
+                break;
 
-            case 3:
-              section.fieldsCol3.push(field);
-          }
-        });
+              case 3:
+                section.fieldsCol3.push(field);
+            }
+          });
+        }
       });
     } 
 
@@ -312,6 +314,7 @@
 
         var jsonForm = jsonFormService.getFormTemplate();
         jsonForm.key = ctrl.jsonModel.key.concat('.form-include-').concat( (new Date().getTime()) ),
+        jsonForm.label = currentSection.label;
         jsonForm.dataSource = ctrl.jsonModel.dataSource;
         currentSection.jsonForm = jsonForm;
         currentSection.include = {
