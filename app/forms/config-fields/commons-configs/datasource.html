@@ -48,9 +48,9 @@
   <div class="form-group">
     <label for="">Finder:</label>
     <select class="form-control input-sm" 
-            ng-change="ctrl.getFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)" 
-            ng-model="ctrl.fieldEdit.finder.key">
-      <option value="{[{ finder.key }]}" ng-repeat="finder in ctrl.finders">{[{finder.title}]}</option>
+            ng-change="ctrl.getFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)"
+            ng-model="ctrl.fieldEdit.finder.key"
+            ng-options="finder.key as finder.title for finder in ctrl.finders | filter: {entityFinder: true}">
     </select>
   </div>
 

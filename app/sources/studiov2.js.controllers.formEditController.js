@@ -266,9 +266,7 @@
         name:'include-'.concat(ctrl.sections.length), 
         id: 'section-'.concat(ctrl.sections.length),
         newInclude: true,
-        meta: {
-          type: 'include'
-        },
+        meta: {type: 'include'},
         name: (new Date().getTime()),
         isSameDataSource: true,
         fieldsCol1: [],
@@ -416,12 +414,10 @@
         model.finder.formKey = entity.formKey;
         model.finder.formType = entity.formType;
 
-        if(entity && !entity.finders.length){
-          var key = entity.name.toLowerCase().concat('.all.active.desc'),
-              title = $l10n.translate('label.finder.allrecords');
+        var key = entity.name.toLowerCase().concat('.all.active.desc'),
+            title = $l10n.translate('label.finder.allrecords');
 
-          entity.finders.push({key: key, title: title});
-        } 
+        entity.finders.push({key: key, title: title, entityFinder: true});
 
         if (model && entity) {
           entity.references.forEach(function(ref, index){
@@ -960,6 +956,11 @@
     function getFinders(entityName){
       return httpService.getFinders(entityName).then(function(response){
         ctrl.finders = response.data;
+
+        var key = entityName.toLowerCase().concat('.all.active.desc'),
+            title = $l10n.translate('label.finder.allrecords');
+
+        ctrl.finders.push({key: key, title: title, entityFinder: true});
         return response;
       });
     }
