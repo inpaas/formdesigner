@@ -12,7 +12,6 @@
  
  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS) {
     var ctrl = this,
-        jsonModel,
         idForm = $state.params.id,
         idModuleForm;
 
@@ -652,10 +651,10 @@
         _formField.col = 3;
       };
 
-      formField = angular.copy(_formField);
+      var formField = angular.copy(_formField), 
+          sectionIndex = ctrl.sections.indexOf(section);
 
-      formField.index = index,
-      sectionIndex = ctrl.sections.indexOf(section);
+      formField.index = index;
 
       if(!formField.views.edit.size){
         formField.views.edit.size = 8;
@@ -1221,10 +1220,6 @@
         buildSections(ctrl.jsonModel);
         setBreadcrumb();
       });
-    }
-
-    function fieldHasFilterView(field, index, array){
-      return field.views.filter;
     }
 
     function selectDataSourceType(){
