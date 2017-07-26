@@ -394,6 +394,10 @@
         getEntityFormsByBind(currentSection.meta.bind);
       }
 
+      if (!currentSection.views.edit.collumns) {
+        currentSection.views.edit.collumns = 1; 
+      }
+
       ctrl.currentSection = currentSection;
       showConfigSection();
     }
@@ -656,6 +660,10 @@
 
       formField.index = index,
       sectionIndex = ctrl.sections.indexOf(section);
+
+      if (!section.views.edit.collumns){
+        section.views.edit.collumns = 1; 
+      }
 
       if(ctrl.onBindBreadcrumb){
         bindFieldOnBreadcrumb(formField.meta.bind);
