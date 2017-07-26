@@ -657,7 +657,7 @@
       formField.index = index;
 
       if(!formField.views.edit.size){
-        formField.views.edit.size = 5;
+        formField.views.edit.size = '5';
       }
 
       if (!section.views.edit.collumns){
