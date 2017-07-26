@@ -1,4 +1,4 @@
-<div class="form-group" ng-if="ctrl.sections[ctrl.sectionSelectedIndex].views.edit.collumns > 1">
+<div class="form-group" ng-if="!ctrl.sections[ctrl.sectionSelectedIndex].views.edit.collumns || ctrl.sections[ctrl.sectionSelectedIndex].views.edit.collumns < 3">
   <label for="">Largura do campo</label>
   <select class="form-control input-sm" ng-model="ctrl.fieldEdit.views.edit.size">
     <option value="2">Pequeno</option>
