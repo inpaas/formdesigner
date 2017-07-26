@@ -362,10 +362,6 @@
       selectSection(0);
     }
 
-    function editFirstSection(){
-      ctrl.currentSection = ctrl.sections[0];
-    }
-
     function editSection(index) {
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
@@ -660,6 +656,10 @@
 
       formField.index = index,
       sectionIndex = ctrl.sections.indexOf(section);
+
+      if(!formField.views.edit.size){
+        formField.views.edit.size = 8;
+      }
 
       if (!section.views.edit.collumns){
         section.views.edit.collumns = 1; 
