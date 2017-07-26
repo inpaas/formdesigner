@@ -580,7 +580,7 @@
     } 
 
     function addNewField() {
-      if (!ctrl.selectedSectionIndex) {
+      if (!ctrl.sectionSelectedIndex) {
         autoSelectSection();
       }
 
