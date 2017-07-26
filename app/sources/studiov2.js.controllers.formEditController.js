@@ -740,8 +740,8 @@
     }
 
     function removeField(field, section) {
-      if (section.fieldsCol1.indexOf(field) != -1) {
-        section.fieldsCol1.splice(field, 1);
+      if (section.fieldsCol1.indexOf(field) != -1){
+        section.fieldsCol1.splice(section.fieldsCol1.indexOf(field), 1);
       
       }else if(section.fieldsCol2.indexOf(field) != -1){
         section.fieldsCol2.splice(section.fieldsCol2.indexOf(field), 1);
@@ -833,7 +833,7 @@
           var form = section.jsonForm;
           form.fields.length = 0;
           setFieldsOnForm(section, form);
-          form = labelsService.buildLabels(form, idModuleForm); 
+          form = labelsService.buildLabels(angular.copy(form), idModuleForm); 
 
           if(form.id){
             var p = httpService.saveEditForm(form, form.id, idModuleForm);
