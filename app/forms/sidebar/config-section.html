@@ -30,7 +30,7 @@
     </div>
   </li>
 
-  <div class="inner-item template-col">
+  <div class="inner-item template-col" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource && !ctrl.currentSection.jsonForm)">
     <ul class="list-existing">
       <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 1" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 1 || !ctrl.currentSection.views.edit.collumns}">
         <div class="row-bx">
