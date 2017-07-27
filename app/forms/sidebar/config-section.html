@@ -15,13 +15,13 @@
         <label for="section-dataSorce"> Usar a entidade do Form </label>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-show="ctrl.currentSection.type != 'main'">
         <label for="">Título da Seção</label>
         <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.currentSection.label">
       </div>
       <div class="form-group">
-        <label for="notDisplayLabel"></label>
-        <input type="checkbox" class="input-sm form-control" ng-model="ctrl.currentSection.notDisplayLabel" id="notDisplayLabel"> 
+        <input type="checkbox" class="" ng-model="ctrl.currentSection.notDisplayLabel" id="notDisplayLabel"> 
+        <label for="notDisplayLabel">Não mostrar o título</label>
       </div>
     </div>
   </div>

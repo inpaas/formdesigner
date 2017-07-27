@@ -3,7 +3,7 @@
 <!-- Title and Button Page -->
 <div class="row row-title">
   <div class="col-xs-12 col-sm-5 no-padding">
-    <label class="title-form no-padding" ng-bind="">{[{ctrl.jsonModel.label}]}</label>
+    <label class="title-form no-padding" ng-bind="ctrl.jsonModel.label"></label>
   </div>
 
   <div class="page-actions pull-right" id="edit-actions-top" dragula="'buttons-edit'" dragula-model="ctrl.jsonModel.views.edit.actions">
@@ -34,7 +34,7 @@
 
     <div role="app-widget" class="widget-box widget-well">
       <div class="widget-header">
-        <h5 class="widget-title" ng-bind="section.label"> </h5>
+        <h5 class="widget-title" ng-bind="section.label" ng-hide="section.notDisplayLabel"></h5>
         <div class="widget-toolbar">
           <div class="btn-group">
             <i class="fa fa-pencil" ng-click="ctrl.editSection($index)"></i>
