@@ -23,14 +23,14 @@
   </div>
   
   <!-- Config Collumns-->
-  <li class="item-components" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource && !ctrl.currentSection.jsonForm)">
+  <li class="item-components" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource)">
     Colunas da seção
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
   </li>
 
-  <div class="inner-item template-col" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource && !ctrl.currentSection.jsonForm)">
+  <div class="inner-item template-col" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource)">
     <ul class="list-existing">
       <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 1" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 1 || !ctrl.currentSection.views.edit.collumns}">
         <div class="row-bx">
