@@ -16,18 +16,15 @@
         idModuleForm;
 
 
-    init();
-    getApps();
     setCurrentViewFlag();
     getWatchers();
     settingsDragNDrop();
 
-    function init() {
+    getApps().then(function(){
       getJsonForm(idForm, 0)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
           idModuleForm = response.moduleId;
-
           
           buildSections(ctrl.jsonModel);
           mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
@@ -47,7 +44,7 @@
             getModuleForm(idModuleForm);
           }
         });
-    }
+    });
 
     function getJsonForm(id){
       if (id) {
