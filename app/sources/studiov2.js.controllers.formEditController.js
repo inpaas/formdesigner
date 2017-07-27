@@ -965,10 +965,13 @@
       return httpService.getFinders(entityName).then(function(response){
         ctrl.finders = response.data;
 
-        var key = entityName.toLowerCase().concat('.all.active.desc'),
-            title = $l10n.translate('label.finder.allrecords');
+        if (!response.data.finders.filter(function(f){ return f.entityFinder}).length) {
+          var key = entityName.toLowerCase().concat('.all.active.desc'),
+              title = $l10n.translate('label.finder.allrecords');
 
-        ctrl.finders.push({key: key, title: title, entityFinder: true});
+          ctrl.finders.push({key: key, title: title, entityFinder: true});
+        }
+
         return response;
       });
     }
