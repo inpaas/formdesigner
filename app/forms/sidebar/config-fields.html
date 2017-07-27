@@ -41,7 +41,21 @@
     </div>
 
     <div class="row" ng-include="'studiov2.forms.sidebar.config-fields.'+ ctrl.fieldEdit.meta.type" ng-show="ctrl.fieldEdit.meta.type"></div>
+    <div class="stock-separator">
+      <label for="">Eventos</label>
+    </div>
+    <div class="row">
+      <div class="form-group">
+        <label for="">SourceKey</label>
+        <input type="text" ng-model="ctrl.fieldEdit.sourceKey">
+      </div>
 
+      <div class="form-group">
+        <label for="">Function Name</label>
+        <input type="text" ng-model="ctrl.fieldEdit.functionName">
+      </div>
+
+    </div>
     <div class="stock-separator">
       <label for="">Display</label>
     </div>
