@@ -831,6 +831,8 @@
         if (section.jsonForm) {
           var form = section.jsonForm;
           form.fields.length = 0;
+          form.views.edit.collumns = section.views.edit.collumns;
+
           setFieldsOnForm(section, form);
           form = labelsService.buildLabels(angular.copy(form), idModuleForm); 
 
