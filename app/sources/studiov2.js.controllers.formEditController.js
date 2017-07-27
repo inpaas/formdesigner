@@ -591,7 +591,8 @@
             meta: {},
             views: {
               edit:{
-                position: 1
+                position: 1,
+                size: '5'
               }
             }
           };
@@ -832,7 +833,6 @@
           var form = section.jsonForm;
           form.fields.length = 0;
           form.views.edit.collumns = section.views.edit.collumns;
-
           setFieldsOnForm(section, form);
           form = labelsService.buildLabels(angular.copy(form), idModuleForm); 
 
