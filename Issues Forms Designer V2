@@ -4,8 +4,8 @@ Issues Forms Designer V2
 
 
 ## Issues funcionalidade
-  - não deixar mais de um field com o mesmo bind
-  - colocar o id do módulo e da entity na ref para para facilitar a consulta 
+  - Não deixar mais de um field com o mesmo bind
+  - Colocar o id do módulo e da entity na ref para para facilitar a consulta 
   - Tirar as chamadas que dão erro no backend
   - Não é possível fazer drop de um field quando o include não tem fields
   - Modo avançado (?)
@@ -18,7 +18,7 @@ Issues Forms Designer V2
   - Alertas
 
 ## Issues de layout
-  - colocar a barra de config do form em cima  
+  - Colocar a barra de config do form em cima  
   - Criar comunicação de sections selecionados para edição
   - Marcar a coluna da entity quando já incluída em um field
   - Colocar um campo na nova seção para definir um dataSource (qnd for os includes)

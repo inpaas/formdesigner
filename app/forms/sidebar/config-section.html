@@ -19,7 +19,7 @@
         <label for="">Título da Seção</label>
         <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.currentSection.label">
       </div>
-      <div class="form-group">
+      <div class="form-group" ng-show="ctrl.currentSection.type != 'main'">
         <input type="checkbox" class="" ng-model="ctrl.currentSection.notDisplayLabel" id="notDisplayLabel"> 
         <label for="notDisplayLabel">Não mostrar o título</label>
       </div>
