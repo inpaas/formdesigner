@@ -40,7 +40,11 @@
       </div>
     </div>
 
-    <div class="row" ng-include="'studiov2.forms.sidebar.config-fields.'+ ctrl.fieldEdit.meta.type" ng-show="ctrl.fieldEdit.meta.type"></div>
+    <div class="row" 
+        ng-if="ctrl.fieldEdit.meta.type"
+        ng-include="'studiov2.forms.sidebar.config-fields.'+ ctrl.fieldEdit.meta.type">
+    </div>
+
     <div class="stock-separator">
       <label for="">Eventos</label>
     </div>
