@@ -1,7 +1,7 @@
 /*globals moment angular jQuery*/
 (function() {
     var dependencies = [
-      'ui.bootstrap', 'ui-notification', 'ngSanitize', 'Localization', angularDragula(angular), 'ui-router'
+      'ui.bootstrap', 'ui-notification', 'ngSanitize', 'Localization', angularDragula(angular), 'ui.router'
     ];
 
     angular
