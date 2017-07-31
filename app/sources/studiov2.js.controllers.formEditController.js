@@ -815,17 +815,17 @@
           form.include = true;
           form.views.edit.collumns = section.views.edit.collumns;
           setFieldsOnForm(section, form);
-          form = labelsService.buildLabels(angular.copy(form), idModuleForm); 
+          form = labelsService.buildLabels(angular.copy(form), getModuleIdByKey(form.moduleKey) || form.moduleId); 
 
           if(form.id){
-            var p = httpService.saveEditForm(form, form.id, idModuleForm);
+            var p = httpService.saveEditForm(form, form.id, getModuleIdByKey(form.moduleKey) || form.moduleId); 
             promises.push(p);
           }else{
             var p = httpService.saveNewForm(form, idModuleForm).then(function(response){
                       section.include.idForm = form.id = response.data.id;
                       return form;
                     }).then(function(form){
-                      return httpService.saveEditForm(form, form.id, idModuleForm);
+                      return httpService.saveEditForm(form, form.id, getModuleIdByKey(form.moduleKey) || form.moduleId); 
                     });
 
             promises.push(p);
