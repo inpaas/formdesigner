@@ -66,7 +66,6 @@
 
           if (response.data.json) {
             form = JSON.parse(response.data.json);
-            form.moduleId = response.data.moduleId;
             form.id = id;
 
             labelsService.translateLabels(form);
@@ -83,6 +82,7 @@
             form.key = response.data.key;
             form.label = response.data.label;
             form.moduleId = response.data.moduleId;
+            form.dataSource.moduleId = response.data.moduleId;
             form.id = response.data.id;
 
             labelsService.translateLabels(form);

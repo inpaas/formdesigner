@@ -34,7 +34,7 @@
                 });
               });
           }else{
-            showConfigForm();
+            showConfigForm(ctrl.jsonModel);
           }
         });
     });
@@ -885,35 +885,6 @@
       ctrl.onComponents = false;
     }
 
-    function showConfigForm() {
-      var configForm = {
-        key: ctrl.jsonModel.key,
-        label: ctrl.jsonModel.label, 
-        moduleKey: ctrl.jsonModel.moduleKey,
-        moduleId: ctrl.jsonModel.moduleId,
-        dataSource: ctrl.jsonModel.dataSource,
-        template: ctrl.jsonModel.template,
-        description: ctrl.jsonModel.description
-      };
-
-      ctrl.apps.forEach(function(app, index){
-        if (app.modules) {
-          app.modules.forEach(function(mod, index){
-            if (mod.key == configForm.moduleKey || mod.id == configForm.moduleId) {
-              ctrl.moduleForm = mod;
-            }
-
-            if (mod.key == configForm.dataSource.moduleKey || mod.id == configForm.moduleId) {
-              ctrl.moduleEntity = mod;
-            }
-          });  
-        }
-      });
-
-      ctrl.configForm = configForm;
-      ctrl.onConfigForm = true;
-    }
-
     function getApps(){
       return httpService.getApps().then(function(response){
         ctrl.apps = response.data; 
@@ -983,10 +954,11 @@
 
     function getModuleIdByKey(key){
       var id;
+
       ctrl.apps.forEach(function(app){
         app.modules.forEach(function(mod){
           if (mod.key == key) {
-            id = mod.key;
+            id = mod.id;
           }
         });
       });
@@ -1092,19 +1064,55 @@
       });
     }
 
+    function showConfigForm(form) {
+      var configForm = {
+        key: form.key,
+        label: form.label, 
+        dataSource: form.dataSource,
+        moduleKey: form.moduleKey,
+        template: form.template,
+        description: form.description
+      };
+
+      ctrl.apps.forEach(function(app, index){
+        if (app.modules) {
+          app.modules.forEach(function(mod, index){
+            if (mod.key == form.moduleKey || mod.id == form.moduleId) {
+              ctrl.moduleForm = mod;
+              configForm.moduleKey = mod.key;
+            }
+
+            if (mod.key == form.dataSource.moduleKey || mod.id == form.dataSource.moduleId) {
+              ctrl.moduleEntity = mod;
+              configForm.dataSource.moduleKey = mod.key;
+            }
+          });  
+        }
+      });
+
+      getEntitiesByModule(ctrl.moduleEntity.id);
+
+      delete form.moduleId;
+      delete form.dataSource.moduleId;
+
+      ctrl.configForm = configForm;
+      ctrl.onConfigForm = true;
+    }
+
     function saveConfigForm() {
       if (!ctrl.jsonModel.views.edit.breadcrumb.length) {
         setBreadcrumb();
       }
 
-      angular.extend(ctrl.jsonModel, ctrl.configForm);
-
       if(ctrl.configForm.dataSource.type == 'E' && ctrl.configForm.dataSource.key){
         getFieldsByEntity(ctrl.configForm.dataSource.key);
       }
-      
+
+      ctrl.jsonModel.moduleKey = ctrl.moduleForm.key;
+      ctrl.jsonModel.dataSource.moduleKey = ctrl.moduleEntity.key;
+
+      angular.extend(ctrl.jsonModel, ctrl.configForm);
       ctrl.onConfigForm = false;
-      ctrl.moduleEntity = {};
     }
 
     function cancelConfigForm() {
