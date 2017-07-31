@@ -527,17 +527,24 @@
         case 'O':
         case 'D':
           delete model.dataSource;
+          delete model.finder;
           break;
 
         case 'E':
-          model.dataSource.type = model.dataSourceType;
+          model.finder.moduleKey = ctrl.moduleEntity.key;
+          delete model.dataSource;
           break; 
 
         case 'S':
+          if (!model.dataSource) {
+            model.dataSource = {};
+          }
           model.dataSource.key = model.dataSource.sourceKey;
           model.dataSource.method = model.dataSource.sourceMethod;
+
           delete model.dataSource.sourceKey; 
           delete model.dataSource.sourceMethod;
+          delete model.finder;
           break;
       }
 
@@ -662,19 +669,19 @@
         angular.extend(formField, setDisplayConfigForEdit(formField.meta.disabled, 'disabledType', 'disabledExpression'));
       }
 
+      if (formField.finder) {
+        getFinders(formField.finder.entityName);
+        getFinder(formField.finder.entityName, formField.finder.key);
+        filterSelectFields(formField);
+        ctrl.moduleEntity = getModuleFromApps(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
+        formField.dataSourceType = 'E';
 
-      if(formField.dataSource){
+      }else if(formField.dataSource){
         getModuleEntity(getModuleIdByKey(formField.dataSource.moduleKey) || formField.dataSource.moduleId, formField);
         formField.dataSourceType = formField.dataSource.type;
         formField.dataSource.sourceMethod = formField.dataSource.method;
         formField.dataSource.sourceKey = formField.dataSource.key;
-      }
-
-      if (formField.finder) {
-        getModuleEntity(getModuleIdByKey(formField.dataSource.moduleKey) || formField.dataSource.moduleId, formField);
-        getFinders(formField.finder.entityName);
-        ctrl.moduleEntity = getModuleFromApps(formField.finder.moduleId);
-        filterSelectFields(formField);
+        formField.dataSourceType = 'E';
       }
 
       if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
@@ -907,14 +914,15 @@
 
     function getFinders(entityName){
       return httpService.getFinders(entityName).then(function(response){
-        ctrl.finders = response.data;
+        var finders = response.data.filter(function(f){ return f.entityFinder});
 
-        if (!response.data.filter(function(f){ return f.entityFinder}).length) {
+        if (!finders.length) {
           var key = entityName.toLowerCase().concat('.all.active.desc'),
               title = $l10n.translate('label.finder.allrecords');
 
-          ctrl.finders.push({key: key, title: title, entityFinder: true});
+          finders.push({key: key, title: title, entityFinder: true});
         }
+        ctrl.finders = finders;
 
         return response;
       });
@@ -1224,7 +1232,7 @@
           break;
 
         case 'E':
-          ctrl.fieldEdit.dataSource? ctrl.fieldEdit.dataSource : ctrl.fieldEdit.dataSource = {finder: {}};
+          ctrl.fieldEdit.finder = {};
           filterSelectFields(ctrl.fieldEdit);
       }
     }

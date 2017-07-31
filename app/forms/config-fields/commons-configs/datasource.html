@@ -4,7 +4,7 @@
   </div>
   <div class="form-group">
     <label for="">Tipo</label>
-    <select class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSourceType" ng-change="ctrl.selectDataSourceType()">
+    <select class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSourceType">
       <option value="">Selecione</option>
       <option value="E">Entidade</option>
       <option value="S">Serviço</option>
@@ -50,7 +50,7 @@
     <select class="form-control input-sm" 
             ng-change="ctrl.getFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)"
             ng-model="ctrl.fieldEdit.finder.key"
-            ng-options="finder.key as finder.title for finder in ctrl.finders | filter: {entityFinder: true}">
+            ng-options="finder.key as finder.title for finder in ctrl.finders">
     </select>
   </div>
 
