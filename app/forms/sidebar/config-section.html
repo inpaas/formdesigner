@@ -1,25 +1,25 @@
 <!-- Config Section -->
 <ul class="nav-components sb-widget" ng-show="ctrl.onEditSection">
 
-  <li class="item-components">
+  <li class="item-components" ng-if="ctrl.currentSection.type != 'main'">
     Propriedades da Seção
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
   </li>
   
-  <div class="inner-item propriets-section">
+  <div class="inner-item propriets-section" ng-if="ctrl.currentSection.type != 'main'">
     <div class="row">
-      <div class="form-group" ng-if="ctrl.currentSection.type != 'main'">
+      <div class="form-group">
         <input type="checkbox" id="section-dataSorce" ng-model="ctrl.currentSection.isSameDataSource"> 
         <label for="section-dataSorce"> Usar a entidade do Form </label>
       </div>
 
-      <div class="form-group" ng-show="ctrl.currentSection.type != 'main'">
+      <div class="form-group">
         <label for="">Título da Seção</label>
         <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.currentSection.label">
       </div>
-      <div class="form-group" ng-show="ctrl.currentSection.type != 'main'">
+      <div class="form-group">
         <input type="checkbox" class="" ng-model="ctrl.currentSection.notDisplayLabel" id="notDisplayLabel"> 
         <label for="notDisplayLabel">Não mostrar o título</label>
       </div>
