@@ -6,7 +6,10 @@ Issues Forms Designer V2
 ## Issues funcionalidade
   - Não deixar mais de um field com o mesmo bind
   - Colocar o id do módulo e da entity na ref para para facilitar a consulta 
-  - Tirar as chamadas que dão erro no backend
+  - esconder o ver código no /new
+  - tirar o isSameDataSource do include antes de salvar 
+  - não deixar mais de um field com o mesmo bind
+  - colocar o id do módulo e da entity na ref para para facilitar a consulta 
   - Não é possível fazer drop de um field quando o include não tem fields
   - Modo avançado (?)
   - Adicionar datepicker

@@ -12,9 +12,7 @@
  
  function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS) {
     var ctrl = this,
-        idForm = $state.params.id,
-        idModuleForm;
-
+        idForm = $state.params.id;
 
     setCurrentViewFlag();
     getWatchers();
@@ -24,13 +22,12 @@
       getJsonForm(idForm, 0)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
-          idModuleForm = response.moduleId;
           
           buildSections(ctrl.jsonModel);
           mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
 
           if (ctrl.jsonModel.dataSource.key) {
-            getEntitiesByModule(ctrl.jsonModel.dataSource.moduleId)
+            getEntitiesByModule(getModuleIdByKey(ctrl.jsonModel.dataSource.moduleKey) || ctrl.jsonModel.dataSource.moduleId)
               .then(function(response){
                 getFieldsByEntity(ctrl.jsonModel.dataSource.key).then(function(response){
                   linkColumnNameToFields();
@@ -38,10 +35,6 @@
               });
           }else{
             showConfigForm();
-          }
-
-          if (idModuleForm) {
-            getModuleForm(idModuleForm);
           }
         });
     });
@@ -361,8 +354,8 @@
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
 
-      if (currentSection.includeType == 'list' && currentSection.meta.type == 'include') {
-        getModuleEntity(currentSection.finder.moduleId);
+      if (currentSection.includeType == 'list' ) {
+        getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
         getFinders(currentSection.finder.entityName);
         getEntityAndSetReferences(currentSection.finder.entityName, currentSection).then(function(entity){
           var dependencesKeys = [];
@@ -442,27 +435,12 @@
           getFormatsPattern();
       }
 
-      getAppsForField(); 
       showEditField();
-
     } 
 
     function getFormatsPattern(){
       httpService.getFormats().then(function(response){
         ctrl.formatsPattern = angular.copy(response.data);
-      });
-    }
-
-    function getAppsForField(){
-      getApps().then(function(apps){
-        var id;
-        if (ctrl.fieldEdit.dataSource && ctrl.fieldEdit.dataSource.moduleId) {
-          id = ctrl.fieldEdit.dataSource.moduleId;
-        }else{
-          id = ctrl.jsonModel.idModuleForm;
-        }
-
-        getModuleEntity(id, ctrl.fieldEdit);
       });
     }
 
@@ -684,28 +662,25 @@
         angular.extend(formField, setDisplayConfigForEdit(formField.meta.disabled, 'disabledType', 'disabledExpression'));
       }
 
-      if (!ctrl.apps) {
-        getAppsForField();
-      }
 
       if(formField.dataSource){
+        getModuleEntity(getModuleIdByKey(formField.dataSource.moduleKey) || formField.dataSource.moduleId, formField);
         formField.dataSourceType = formField.dataSource.type;
         formField.dataSource.sourceMethod = formField.dataSource.method;
         formField.dataSource.sourceKey = formField.dataSource.key;
-
-        ctrl.moduleEntity = getModuleFromApps(formField.dataSource.moduleId);
-        getQueries(formField.dataSource.key);
-
-      }else if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
-        formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
 
       if (formField.finder) {
+        getModuleEntity(getModuleIdByKey(formField.dataSource.moduleKey) || formField.dataSource.moduleId, formField);
         getFinders(formField.finder.entityName);
         ctrl.moduleEntity = getModuleFromApps(formField.finder.moduleId);
         filterSelectFields(formField);
       }
 
+      if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
+        formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
+      }
+      
       ctrl.sectionSelectedIndex = sectionIndex;
 
       if (formField.meta.type.match(/date/g)) {
@@ -760,13 +735,14 @@
       if(ctrl.sections.length == 1){
         setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
         setFieldsIncludes(ctrl.jsonModel, ctrl.sections.slice(1, ctrl.sections.length));
-        var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
+        var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId);
         save(form);
+
       }else{
         saveIncludeForms().then(function(responses){
           setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
           setFieldsIncludes(ctrl.jsonModel, ctrl.sections.slice(1, ctrl.sections.length));
-          var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), idModuleForm);
+          var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId);
           save(form);
         });
       }
@@ -774,15 +750,15 @@
 
     function save(form){
       if(form.id) {
-        httpService.saveEditForm(form, form.id, idModuleForm).then(function success(response){
+        httpService.saveEditForm(form, form.id, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId).then(function success(response){
           Notification.success('Formulário salvo com sucesso');
         }, function error(response){
           Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
         });
       }else{
-        httpService.saveNewForm(form, idModuleForm)
+        httpService.saveNewForm(form, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId)
           .then(function(response){
-            return httpService.saveEditForm(form, response.data.id, idModuleForm).then(function(response){
+            return httpService.saveEditForm(form, response.data.id, getModuleIdByKey(ctrl.jsonModel.moduleKey)|| ctrl.jsonModel.moduleId).then(function(response){
               ctrl.jsonModel.id = response.data.id;
               Notification.success('Formulário salvo com sucesso');
               goToEdit(response.data.id, false);
@@ -796,7 +772,7 @@
     function deleteForm(){
       var confirm = window.confirm('Tem certeza?');
 
-      confirm && httpService.deleteForm(idForm, idModuleForm).then(function(response){
+      confirm && httpService.deleteForm(idForm, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId).then(function(response){
         ctrl.configForm = {};
         ctrl.moduleForm = {};
 
@@ -910,32 +886,31 @@
     }
 
     function showConfigForm() {
-      ctrl.configForm = {
+      var configForm = {
         key: ctrl.jsonModel.key,
         label: ctrl.jsonModel.label, 
+        moduleKey: ctrl.jsonModel.moduleKey,
+        moduleId: ctrl.jsonModel.moduleId,
         dataSource: ctrl.jsonModel.dataSource,
-        module: ctrl.jsonModel.module,
         template: ctrl.jsonModel.template,
         description: ctrl.jsonModel.description
       };
 
+      ctrl.apps.forEach(function(app, index){
+        if (app.modules) {
+          app.modules.forEach(function(mod, index){
+            if (mod.key == configForm.moduleKey || mod.id == configForm.moduleId) {
+              ctrl.moduleForm = mod;
+            }
 
-      getApps().then(function(response){
-        ctrl.apps.forEach(function(app, index){
-          if (app.modules) {
-            app.modules.forEach(function(mod, index){
-              if (mod.id == idModuleForm) {
-                ctrl.moduleForm = mod;
-              }
-
-              if (mod.id == ctrl.configForm.dataSource.moduleId) {
-                ctrl.moduleEntity = mod;
-              }
-            });  
-          }
-        });
+            if (mod.key == configForm.dataSource.moduleKey || mod.id == configForm.moduleId) {
+              ctrl.moduleEntity = mod;
+            }
+          });  
+        }
       });
 
+      ctrl.configForm = configForm;
       ctrl.onConfigForm = true;
     }
 
@@ -963,7 +938,7 @@
       return httpService.getFinders(entityName).then(function(response){
         ctrl.finders = response.data;
 
-        if (!response.data.finders.filter(function(f){ return f.entityFinder}).length) {
+        if (!response.data.filter(function(f){ return f.entityFinder}).length) {
           var key = entityName.toLowerCase().concat('.all.active.desc'),
               title = $l10n.translate('label.finder.allrecords');
 
@@ -984,8 +959,9 @@
       httpService.getModule(idModule).then(function(response) {
         ctrl.moduleEntity = response.data;
         ctrl.entities = response.data['data-sources'];
+
         if (model) {
-          model.moduleId = response.data.id;
+          model.moduleKey = response.data.key;
         }
       }); 
     }
@@ -993,11 +969,8 @@
     function getModuleForm(idModule) {
       httpService.getModule(idModule).then(function(response) {
         ctrl.moduleForm = response.data;
+        ctrl.configForm.key = response.data.key;
         ctrl.templates = response.data.templates;
-
-        if(ctrl.configForm && !ctrl.configForm.key){
-          ctrl.configForm.key = ctrl.moduleForm.key;
-        }
 
         getPermissions(idModule);
       }); 
@@ -1006,6 +979,19 @@
 
     function getModule(idModule){
       return httpService.getModule(idModule);
+    }
+
+    function getModuleIdByKey(key){
+      var id;
+      ctrl.apps.forEach(function(app){
+        app.modules.forEach(function(mod){
+          if (mod.key == key) {
+            id = mod.key;
+          }
+        });
+      });
+
+      return id;
     }
 
     function getEntitiesByModule(idModuleForm) {
@@ -1112,13 +1098,11 @@
       }
 
       angular.extend(ctrl.jsonModel, ctrl.configForm);
-      jsonFormService.editConfigForm(ctrl.configForm);
 
       if(ctrl.configForm.dataSource.type == 'E' && ctrl.configForm.dataSource.key){
         getFieldsByEntity(ctrl.configForm.dataSource.key);
       }
       
-      idModuleForm = ctrl.moduleForm.id;
       ctrl.onConfigForm = false;
       ctrl.moduleEntity = {};
     }
