@@ -4,7 +4,7 @@
   <label for="">Formatação</label>
   <select class="form-control input-sm" 
           ng-model="ctrl.fieldEdit.meta.format" 
-          ng-options="format.key as format.title in format for ctrl.formatsPattern.T.formats">
+          ng-options="format.key as format.title for format in ctrl.formatsPattern.T.formats">
     <option value="">Selecione</option>
   </select>
 </div>
