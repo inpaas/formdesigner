@@ -1,0 +1,16 @@
+{{#include-html}}studiov2.forms.fields.field-edit-ui{{/include-html}}
+
+<div class="col-ed col-sm-4 text-right">
+  <label ng-bind="field.label"></label>
+</div>
+
+<div class="col-ed col-sm-{[{field.views.edit.size || '5'}]}">
+  <div class="form-group">
+    <div class="input-group">
+      <select class="form-control input-sm"> </select>
+      <span class="input-group-btn">
+        <button class="btn btn-primary btn-sm"><i class="fa fa-fw fa-search"></i></button>
+      </span>
+    </div>
+  </div>
+</div>
