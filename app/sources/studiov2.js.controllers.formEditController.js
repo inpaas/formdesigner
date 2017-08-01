@@ -504,7 +504,7 @@
         configDataSource(fieldEdit);
       }
 
-      if (fieldEdit.label != fieldEdit.rawEntityField.translatedName) {
+      if (fieldEdit.rawEntityField && fieldEdit.rawEntityField.translatedName != fieldEdit.label) {
         fieldEdit.rawEntityField.translatedName = fieldEdit.label;
       }
 
