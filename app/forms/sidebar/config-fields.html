@@ -4,7 +4,7 @@
   <li class="stock-separator">
     <label for="">Propriedades do campo</label>
   </li>
-  
+
   <div class="inner-item">
     <div class="form-group">
       <label for="">Tipo do Campo</label>
@@ -47,10 +47,10 @@
         ng-include="'studiov2.forms.sidebar.config-fields.'+ ctrl.fieldEdit.meta.type">
     </div>
 
-    <div class="stock-separator">
-      <label for="">Eventos</label>
-    </div>
     <div class="row">
+      <div class="stock-separator">
+        <label for="">Eventos</label>
+      </div>
       <div class="form-group">
         <label for="">SourceKey</label>
         <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.sourceKey">
@@ -60,8 +60,8 @@
         <label for="">Function Name</label>
         <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.functionName">
       </div>
-
     </div>
+    
     <div class="stock-separator">
       <label for="">Display</label>
     </div>
