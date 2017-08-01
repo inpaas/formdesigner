@@ -62,7 +62,49 @@
     </ul>
   </div> 
   <!-- /Config Collumns-->
-  
+
+  <!--  Events-->
+  <div class="inner-item">
+    <div class="stock-separator">
+      <label for="">Eventos</label>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
+        <label for="section-onload">Ao carregar a página</label>
+      </div>
+
+      <div class="form-group" ng-show="ctrl.currentSection.onload">
+        <label for="">SourceKey</label>
+        <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.sourceKey"/>
+      </div>
+
+      <div class="form-group" ng-show="ctrl.currentSection.onload">
+        <label for="">Function Name</label>
+        <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.functionName"/>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
+        <label for="section-onsubmit">Ao salvar o form</label>
+      </div>
+
+      <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
+        <label for="">SourceKey</label>
+        <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
+      </div>
+
+      <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
+        <label for="">Function Name</label>
+        <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
+      </div>
+    </div>
+  </div>
+  <!-- /Events -->
+
   <!-- Config include Datasource-->
   <div class="inner-item propriets-section" ng-show="ctrl.currentSection.type != 'main' && !ctrl.currentSection.isSameDataSource">
     <div class="stock-separator">

@@ -22,7 +22,17 @@
       getJsonForm(idForm, 0)
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
-          
+
+          if(!ctrl.jsonModel.moduleKey) {
+            ctrl.jsonModel.moduleKey = getModuleKeyById(ctrl.jsonModel.moduleId);               
+            delete ctrl.jsonModel.moduleId;
+          } 
+
+          if (!ctrl.jsonModel.dataSource.moduleKey) {
+            ctrl.jsonModel.dataSource.moduleKey = getModuleKeyById(ctrl.jsonModel.dataSource.moduleId || response.data.moduleId);
+            delete ctrl.jsonModel.dataSource.moduleId;
+          }
+
           buildSections(ctrl.jsonModel);
           mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
 
@@ -71,6 +81,10 @@
       });
 
       ctrl.sections.forEach(function(section, index){
+        if (section.moduleId) {
+          section.moduleKey = getModuleKeyById(section.moduleId);
+        }
+
         if (section.fields) {
           section.fields.forEach(function(field, index){
             field.views.edit.size = section.views.edit.collumns == 3? 8 : (field.views.edit.size || 5);
@@ -313,7 +327,13 @@
 
       }else if(currentSection.type == 'main'){
         ctrl.jsonModel.views.edit.collumns = currentSection.views.edit.collumns;
+        ctrl.jsonModel.views.edit.onload = currentSection.onload? currentSection.views.edit.onload : undefined;
+        ctrl.jsonModel.views.edit.onsubmit = currentSection.onsubmit? currentSection.views.edit.onsubmit: undefined;
       }
+
+         
+      currentSection.onload? (delete currentSection.views.edit.onload) : undefined;
+      currentSection.onsubmit? (delete currentSection.views.edit.onsubmit) : undefined;
 
       switch(currentSection.views.edit.collumns) {
         case 1:
@@ -382,6 +402,14 @@
 
       if (!currentSection.views.edit.collumns) {
         currentSection.views.edit.collumns = 1; 
+      }
+
+      if(currentSection.views.edit.onload){
+        currentSection.onload = true;
+      }
+
+      if(currentSection.views.edit.onsubmit){
+        currentSection.onsubmit = true;
       }
 
       ctrl.currentSection = currentSection;
@@ -568,6 +596,8 @@
 
       var sectionSelected = ctrl.sections[ctrl.sectionSelectedIndex],
           newField = angular.copy(ctrl.fieldEdit);
+
+      newField.views.edit.size = sectionSelected.views.edit.collumns == 3? 8 : (newField.views.edit.size || 5);
 
       newField.id = sectionSelected.fields.length;
       sectionSelected.fieldsCol1.push(newField);
@@ -805,6 +835,8 @@
         delete field.fieldsCol1;
         delete field.fieldsCol2;
         delete field.fieldsCol3;
+        delete field.onload;
+        delete field.onsubmit;
 
         form.fields.push(field);
       });
@@ -844,8 +876,9 @@
 
     function setFieldsOnMainForm(form, sections){
       form.fields.length = 0;
+
       sections.forEach(function(section, index){
-        if (section.type == 'main') {
+        if (section.type == 'main') { 
           setFieldsOnForm(section, form);
         }
       });
@@ -979,6 +1012,20 @@
       });
 
       return id;
+    }
+
+    function getModuleKeyById(id){
+      var key;
+
+      ctrl.apps.forEach(function(app){
+        app.modules.forEach(function(mod){
+          if (mod.id == id) {
+            key = mod.key;
+          }
+        });
+      });
+
+      return key; 
     }
 
     function getEntitiesByModule(idModuleForm) {

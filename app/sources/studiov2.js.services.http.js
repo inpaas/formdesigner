@@ -67,6 +67,10 @@
           if (response.data.json) {
             form = JSON.parse(response.data.json);
             form.id = id;
+            
+            if (!form.moduleKey) {
+              form.moduleId = response.data.moduleId;
+            }
 
             labelsService.translateLabels(form);
             if (form.fields.filter(function(f){ return f.isSameDataSource; }).length) {
