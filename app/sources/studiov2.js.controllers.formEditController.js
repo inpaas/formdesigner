@@ -73,6 +73,8 @@
       ctrl.sections.forEach(function(section, index){
         if (section.fields) {
           section.fields.forEach(function(field, index){
+            field.views.edit.size = section.views.edit.collumns == 3? 8 : (field.views.edit.size || 5);
+
             switch(field.views.edit.position) {
               case undefined:
               case 1:
@@ -475,7 +477,8 @@
     function saveEditField(){
       if (!ctrl.sections.length) { return false; }
 
-      var fieldEdit = ctrl.fieldEdit;
+      var fieldEdit = ctrl.fieldEdit,
+          section = ctrl.sections[ctrl.sectionSelectedIndex]; 
 
       setNameField(fieldEdit);
 
@@ -507,12 +510,15 @@
 
       if (angular.isUndefined(fieldEdit.index)){
         addNewField();
+
       }else if(fieldEdit.col == 1){
-        ctrl.sections[ctrl.sectionSelectedIndex].fieldsCol1[fieldEdit.index] = fieldEdit;
+        section.fieldsCol1[fieldEdit.index] = fieldEdit;
+
       }else if(fieldEdit.col == 2){
-        ctrl.sections[ctrl.sectionSelectedIndex].fieldsCol2[fieldEdit.index] = fieldEdit;
+        section.fieldsCol2[fieldEdit.index] = fieldEdit;
+
       }else{
-        ctrl.sections[ctrl.sectionSelectedIndex].fieldsCol3[fieldEdit.index] = fieldEdit;
+        section.fieldsCol3[fieldEdit.index] = fieldEdit;
       }
 
       delete fieldEdit.rawEntityField;
@@ -573,7 +579,7 @@
             views: {
               edit:{
                 position: 1,
-                size: '5'
+                size: 5
               }
             }
           };
@@ -930,7 +936,8 @@
 
     function getFinder(entityName, finderKey){
       return httpService.getFinder(entityName, finderKey).then(function(response){
-        ctrl.finder = response.data;
+        var finder = response.data;
+        ctrl.finder = finder;
       });
     }
 
