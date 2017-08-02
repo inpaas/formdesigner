@@ -1384,6 +1384,14 @@
 
       function getSelectField(field){
         return field.meta.type == 'select' && field.meta.bind != fieldEdit.meta.bind;
+      } 
+    }
+    
+    function openFormTab(includeSection){
+      if (window.parent.fn_open_form_tab) {
+        window.parent.fn_open_form_tab(includeSection.id, includeSection.name, 'v2');
+      }else{
+        window.open('/forms/studiov2.forms.main#/forms/'.concat(includeSection.id));
       }
     }
 
@@ -1445,7 +1453,8 @@
       formPreview: formPreview,
       removeSection: removeSection,
       getEntityAndSetReferences: getEntityAndSetReferences,
-      getEntityFormsByBind: getEntityFormsByBind
+      getEntityFormsByBind: getEntityFormsByBind,
+      openFormTab: openFormTab
     }); 
   };
 })();
