@@ -184,8 +184,8 @@
         <div class="form-group">
           <label for="">Forms</label>
           <select class="form-control input-sm" 
-                  ng-model="ctrl.currentSection.include.key"
-                  ng-options="form.key as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
+                  ng-model="ctrl.currentSection.include"
+                  ng-options="form as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
           </select>
         </div>
       </div>
