@@ -850,6 +850,7 @@
           var form = section.jsonForm;
           form.fields.length = 0;
           form.label = section.label;
+          form.moduleKey = ctrl.jsonModel.moduleKey
           form.include = true;
           form.views.edit.collumns = section.views.edit.collumns;
           setFieldsOnForm(section, form);
@@ -859,7 +860,7 @@
             var p = httpService.saveEditForm(form, form.id, getModuleIdByKey(form.moduleKey) || form.moduleId); 
             promises.push(p);
           }else{
-            var p = httpService.saveNewForm(form, idModuleForm).then(function(response){
+            var p = httpService.saveNewForm(form, getModuleIdByKey(form.moduleKey)).then(function(response){
                       section.include.idForm = form.id = response.data.id;
                       return form;
                     }).then(function(form){
@@ -1386,7 +1387,7 @@
         return field.meta.type == 'select' && field.meta.bind != fieldEdit.meta.bind;
       } 
     }
-    
+
     function openFormTab(includeSection){
       if (window.parent.fn_open_form_tab) {
         window.parent.fn_open_form_tab(includeSection.id, includeSection.name, 'v2');
