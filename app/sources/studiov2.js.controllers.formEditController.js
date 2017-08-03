@@ -463,6 +463,34 @@
         case 'currency':
         case 'date':
           getFormatsPattern();
+          break;
+
+        case 'select':
+          if (fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
+            fieldEdit.dataSourceType = 'O';
+
+            if (!fieldEdit.rawEntityField.domains) {
+              fieldEdit.meta.options = {};
+            }else{
+              fieldEdit.meta.options = angular.copy(fieldEdit.rawEntityField.domains); 
+            }
+
+          }
+          break;
+
+        case 'checkbox':
+          if (fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
+            if (!fieldEdit.rawEntityField.domains) {
+              fieldEdit.dataSourceType = 'O';
+              fieldEdit.meta.checked =  'Y';
+              fieldEdit.meta.unchecked = 'N';
+            }else{
+              fieldEdit.dataSourceType = 'D';
+              fieldEdit.meta.checked =  'Y';
+              fieldEdit.meta.unchecked = 'N';
+            }
+          }
+          break;
       }
 
       showEditField();
@@ -609,7 +637,7 @@
             views: {
               edit:{
                 position: 1,
-                size: 5
+                size: '5'
               }
             }
           };
@@ -650,12 +678,6 @@
         fieldEdit.disabledType = 'true';
         fieldEdit.disabledExpression  = true;
         setTypeField('number', fieldEdit);
-      }
-
-      if (entityField.type == 'Char' && entityField.size == 1 && entityField.domains.length) {
-        fieldEdit.meta.checked =  'Y';
-        fieldEdit.meta.unchecked = 'N';
-        setTypeField('checkbox', fieldEdit);
       }
 
     }
