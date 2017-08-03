@@ -979,7 +979,7 @@
         var finders = response.data.filter(function(f){ return f.entityFinder});
 
         if (!finders.length) {
-          var key = entityName.toLowerCase().concat('.all.active.desc'),
+          var key = 'finder.'.concat(entityName.toLowerCase()).concat('.default'),
               title = $l10n.translate('label.finder.allrecords');
 
           finders.push({key: key, title: title, entityFinder: true});
