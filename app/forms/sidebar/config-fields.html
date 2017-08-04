@@ -1,13 +1,12 @@
 <!-- Config Field xxx-->
 <ul class="nav-components sb-field-text" ng-show="ctrl.onEditField">
-  <div class="stock-separator">
-    <label for="">Propriedades do campo</label>
-  </div>
-
   <div class="inner-item">
+    <div class="stock-separator">
+      <label for="">Propriedades do campo</label>
+    </div>
     <div class="form-group">
       <label for="">Tipo do Campo</label>
-      <select  class="form-control input-sm" id="input-crm_person-do_type" ng-model="ctrl.fieldEdit.meta.type" ng-change="ctrl.setTypeField(ctrl.fieldEdit.meta.type)">
+      <select  class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.type" ng-change="ctrl.setTypeField(ctrl.fieldEdit.meta.type)">
         <option value="textarea">Área de Texto</option>
         <option value="date">Data</option>
         <option value="string">Campo de Texto</option>
