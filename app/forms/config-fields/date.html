@@ -1,12 +1,39 @@
 {{#include-html}}studiov2.forms.sidebar.config-fields.size{{/include-html}}
+{{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}
 
-<div class="col-sm-12 col-xs-12 no-padding form-group">
+<div class="form-group">
   <label for="">Formatação</label>
   <select class="form-control input-sm" 
           ng-model="ctrl.fieldEdit.meta.format" 
+          ng-change="formatSelected= ctrl.fieldEdit.meta.format"
           ng-options="format.key as format.title for format in ctrl.formatsPattern.T.formats">
     <option value="">Selecione</option>
   </select>
 </div>
 
-{{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}
+<!-- Min e Max para datetime -->
+<div class="row" ng-if="ctrl.formatsPattern.T.formats">
+  <div class="form-group" ng-repeat-start="format in ctrl.formatsPattern.T.formats" ng-if="formatSelected == format.key">
+    <label for="">Min. Date</label>
+    <input type="text" 
+          class="input-sm form-control"
+          ng-model="ctrl.fieldEdit.meta.minDate"
+          ui-mask="{[{ format.key.concat('.formatmask') | translate }]}"
+          ui-mask-placeholder-char="space"
+          model-view-value="true"
+          ui-mask-placeholder
+          ui-options="{clearOnBlur: false, allowInvalidValue: true}" />
+  </div>
+
+  <div class="form-group" ng-repeat-end ng-if="formatSelected == format.key">
+    <label for="">Max. Date</label>
+    <input type="text"
+          class="input-sm form-control"
+          ng-model="ctrl.fieldEdit.meta.maxDate"
+          ui-mask="{[{ format.key.concat('.formatmask') | translate }]}"
+          ui-mask-placeholder-char="space"
+          model-view-value="true"
+          ui-mask-placeholder
+          ui-options="{clearOnBlur: false, allowInvalidValue: true}">
+  </div>
+</div>
