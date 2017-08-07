@@ -372,6 +372,10 @@
       selectSection(0);
     }
 
+    function moveSection(index, targetIndex){
+      ctrl.sections.splice(targetIndex, 0, ctrl.sections.splice(index, 1)[0]);
+    }
+
     function editSection(index) {
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
@@ -1497,7 +1501,8 @@
       removeSection: removeSection,
       getEntityAndSetReferences: getEntityAndSetReferences,
       getEntityFormsByBind: getEntityFormsByBind,
-      openFormTab: openFormTab
+      openFormTab: openFormTab,
+      moveSection: moveSection
     }); 
   };
 })();

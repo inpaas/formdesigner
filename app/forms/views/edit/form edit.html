@@ -24,7 +24,7 @@
  -->
 
 <!-- Main View Edit -->
-<div class="main-view-edit">
+<div class="main-view-edit row">
   <!-- Sections -->
   <div class="row row-widget row-xp" 
       id="section-{[{$index}]}" 
@@ -39,6 +39,8 @@
           <div class="btn-group">
             <i class="fa fa-pencil" ng-click="ctrl.editSection($index)"></i>
             <i class="fa fa-trash" ng-click="ctrl.removeSection($index)"></i>
+            <i class="fa fa-arrow-up" ng-click="ctrl.moveSection($index, $index - 1)" ng-show="section.type != 'main' && $index > 1"></i>
+            <i class="fa fa-arrow-down" ng-click="ctrl.moveSection($index, $index + 1)" ng-show="section.type != 'main' && ($index +1) < ctrl.sections.length"></i>
           </div>
         </div>
       </div>
