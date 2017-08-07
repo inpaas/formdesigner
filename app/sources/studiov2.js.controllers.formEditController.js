@@ -564,6 +564,14 @@
         fieldEdit.rawEntityField.translatedName = fieldEdit.label;
       }
 
+      if(fieldEdit.meta.minDate){
+        fieldEdit.meta.minDate = moment(fieldEdit.meta.minDate, $l10n.translate(fieldEdit.meta.format.concat('.formatjs')) ).format('YYYY-MM-DD HH:mm:ss');
+      }
+
+      if(fieldEdit.meta.maxDate){
+        fieldEdit.meta.maxDate = moment(fieldEdit.meta.maxDate, $l10n.translate(fieldEdit.meta.format.concat('.formatjs')) ).format('YYYY-MM-DD HH:mm:ss');
+      }
+
       if (angular.isUndefined(fieldEdit.index)){
         addNewField();
 
@@ -746,9 +754,17 @@
         formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
       
+      if(formField.meta.minDate){
+        formField.meta.minDate = moment(formField.meta.minDate).format($l10n.translate(formField.meta.format.concat('.formatjs')));
+      } 
+
+      if(formField.meta.maxDate){
+        formField.meta.maxDate = moment(formField.meta.maxDate).format($l10n.translate(formField.meta.format.concat('.formatjs')));
+      }
+
       ctrl.sectionSelectedIndex = sectionIndex;
 
-      if (formField.meta.type.match(/date/g)) {
+      if (formField.meta.type.match(/(date)/g)) {
         getFormatsPattern();
       }
 
@@ -1361,6 +1377,10 @@
           return container.id == 'buttons-component';
         },
         revertOnSpill: true
+      });
+
+      dragulaService.options($scope, '1col-bag', {
+        copySortSource: true
       });
 
       $scope.$on('buttons-edit.drop-model', function(e, el){
