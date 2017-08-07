@@ -336,7 +336,13 @@
         delete currentSection.visibilityType;
         delete currentSection.visibilityExpression;
       }
- 
+
+      if (currentSection.disabledType) {
+        currentSection.meta.disabled = setDisplayConfig(currentSection.disabledType, currentSection.disabledExpression);
+        delete currentSection.disabledType;
+        delete currentSection.disabledExpression;
+      } 
+
       currentSection.onload? (delete currentSection.views.edit.onload) : undefined;
       currentSection.onsubmit? (delete currentSection.views.edit.onsubmit) : undefined;
 
@@ -387,6 +393,10 @@
 
       if (currentSection.meta.visible) {
         angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.visible, 'visibilityType', 'visibilityExpression'));
+      }
+
+      if (currentSection.meta.disabled) {
+        angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.disabled, 'disabledType', 'disabledExpression'));
       }
 
       if (currentSection.includeType == 'list' ) {
