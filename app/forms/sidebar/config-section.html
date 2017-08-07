@@ -62,6 +62,25 @@
     </ul>
   </div> 
   <!-- /Config Collumns-->
+  <div class="inner-item" ng-show="ctrl.currentSection.type != 'main'">
+    <div class="form-group">
+      <label>Visibilidade</label>
+      <select class="form-control input-sm" ng-model="ctrl.currentSection.visibilityType">
+        <option value="">Selecione</option>
+        <option value="true">Sim</option>
+        <option value="false">Não</option>
+        <option value="function">Função</option>
+        <option value="map">Propriedade/Valor</option>
+      </select>
+    </div>
+    <button class="btn btn-primary btn-sm" 
+            ng-if="ctrl.currentSection.visibilityType == 'function'" 
+            ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'function')">Editar função</button>
+
+    <button class="btn btn-primary btn-sm" 
+            ng-if="ctrl.currentSection.visibilityType == 'map'" 
+            ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
+  </div>
 
   <!--  Events-->
   <div class="inner-item">

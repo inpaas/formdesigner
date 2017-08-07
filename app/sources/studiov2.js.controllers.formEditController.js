@@ -331,7 +331,12 @@
         ctrl.jsonModel.views.edit.onsubmit = currentSection.onsubmit? currentSection.views.edit.onsubmit: undefined;
       }
 
-         
+      if (currentSection.visibilityType) {
+        currentSection.meta.visible = setDisplayConfig(currentSection.visibilityType, currentSection.visibilityExpression);
+        delete currentSection.visibilityType;
+        delete currentSection.visibilityExpression;
+      }
+ 
       currentSection.onload? (delete currentSection.views.edit.onload) : undefined;
       currentSection.onsubmit? (delete currentSection.views.edit.onsubmit) : undefined;
 
@@ -379,6 +384,10 @@
     function editSection(index) {
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
+
+      if (currentSection.meta.visible) {
+        angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.visible, 'visibilityType', 'visibilityExpression'));
+      }
 
       if (currentSection.includeType == 'list' ) {
         getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
