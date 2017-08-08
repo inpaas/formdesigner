@@ -390,14 +390,17 @@
     function editSection(index) {
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
+      
+      if(currentSection.type != 'main'){
+        if (currentSection.meta.visible) {
+          angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.visible, 'visibilityType', 'visibilityExpression'));
+        }
 
-      if (currentSection.meta.visible) {
-        angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.visible, 'visibilityType', 'visibilityExpression'));
+        if (currentSection.meta.disabled) {
+          angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.disabled, 'disabledType', 'disabledExpression'));
+        }
       }
-
-      if (currentSection.meta.disabled) {
-        angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.disabled, 'disabledType', 'disabledExpression'));
-      }
+      
 
       if (currentSection.includeType == 'list' ) {
         getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
