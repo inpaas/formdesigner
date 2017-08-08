@@ -1,8 +1,10 @@
-Config Section -->
+<!--Config Section -->
 <ul class="nav-components sb-widget" ng-show="ctrl.onEditSection">
 
   <li class="item-components" ng-if="ctrl.currentSection.type != 'main'">
-    Propriedades da Seção
+    <div class="stock-separator"> 
+      <label> Propriedades da seção </label>
+    </div>
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
@@ -83,7 +85,7 @@ Config Section -->
             ng-if="ctrl.currentSection.visibilityType == 'map'" 
             ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
   </div>
-
+  
   <!-- Disabled -->
   <div class="inner-item">
     <div class="form-group">
@@ -250,4 +252,4 @@ Config Section -->
     </div>
   </div>
 </ul>
-<!-- /Config Section
+<!-- /Config Section-->
