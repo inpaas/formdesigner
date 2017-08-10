@@ -1,11 +1,64 @@
-/* Reset */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var, dl, dt,
-dd, ol, ul, li, fieldset, form, label, legend, table,
-caption, tbody, tfoot, thead, tr, th, td {
+/* Normalize
+----------------------------------------------------------------------- */
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
   margin: 0;
   padding: 0;
   border: 0;
@@ -16,17 +69,14 @@ caption, tbody, tfoot, thead, tr, th, td {
   color: #333;
   font-weight: 300;
 }
-
 *,
 *:after,
 *:before {
   margin: 0;
   padding: 0;
 }
-/* /Reset */
-
-.inpaas-page body { overflow:hidden; }
-
+.inpaas-page body
+{ overflow:hidden; }
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
@@ -465,8 +515,8 @@ select.input-sm {
   height: 100%;
   overflow: hidden;
   position: relative;
-  padding-top: 38px;
 }
+
 .edit-form .sidebar .box-search {
   position: relative;
   background: #f6f6f6;
@@ -510,11 +560,12 @@ select.input-sm {
   border-radius: 0;
   font-size: 12px;
 }
-.edit-form ul.nav-components .inner-item {
+.edit-form .nav-components .inner-item {
   float: left;
   padding: 10px;
   margin: 0;
   width: 100%;
+  margin-bottom: 80px;
 }
 
 .edit-form ul.nav-components.position-field .inner-item .btn {
@@ -2023,7 +2074,3 @@ ul.nav-components.sb-field-text.sb-edit-action
 .type-map .form-group button.btn.btn-success:active,
 .type-map .form-group button.btn.btn-success:focus
 { border-color: #dedede; }
-
-.item-config-selected{
-  background: #3399CC;
-}

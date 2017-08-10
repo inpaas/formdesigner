@@ -1,17 +1,14 @@
 <!--Config Section -->
 <ul class="nav-components sb-widget" ng-show="ctrl.onEditSection">
-
-  <li class="item-components" ng-if="ctrl.currentSection.type != 'main'">
-    <div class="stock-separator"> 
-      <label> Propriedades da seção </label>
-    </div>
+  <li class="item-components">
+    Propriedades da seção 
     <div class="widget-toolbar default-toolbar hidden-print">
       <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
     </div>
   </li>
   
-  <div class="inner-item propriets-section" ng-if="ctrl.currentSection.type != 'main'">
-    <div class="row">
+  <div class="inner-item">
+    <div class="row" ng-if="ctrl.currentSection.type != 'main'">
       <div class="form-group">
         <input type="checkbox" id="section-dataSorce" ng-model="ctrl.currentSection.isSameDataSource"> 
         <label for="section-dataSorce"> Usar a entidade do Form </label>
@@ -21,225 +18,228 @@
         <label for="">Título da Seção</label>
         <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.currentSection.label">
       </div>
+
       <div class="form-group">
         <input type="checkbox" class="" ng-model="ctrl.currentSection.notDisplayLabel" id="notDisplayLabel"> 
         <label for="notDisplayLabel">Não mostrar o título</label>
       </div>
     </div>
-  </div>
   
-  <!-- Config Collumns-->
-  <li class="item-components" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource)">
-    Colunas da seção
-    <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="#" data-action="collapse"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+    <!-- Config Collumns-->
+    <div class="row" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource)">
+      <div class="stock-separator">
+        <label for="">Colunas da seção</label>
+      </div>
+
+      <div class="form-group template-col" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource)">
+        <ul class="list-existing">
+          <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 1" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 1 || !ctrl.currentSection.views.edit.collumns}">
+            <div class="row-bx">
+              <div class="col-amount col-am-1"></div>
+            </div>
+            <p class="txt-info-col">1 Coluna</p>
+          </li>
+
+          <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 2" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 2}">
+            <div class="row-bx">
+              <div class="col-amount col-am-2"></div>
+              <div class="col-amount col-am-2"></div>
+            </div>
+            <p class="txt-info-col">2 Colunas</p>
+          </li>
+
+          <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 3" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 3}">
+            <div class="row-bx">
+              <div class="col-amount col-am-3"></div>
+              <div class="col-amount col-am-3"></div>
+              <div class="col-amount col-am-3"></div>
+            </div>
+            <p class="txt-info-col">3 Colunas</p>
+          </li>
+        </ul>
+      </div>
     </div>
-  </li>
+    <!-- /Config Collumns-->
 
-  <div class="inner-item template-col" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource)">
-    <ul class="list-existing">
-      <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 1" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 1 || !ctrl.currentSection.views.edit.collumns}">
-        <div class="row-bx">
-          <div class="col-amount col-am-1"></div>
-        </div>
-        <p class="txt-info-col">1 Coluna</p>
-      </li>
+    <!-- Visibility -->
+    <div class="row" ng-show="ctrl.currentSection.type != 'main'">
+      <div class="form-group">
+        <label>Visibilidade</label>
+        <select class="form-control input-sm" ng-model="ctrl.currentSection.visibilityType">
+          <option value="">Selecione</option>
+          <option value="true">Sim</option>
+          <option value="false">Não</option>
+          <option value="function">Função</option>
+          <option value="map">Propriedade/Valor</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-sm" 
+              ng-if="ctrl.currentSection.visibilityType == 'function'" 
+              ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'function')">Editar função</button>
 
-      <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 2" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 2}">
-        <div class="row-bx">
-          <div class="col-amount col-am-2"></div>
-          <div class="col-amount col-am-2"></div>
-        </div>
-        <p class="txt-info-col">2 Colunas</p>
-      </li>
-
-      <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 3" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 3}">
-        <div class="row-bx">
-          <div class="col-amount col-am-3"></div>
-          <div class="col-amount col-am-3"></div>
-          <div class="col-amount col-am-3"></div>
-        </div>
-        <p class="txt-info-col">3 Colunas</p>
-      </li>
-    </ul>
-  </div> 
-  <!-- /Config Collumns-->
-
-  <!-- Visibility -->
-  <div class="inner-item" ng-show="ctrl.currentSection.type != 'main'">
-    <div class="form-group">
-      <label>Visibilidade</label>
-      <select class="form-control input-sm" ng-model="ctrl.currentSection.visibilityType">
-        <option value="">Selecione</option>
-        <option value="true">Sim</option>
-        <option value="false">Não</option>
-        <option value="function">Função</option>
-        <option value="map">Propriedade/Valor</option>
-      </select>
+      <button class="btn btn-primary btn-sm" 
+              ng-if="ctrl.currentSection.visibilityType == 'map'" 
+              ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
     </div>
-    <button class="btn btn-primary btn-sm" 
-            ng-if="ctrl.currentSection.visibilityType == 'function'" 
-            ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'function')">Editar função</button>
-
-    <button class="btn btn-primary btn-sm" 
-            ng-if="ctrl.currentSection.visibilityType == 'map'" 
-            ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
-  </div>
+    <!-- /Visibility -->
   
-  <!-- Disabled -->
-  <div class="inner-item">
-    <div class="form-group">
-      <label>Desabilitar seção</label>
-      <select class="form-control input-sm" ng-model="ctrl.currentSection.disabledType">
-        <option value="">Selecione</option>
-        <option value="true">Sim</option>
-        <option value="false">Não</option>
-        <option value="function">Função</option>
-        <option value="map">Propriedade/Valor</option>
-      </select>
-    </div>
-
-    <button class="btn btn-primary btn-sm" 
-            ng-if="ctrl.currentSection.disabledType == 'function'" 
-            ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'function')">
-        Editar função
-    </button>
-
-    <button class="btn btn-primary btn-sm" 
-            ng-if="ctrl.currentSection.disabledType == 'map'" 
-            ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'map')">
-        Editar Propriedade/Valor
-    </button>
-  </div>  
-  <!--  Events-->
-  <div class="inner-item">
-    <div class="stock-separator">
-      <label for="">Eventos</label>
-    </div>
-
+    <!-- Disabled -->
     <div class="row">
       <div class="form-group">
-        <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
-        <label for="section-onload">Ao carregar a página</label>
+        <label>Desabilitar seção</label>
+        <select class="form-control input-sm" ng-model="ctrl.currentSection.disabledType">
+          <option value="">Selecione</option>
+          <option value="true">Sim</option>
+          <option value="false">Não</option>
+          <option value="function">Função</option>
+          <option value="map">Propriedade/Valor</option>
+        </select>
       </div>
 
-      <div class="form-group" ng-show="ctrl.currentSection.onload">
-        <label for="">SourceKey</label>
-        <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.sourceKey"/>
-      </div>
+      <button class="btn btn-primary btn-sm" 
+              ng-if="ctrl.currentSection.disabledType == 'function'" 
+              ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'function')">
+          Editar função
+      </button>
 
-      <div class="form-group" ng-show="ctrl.currentSection.onload">
-        <label for="">Function Name</label>
-        <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.functionName"/>
-      </div>
-    </div>
+      <button class="btn btn-primary btn-sm" 
+              ng-if="ctrl.currentSection.disabledType == 'map'" 
+              ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'map')">
+          Editar Propriedade/Valor
+      </button>
+    </div>  
+    <!-- /Disabled -->
 
+    <!--  Events-->
     <div class="row">
-      <div class="form-group">
-        <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
-        <label for="section-onsubmit">Ao salvar o form</label>
+      <div class="stock-separator">
+        <label for="">Eventos</label>
       </div>
 
-      <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
-        <label for="">SourceKey</label>
-        <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
-      </div>
-
-      <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
-        <label for="">Function Name</label>
-        <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
-      </div>
-    </div>
-  </div>
-  <!-- /Events -->
-
-  <!-- Config include Datasource-->
-  <div class="inner-item propriets-section" ng-show="ctrl.currentSection.type != 'main' && !ctrl.currentSection.isSameDataSource">
-    <div class="stock-separator">
-      <label for="">Tipo do seção</label>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6 no-padding">
-        <label for="section-type-list">
-          <input type="radio" id="section-type-list" name="includeType" ng-model="ctrl.currentSection.includeType" value="list"> Master/Details
-        </label>
-      </div>
-      <div class="col-sm-6">
-        <label for="section-type-edit">
-          <input type="radio" id="section-type-edit" name="includeType" ng-model="ctrl.currentSection.includeType" value="edit"> Edição
-        </label>
-      </div>
-      <br>
-      <!-- Config Finder Include -->
-      <div ng-show="ctrl.currentSection.includeType == 'list'">
+      <div class="row">
         <div class="form-group">
-          <div class="btn-group btn-block">
-            <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
-              {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
-            </button>
-            <ul class="dropdown-menu btn-block">
-              <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-              <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.currentSection.finder)">
-                <a href="" ng-bind="mod.title"></a>
-              </li>
-              <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
-            </ul>
+          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
+          <label for="section-onload">Ao carregar a página</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onload">
+          <label for="">SourceKey</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.sourceKey"/>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onload">
+          <label for="">Function Name</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.functionName"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
+          <label for="section-onsubmit">Ao salvar o form</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
+          <label for="">SourceKey</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
+          <label for="">Function Name</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
+        </div>
+      </div>
+    </div>
+    <!-- /Events -->
+
+    <!-- Config include Datasource-->
+    <div class="row" ng-show="ctrl.currentSection.type != 'main' && !ctrl.currentSection.isSameDataSource">
+      <div class="stock-separator">
+        <label for="">Tipo do seção</label>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6 no-padding">
+          <label for="section-type-list">
+            <input type="radio" id="section-type-list" name="includeType" ng-model="ctrl.currentSection.includeType" value="list"> Master/Details
+          </label>
+        </div>
+        <div class="col-sm-6">
+          <label for="section-type-edit">
+            <input type="radio" id="section-type-edit" name="includeType" ng-model="ctrl.currentSection.includeType" value="edit"> Edição
+          </label>
+        </div>
+        <br>
+        <!-- Config Finder Include -->
+        <div ng-show="ctrl.currentSection.includeType == 'list'">
+          <div class="form-group">
+            <div class="btn-group btn-block">
+              <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
+                {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+              </button>
+              <ul class="dropdown-menu btn-block">
+                <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+                <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.currentSection.finder)">
+                  <a href="" ng-bind="mod.title"></a>
+                </li>
+                <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">Entidade</label>
+            <input type="text" 
+                  class="form-control input-sm" 
+                  placeholder="Selecione" 
+                  ng-model="ctrl.currentSection.finder.entityName" 
+                  typeahead-on-select="ctrl.getEntityAndSetReferences($model, ctrl.currentSection)" 
+                  uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
+                  typeahead-min-length="0" />
+          </div>
+
+          <div class="form-group">
+            <label for="">Finder:</label>
+            <select class="form-control input-sm" 
+                    ng-model="ctrl.currentSection.finder.key"
+                    ng-options="finder.key as finder.title for finder in ctrl.currentSection.entity.finders">
+            </select>
+
+          </div>
+
+          <div class="form-group">
+            <label for="">Dependências</label>
+            <select class="form-control input-sm" 
+                    multiple 
+                    ng-options="ref for ref in ctrl.currentSection.references" 
+                    ng-model="ctrl.currentSection.dependenciesKeys">
+            </select>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="">Entidade</label>
-          <input type="text" 
-                class="form-control input-sm" 
-                placeholder="Selecione" 
-                ng-model="ctrl.currentSection.finder.entityName" 
-                typeahead-on-select="ctrl.getEntityAndSetReferences($model, ctrl.currentSection)" 
-                uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
-                typeahead-min-length="0" />
-        </div>
-
-        <div class="form-group">
-          <label for="">Finder:</label>
-          <select class="form-control input-sm" 
-                  ng-model="ctrl.currentSection.finder.key"
-                  ng-options="finder.key as finder.title for finder in ctrl.currentSection.entity.finders">
-          </select>
-
-        </div>
-
-        <div class="form-group">
-          <label for="">Dependências</label>
-          <select class="form-control input-sm" 
-                  multiple 
-                  ng-options="ref for ref in ctrl.currentSection.references" 
-                  ng-model="ctrl.currentSection.dependenciesKeys">
-          </select>
-        </div>
-      </div>
-      
-      <!-- Config include edit  -->
-      <div ng-show="ctrl.currentSection.includeType == 'edit'">
-        <div class="form-group">
-          <label for="">Referência</label>
-          <select class="form-control input-sm" 
-                  ng-model="ctrl.currentSection.meta.bind"
-                  ng-change="ctrl.getEntityFormsByBind(ctrl.currentSection.meta.bind)"
-                  ng-options="ref.alias as ref.label for ref in ctrl.currentEntity.references">
-          </select>
-        </div>
         
-        <div class="form-group">
-          <label for="">Forms</label>
-          <select class="form-control input-sm" 
-                  ng-model="ctrl.currentSection.include"
-                  ng-options="form as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
-          </select>
+        <!-- Config include edit  -->
+        <div ng-show="ctrl.currentSection.includeType == 'edit'">
+          <div class="form-group">
+            <label for="">Referência</label>
+            <select class="form-control input-sm" 
+                    ng-model="ctrl.currentSection.meta.bind"
+                    ng-change="ctrl.getEntityFormsByBind(ctrl.currentSection.meta.bind)"
+                    ng-options="ref.alias as ref.label for ref in ctrl.currentEntity.references">
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="">Forms</label>
+            <select class="form-control input-sm" 
+                    ng-model="ctrl.currentSection.include"
+                    ng-options="form as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
+            </select>
+          </div>
         </div>
       </div>
     </div>
+    <!-- /Config include Datasource-->
   </div>
-  <!-- /Config include Datasource-->
 
   <div class="action-buttons" style="z-index: 1;">
     <div class="row">
