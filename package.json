@@ -17,15 +17,17 @@
     "url": "https://github.com/inpaas/formdesigner/issues"
   },
   "homepage": "https://github.com/inpaas/formdesigner#readme",
-  "dependencies": {
-    "angular-dragula": "^1.2.8"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "angular-dragula": "^1.2.8",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "0.0.14",
     "gulp-postcss": "^6.2.0",
     "gulp-sass": "^2.3.2",
-    "ng-table": "^3.0.1"
+    "jasmine-core": "^2.7.0",
+    "karma": "^1.7.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4"
   }
 }

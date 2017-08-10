@@ -1,33 +1,30 @@
 Issues Forms Designer V2
 ========================
 
-
-
 ## Issues funcionalidade
-  - Não deixar mais de um field com o mesmo bind
-  - Colocar o id do módulo e da entity na ref para para facilitar a consulta 
-  - esconder o ver código no /new
-  - tirar o isSameDataSource do include antes de salvar 
-  - não deixar mais de um field com o mesmo bind
-  - colocar o id do módulo e da entity na ref para para facilitar a consulta 
-  - Não é possível fazer drop de um field quando o include não tem fields
-  - Modo avançado (?)
-  - Adicionar datepicker
-  - Colocar o code mirror
-  - Colocar todos os includes e template do angular em um arquivo no studio (ng-includes)
-  - Validações
-    - Key do form
-    - Configs que são requeridas
-  - Alertas
+  * Drag'n drop
+  * Melhorar o input da proprieadade a modal de prop/valor para disabled, visible, e required
+  * Não deixar mais de um field com o mesmo bind
+  * Colocar o id do módulo e da entity na ref para para facilitar a consulta
+  * Esconder o ver código no /new
+  * Adicionar datepicker
+  * Colocar o code mirror
+  * Validações de configs
+    - Tipos dos dados (date, string, number)
+    - Campos obrigatórios
+  * Notifications
+  * Modo avançado (?)
 
 ## Issues de layout
-  - Colocar a barra de config do form em cima  
+  - UI de edição do field to tamanho do field
+  - Colocar a barra de config do form em cima
   - Criar comunicação de sections selecionados para edição
   - Marcar a coluna da entity quando já incluída em um field
-  - Colocar um campo na nova seção para definir um dataSource (qnd for os includes)
+  - Melhorar a UI dos campos da entity
   - Adicionar ícones informando o tipo de campo da entity (sidebar)
   - Padronizar o bt de conclusão de edição (hj está salvar ou confirmar e trocar para concluir)
   - Colocar ícones do tipo de dado do field
+  
 ## Doc
   - Modificar a doc do breadcrumb, que está nas views e não mais no root do json
   - Add os atributos dos fields

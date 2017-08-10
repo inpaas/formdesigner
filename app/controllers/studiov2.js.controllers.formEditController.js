@@ -801,19 +801,18 @@
       showEditField();
     }
 
-    function findFieldOnJson(bind){
-      var field;
+    function validateField(fieldValue, typeField, propDataField){
+      switch(typeField){
+        case 'date': 
+          validateFieldDate(fieldValue, propDataField);
+          break;
+      } 
 
-      ctrl.jsonModel.fields.forEach(function(item, index){
-        if (item.meta.bind == bind) {
-          field = item;
-        }
-      });
-
-      return field;
+      function validateFieldDate(fieldValue, propDataField){
+        ctrl.fieldEdit.fieldInvalid = 'xxx';
+      }
     }
-    
-    
+     
     function cancelEditField() {
       showComponents();
       ctrl.fieldEdit = {};
@@ -1526,7 +1525,8 @@
       getEntityAndSetReferences: getEntityAndSetReferences,
       getEntityFormsByBind: getEntityFormsByBind,
       openFormTab: openFormTab,
-      moveSection: moveSection
+      moveSection: moveSection, 
+      validateField: validateField
     }); 
   };
 })();
