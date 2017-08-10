@@ -343,8 +343,8 @@
         delete currentSection.disabledExpression;
       } 
 
-      currentSection.onload? (delete currentSection.views.edit.onload) : undefined;
-      currentSection.onsubmit? (delete currentSection.views.edit.onsubmit) : undefined;
+      !currentSection.onload && (delete currentSection.views.edit.onload);
+      !currentSection.onsubmit && (delete currentSection.views.edit.onsubmit);
 
       switch(currentSection.views.edit.collumns) {
         case 1:
@@ -360,7 +360,7 @@
       if (!angular.isUndefined(currentSection.index)) {
         angular.extend(ctrl.sections[currentSection.index], currentSection);
       }else{
-        ctrl.sections.push(currentSection);
+       ctrl.sections.push(currentSection);
       }
 
       if (ctrl.sections.length == 1) {
@@ -390,7 +390,7 @@
     function editSection(index) {
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
-      
+
       if(currentSection.type != 'main'){
         if (currentSection.meta.visible) {
           angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.visible, 'visibilityType', 'visibilityExpression'));
