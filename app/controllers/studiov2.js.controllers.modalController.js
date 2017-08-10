@@ -60,20 +60,17 @@
     }
 
 
-    $ctrl.ok = function () {
+    function ok() {
       var result = angular.copy($ctrl.expression);
 
-      
-      switch(typeConfig){
-        case 'options':
-        case 'map': 
-          if($ctrl.key && $ctrl.value){
-            result.push({key: $ctrl.key, value: $ctrl.value});
-          }
+      if($ctrl.key && $ctrl.value){
+        result.push({key: $ctrl.key, value: $ctrl.value});
+      }
 
-        case 'map':
+      switch(typeConfig){
+        case 'map': 
           result = arrayToObj(result);
-        break;
+          break;
 
         case 'options':
           result.forEach(function(item, index){
@@ -85,8 +82,11 @@
       $uibModalInstance.close(result);
     };
 
-    $ctrl.cancel = function () {
+    function cancel() {
       $uibModalInstance.dismiss('cancel');
     };
+
+    $ctrl.ok = ok;
+    $ctrl.cancel = cancel;
   }
 })();
