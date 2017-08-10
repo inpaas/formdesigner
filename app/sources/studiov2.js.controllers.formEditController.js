@@ -725,7 +725,7 @@
         _formField.col = 3;
       };
 
-      var formField = angular.copy(_formField), 
+      var formField = angular.copy(_formField),
           sectionIndex = ctrl.sections.indexOf(section);
 
       formField.index = index;
