@@ -779,7 +779,7 @@
       }
 
       if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
-        formField.rawEntityField && formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
+        formField.rawEntityField && formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourceType = 'O';
       }
       
       if(formField.meta.minDate){
