@@ -732,6 +732,8 @@
 
       if(!formField.views.edit.size){
         formField.views.edit.size = '5';
+      }else{
+        formField.views.edit.size = formField.views.edit.size.toString(); 
       }
 
       if (!section.views.edit.collumns){
@@ -777,7 +779,7 @@
       }
 
       if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
-        formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
+        formField.rawEntityField && formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourcetype = 'O';
       }
       
       if(formField.meta.minDate){
