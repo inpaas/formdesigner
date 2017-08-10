@@ -141,10 +141,6 @@
           field.meta.help = keyHelp;
         }
 
-        if(field.meta.options) {
-          buildLabelsOptions(field.columnName, field.meta.options); 
-        }
-
         delete field.collumnName;
       });
 
@@ -152,7 +148,9 @@
 
       function buildLabelsOptions(fieldName, options){
         options.forEach(function(item, index){
-          saveLabel(value, item.label, moduleId); 
+          if(!$l10n.hasLabel(item.label)){
+            saveLabel(item.value, item.label, moduleId); 
+          }
         });
       }
     }
@@ -210,10 +208,6 @@
         
         if(field.meta.help){
           field.meta.help = $l10n.translate(field.meta.help);
-        }        
-
-        if (field.meta.options) {
-          translateFields(field.meta.options); 
         }
       });
 

@@ -493,14 +493,14 @@
 
         case 'select':
           if (fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
-            fieldEdit.dataSourceType = 'O';
 
-            if (!fieldEdit.rawEntityField.domains) {
-              fieldEdit.meta.options = {};
-            }else{
+            if (fieldEdit.rawEntityField.domains) {
+              fieldEdit.dataSourceType = 'D';
               fieldEdit.meta.options = angular.copy(fieldEdit.rawEntityField.domains); 
+            }else{
+              fieldEdit.dataSourceType = 'O';
+              fieldEdit.meta.options = {};
             }
-
           }
           break;
 
