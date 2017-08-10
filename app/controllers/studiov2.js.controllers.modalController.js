@@ -19,7 +19,7 @@
         break;
 
       case 'options':
-        if (expression) {
+        if (Object.keys(expression).length) {
           expression.forEach(function(item, index){
             item.key = item.label;
           });
