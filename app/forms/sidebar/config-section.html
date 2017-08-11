@@ -1,4 +1,4 @@
-<!--Config Section -->
+<!-- Config Section -->
 <ul class="nav-components sb-widget" ng-show="ctrl.onEditSection">
   <li class="item-components">
     Propriedades da seção 
@@ -61,7 +61,10 @@
     </div>
     <!-- /Config Collumns-->
 
-    <!-- Visibility -->
+    <!-- Display -->
+    <div class="stock-separator">
+      <label for="">Display</label>
+    </div>
     <div class="row" ng-show="ctrl.currentSection.type != 'main'">
       <div class="form-group">
         <label>Visibilidade</label>
@@ -81,9 +84,6 @@
               ng-if="ctrl.currentSection.visibilityType == 'map'" 
               ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
     </div>
-    <!-- /Visibility -->
-  
-    <!-- Disabled -->
     <div class="row">
       <div class="form-group">
         <label>Desabilitar seção</label>
@@ -108,18 +108,24 @@
           Editar Propriedade/Valor
       </button>
     </div>  
-    <!-- /Disabled -->
+    <!-- /Display -->
 
     <!--  Events-->
     <div class="row">
       <div class="stock-separator">
         <label for="">Eventos</label>
       </div>
-
+      
+      <!-- onload -->
       <div class="row">
-        <div class="form-group">
+        <div class="form-group" ng-show="ctrl.currentSection.type == 'main'">
           <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
           <label for="section-onload">Ao carregar a página</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.type != 'main'">
+          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
+          <label for="section-onload">Ao carregar a seção</label>
         </div>
 
         <div class="form-group" ng-show="ctrl.currentSection.onload">
@@ -132,11 +138,17 @@
           <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.functionName"/>
         </div>
       </div>
-
+      
+      <!-- onsubmit -->
       <div class="row">
-        <div class="form-group">
+        <div class="form-group" ng-show="!ctrl.currentSection.finder">
           <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
           <label for="section-onsubmit">Ao salvar o form</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.finder">
+          <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
+          <label for="section-onsubmit">Ao editar a seção</label>
         </div>
 
         <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
@@ -252,4 +264,4 @@
     </div>
   </div>
 </ul>
-<!-- /Config Section-->
+<!-- /Config Section -->
