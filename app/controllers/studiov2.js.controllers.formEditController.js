@@ -457,7 +457,7 @@
         model.finder.formKey = entity.formKey;
         model.finder.formType = entity.formType;
 
-        var key = entity.name.toLowerCase().concat('.all.active.desc'),
+        var key = 'finder.'.concat(entity.name.toLowerCase()).concat('.default'),
             title = $l10n.translate('label.finder.allrecords');
 
         entity.finders.push({key: key, title: title, entityFinder: true});
@@ -776,7 +776,7 @@
         formField.dataSource.sourceMethod = formField.dataSource.method;
         formField.dataSource.sourceKey = formField.dataSource.key;
         formField.dataSourceType = 'E';
-        
+
       }else if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
         formField.rawEntityField && formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourceType = 'O';
       }
