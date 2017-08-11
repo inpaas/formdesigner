@@ -776,9 +776,8 @@
         formField.dataSource.sourceMethod = formField.dataSource.method;
         formField.dataSource.sourceKey = formField.dataSource.key;
         formField.dataSourceType = 'E';
-      }
-
-      if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
+        
+      }else if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
         formField.rawEntityField && formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourceType = 'O';
       }
       
@@ -1027,6 +1026,7 @@
 
           finders.push({key: key, title: title, entityFinder: true});
         }
+
         ctrl.finders = finders;
 
         return response;
