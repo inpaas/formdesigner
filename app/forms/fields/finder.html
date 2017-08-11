@@ -1,16 +1,6 @@
-{{#include-html}}studiov2.forms.fields.field-edit-ui{{/include-html}}
-
-<div class="col-ed col-sm-4 text-right">
-  <label ng-bind="field.label"></label>
-</div>
-
-<div class="col-ed col-sm-{[{field.views.edit.size || '5'}]}">
-  <div class="form-group">
-    <div class="input-group">
-      <input type="text" readonly class="input-sm form-control">
-      <span class="input-group-btn">
-        <button class="btn btn-primary btn-sm"><i class="fa fa-fw fa-search"></i></button>
-      </span>
-    </div>
-  </div>
+<div class="input-group" ng-if="field.meta.type == 'finder'">
+  <input type="text" readonly class="input-sm form-control">
+  <span class="input-group-btn" ng-if="field.meta.type == 'finder'">
+    <button class="btn btn-primary btn-sm"><i class="fa fa-fw fa-search"></i></button>
+  </span>
 </div>

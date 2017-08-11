@@ -1,0 +1,17 @@
+<!-- 1 colunas -->
+<div class="row" ng-if="section.views.edit.collumns == 1 || !section.views.edit.collumns">
+  <div class="col-wdg col-sm-12 no-padding">
+    <div class="row" dragula="'1col-bag'" dragula-model="section.fieldsCol1" id="section-no-position">
+      <div class="row row-edit-this"
+          id="field-{[{$index}]}" 
+          ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
+          ng-repeat="field in section.fieldsCol1 track by $index" 
+          ng-click="ctrl.editField(field, $index, section)">
+        
+        {{#include-html}}studiov2.forms.fields.fields{{/include-html}}
+      </div>
+    </div>
+    {{#include-html}}studiov2.forms.fields.placeholder{{/include-html}}
+  </div>
+</div>
+<!-- /1 colunas -->

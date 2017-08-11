@@ -47,91 +47,9 @@
 
       <div class="widget-body" ng-if="section.type == 'main' || section.isSameDataSource">
         <div class="widget-main clearfix">
-          <!-- 1 colunas -->
-          <div class="row" ng-if="section.views.edit.collumns == 1 || !section.views.edit.collumns">
-            <div class="col-wdg col-sm-12 no-padding">
-              <div class="row" dragula="'1col-bag'" dragula-model="section.fieldsCol1" id="section-no-position">
-                <div class="row row-edit-this"
-                    id="field-{[{$index}]}" 
-                    ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
-                    ng-repeat="field in section.fieldsCol1 track by $index" 
-                    ng-click="ctrl.editField(field, $index, section)"
-                    ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
-                </div>
-              </div>
-              <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
-            </div>
-          </div>
-          <!-- /1 colunas -->
-
-          <!-- 2 colunas -->
-          <div class="row" ng-if="section.views.edit.collumns == 2">
-            <div class="col-wdg col-sm-6 no-padding">
-              <div class="row" dragula="'1col-bag'" dragula-model="section.fieldsCol1" id="section-position-1">
-                <div class="row row-edit-this"
-                      id="field-{[{$index}]}" 
-                      ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
-                      ng-repeat="field in section.fieldsCol1 track by $index" 
-                      ng-click="ctrl.editField(field, $index, section)"
-                      ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
-                </div>
-              </div>
-              <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
-            </div>
-            <div class="col-wdg col-sm-6 no-padding">
-              <div class="row" dragula="'1col-bag'" dragula-model="section.fieldsCol2" id="section-position-2"> 
-                <div class="row row-edit-this"
-                      id="field-{[{$index}]}" 
-                      ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
-                      ng-repeat="field in section.fieldsCol2 track by $index" 
-                      ng-click="ctrl.editField(field, $index, section)"
-                      ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
-                </div> 
-              </div>
-            </div>
-          </div> 
-          <!-- /2 colunas -->
-          
-          <!-- 3 colunas -->
-          <div class="row" ng-if="section.views.edit.collumns == 3">
-            <div class="col-wdg col-sm-4 no-padding">
-              <div class="row" dragula="'1col-bag'" dragula-model="section.fieldsCol1" id="section-position-1">
-                <div class="row row-edit-this"
-                      id="field-{[{$index}]}" 
-                      ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
-                      ng-repeat="field in section.fieldsCol1 track by $index" 
-                      ng-click="ctrl.editField(field, $index, section)"
-                      ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
-                </div>
-              </div>
-              <ng-include src="'/forms/studiov2.forms.fields.placeholder'"></ng-include>
-            </div>
-
-            <div class="col-wdg col-sm-4 no-padding">
-              <div class="row" dragula="'1col-bag'" dragula-model="section.fieldsCol2" id="section-position-2"> 
-                <div class="row row-edit-this"
-                      id="field-{[{$index}]}" 
-                      ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
-                      ng-repeat="field in section.fieldsCol2 track by $index" 
-                      ng-click="ctrl.editField(field, $index, section)"
-                      ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-wdg col-sm-4 no-padding">
-              <div class="row" dragula="'1col-bag'" dragula-model="section.fieldsCol3" id="section-position-3">
-                <div class="row row-edit-this"
-                      id="field-{[{$index}]}" 
-                      ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
-                      ng-repeat="field in section.fieldsCol3 track by $index" 
-                      ng-click="ctrl.editField(field, $index, section)"
-                      ng-include="'/forms/studiov2.forms.fields.'+ field.meta.type">
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- /3 colunas -->
+          {{#include-html}}studiov2.forms.sections.section-1col{{/include-html}}
+          {{#include-html}}studiov2.forms.sections.section-2col{{/include-html}}
+          {{#include-html}}studiov2.forms.sections.section-3col{{/include-html}}
         </div>
       </div>
 

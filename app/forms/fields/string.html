@@ -1,8 +1,1 @@
-{{#include-html}}studiov2.forms.fields.field-edit-ui{{/include-html}}
-
-<div class="col-ed col-sm-4 text-right">
-  <label form-field-id="27863" for="cmb-filter-casereasongroup" ng-bind="field.label"></label>
-</div>
-<div class="col-ed col-sm-{[{field.views.edit.size || '8'}]}">
-  <input  type="text" class="form-control input-sm" maxlength="ctrl.field.meta.maxLength" minlength="ctrl.field.meta.minLength" />
-</div>
+<input type="text" class="form-control input-sm" ng-if="field.meta.type == 'string'"/>

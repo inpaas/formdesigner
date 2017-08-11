@@ -1,0 +1,30 @@
+<!-- 2 colunas -->
+<div class="row" ng-if="section.views.edit.collumns == 2">
+  <div class="col-wdg col-sm-6 no-padding">
+    <div class="row" dragula="'1col-bag'" dragula-model="section.fieldsCol1" id="section-position-1">
+      <div class="row row-edit-this"
+            id="field-{[{$index}]}" 
+            ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
+            ng-repeat="field in section.fieldsCol1 track by $index" 
+            ng-click="ctrl.editField(field, $index, section)">
+
+        {{#include-html}}studiov2.forms.fields.fields{{/include-html}}
+      </div>
+    </div>
+    {{#include-html}}studiov2.forms.fields.placeholder{{/include-html}}
+  </div>
+
+  <div class="col-wdg col-sm-6 no-padding">
+    <div class="row" dragula="'1col-bag'" dragula-model="section.fieldsCol2" id="section-position-2"> 
+      <div class="row row-edit-this"
+            id="field-{[{$index}]}" 
+            ng-class="{'active-field': ctrl.fieldEdit.name === field.name }"
+            ng-repeat="field in section.fieldsCol2 track by $index" 
+            ng-click="ctrl.editField(field, $index, section)">
+
+        {{#include-html}}studiov2.forms.fields.fields{{/include-html}}
+      </div> 
+    </div>
+  </div>
+</div> 
+<!-- /2 colunas -->

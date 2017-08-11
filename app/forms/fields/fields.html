@@ -1,47 +1,25 @@
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.checkbox">
+{{#include-html}}studiov2.forms.fields.field-edit-ui{{/include-html}}
+
+<div class="col-ed col-sm-4 text-right">
+  <label ng-bind="field.label"></label>
+</div>
+
+<div class="col-ed col-sm-{[{field.views.edit.size}]}">
   {{#include-html}}studiov2.forms.fields.checkbox{{/include-html}}
-</script>
+  
+  {{#include-html}}studiov2.forms.fields.currency{{/include-html}}
 
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.checkbox">
-  {{#include-html}}studiov2.forms.fields.checkbox{{/include-html}}
-</script>
+  {{#include-html}}studiov2.forms.fields.date{{/include-html}}
 
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.date">
-  {{#include-html}}studiov2.forms.fields.date {{/include-html}}
-</script>
-
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.field-edit-ui">
-  {{#include-html}}studiov2.forms.fields.field-edit-ui{{/include-html}}
-</script>
-
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.image">
-  {{#include-html}}studiov2.forms.fields.image{{/include-html}}
-</script>
-
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.number">
-  {{#include-html}}studiov2.forms.fields.number{{/include-html}}
-</script>
-
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.placeholder">
-  {{#include-html}}studiov2.forms.fields.placeholder{{/include-html}}
-</script>
-
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.radio">
-  {{#include-html}}studiov2.forms.fields.radio{{/include-html}}
-</script>
-
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.select">
-  {{#include-html}}studiov2.forms.fields.select{{/include-html}}
-</script>
-
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.string">
-  {{#include-html}}studiov2.forms.fields.string{{/include-html}}
-</script>
-
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.textarea">
-  {{#include-html}}studiov2.forms.fields.textarea{{/include-html}}
-</script>
-
-<script type="text/ng-template" id="/forms/studiov2.forms.fields.finder">
   {{#include-html}}studiov2.forms.fields.finder{{/include-html}}
-</script>
+
+  {{#include-html}}studiov2.forms.fields.number{{/include-html}}
+
+  {{#include-html}}studiov2.forms.fields.radio{{/include-html}}
+
+  {{#include-html}}studiov2.forms.fields.select{{/include-html}}
+
+  {{#include-html}}studiov2.forms.fields.string{{/include-html}}
+
+  {{#include-html}}studiov2.forms.fields.textarea{{/include-html}}
+</div>
