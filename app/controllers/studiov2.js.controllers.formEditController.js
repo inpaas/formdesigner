@@ -329,6 +329,13 @@
         ctrl.jsonModel.views.edit.collumns = currentSection.views.edit.collumns;
         ctrl.jsonModel.views.edit.onload = currentSection.onload? currentSection.views.edit.onload : undefined;
         ctrl.jsonModel.views.edit.onsubmit = currentSection.onsubmit? currentSection.views.edit.onsubmit: undefined;
+        
+      }else if(currentSection.includeType == 'edit'){
+        ctrl.entityForms.forEach(function(form, index){
+          if(form.key == currentSection.include.key) {
+            currentSection.include = form;
+          }
+        }); 
       }
 
       if (currentSection.visibilityType) {
