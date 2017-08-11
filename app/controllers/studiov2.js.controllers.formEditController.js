@@ -914,6 +914,7 @@
           var form = section.jsonForm;
           form.fields.length = 0;
           form.label = section.label;
+          form.id = form.id || section.include.idForm;
           form.moduleKey = ctrl.jsonModel.moduleKey
           form.include = true;
           form.views.edit.collumns = section.views.edit.collumns;
