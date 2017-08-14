@@ -348,11 +348,11 @@
         currentSection.meta.disabled = setDisplayConfig(currentSection.disabledType, currentSection.disabledExpression);
         delete currentSection.disabledType;
         delete currentSection.disabledExpression;
-      } 
+      }
 
       !currentSection.onload && (delete currentSection.views.edit.onload);
       !currentSection.onsubmit && (delete currentSection.views.edit.onsubmit);
-      !currentSection.onchange && (delete currentSection.views.edit.onload);
+      !currentSection.onchange && (delete currentSection.views.edit.onchange);
 
       delete currentSection.onload;
       delete currentSection.onsubmit;
@@ -911,8 +911,7 @@
         delete field.fieldsCol1;
         delete field.fieldsCol2;
         delete field.fieldsCol3;
-        delete field.onload;
-        delete field.onsubmit;
+        delete field.rawEntityField;
 
         form.fields.push(field);
       });
