@@ -61,132 +61,6 @@
     </div>
     <!-- /Config Collumns-->
 
-    <!-- Display -->
-    <div class="stock-separator">
-      <label for="">Display</label>
-    </div>
-    <div class="row" ng-show="ctrl.currentSection.type != 'main'">
-      <div class="form-group">
-        <label>Visibilidade</label>
-        <select class="form-control input-sm" ng-model="ctrl.currentSection.visibilityType">
-          <option value="">Selecione</option>
-          <option value="true">Sim</option>
-          <option value="false">Não</option>
-          <option value="function">Função</option>
-          <option value="map">Propriedade/Valor</option>
-        </select>
-      </div>
-      <button class="btn btn-primary btn-sm" 
-              ng-if="ctrl.currentSection.visibilityType == 'function'" 
-              ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'function')">Editar função</button>
-
-      <button class="btn btn-primary btn-sm" 
-              ng-if="ctrl.currentSection.visibilityType == 'map'" 
-              ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
-    </div>
-    <div class="row">
-      <div class="form-group">
-        <label>Desabilitar seção</label>
-        <select class="form-control input-sm" ng-model="ctrl.currentSection.disabledType">
-          <option value="">Selecione</option>
-          <option value="true">Sim</option>
-          <option value="false">Não</option>
-          <option value="function">Função</option>
-          <option value="map">Propriedade/Valor</option>
-        </select>
-      </div>
-
-      <button class="btn btn-primary btn-sm" 
-              ng-if="ctrl.currentSection.disabledType == 'function'" 
-              ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'function')">
-          Editar função
-      </button>
-
-      <button class="btn btn-primary btn-sm" 
-              ng-if="ctrl.currentSection.disabledType == 'map'" 
-              ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'map')">
-          Editar Propriedade/Valor
-      </button>
-    </div>  
-    <!-- /Display -->
-
-    <!--  Events-->
-    <div class="row">
-      <div class="stock-separator">
-        <label for="">Eventos</label>
-      </div>
-      
-      <!-- onload -->
-      <div class="row">
-        <div class="form-group" ng-show="ctrl.currentSection.type == 'main'">
-          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
-          <label for="section-onload">Ao carregar a página</label>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.type != 'main'">
-          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
-          <label for="section-onload">Ao carregar a seção</label>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.onload">
-          <label for="">SourceKey</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.sourceKey"/>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.onload">
-          <label for="">Function Name</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.functionName"/>
-        </div>
-      </div>
-      
-      <!-- onsubmit -->
-      <div class="row">
-        <div class="form-group" ng-show="!ctrl.currentSection.finder">
-          <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
-          <label for="section-onsubmit">Ao salvar o form</label>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.finder">
-          <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
-          <label for="section-onsubmit">Ao editar a seção</label>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
-          <label for="">SourceKey</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
-          <label for="">Function Name</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
-        </div>
-      </div>
-
-      <!-- onchange -->
-      <div class="row">
-        <div class="form-group" ng-show="ctrl.currentSection.includeType == 'list'">
-          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
-          <label for="section-onload">Ao modificar item da lista</label>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.includeType != 'list'">
-          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
-          <label for="section-onload">Ao carregar a seção</label>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.onchange">
-          <label for="">SourceKey</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onchange.sourceKey"/>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.onload">
-          <label for="">Function Name</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onchange.functionName"/>
-        </div>
-      </div>
-    </div>
-    <!-- /Events -->
-
     <!-- Config include Datasource-->
     <div class="row" ng-show="ctrl.currentSection.type != 'main' && !ctrl.currentSection.isSameDataSource">
       <div class="stock-separator">
@@ -274,6 +148,124 @@
       </div>
     </div>
     <!-- /Config include Datasource-->
+
+    <!-- Display -->
+    <div class="row">
+      <div class="stock-separator">
+        <label for="">Display</label>
+      </div>
+      <div class="row" ng-show="ctrl.currentSection.type != 'main'">
+        <div class="form-group">
+          <label>Visibilidade</label>
+          <select class="form-control input-sm" ng-model="ctrl.currentSection.visibilityType">
+            <option value="">Selecione</option>
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+            <option value="function">Função</option>
+            <option value="map">Propriedade/Valor</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.currentSection.visibilityType == 'function'" 
+                ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'function')">Editar função</button>
+
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.currentSection.visibilityType == 'map'" 
+                ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label>Desabilitar seção</label>
+          <select class="form-control input-sm" ng-model="ctrl.currentSection.disabledType">
+            <option value="">Selecione</option>
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+            <option value="function">Função</option>
+            <option value="map">Propriedade/Valor</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.currentSection.disabledType == 'function'" 
+                ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'function')">
+            Editar função
+        </button>
+
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.currentSection.disabledType == 'map'" 
+                ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'map')">
+            Editar Propriedade/Valor
+        </button>
+      </div>  
+    </div>
+    <!-- /Display -->
+
+    <!--  Events-->
+    <div class="row">
+      <div class="stock-separator">
+        <label for="">Eventos</label>
+      </div>
+      
+      <!-- onload -->
+      <div class="row">
+        <div class="form-group" ng-show="ctrl.currentSection.type == 'main'">
+          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
+          <label for="section-onload">Ao carregar a página</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.type != 'main'">
+          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
+          <label for="section-onload">Ao carregar a seção</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onload">
+          <label for="">SourceKey</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.sourceKey"/>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onload">
+          <label for="">Function Name</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.functionName"/>
+        </div>
+      </div>
+
+      <!-- onsubmit -->
+      <div class="row">
+        <div class="form-group">
+          <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
+          <label for="section-onsubmit">Ao salvar o form</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
+          <label for="">SourceKey</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
+          <label for="">Function Name</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
+        </div>
+      </div>
+
+      <!-- onchange -->
+      <div class="row" ng-show="ctrl.currentSection.includeType == 'list'">
+        <div class="form-group">
+          <input type="checkbox" id="section-onchange" ng-model="ctrl.currentSection.onchange">
+          <label for="section-onchange">Ao modificar item da lista</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onchange">
+          <label for="">SourceKey</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onchange.sourceKey"/>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onchange">
+          <label for="">Function Name</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onchange.functionName"/>
+        </div>
+      </div>
+    </div>
+    <!-- /Events -->
   </div>
 
   <div class="action-buttons" style="z-index: 1;">
