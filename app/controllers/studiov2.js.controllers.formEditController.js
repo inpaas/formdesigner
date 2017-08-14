@@ -352,6 +352,11 @@
 
       !currentSection.onload && (delete currentSection.views.edit.onload);
       !currentSection.onsubmit && (delete currentSection.views.edit.onsubmit);
+      !currentSection.onchange && (delete currentSection.views.edit.onload);
+
+      delete currentSection.onload;
+      delete currentSection.onsubmit;
+      delete currentSection.onchange;
 
       switch(currentSection.views.edit.collumns) {
         case 1:

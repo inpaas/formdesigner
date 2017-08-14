@@ -161,6 +161,29 @@
           <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
         </div>
       </div>
+
+      <!-- onchange -->
+      <div class="row">
+        <div class="form-group" ng-show="ctrl.currentSection.includeType == 'list'">
+          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
+          <label for="section-onload">Ao modificar item da lista</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.includeType != 'list'">
+          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
+          <label for="section-onload">Ao carregar a seção</label>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onchange">
+          <label for="">SourceKey</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onchange.sourceKey"/>
+        </div>
+
+        <div class="form-group" ng-show="ctrl.currentSection.onload">
+          <label for="">Function Name</label>
+          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onchange.functionName"/>
+        </div>
+      </div>
     </div>
     <!-- /Events -->
 
