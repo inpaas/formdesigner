@@ -1,4 +1,4 @@
-<!-- Config Section -->
+<!--Config Section -->
 <ul class="nav-components sb-widget" ng-show="ctrl.onEditSection">
   <li class="item-components">
     Propriedades da seção 
@@ -68,17 +68,24 @@
       </div>
 
       <div class="row">
-        <div class="col-sm-6 no-padding">
+        <div class="form-group">
           <label for="section-type-list">
-            <input type="radio" id="section-type-list" name="includeType" ng-model="ctrl.currentSection.includeType" value="list"> Master/Details
+            <input type="radio" id="section-type-list" name="includetype" ng-model="ctrl.currentSection.includeType" value="list"> Master/Details
           </label>
         </div>
-        <div class="col-sm-6">
+
+        <div class="form-group">
           <label for="section-type-edit">
-            <input type="radio" id="section-type-edit" name="includeType" ng-model="ctrl.currentSection.includeType" value="edit"> Edição
+            <input type="radio" id="section-type-edit" name="includetype" ng-model="ctrl.currentSection.includeType" value="edit"> Form de Edição
           </label>
         </div>
-        <br>
+
+        <div class="form-group">
+          <label for="section-type-template">
+            <input type="radio" id="section-type-template" name="includetype" ng-model="ctrl.currentSection.includeType" value="templateCustom"> Template custom
+          </label>
+        </div>
+
         <!-- Config Finder Include -->
         <div ng-show="ctrl.currentSection.includeType == 'list'">
           <div class="form-group">
@@ -142,6 +149,31 @@
             <select class="form-control input-sm" 
                     ng-model="ctrl.currentSection.include.key"
                     ng-options="form.key as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
+            </select>
+          </div>
+        </div>
+
+        <!-- Config include template -->
+        <div ng-show="ctrl.currentSection.includeType == 'templateCustom'">
+          <div class="form-group">
+            <div class="btn-group btn-block">
+              <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
+                {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+              </button>
+              <ul class="dropdown-menu btn-block">
+                <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+                <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleTemplates(mod.id)">
+                  <a href="" ng-bind="mod.title"></a>
+                </li>
+                <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+              </ul>
+            </div>
+          </div> 
+          <div class="form-group">
+            <label for="">Template Key</label>
+            <select class="form-control input-sm" 
+                    ng-model="ctrl.currentSection.include.template" 
+                    ng-options="template.key as template.name for template in ctrl.moduleEntity.templates">
             </select>
           </div>
         </div>

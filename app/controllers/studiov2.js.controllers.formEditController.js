@@ -336,6 +336,9 @@
             currentSection.include = form;
           }
         }); 
+
+      }else if(currentSection.includeType == 'templateCustom'){
+        currentSection.include.moduleKey = ctrl.moduleEntity.key;
       }
 
       if (currentSection.visibilityType) {
@@ -404,6 +407,7 @@
       currentSection.index = index;
 
       if(currentSection.type != 'main'){
+
         if (currentSection.meta.visible) {
           angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.visible, 'visibilityType', 'visibilityExpression'));
         }
@@ -411,10 +415,7 @@
         if (currentSection.meta.disabled) {
           angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.disabled, 'disabledType', 'disabledExpression'));
         }
-      }
-      
-
-      if (currentSection.includeType == 'list' ) {
+      }else if (currentSection.includeType == 'list' ) {
         getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
         getFinders(currentSection.finder.entityName);
         getEntityAndSetReferences(currentSection.finder.entityName, currentSection).then(function(entity){
@@ -438,6 +439,10 @@
         getEntityFormsByBind(currentSection.meta.bind);
       }
 
+      if(currentSection.includeType == 'templateCustom'){
+        getModuleTemplates(getModuleIdByKey(currentSection.include.moduleKey));
+      }
+
       if (!currentSection.views.edit.collumns) {
         currentSection.views.edit.collumns = 1; 
       }
@@ -448,6 +453,10 @@
 
       if(currentSection.views.edit.onsubmit){
         currentSection.onsubmit = true;
+      }
+
+      if(currentSection.views.edit.onchange){
+        currentSection.onchange = true;
       }
 
       ctrl.currentSection = currentSection;
@@ -912,6 +921,8 @@
         delete field.fieldsCol2;
         delete field.fieldsCol3;
         delete field.rawEntityField;
+        delete field.referencesChild;
+        delete field.entity;
 
         form.fields.push(field);
       });
@@ -968,6 +979,7 @@
 
       function setPositionField(position, field){
         field.views.edit.position = position;
+        delete field.rawEntityField;
         form.fields.push(field);
       };
     }
@@ -1167,6 +1179,12 @@
         }
         return response.data;
       }, function(){ return {}}); 
+    }
+
+    function getModuleTemplates(moduleId){
+      getModule(moduleId).then(function(response){
+        ctrl.moduleEntity = response.data;
+      });
     }
 
     function getQueries(entityName){
@@ -1538,7 +1556,8 @@
       getEntityFormsByBind: getEntityFormsByBind,
       openFormTab: openFormTab,
       moveSection: moveSection, 
-      validateField: validateField
+      validateField: validateField,
+      getModuleTemplates: getModuleTemplates
     }); 
   };
 })();

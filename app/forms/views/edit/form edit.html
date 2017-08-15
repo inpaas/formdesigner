@@ -68,6 +68,12 @@
           </a>
         </p>
       </div>
+
+      <div class="widget-body" ng-if="section.includeType == 'templateCustom'">
+        <p class="text-center"> 
+          Template: {[{section.include.template}]}
+        </p>
+      </div>
     </div>
   </div>
   <!-- Sections-->

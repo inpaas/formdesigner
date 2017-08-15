@@ -106,7 +106,7 @@
           <label for="">Template</label>
           <select class="form-control input-sm" 
                   ng-model="ctrl.configForm.template" 
-                  ng-options="template.key as template.name for template in ctrl.templates">
+                  ng-options="template.key as template.name for template in ctrl.moduleEntity.templates">
             <option value="">Padrão</option>
           </select>
         </div>
