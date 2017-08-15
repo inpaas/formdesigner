@@ -60,15 +60,18 @@
     }
 
     function buildSections(form) {
-      ctrl.sections.push({
+      var section = {
         fields: setFieldsToMainSection(form.fields),
         label: form.views.edit.label,
         type: 'main',
         views: form.views,
+        sources: form.sources,
         fieldsCol1: [],
         fieldsCol2: [],
         fieldsCol3: []
-      });
+      };
+
+      ctrl.sections.push(section);
 
       form.fields.forEach(function(field, index){
         if (field.meta.type == 'include') {
@@ -329,7 +332,8 @@
         ctrl.jsonModel.views.edit.collumns = currentSection.views.edit.collumns;
         ctrl.jsonModel.views.edit.onload = currentSection.onload? currentSection.views.edit.onload : undefined;
         ctrl.jsonModel.views.edit.onsubmit = currentSection.onsubmit? currentSection.views.edit.onsubmit: undefined;
-        
+        ctrl.jsonModel.sources = currentSection.sources || undefined; 
+
       }else if(currentSection.includeType == 'edit'){
         ctrl.entityForms.forEach(function(form, index){
           if(form.key == currentSection.include.key) {

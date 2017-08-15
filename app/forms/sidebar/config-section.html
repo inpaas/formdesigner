@@ -96,7 +96,7 @@
               <ul class="dropdown-menu btn-block">
                 <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
                 <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.currentSection.finder)">
-                  <a href="" ng-bind="mod.title"></a>
+                  <a ng-bind="mod.title"></a>
                 </li>
                 <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
               </ul>
@@ -180,6 +180,19 @@
       </div>
     </div>
     <!-- /Config include Datasource-->
+
+    <div class="row">
+      <div class="stock-separator">
+        <label for="">Static Sources</label>
+      </div>
+      <div class="form-group">
+        <label for="">Javascript</label>
+        <input type="text" 
+              class="input-sm form-control" 
+              ng-model="ctrl.currentSection.sources.js" 
+              placeholder="Source key">
+      </div>
+    </div>
 
     <!-- Display -->
     <div class="row">
