@@ -325,6 +325,7 @@
         jsonForm.label = currentSection.label;
         jsonForm.dataSource = ctrl.jsonModel.dataSource;
         currentSection.jsonForm = jsonForm;
+        currentSection.jsonForm.moduleKey = ctrl.jsonModel.moduleKey;
         currentSection.include = {
           key: jsonForm.key
         }

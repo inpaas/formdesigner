@@ -74,7 +74,7 @@
 
             labelsService.translateLabels(form);
             if (form.fields.filter(function(f){ return f.isSameDataSource; }).length) {
-              return getFormInclude(form).then(function(){
+              return getFormInclude(form, idModule).then(function(){
                 return form;
               });
             }else{
