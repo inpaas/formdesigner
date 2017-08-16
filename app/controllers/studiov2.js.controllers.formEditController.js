@@ -65,7 +65,6 @@
         label: form.views.edit.label,
         type: 'main',
         views: form.views,
-        sources: form.sources,
         fieldsCol1: [],
         fieldsCol2: [],
         fieldsCol3: []
@@ -328,12 +327,6 @@
           key: jsonForm.key
         }
 
-      }else if(currentSection.type == 'main'){
-        ctrl.jsonModel.views.edit.collumns = currentSection.views.edit.collumns;
-        ctrl.jsonModel.views.edit.onload = currentSection.onload? currentSection.views.edit.onload : undefined;
-        ctrl.jsonModel.views.edit.onsubmit = currentSection.onsubmit? currentSection.views.edit.onsubmit: undefined;
-        ctrl.jsonModel.sources = currentSection.sources || undefined; 
-
       }else if(currentSection.includeType == 'edit'){
         ctrl.entityForms.forEach(function(form, index){
           if(form.key == currentSection.include.key) {
@@ -361,6 +354,10 @@
       !currentSection.onsubmit && (delete currentSection.views.edit.onsubmit);
       !currentSection.onchange && (delete currentSection.views.edit.onchange);
 
+      if(currentSection.type == 'main'){
+        angular.extend(ctrl.jsonModel.views, currentSection.views);
+      }
+
       delete currentSection.onload;
       delete currentSection.onsubmit;
       delete currentSection.onchange;
@@ -375,6 +372,7 @@
           currentSection.fieldsCol2 = currentSection.fieldsCol3.concat(currentSection.fieldsCol3);
           currentSection.fieldsCol3.length = 0;
       }
+
 
       if (!angular.isUndefined(currentSection.index)) {
         angular.extend(ctrl.sections[currentSection.index], currentSection);
