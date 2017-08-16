@@ -1,4 +1,4 @@
-<!-- Config Field -->
+Config Field -->
 <ul class="nav-components sb-field-text" ng-show="ctrl.onEditField">
   <li class="item-components">
     Propriedades do campo
@@ -60,11 +60,18 @@
       </div>
     </div>
     
+    <!-- Display -->
     <div class="stock-separator">
       <label for="">Display</label>
     </div>
     
     <div class="row">
+      <div class="form-group">
+        <label for="field-readonly">
+          <input type="checkbox" ng-model="ctrl.fieldEdit.views.edit.readOnly" id="field-readonly">
+          Somente Leitura
+        </label>
+      </div>
       <div class="form-group">
         <label>Visibilidade</label>
         <select class="form-control input-sm" ng-model="ctrl.fieldEdit.visibilityType">
@@ -155,4 +162,4 @@
     </div>
   </div>
 </ul>
-<!--  Config Field -->
+<!--  Config Field
