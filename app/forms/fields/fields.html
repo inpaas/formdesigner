@@ -1,10 +1,15 @@
 {{#include-html}}studiov2.forms.fields.field-edit-ui{{/include-html}}
 
-<div class="col-ed col-sm-4 text-right">
+<div class="col-ed col-sm-4 text-right" ng-if="!section.views.edit.layout || section.views.edit.layout == 'horizontal'">
   <label ng-bind="field.label"></label>
 </div>
 
+<div class="col-ed col-sm-3" ng-if="section.views.edit.layout == 'vertical'">
+</div>
+
 <div class="col-ed col-sm-{[{field.views.edit.size}]}">
+  <label ng-bind="field.label" ng-if="section.views.edit.layout == 'vertical'"></label>
+
   {{#include-html}}studiov2.forms.fields.checkbox{{/include-html}}
   
   {{#include-html}}studiov2.forms.fields.currency{{/include-html}}

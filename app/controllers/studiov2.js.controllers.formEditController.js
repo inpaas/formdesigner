@@ -281,7 +281,9 @@
         fieldsCol3: [],
         fields: [],
         views: {
-          edit: {}
+          edit: {
+            layout: 'horizontal'
+          }
         }
       };
 
@@ -459,6 +461,10 @@
 
       if(currentSection.views.edit.onchange){
         currentSection.onchange = true;
+      }
+
+      if(!currentSection.views.edit.layout){
+        currentSection.views.edit.layout = 'horizontal';
       }
 
       ctrl.currentSection = currentSection;
