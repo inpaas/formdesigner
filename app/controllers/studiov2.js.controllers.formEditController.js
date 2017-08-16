@@ -521,15 +521,23 @@
           break;
 
         case 'select':
-          if (fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
+          if (fieldEdit.rawEntityField.domains) {
+            fieldEdit.dataSourceType = 'D';
+            fieldEdit.meta.options = angular.copy(fieldEdit.rawEntityField.domains); 
 
-            if (fieldEdit.rawEntityField.domains) {
-              fieldEdit.dataSourceType = 'D';
-              fieldEdit.meta.options = angular.copy(fieldEdit.rawEntityField.domains); 
-            }else{
-              fieldEdit.dataSourceType = 'O';
-              fieldEdit.meta.options = {};
+          }else if(findReferences(fieldEdit)){
+            var ref = findReferences(fieldEdit)[0];
+
+            fieldEdit.dataSourceType = 'E';
+            ctrl.moduleEntity = getModuleEntity(getModuleIdByKey(ctrl.jsonModel.moduleKey));
+            fieldEdit.finder = {
+              entityName: ref.entity
             }
+            getFinders(ref.entity);
+
+          }else{
+            fieldEdit.datasourcetype = 'O';
+            fieldEdit.meta.options = {};
           }
           break;
 
@@ -574,14 +582,8 @@
     }
 
     function findReferences(fieldForm){
-      ctrl.currentEntity.references.forEach(function(ref, index){
-        if (ref.field === ctrl.fieldEdit.rawEntityField.name) {
-          ctrl.fieldEdit.dataSource = {
-            type: 'E',
-            key : ref.entity,
-            moduleId: ctrl.currentEntity.id
-          }
-        }
+      return ctrl.currentEntity.references.filter(function(ref, index){
+        return ref.field === fieldForm.rawEntityField.name;
       });
     }
 
