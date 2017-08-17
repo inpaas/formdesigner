@@ -11,7 +11,7 @@
         labels = [];
 
     function saveLabel(text, key, idModule){
-      if ($l10n.translate(key) == text){
+      if (($l10n.translate(key) == text) || !text){
         return false;
       }
 
