@@ -23,12 +23,12 @@
         .then(function(response){
           ctrl.jsonModel = angular.copy(response);
 
-          if(!ctrl.jsonModel.moduleKey) {
-            ctrl.jsonModel.moduleKey = getModuleKeyById(ctrl.jsonModel.moduleId);               
+          if(!ctrl.jsonModel.moduleKey && ctrl.jsonModel.moduleId) {
+            ctrl.jsonModel.moduleKey = getModuleKeyById(ctrl.jsonModel.moduleId);
             delete ctrl.jsonModel.moduleId;
           } 
 
-          if (!ctrl.jsonModel.dataSource.moduleKey) {
+          if (!ctrl.jsonModel.dataSource.moduleKey && ctrl.jsonModel.dataSource.moduleKey) {
             ctrl.jsonModel.dataSource.moduleKey = getModuleKeyById(ctrl.jsonModel.dataSource.moduleId || response.data.moduleId);
             delete ctrl.jsonModel.dataSource.moduleId;
           }
@@ -317,18 +317,23 @@
           currentSection.finder.dependencies = dependencies;
         }
       
-      }else if(currentSection.isSameDataSource && !currentSection.jsonForm){
+      }else if(currentSection.isSameDataSource){
         currentSection.includeType = 'edit';
 
-        var jsonForm = jsonFormService.getFormTemplate();
-        jsonForm.key = ctrl.jsonModel.key.concat('.form-include-').concat( (new Date().getTime()) ),
-        jsonForm.label = currentSection.label;
-        jsonForm.dataSource = ctrl.jsonModel.dataSource;
-        currentSection.jsonForm = jsonForm;
-        currentSection.jsonForm.moduleKey = ctrl.jsonModel.moduleKey;
-        currentSection.include = {
-          key: jsonForm.key
+        if(!currentSection.jsonForm){
+          var jsonForm = jsonFormService.getFormTemplate();
+          jsonForm.key = ctrl.jsonModel.key.concat('.form-include-').concat( (new Date().getTime()) ),
+          jsonForm.label = currentSection.label;
+          jsonForm.dataSource = ctrl.jsonModel.dataSource;
+          jsonForm.moduleKey = ctrl.jsonModel.moduleKey;
+          currentSection.include = {
+            key: jsonForm.key,
+            moduleKey: ctrl.jsonModel.moduleKey
+          }
+          currentSection.jsonForm = jsonForm;
         }
+
+        angular.extend(currentSection.jsonForm.views.edit, currentSection.views.edit);
 
       }else if(currentSection.includeType == 'edit'){
         ctrl.entityForms.forEach(function(form, index){
@@ -521,20 +526,20 @@
           getFormatsPattern();
           break;
 
-        case 'select':
+        case 'select': 
+          var reference = findReferences(fieldEdit);
+
           if (fieldEdit.rawEntityField.domains) {
             fieldEdit.dataSourceType = 'D';
             fieldEdit.meta.options = angular.copy(fieldEdit.rawEntityField.domains); 
 
-          }else if(findReferences(fieldEdit)){
-            var ref = findReferences(fieldEdit)[0];
-
+          }else if(reference.length){
             fieldEdit.dataSourceType = 'E';
             ctrl.moduleEntity = getModuleEntity(getModuleIdByKey(ctrl.jsonModel.moduleKey));
             fieldEdit.finder = {
-              entityName: ref.entity
+              entityName: reference.entity
             }
-            getFinders(ref.entity);
+            getFinders(reference.entity);
 
           }else{
             fieldEdit.datasourcetype = 'O';
@@ -898,7 +903,6 @@
         httpService.saveNewForm(form, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId)
           .then(function(response){
             return httpService.saveEditForm(form, response.data.id, getModuleIdByKey(ctrl.jsonModel.moduleKey)|| ctrl.jsonModel.moduleId).then(function(response){
-              ctrl.jsonModel.id = response.data.id;
               Notification.success('Formulário salvo com sucesso');
               goToEdit(response.data.id, false);
             });
@@ -947,9 +951,9 @@
           var form = section.jsonForm;
           form.fields.length = 0;
           form.label = section.label;
-          form.id = form.id || section.include.idForm;
           form.moduleKey = ctrl.jsonModel.moduleKey
           form.include = true;
+          angular.extend(form.views.edit, section.views.edit);
           form.views.edit.collumns = section.views.edit.collumns;
           setFieldsOnForm(section, form);
           form = labelsService.buildLabels(angular.copy(form), getModuleIdByKey(form.moduleKey) || form.moduleId); 
@@ -959,7 +963,7 @@
             promises.push(p);
           }else{
             var p = httpService.saveNewForm(form, getModuleIdByKey(form.moduleKey)).then(function(response){
-                      section.include.idForm = form.id = response.data.id;
+                      form.id = response.data.id;
                       return form;
                     }).then(function(form){
                       return httpService.saveEditForm(form, form.id, getModuleIdByKey(form.moduleKey) || form.moduleId); 
@@ -1259,7 +1263,9 @@
         }
       });
 
-      getEntitiesByModule(ctrl.moduleEntity.id);
+      if(ctrl.moduleEntity){
+        getEntitiesByModule(ctrl.moduleEntity.id);
+      }
 
       delete form.moduleId;
       delete form.dataSource.moduleId;
@@ -1277,8 +1283,8 @@
         getFieldsByEntity(ctrl.configForm.dataSource.key);
       }
 
-      ctrl.jsonModel.moduleKey = ctrl.moduleForm.key;
-      ctrl.jsonModel.dataSource.moduleKey = ctrl.moduleEntity.key;
+      ctrl.configForm.moduleKey = ctrl.moduleForm.key;
+      ctrl.configForm.dataSource.moduleKey = ctrl.moduleEntity.key;
 
       angular.extend(ctrl.jsonModel, ctrl.configForm);
       ctrl.onConfigForm = false;

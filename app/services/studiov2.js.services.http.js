@@ -66,7 +66,7 @@
 
           if (response.data.json) {
             form = JSON.parse(response.data.json);
-            form.id = id;
+            form.id = response.data.id;
             
             if (!form.moduleKey) {
               form.moduleId = response.data.moduleId;
@@ -85,9 +85,9 @@
             form = jsonFormService.getFormTemplate();
             form.key = response.data.key;
             form.label = response.data.label;
+            form.id = response.data.id;
             form.moduleId = response.data.moduleId;
             form.dataSource.moduleId = response.data.moduleId;
-            form.id = response.data.id;
 
             labelsService.translateLabels(form);
             return form;
@@ -101,7 +101,7 @@
       
       form.fields.forEach(function(field){
         if (field.meta.type == 'include' && field.isSameDataSource) {
-          var p = getForm(field.include.idForm, idModule).then(function(formInclude){ 
+          var p = getForm(field.include.key, idModule).then(function(formInclude){ 
                     labelsService.translateLabels(formInclude);
                     field.jsonForm = formInclude;
                     field.fields = angular.copy(formInclude.fields); 
@@ -134,6 +134,8 @@
     }
 
     function saveEditForm(form, idForm, idModule) {
+      delete form.id;
+      
       var url = '/api/studio/modules/'
             .concat(idModule)
             .concat('/forms-v2/')
