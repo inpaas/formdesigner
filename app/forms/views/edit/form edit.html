@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <div class="widget-body" ng-if="section.finder">
+      <div class="widget-body" ng-if="section.includetype == 'list'">
         <p class="text-center"> 
           <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.key}]}">
             Lista: {[{ section.finder.title }]}
