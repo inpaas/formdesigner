@@ -299,22 +299,23 @@
 
         if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
-            var attr = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0];
-            var field = ctrl.data.entityFields.filter(function(field){return field.name == key; })[0];
+            var attr = currentSection.entity.fields.filter(function(attr){return attr.fieldName == key; })[0],
+                field = ctrl.data.entityFields.filter(function(field){return field.name == key; })[0];
 
-            if (attr && field) {
-              dependencies[attr.alias] = field.alias;
-            } else{
-              var entity = currentSection.referencesChild.filter(function(entity){ return entity.alias == ref.entity })[0];
-              dependencies[attr.alias] = entity.attributes.filter(function(attr){ return attr.name == ref.field })[0].alias;
+            if(!attr){
+              currentSection.entity.references.filter(function(ref){
+                return ref.fields.filter(function(field, index){
+                  return field.fieldName == field.name;
+                });
+              });
             }
+
+            dependencies[attr.alias] = field.alias;
           });
 
           currentSection.finder.dependencies = dependencies;
         }
 
-        delete currentSection.referencesChild;
-      
       }else if(currentSection.isSameDataSource){
         currentSection.includeType = 'edit';
 
@@ -416,7 +417,23 @@
 
       if(currentSection.includeType == 'list' ) {
         getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
-        getEntityAndSetReferences(currentSection.finder.entityName, currentSection);
+        getEntityAndSetReferences(currentSection.finder.entityName, currentSection).then(function(){ 
+          var dependenciesKeys = [];
+
+          angular.forEach(currentSection.finder.dependencies, function(value, key){
+            var field = ctrl.data.entityFields.filter(function(field){return field.alias == value; })[0];
+
+            if (field) {
+              dependenciesKeys.push(field.name);
+            }
+          });
+
+          currentSection.dependenciesKeys = dependenciesKeys;
+          ctrl.currentSection = currentSection;
+          showConfigSection();
+        });
+
+        return;
       }
 
       if(currentSection.includeType == 'edit' && !currentSection.isSameDataSource){
@@ -470,18 +487,24 @@
     function getReferences(entity){
       var references = [];
 
-      entity.references.forEach(function(ref, index){
-        references.push(ref.field);
+      entity.references && entity.references.forEach(function(ref, index){
+        references.push(ref.fieldReference);
       });
 
       return references;
     };
 
     function getEntityAndSetReferences(entityName, model){
-      getFinders(model.finder.entityName);
-      getEntity(model.finder.entityName).then(function(entity){
-        model.entity = entity;
-        model.references = getReferences(entity); 
+      getFinders(model.finder.entityName).then(function(){
+        if ((ctrl.finders && ctrl.finders.length == 1)) {
+          model.finder.key = ctrl.finders[0].key;
+        }
+      });
+
+      return httpService.getEntityByKey(model.finder.entityName).then(function(response){
+        model.entity = response.data;
+        model.references = getReferences(response.data);
+        return model.entity;
       });
     }
 
@@ -509,10 +532,25 @@
           }else if(reference.length){
             fieldEdit.dataSourceType = 'E';
             ctrl.moduleEntity = getModuleEntity(getModuleIdByKey(ctrl.jsonModel.moduleKey));
+
             fieldEdit.finder = {
-              entityName: reference.entity
+              entityName: reference[0].entity
             }
-            getFinders(reference.entity);
+
+            getFinders(reference[0].entity)
+              .then(function(){
+                if ((ctrl.finders && ctrl.finders.length == 1)) {
+                  fieldEdit.finder.key = ctrl.finders[0].key;
+                  fieldEdit.finder.entityName = reference[0].entity;
+                }
+              })
+              .then(function(){
+                getFinder(fieldEdit.finder.entityName, fieldEdit.finder.key).then(function(finder){
+                  if(finder.fields.length == 1){
+                    fieldEdit.finder.fieldIndex = 0; 
+                  }
+                });
+              });
 
           }else{
             fieldEdit.datasourcetype = 'O';
@@ -1049,8 +1087,9 @@
 
     function getFinder(entityName, finderKey){
       return httpService.getFinder(entityName, finderKey).then(function(response){
-        var finder = response.data;
-        ctrl.finder = finder;
+        ctrl.finder = response.data;
+
+        return response.data;
       });
     }
 
