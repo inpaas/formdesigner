@@ -259,7 +259,17 @@
 
             return value;
           },
-          formFields: function(){return ctrl.jsonModel.fields}
+          formFields: function(){
+            var fields = [];
+
+            ctrl.sections.forEach(function(section, index){
+              if(section.type == 'main' || section.isSameDataSource){
+                fields = fields.concat(section.fields);
+              }
+            });
+
+            return fields;
+          }
         }
       });
 
