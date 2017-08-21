@@ -52,6 +52,14 @@
       }, onSuccess, onError);
     }
 
+    function getEntityByKey(key){
+      var url = '/api/entity/'.concat(key);
+      return $http({
+        method: 'get',
+        url: url
+      }, onSuccess, onError);
+    }
+
     function getForm(id, idModule){
       var url = '/api/studio/modules/'
                   .concat(idModule)
@@ -245,7 +253,8 @@
       deleteForm: deleteForm,
       getFinders: getFinders,
       getFinder: getFinder,
-      getFormInclude: getFormInclude
+      getFormInclude: getFormInclude,
+      getEntityByKey: getEntityByKey
     }
   }
 
