@@ -2,10 +2,10 @@
   "name": "formdesigner",
   "version": "1.0.0",
   "description": "Form Designer Interface for the Development Studio",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "gulp": "gulp",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,19 @@
     "url": "https://github.com/inpaas/formdesigner/issues"
   },
   "homepage": "https://github.com/inpaas/formdesigner#readme",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "angular-dragula": "^1.2.8",
+    "angular-sanitize": "1.5.3",
+    "angular-ui-mask": "^1.8.7",
+    "angular-ui-notification": "^0.3.6",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1",
+    "moment": "^2.18.1",
+    "ui-bootstrap": "^0.1.10",
+    "ui-router": "0.4.0"
+  },
+  "devDependencies": {
+    "angular-mock": "^1.0.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "0.0.14",
@@ -27,6 +37,7 @@
     "gulp-sass": "^2.3.2",
     "jasmine-core": "^2.7.0",
     "karma": "^1.7.0",
+    "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.4"
   }
