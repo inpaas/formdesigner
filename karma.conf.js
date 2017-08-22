@@ -12,34 +12,52 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
 
-
     // list of files / patterns to load in the browser
     files: [
-      './tests',
-      'tests',
-      '"tests',
-      '"tests"',
-      '"tests/"',
-      'tests/'
+    // libs
+    'node_modules/jquery/dist/jquery.js',
+    'node_modules/bootstrap/dist/js/bootstrap.min.js',
+    'node_modules/angular/angular.js',
+    'assets/js/l10n.js',
+    'assets/js/helpers.js',
+    'node_modules/angular-sanitize/angular-sanitize.js',
+    'node_modules/@uirouter/angularjs/release/angular-ui-router.js',
+    'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+    'node_modules/angular-ui-notification/dist/angular-ui-notification.js', 
+    'node_modules/angular-ui-mask/dist/mask.min.js', 
+    'node_modules/angular-dragula/dist/angular-dragula.js',
+    'node_modules/angular-clipboard/angular-clipboard.js', 
+    'node_modules/moment/moment.js',
+
+    //app
+    'app/**/*.js',
+
+    //tests
+    'tests/**/*.spec.js'
     ],
 
 
     // list of files to exclude
-    exclude: [
-    ],
+    exclude: [],
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+        'app/**/*.js': ['coverage']
     },
 
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['dots', 'coverage'],
 
+    // optionally, configure the reporter 
+    coverageReporter: {
+      type : 'html',
+      dir : 'coverage/'
+    },
 
     // web server port
     port: 9876,
@@ -65,10 +83,10 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: true,
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: 1
   })
 }
