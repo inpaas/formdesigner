@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <div class="widget-body" ng-if="section.includetype == 'list'">
+      <div class="widget-body" ng-if="section.includeType == 'list'">
         <p class="text-center"> 
           <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.key}]}">
             Lista: {[{ section.finder.title }]}
@@ -55,7 +55,7 @@
         </p>
       </div>
 
-      <div class="widget-body" ng-if="section.include.key && !section.isSameDataSource">
+      <div class="widget-body" ng-if="section.includeType == 'edit' && !section.isSameDataSource">
         <p class="text-center"> 
           <a target="_blank" href="" ng-click="ctrl.openFormTab(section.include)">
             Form: {[{ section.include.name }]} ( {[{section.include.key}]} )

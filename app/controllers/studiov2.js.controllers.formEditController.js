@@ -307,9 +307,15 @@
       if (currentSection.includeType == 'list') {
         currentSection.finder.title = getFinderTitleByKey(ctrl.finders, currentSection.finder.key);
 
+        !currentSection.finder.moduleKey && (currentSection.finder.moduleKey = ctrl.moduleEntity.key);
+        
+        if(!currentSection.finder.formKey && ctrl.entityForms.length){
+          currentSection.finder.formKey = currentSection.entity.formKey || ctrl.entityForms[0].key;
+        } 
+
         if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
-            var attr = currentSection.entity.fields.filter(function(attr){return attr.fieldName == key; })[0],
+            var attr = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0],
                 field = ctrl.data.entityFields.filter(function(field){return field.name == key; })[0];
 
             if(!attr){
@@ -427,7 +433,7 @@
 
       if(currentSection.includeType == 'list' ) {
         getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
-        getEntityAndSetReferences(currentSection.finder.entityName, currentSection).then(function(){ 
+        setFinder(currentSection.finder.entityName, currentSection).then(function(){ 
           var dependenciesKeys = [];
 
           angular.forEach(currentSection.finder.dependencies, function(value, key){
@@ -498,7 +504,7 @@
       var references = [];
 
       entity.references && entity.references.forEach(function(ref, index){
-        references.push(ref.fieldReference);
+        references.push(ref.fieldReference || ref.field);
       });
 
       return references;
@@ -507,7 +513,7 @@
     function getEntityAndSetReferences(entityName, model){
       getFinders(model.finder.entityName).then(function(){
         if ((ctrl.finders && ctrl.finders.length == 1)) {
-          model.finder.key = ctrl.finders[0].key;
+          model && (model.finder.key = ctrl.finders[0].key);
         }
       });
 
@@ -1082,6 +1088,7 @@
 
     function getFinders(entityName){
       return httpService.getFinders(entityName).then(function(response){
+
         var finders = response.data.filter(function(f){ return f.entityFinder}),
             key = 'finder.'.concat(entityName.toLowerCase()).concat('.default'),
             title = $l10n.translate('label.finder.allrecords');
@@ -1195,7 +1202,7 @@
     function getEntityForms(entityName){
       var entityId = ctrl.entities.filter(function(e){return e.name === entityName; })[0].id;
 
-      httpService.getEntity(entityId).then(function(response){
+      return httpService.getEntity(entityId).then(function(response){
         ctrl.entityForms = response.data.forms.filter(function(form){ return form.type == 'v2'});
       }); 
     }
@@ -1205,20 +1212,30 @@
       getEntityForms(ref.entity);
     }
 
-    function getEntity(entityName, model, fragment){
+    function getEntity(entityName){
       var entity = ctrl.entities.filter(function(e){return e.name === entityName; })[0];
 
       var id = (entity && entity.id)? entity.id : 0; 
 
       return httpService.getEntity(id).then(function(response){return response.data});
-      // .then(function(response){
-      //   if (fragment) {
-      //     model[fragment] = response.data[fragment]; 
-      //   }else if(model){
-      //     model.entity = response.data;
-      //   }
-      //   return response.data;
-      // }, function(){ return {}}); 
+    }
+
+    function setFinder(entityName, model){
+      return getEntity(entityName).then(function(entity){
+              model.entity = entity;
+              model.references = getReferences(entity);
+              ctrl.entityForms = entity.forms.filter(function(form){ return form.type == 'v2' && model.entity.formKey != form.key});
+
+              if(ctrl.entityForms.length == 1){
+                model.finder.formKey = ctrl.entityForms[0].key;
+              }
+            }).then(function(){
+              getFinders(model.finder.entityName).then(function(){
+                if ((ctrl.finders && ctrl.finders.length == 1)) {
+                  model && (model.finder.key = ctrl.finders[0].key);
+                }
+              });
+            });
     }
 
     function getModuleTemplates(moduleId){
@@ -1599,7 +1616,8 @@
       openFormTab: openFormTab,
       moveSection: moveSection, 
       validateField: validateField,
-      getModuleTemplates: getModuleTemplates
+      getModuleTemplates: getModuleTemplates,
+      setFinder: setFinder
     }); 
   };
 })();

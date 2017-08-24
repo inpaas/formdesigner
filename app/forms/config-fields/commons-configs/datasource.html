@@ -42,7 +42,7 @@
           class="form-control input-sm" 
           placeholder="Selecione" 
           ng-model="ctrl.fieldEdit.finder.entityName" 
-          typeahead-on-select="ctrl.getFinders($model)" 
+          typeahead-on-select="ctrl.setFinder($model, ctrl.fieldEdit)" 
           uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
           typeahead-min-length="0" />
   </div>
@@ -74,6 +74,14 @@
             multiple 
             ng-options="field.meta.bind as field.label for field in ctrl.selectFields" 
             ng-model="ctrl.fieldEdit.finder.dependencies">
+    </select>
+  </div>
+  <div class="form-group" ng-show="ctrl.fieldEdit.type == 'finder'">
+    <label for="">Formulário de edição</label>
+    <select class="form-control input-sm" 
+            ng-model="ctrl.fieldEdit.finder.editTemplate"
+            ng-options="form.key as (form.name || form.key) for form in ctrl.entityForms">
+        <option ng-if="ctrl.currentSection.entity.forms.length" value="">Padrão</option>
     </select>
   </div>
 </div>
