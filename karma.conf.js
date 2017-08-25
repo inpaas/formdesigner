@@ -28,11 +28,12 @@ module.exports = function(config) {
     'node_modules/angular-dragula/dist/angular-dragula.js',
     'node_modules/angular-clipboard/angular-clipboard.js', 
     'node_modules/moment/moment.js',
+    'node_modules/angular-mock/angular.mocks.js',
 
     //app
     'app/**/*.js',
 
-    //tests
+    //spec
     'tests/**/*.spec.js'
     ],
 

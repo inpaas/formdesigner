@@ -1,19 +1,13 @@
 Issues Forms Designer V2
 ========================
 
+* finder default deveria vir todos os fields?
+
 ## Issues funcionalidade
-  * Drag'n drop
-  * Melhorar o input da proprieadade a modal de prop/valor para disabled, visible, e required
+  * Padronizar as variáveis. Ex: fieldEdit, currentSection...
+  * Drag'n drop dos campos
   * Não deixar mais de um field com o mesmo bind
-  * Colocar o id do módulo e da entity na ref para para facilitar a consulta
-  * Esconder o ver código no /new
-  * Adicionar datepicker
-  * Colocar o code mirror
-  * Validações de configs
-    - Tipos dos dados (date, string, number)
-    - Campos obrigatórios
-  * Notifications
-  * Modo avançado (?)
+  * Rever o getEntity e sua relação com as refs e api do getEntity e getEntityByKey
 
 ## Issues de layout
   - UI de edição do field to tamanho do field
@@ -24,26 +18,3 @@ Issues Forms Designer V2
   - Adicionar ícones informando o tipo de campo da entity (sidebar)
   - Padronizar o bt de conclusão de edição (hj está salvar ou confirmar e trocar para concluir)
   - Colocar ícones do tipo de dado do field
-  
-## Doc
-  - Modificar a doc do breadcrumb, que está nas views e não mais no root do json
-  - Add os atributos dos fields
-  - Docs de props novas
-
-
-  field include com finder
-  {
-    ...
-    meta: {
-      type: include
-    }
-    
-    include:{
-      finder:{
-        key: '',
-        entityName: '',
-        fieldIndex: ''
-      }
-    }
-
-  }
