@@ -2078,3 +2078,7 @@ ul.nav-components.sb-field-text.sb-edit-action
 .error-message{
   color: #cd4c36;
 }
+
+.full-width{
+  width: 100%;
+}

@@ -308,7 +308,7 @@
         currentSection.finder.title = getFinderTitleByKey(ctrl.finders, currentSection.finder.key);
 
         !currentSection.finder.moduleKey && (currentSection.finder.moduleKey = ctrl.moduleEntity.key);
-        
+
         if(!currentSection.finder.formKey && ctrl.entityForms.length){
           currentSection.finder.formKey = currentSection.entity.formKey || ctrl.entityForms[0].key;
         } 
@@ -539,9 +539,11 @@
           break;
 
         case 'select': 
-          var reference = findReferences(fieldEdit);
+          var reference = [];
+          filterSelectFields(fieldEdit);
+          fieldEdit.rawEntityField && (reference = findReferences(fieldEdit));
 
-          if (fieldEdit.rawEntityField.domains) {
+          if (fieldEdit.rawEntityField && fieldEdit.rawEntityField.domains) {
             fieldEdit.dataSourceType = 'D';
             fieldEdit.meta.options = angular.copy(fieldEdit.rawEntityField.domains); 
 
@@ -616,7 +618,7 @@
 
     function findReferences(fieldForm){
       return ctrl.currentEntity.references.filter(function(ref, index){
-        return ref.field === fieldForm.rawEntityField.name;
+        return ref.field.toLowerCase() === fieldForm.rawEntityField.name.toLowerCase();
       });
     }
 
@@ -1184,12 +1186,11 @@
         ctrl.data.entityFields = response.data.attributes;
         ctrl.currentEntity = response.data;
 
-
         ctrl.currentEntity.references.forEach(function(ref, index){
           var titleEntityReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ) );
           var titleFieldReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ).concat('.'.concat(ref.field.toLowerCase()) ));
 
-          ref.label = titleFieldReference.concat(' (').concat(titleEntityReference).concat(')');
+         ref.label = titleFieldReference.concat(' (').concat(titleEntityReference).concat(')');
         });
 
         ctrl.data.entityFields.forEach(function(field, index){
@@ -1221,6 +1222,8 @@
     }
 
     function setFinder(entityName, model){
+      ctrl.finder = {};
+
       return getEntity(entityName).then(function(entity){
               model.entity = entity;
               model.references = getReferences(entity);
@@ -1233,6 +1236,7 @@
               getFinders(model.finder.entityName).then(function(){
                 if ((ctrl.finders && ctrl.finders.length == 1)) {
                   model && (model.finder.key = ctrl.finders[0].key);
+                  getFinder(model.finder.entityName, model.finder.key);
                 }
               });
             });
@@ -1434,18 +1438,6 @@
       });
     }
 
-    function selectDataSourceType(){
-      switch(ctrl.fieldEdit.dataSourceType){
-        case 'S':
-          getSources();
-          break;
-
-        case 'E':
-          ctrl.fieldEdit.finder = {};
-          filterSelectFields(ctrl.fieldEdit);
-      }
-    }
-
     function setBreadcrumb() {
       var breadcrumb = [];
 
@@ -1604,7 +1596,6 @@
       enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
       currentEntity: {},
       getQueries: getQueries,
-      selectDataSourceType: selectDataSourceType,
       codeView: codeView,
       completeKeyForm: completeKeyForm,
       sanitizeKeyForm: sanitizeKeyForm,
