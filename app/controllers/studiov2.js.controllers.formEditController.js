@@ -1514,14 +1514,10 @@
     function filterSelectFields(fieldEdit){
       var selectFields = [];
 
-      if (fieldEdit.meta.type == 'select'){
-        selectFields.push(fieldEdit);
-      }
-
       ctrl.sections.forEach(function(section){
-        if (section.fields) {
-          selectFields = selectFields.concat(section.fields.filter(getSelectField));
-        } 
+        selectFields = selectFields.concat(section.fieldsCol1.filter(getSelectField));
+        selectFields = selectFields.concat(section.fieldsCol2.filter(getSelectField));
+        selectFields = selectFields.concat(section.fieldsCol3.filter(getSelectField));
       });
 
       ctrl.selectFields = selectFields;
