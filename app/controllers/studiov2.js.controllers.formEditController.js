@@ -309,10 +309,6 @@
 
         !currentSection.finder.moduleKey && (currentSection.finder.moduleKey = ctrl.moduleEntity.key);
 
-        if(!currentSection.finder.formKey && ctrl.entityForms.length){
-          currentSection.finder.formKey = currentSection.entity.formKey || ctrl.entityForms[0].key;
-        } 
-
         if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
             var attr = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0],
@@ -1227,11 +1223,8 @@
       return getEntity(entityName).then(function(entity){
               model.entity = entity;
               model.references = getReferences(entity);
-              ctrl.entityForms = entity.forms.filter(function(form){ return form.type == 'v2' && model.entity.formKey != form.key});
+              ctrl.entityForms = entity.forms.filter(function(form){ return form.type == 'v2'});
 
-              if(ctrl.entityForms.length == 1){
-                model.finder.formKey = ctrl.entityForms[0].key;
-              }
             }).then(function(){
               getFinders(model.finder.entityName).then(function(){
                 if ((ctrl.finders && ctrl.finders.length == 1)) {
