@@ -134,13 +134,10 @@
 
           <div class="form-group">
             <label for="">Formulário de edição</label>
-            <p ng-if="!ctrl.currentSection.entity.forms.length" class="error-message"> Não há formulários relacionados a essa entitidade</p>
-
             <select class="form-control input-sm" 
                     ng-model="ctrl.currentSection.finder.formKey"
-                    ng-if="ctrl.currentSection.entity.forms.length"
                     ng-options="form.key as (form.name || form.key) for form in ctrl.entityForms">
-                <option ng-if="ctrl.currentSection.entity.forms.length" value="">Padrão</option>
+                <option value="">Padrão</option>
             </select>
           </div>
         </div>
