@@ -69,13 +69,14 @@
   </div>
 
   <div class="form-group">
-    <label for="">Combo dependente</label>
+    <label for="">Dependências</label>
     <select class="form-control input-sm" 
             multiple 
             ng-options="field.meta.bind as field.label for field in ctrl.selectFields" 
             ng-model="ctrl.fieldEdit.finder.dependencies">
     </select>
   </div>
+  
   <div class="form-group" ng-show="ctrl.fieldEdit.type == 'finder'">
     <label for="">Formulário de edição</label>
     <select class="form-control input-sm" 
