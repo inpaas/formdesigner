@@ -197,7 +197,8 @@
             notDisplayLabel: !!clone.notDisplayLabel,
             name: clone.name || clone.label.toLowerCase().replace(/\s/g, '-'),
             visible: setDisplayConfig(clone.visibilityType, clone.visibilityExpression),
-            event: setEventConfig()
+            event: setEventConfig(), 
+            saveAndStay: clone.saveAndStay
           };
 
       if (!angular.isUndefined(clone.index)) {
