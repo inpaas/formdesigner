@@ -1183,7 +1183,7 @@
         } 
       });
 
-      return httpService.getEntity(entityId).then(function(response) {
+      return httpService.getEntity(entityId || entityName).then(function(response) {
         ctrl.data.entityFields = response.data.attributes;
         ctrl.currentEntity = response.data;
 
