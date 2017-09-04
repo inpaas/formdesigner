@@ -298,6 +298,7 @@
         }
       };
 
+      ctrl.moduleEntity = {};
       showConfigSection();
     } 
 
@@ -308,7 +309,7 @@
       if (currentSection.includeType == 'list') {
         currentSection.finder.title = getFinderTitleByKey(ctrl.finders, currentSection.finder.key);
 
-        !currentSection.finder.moduleKey && (currentSection.finder.moduleKey = ctrl.moduleEntity.key);
+        ctrl.moduleEntity.key && (currentSection.finder.moduleKey = ctrl.moduleEntity.key);
 
         if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
@@ -429,7 +430,10 @@
       currentSection.index = index;
 
       if(currentSection.includeType == 'list' ) {
-        getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
+        if(currentSection.finder.moduleKey || currentSection.finder.moduleId){
+          getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
+        }
+
         setFinder(currentSection.finder.entityName, currentSection).then(function(){ 
           var dependenciesKeys = [];
 
@@ -1179,7 +1183,7 @@
         } 
       });
 
-      return httpService.getEntity(entityId).then(function(response) {
+      return httpService.getEntity(entityId || entityName).then(function(response) {
         ctrl.data.entityFields = response.data.attributes;
         ctrl.currentEntity = response.data;
 
@@ -1219,7 +1223,7 @@
     }
 
     function setFinder(entityName, model){
-      ctrl.finder = {};
+      ctrl.finders = {};
 
       return getEntity(entityName).then(function(entity){
               model.entity = entity;
@@ -1323,8 +1327,8 @@
         getFieldsByEntity(ctrl.configForm.dataSource.key);
       }
 
-      ctrl.configForm.moduleKey = ctrl.moduleForm.key;
-      ctrl.configForm.dataSource.moduleKey = ctrl.moduleEntity.key;
+      ctrl.moduleForm.key && (ctrl.configForm.moduleKey = ctrl.moduleForm.key);
+      ctrl.moduleForm.key && (ctrl.configForm.dataSource.moduleKey = ctrl.moduleEntity.key);
 
       angular.extend(ctrl.jsonModel, ctrl.configForm);
       ctrl.onConfigForm = false;
