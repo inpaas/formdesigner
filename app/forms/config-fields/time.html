@@ -1,0 +1,36 @@
+{{#include-html}}studiov2.forms.sidebar.config-fields.size{{/include-html}}
+
+<div class="form-group">
+  <label for="">Formatação</label>
+  <select class="form-control input-sm" 
+          ng-model="ctrl.fieldEdit.meta.format" 
+          ng-options="format.key as format.title for format in ctrl.TIME_FORMAT_PATTERNS">
+    <option value="">Selecione</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="">Min</label>
+  <input type="text" 
+        class="input-sm form-control"
+        ng-model="ctrl.fieldEdit.meta.minTime"
+        ui-mask="{[{ ctrl.fieldEdit.meta.format.mask }]}"
+        ui-mask-placeholder-char="space"
+        model-view-value="true"
+        ui-mask-placeholder
+        ui-options="{clearOnBlur: false, allowInvalidValue: true}">
+</div>
+
+<div class="form-group">
+  <label for="">Max</label>
+  <input type="text" 
+        class="input-sm form-control"
+        ng-model="ctrl.fieldEdit.meta.maxTime"
+        ui-mask="{[{ ctrl.fieldEdit.meta.format.mask }]}"
+        ui-mask-placeholder-char="space"
+        model-view-value="true"
+        ui-mask-placeholder
+        ui-options="{clearOnBlur: false, allowInvalidValue: true}">
+</div>
+
+{{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}

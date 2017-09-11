@@ -7,10 +7,10 @@
 
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
-    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS"
+    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS", 'TIME_FORMAT_PATTERNS'
   ];
  
- function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS) {
+ function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS, TIME_FORMAT_PATTERNS) {
     var ctrl = this,
         idForm = $state.params.id;
 
@@ -1582,6 +1582,7 @@
     }
 
     angular.extend(ctrl, {
+      TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
       addedButtons: {edit: {}, list: {}},
       actions: ACTIONS,
       onComponents: true,
