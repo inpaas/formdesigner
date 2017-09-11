@@ -1263,7 +1263,7 @@
     }
 
     function selectEntityFinder(entityName, model, isSection){
-        model.finder.relatedFinders.length = 0;
+      model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
       setFinder(entityName, model, isSection);
     }
 
