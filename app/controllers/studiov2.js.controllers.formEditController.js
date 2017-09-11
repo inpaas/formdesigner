@@ -1316,6 +1316,7 @@
         dataSource: form.dataSource,
         moduleKey: form.moduleKey,
         template: form.template,
+        permissions: form.permissions,
         description: form.description
       };
 
@@ -1336,6 +1337,7 @@
       });
 
       if(ctrl.moduleEntity){
+        getPermissions(ctrl.moduleEntity.id);
         getEntitiesByModule(ctrl.moduleEntity.id);
       }
 
