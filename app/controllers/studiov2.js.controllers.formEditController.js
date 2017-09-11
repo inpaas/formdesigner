@@ -749,7 +749,7 @@
 
       if(entityField){
         fieldEdit.meta.bind = entityField.alias;
-        fieldEdit.meta.maxLength = entityField.size;
+        fieldEdit.meta.maxLength = (entityField.size > 0) ? entityField.size : '';
         fieldEdit.rawEntityField = angular.copy(entityField);
         fieldEdit.collumnName = entityField.name.toLowerCase();
         setConfigFieldDefault(entityField, fieldEdit);
