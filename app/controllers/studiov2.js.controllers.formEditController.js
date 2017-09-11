@@ -256,7 +256,7 @@
           expression: function(){
             var value;
 
-            if (angular.isObject(model[modelKey]) && typeConfig == 'function') {
+            if ((angular.isObject(model[modelKey]) && typeConfig == 'function') || (angular.isString(model[modelKey]) && tyeConfig == 'map')){
               value = '';
             }else{
               value = model[modelKey];
