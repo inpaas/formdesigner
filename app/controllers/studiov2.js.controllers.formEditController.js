@@ -7,10 +7,10 @@
 
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
-    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS"
+    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS", 'TIME_FORMAT_PATTERNS'
   ];
  
- function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS) {
+ function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS, TIME_FORMAT_PATTERNS) {
     var ctrl = this,
         idForm = $state.params.id;
 
@@ -77,6 +77,10 @@
           field.fieldsCol1 = [];
           field.fieldsCol2 = [];
           field.fieldsCol3 = [];
+
+          if(field.finder && field.finder.key && !field.finder.relatedFinders){
+            field.finder.relatedFinders = [{title: field.finder.title, key: field.finder.key}];
+          }
 
           ctrl.sections.push(field);
         }
@@ -252,7 +256,7 @@
           expression: function(){
             var value;
 
-            if (angular.isObject(model[modelKey]) && typeConfig == 'function') {
+            if ((angular.isObject(model[modelKey]) && typeConfig == 'function') || (angular.isString(model[modelKey]) && tyeConfig == 'map')){
               value = '';
             }else{
               value = model[modelKey];
@@ -307,8 +311,6 @@
           dependencies = {};
 
       if (currentSection.includeType == 'list') {
-        currentSection.finder.title = getFinderTitleByKey(ctrl.finders, currentSection.finder.key);
-
         ctrl.moduleEntity.key && (currentSection.finder.moduleKey = ctrl.moduleEntity.key);
 
         if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
@@ -434,7 +436,7 @@
           getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
         }
 
-        setFinder(currentSection.finder.entityName, currentSection).then(function(){ 
+        setFinder(currentSection.finder.entityName, currentSection, true).then(function(){ 
           var dependenciesKeys = [];
 
           angular.forEach(currentSection.finder.dependencies, function(value, key){
@@ -748,6 +750,7 @@
       if(entityField){
         fieldEdit.meta.bind = entityField.alias;
         fieldEdit.meta.maxLength = (entityField.size > 0) ? entityField.size : '';
+        fieldEdit.meta.defaultValue = entityField.defaultValue;
         fieldEdit.rawEntityField = angular.copy(entityField);
         fieldEdit.collumnName = entityField.name.toLowerCase();
         setConfigFieldDefault(entityField, fieldEdit);
@@ -970,6 +973,12 @@
         delete field.references;
         delete field.dependenciesKeys;
         delete field.entity;
+
+        if(field.finder && field.finder.relatedFinders.length == 1){
+          var finder = field.finder.relatedFinders[0];
+          angular.extend(field.finder, {key : finder.key, title: finder.title});
+          delete field.finder.relatedFinders;
+        }
 
         form.fields.push(field);
       });
@@ -1222,9 +1231,7 @@
       return httpService.getEntity(id).then(function(response){return response.data});
     }
 
-    function setFinder(entityName, model){
-      ctrl.finders = {};
-
+    function setFinder(entityName, model, isSection){
       return getEntity(entityName).then(function(entity){
               model.entity = entity;
               model.references = getReferences(entity);
@@ -1232,12 +1239,33 @@
 
             }).then(function(){
               getFinders(model.finder.entityName).then(function(){
+
                 if ((ctrl.finders && ctrl.finders.length == 1)) {
-                  model && (model.finder.key = ctrl.finders[0].key);
-                  getFinder(model.finder.entityName, model.finder.key);
+                  var finder = ctrl.finders[0];
+
+                  if(isSection){
+                    model && (model.finder.relatedFinders = [{title: finder.title, key: finder.key}]);
+                  }else{
+                    model && (model.finder.key = finder.key);
+                    getFinder(model.finder.entityName, finder.key);
+                  }
                 }
+
+                if(isSection){
+                  ctrl.finders.forEach(function(finder, index){
+                    if(model.finder.relatedFinders.filter(function(f){ return f.key == finder.key}).length){
+                      finder.checked = true; 
+                    } 
+                  });
+                }
+
               });
             });
+    }
+
+    function selectEntityFinder(entityName, model, isSection){
+      model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
+      setFinder(entityName, model, isSection);
     }
 
     function getModuleTemplates(moduleId){
@@ -1288,6 +1316,7 @@
         dataSource: form.dataSource,
         moduleKey: form.moduleKey,
         template: form.template,
+        permissions: form.permissions,
         description: form.description
       };
 
@@ -1308,6 +1337,7 @@
       });
 
       if(ctrl.moduleEntity){
+        getPermissions(ctrl.moduleEntity.id);
         getEntitiesByModule(ctrl.moduleEntity.id);
       }
 
@@ -1540,7 +1570,22 @@
       }
     }
 
+    function selectFinder(finder){
+      !ctrl.currentSection.finder.relatedFinders && (ctrl.currentSection.finder.relatedFinders = []);
+
+      if(finder.checked){
+        ctrl.currentSection.finder.relatedFinders.push({key: finder.key, title: finder.title});
+      }else{
+        ctrl.currentSection.finder.relatedFinders.forEach(function(_finder, index){
+          if(_finder.key == finder.key && _finder.title == finder.title){
+            ctrl.currentSection.finder.relatedFinders.splice(index, 1);
+          }
+        });
+      }
+    }
+
     angular.extend(ctrl, {
+      TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
       addedButtons: {edit: {}, list: {}},
       actions: ACTIONS,
       onComponents: true,
@@ -1602,7 +1647,8 @@
       moveSection: moveSection, 
       validateField: validateField,
       getModuleTemplates: getModuleTemplates,
-      setFinder: setFinder
+      selectEntityFinder: selectEntityFinder,
+      selectFinder: selectFinder
     }); 
   };
 })();

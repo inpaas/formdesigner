@@ -2082,3 +2082,9 @@ ul.nav-components.sb-field-text.sb-edit-action
 .full-width{
   width: 100%;
 }
+
+.dropdown-finders-options{
+  padding: 10px;
+  max-height: 300px;
+  overflow: auto;
+}
