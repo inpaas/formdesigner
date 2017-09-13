@@ -580,6 +580,9 @@
           break;
 
         case 'checkbox':
+          fieldEdit.requiredType = 'false';
+          fieldEdit.requiredExpression = false;
+
           if (fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
             if (!fieldEdit.rawEntityField.domains) {
               fieldEdit.dataSourceType = 'O';
@@ -1260,6 +1263,7 @@
     }
 
     function selectEntityFinder(entityName, model, isSection){
+      if(!entityName){return};
       model.finder && model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
       setFinder(entityName, model, isSection);
     }
