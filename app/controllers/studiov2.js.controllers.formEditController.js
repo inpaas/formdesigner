@@ -256,7 +256,7 @@
           expression: function(){
             var value;
 
-            if ((angular.isObject(model[modelKey]) && typeConfig == 'function') || (angular.isString(model[modelKey]) && tyeConfig == 'map')){
+            if ((angular.isObject(model[modelKey]) && typeConfig == 'function') || (angular.isString(model[modelKey]) && typeConfig == 'map')){
               value = '';
             }else{
               value = model[modelKey];
@@ -1253,7 +1253,7 @@
 
                 if(isSection){
                   ctrl.finders.forEach(function(finder, index){
-                    if(model.finder.relatedFinders.filter(function(f){ return f.key == finder.key}).length){
+                    if(model.finder.relatedFinders && model.finder.relatedFinders.filter(function(f){ return f.key == finder.key}).length){
                       finder.checked = true; 
                     } 
                   });
