@@ -2088,3 +2088,17 @@ ul.nav-components.sb-field-text.sb-edit-action
   max-height: 300px;
   overflow: auto;
 }
+
+.modal-title{
+  margin-bottom: 10px;
+}
+
+.alert{
+  padding: 10px;
+}
+
+.modal-header .fa-info-circle{
+  font-size: 16px;
+  vertical-align: top;
+  margin-right: 5px;
+}

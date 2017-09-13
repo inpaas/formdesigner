@@ -109,7 +109,7 @@
                   class="form-control input-sm" 
                   placeholder="Selecione" 
                   ng-model="ctrl.currentSection.finder.entityName" 
-                  ng-blur="ctrl.selectEntityFinder(ctrl.currentSection.finder.entityName, ctrl.currentSection, true)"
+                  ng-change="ctrl.selectEntityFinder(ctrl.currentSection.finder.entityName, ctrl.currentSection, true)"
                   uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
                   typeahead-min-length="0" />
           </div>
