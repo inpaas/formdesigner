@@ -326,7 +326,7 @@
               });
             }
 
-            dependencies[attr.alias] = field.alias;
+            dependencies[attr.alias] = 'id'
           });
 
           currentSection.finder.dependencies = dependencies;
