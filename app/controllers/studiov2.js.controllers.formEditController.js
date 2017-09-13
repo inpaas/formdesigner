@@ -1224,11 +1224,7 @@
     }
 
     function getEntity(entityName){
-      var entity = ctrl.entities.filter(function(e){return e.name === entityName; })[0];
-
-      var id = (entity && entity.id)? entity.id : 0; 
-
-      return httpService.getEntity(id).then(function(response){return response.data});
+      return httpService.getEntity(entityName).then(function(response){return response.data});
     }
 
     function setFinder(entityName, model, isSection){
@@ -1264,7 +1260,7 @@
     }
 
     function selectEntityFinder(entityName, model, isSection){
-      model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
+      model.finder && model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
       setFinder(entityName, model, isSection);
     }
 
