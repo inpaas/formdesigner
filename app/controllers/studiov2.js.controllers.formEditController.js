@@ -311,7 +311,10 @@
           dependencies = {};
 
       if (currentSection.includeType == 'list') {
-        ctrl.moduleEntity.key && (currentSection.finder.moduleKey = ctrl.moduleEntity.key);
+        
+        if(ctrl.moduleEntity && ctrl.moduleEntity.key){
+          currentSection.finder.moduleKey = ctrl.moduleEntity.key;
+        } 
 
         if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
