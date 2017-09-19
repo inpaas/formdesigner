@@ -59,6 +59,26 @@
         <label for="">Function Name</label>
         <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.functionName">
       </div>
+
+      <div class="form-group">
+        <input type="checkbox" id="buttonCustomEvent" ng-model="ctrl.fieldEdit.hasButton">
+        <label for="buttonCustomEvent">Adicionar botão para o evento</label>
+      </div>
+
+      <div class="form-group" ng-if="ctrl.fieldEdit.hasButton">
+        <label for="">Ícone</label>
+        <input type="text" 
+              class="form-control input-sm" 
+              ng-model="ctrl.fieldEdit.custonEvent.icon" 
+              uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
+              typeahead-template-url="icons.html"
+              typeahead-min-length="0">
+      </div>
+
+      <div class="form-group" ng-if="ctrl.fieldEdit.hasButton">
+        <label for="">Texto da tooltip</label>
+        <textarea type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.custonEvent.tooltip"></textarea>
+      </div>
     </div>
     
     <!-- Display -->

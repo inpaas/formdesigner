@@ -7,10 +7,10 @@
 
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
-    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS", 'TIME_FORMAT_PATTERNS'
+    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS", 'TIME_FORMAT_PATTERNS', 'ICONS'
   ];
  
- function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS, TIME_FORMAT_PATTERNS) {
+ function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS, TIME_FORMAT_PATTERNS, ICONS) {
     var ctrl = this,
         idForm = $state.params.id;
 
@@ -686,6 +686,10 @@
         section.fieldsCol3[fieldEdit.index] = fieldEdit;
       }
 
+      if(!fieldEdit.hasButton){
+        delete fieldEdit.customEvent;
+      }
+      
       delete fieldEdit.rawEntityField;
       delete fieldEdit.col;
 
@@ -1589,8 +1593,9 @@
 
     angular.extend(ctrl, {
       TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
+      ICONS: ICONS,
+      ACTIONS: ACTIONS,
       addedButtons: {edit: {}, list: {}},
-      actions: ACTIONS,
       onComponents: true,
       data: {},
       form: {},
