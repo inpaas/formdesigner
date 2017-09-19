@@ -1,13 +1,10 @@
-var gulp            = require('gulp')
-,   path            = require('path')
-,   sass            = require('gulp-sass')
-,   postcss         = require('gulp-postcss')
-,   minify          = require('gulp-minify')
-,   concat          = require('gulp-concat')
-
+var gulp = require('gulp'),
+    sass = require('gulp-sass'),
+    postcss = require('gulp-postcss'),
+    minify = require('gulp-minify'),
+    concat = require('gulp-concat');
 
 gulp.task('default', ['style', 'watch']);
-
 
 gulp.task('style', function() {
   var processors = [];
@@ -19,13 +16,11 @@ gulp.task('style', function() {
 });
 
 gulp.task('concatJs', function(){
-  return gulp.src('./app/sources/**/*.js')
+  return gulp.src(['./assets/js/helpers.js', './app/**/*.js'])
     .pipe(concat('app.js'))
     .pipe(minify())
-    .pipe(gulp.dest('./app/sources/'))
+    .pipe(gulp.dest('./dist'))
 });
 
-gulp.task('watch', function() {
-  var root = path.join(__dirname);
-  gulp.watch(root + "/lib/scss/**/**/**/**/*.scss", ["style"] );
-});
+gulp.watch('./lib/scss/**/*.scss', ['style']);
+gulp.watch('./app/**/*.js', ['style']);
