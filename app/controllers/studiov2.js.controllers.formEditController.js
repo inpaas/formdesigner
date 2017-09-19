@@ -256,7 +256,7 @@
           expression: function(){
             var value;
 
-            if ((angular.isObject(model[modelKey]) && typeConfig == 'function') || (angular.isString(model[modelKey]) && tyeConfig == 'map')){
+            if ((angular.isObject(model[modelKey]) && typeConfig == 'function') || (angular.isString(model[modelKey]) && typeConfig == 'map')){
               value = '';
             }else{
               value = model[modelKey];
@@ -311,7 +311,10 @@
           dependencies = {};
 
       if (currentSection.includeType == 'list') {
-        ctrl.moduleEntity.key && (currentSection.finder.moduleKey = ctrl.moduleEntity.key);
+        
+        if(ctrl.moduleEntity && ctrl.moduleEntity.key){
+          currentSection.finder.moduleKey = ctrl.moduleEntity.key;
+        } 
 
         if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
@@ -326,7 +329,7 @@
               });
             }
 
-            dependencies[attr.alias] = field.alias;
+            dependencies[attr.alias] = 'id'
           });
 
           currentSection.finder.dependencies = dependencies;
@@ -580,6 +583,9 @@
           break;
 
         case 'checkbox':
+          fieldEdit.requiredType = 'false';
+          fieldEdit.requiredExpression = false;
+
           if (fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
             if (!fieldEdit.rawEntityField.domains) {
               fieldEdit.dataSourceType = 'O';
@@ -1224,11 +1230,7 @@
     }
 
     function getEntity(entityName){
-      var entity = ctrl.entities.filter(function(e){return e.name === entityName; })[0];
-
-      var id = (entity && entity.id)? entity.id : 0; 
-
-      return httpService.getEntity(id).then(function(response){return response.data});
+      return httpService.getEntity(entityName).then(function(response){return response.data});
     }
 
     function setFinder(entityName, model, isSection){
@@ -1253,7 +1255,7 @@
 
                 if(isSection){
                   ctrl.finders.forEach(function(finder, index){
-                    if(model.finder.relatedFinders.filter(function(f){ return f.key == finder.key}).length){
+                    if(model.finder.relatedFinders && model.finder.relatedFinders.filter(function(f){ return f.key == finder.key}).length){
                       finder.checked = true; 
                     } 
                   });
@@ -1264,7 +1266,8 @@
     }
 
     function selectEntityFinder(entityName, model, isSection){
-      model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
+      if(!entityName){return};
+      model.finder && model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
       setFinder(entityName, model, isSection);
     }
 
