@@ -1,1 +1,10 @@
-<select class="form-control input-sm" ng-if="field.meta.type == 'select'"> </select>
+<div class="input-group" ng-if="field.hasButton" ng-if="field.meta.type == 'currency' && field.hasButton">
+  <select class="form-control input-sm" ng-if="field.meta.type == 'select'"> </select>
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-primary btn-sm">
+      <i class="fa {[{field.customEvent.icon}]}"></i>
+    </button>
+  </span>
+</div>
+
+<select class="form-control input-sm" ng-if="field.meta.type == 'select' && !field.hasButton"> </select>
