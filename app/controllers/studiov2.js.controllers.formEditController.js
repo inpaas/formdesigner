@@ -861,7 +861,7 @@
 
       ctrl.sectionSelectedIndex = sectionIndex;
 
-      if (formField.meta.type.match(/(date)/g)) {
+      if (formField.meta.type.match(/(date)/g) || formField.meta.type == 'currency') {
         getFormatsPattern();
       }
 

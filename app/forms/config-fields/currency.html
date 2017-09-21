@@ -2,9 +2,8 @@
 
 <div class="col-sm-12 col-xs-12 no-padding form-group">
   <label for="">Formatação</label>
-  <select class="form-control input-sm" ng-model="ctrl.fieldEdit.format">
+  <select class="form-control input-sm" ng-model="ctrl.fieldEdit.format" ng-options="format.key as (format.title | translate) for format in ctrl.formatsPattern.N.formats">
     <option value="">Selecione</option>
-    <option ng-value="format.key" ng-repeat="format in ctrl.formatsPattern.N.formats">{[{format.title | translate }]}</option>
   </select>
 </div>
 
