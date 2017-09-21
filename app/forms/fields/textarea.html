@@ -1,1 +1,11 @@
-<textarea class="form-control input-sm" rows="{[{field.views.edit.rows || 5}]}" ng-if="field.meta.type == 'textarea'"></textarea>
+<div class="input-group" ng-if="field.meta.type == 'textarea' && field.hasButton">
+  <textarea class="form-control input-sm" rows="{[{field.views.edit.rows || 5}]}"></textarea>
+
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-primary btn-sm">
+      <i class="fa {[{field.buttonEvent.icon}]}"></i>
+    </button>
+  </span>
+</div>
+
+<textarea class="form-control input-sm" rows="{[{field.views.edit.rows || 5}]}" ng-if="field.meta.type == 'textarea' && !field.hasButton"></textarea>

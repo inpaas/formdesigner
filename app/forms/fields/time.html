@@ -1,1 +1,11 @@
-<input type="text" class="form-control input-sm" ng-if="field.meta.type == 'time'"/>
+<div class="input-group" ng-if="field.meta.type == 'time' && field.hasButton">
+  <input type="text" class="form-control input-sm"/>
+
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-primary btn-sm">
+      <i class="fa {[{field.buttonEvent.icon}]}"></i>
+    </button>
+  </span>
+</div>
+
+<input type="text" class="form-control input-sm" ng-if="field.meta.type == 'time' && !field.hasButton"/>
