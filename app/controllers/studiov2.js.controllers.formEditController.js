@@ -1265,6 +1265,17 @@
       setFinder(entityName, model, isSection);
     }
 
+    function selectDataSourcetype(type){
+      switch(type){
+        case 'S':
+          !ctrl.fieldEdit.serviceSource && (ctrl.fieldEdit.serviceSource = {});
+          if(ctrl.moduleEntity && Object.keys(ctrl.moduleEntity).length){
+            getSources(getModuleIdByKey(ctrl.moduleEntity.key), ctrl.fieldEdit.serviceSource);
+          };
+          break;
+      }
+    }
+
     function getModuleTemplates(moduleId){
       getModule(moduleId).then(function(response){
         ctrl.moduleEntity = response.data;
@@ -1286,11 +1297,17 @@
     }
 
     function getSources(idModule, model){
+      ctrl.moduleEntity = getModuleFromApps(idModule);
+      model? model.moduleKey = ctrl.moduleEntity.key : false;
+
       getModule(idModule).then(function(response){
-        ctrl.moduleEntitySources = [];
+        var moduleEntitySources = [];
+
         angular.forEach(response.data.sources, function(source, key){
-          ctrl.moduleEntitySources = ctrl.moduleEntitySources.concat(source);
+          moduleEntitySources = moduleEntitySources.concat(source);
         });
+
+        ctrl.moduleEntitySources = moduleEntitySources;
       });
     }
 
@@ -1634,7 +1651,8 @@
       validateField: validateField,
       getModuleTemplates: getModuleTemplates,
       selectEntityFinder: selectEntityFinder,
-      selectFinder: selectFinder
+      selectFinder: selectFinder,
+      selectDataSourcetype: selectDataSourcetype
     }); 
   };
 })();

@@ -4,7 +4,7 @@
   </div>
 
   <label for="">Tipo</label>
-  <select class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSourceType">
+  <select class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSourceType" ng-change="ctrl.selectDataSourcetype(ctrl.fieldEdit.dataSourceType)">
     <option value="">Selecione</option>
     <option value="E">Entidade</option>
     <option value="S">Serviço</option>
@@ -102,7 +102,7 @@
       </ul>
     </div>
   </div>
-  
+
   <div class="form-group">
     <label for="">Source Key:</label>
     <input type="text"
