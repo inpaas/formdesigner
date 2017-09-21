@@ -701,25 +701,18 @@
       switch(model.dataSourceType){
         case 'O':
         case 'D':
-          delete model.dataSource;
+          delete model.serviceSource;
           delete model.finder;
           break;
 
         case 'E':
           model.finder.moduleKey = ctrl.moduleEntity.key;
-          delete model.dataSource;
+          delete model.serviceSource;
           break; 
 
         case 'S':
-          if (!model.dataSource) {
-            model.dataSource = {};
-          }
-          model.dataSource.key = model.dataSource.sourceKey;
-          model.dataSource.method = model.dataSource.sourceMethod;
-
-          delete model.dataSource.sourceKey; 
-          delete model.dataSource.sourceMethod;
           delete model.finder;
+          delete model.options;
           break;
       }
 
@@ -850,12 +843,9 @@
         ctrl.moduleEntity = getModuleFromApps(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
         formField.dataSourceType = 'E';
 
-      }else if(formField.dataSource){
-        getModuleEntity(getModuleIdByKey(formField.dataSource.moduleKey) || formField.dataSource.moduleId, formField);
-        formField.dataSourceType = formField.dataSource.type;
-        formField.dataSource.sourceMethod = formField.dataSource.method;
-        formField.dataSource.sourceKey = formField.dataSource.key;
-        formField.dataSourceType = 'E';
+      }else if(formField.serviceSource){
+        getSources(getModuleIdByKey(formField.serviceSource.moduleKey));
+        formField.dataSourceType = 'S';
 
       }else if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
         formField.rawEntityField && formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourceType = 'O';
@@ -1296,22 +1286,10 @@
     }
 
     function getSources(idModule, model){
-      if (idModule && model) {
-        getModule(idModule).then(function(response){
-          model.title = response.data.title;
-          model.sources = [];
-
-          angular.forEach(response.data.sources, function(source, key){
-            source.forEach(function(item){ model.sources.push(item) });
-          });
-        });
-        return;
-      }
-
-      ctrl.moduleEntitySources = [];
-      angular.forEach(ctrl.moduleEntity.sources, function(source, key){
-        source.forEach(function(item, index){
-          ctrl.moduleEntitySources.push(item);
+      getModule(idModule).then(function(response){
+        ctrl.moduleEntitySources = [];
+        angular.forEach(response.data.sources, function(source, key){
+          ctrl.moduleEntitySources = ctrl.moduleEntitySources.concat(source);
         });
       });
     }
