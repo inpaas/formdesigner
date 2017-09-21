@@ -687,9 +687,9 @@
       }
 
       if(!fieldEdit.hasButton){
-        delete fieldEdit.customEvent;
+        delete fieldEdit.buttonEvent;
       }
-      
+       
       delete fieldEdit.rawEntityField;
       delete fieldEdit.col;
 

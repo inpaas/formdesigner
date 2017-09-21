@@ -1,9 +1,9 @@
-<div class="input-group" ng-if="field.hasButton" ng-if="field.meta.type == 'currency' && field.hasButton">
+<div class="input-group" ng-if="field.meta.type == 'textarea' && field.hasButton">
   <textarea class="form-control input-sm" rows="{[{field.views.edit.rows || 5}]}"></textarea>
 
   <span class="input-group-btn">
     <button type="button" class="btn btn-primary btn-sm">
-      <i class="fa {[{field.customEvent.icon}]}"></i>
+      <i class="fa {[{field.buttonEvent.icon}]}"></i>
     </button>
   </span>
 </div>

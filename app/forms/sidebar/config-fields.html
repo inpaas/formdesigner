@@ -69,7 +69,7 @@
         <label for="">Ícone</label>
         <input type="text" 
               class="form-control input-sm" 
-              ng-model="ctrl.fieldEdit.customEvent.icon" 
+              ng-model="ctrl.fieldEdit.buttonEvent.icon" 
               uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
               typeahead-template-url="icons.html"
               typeahead-min-length="0">
@@ -77,7 +77,7 @@
 
       <div class="form-group" ng-if="ctrl.fieldEdit.hasButton">
         <label for="">Texto da tooltip</label>
-        <textarea type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.custonEvent.tooltip"></textarea>
+        <textarea type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.buttonEvent.tooltip"></textarea>
       </div>
     </div>
     
