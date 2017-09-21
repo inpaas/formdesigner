@@ -701,25 +701,18 @@
       switch(model.dataSourceType){
         case 'O':
         case 'D':
-          delete model.dataSource;
+          delete model.serviceSource;
           delete model.finder;
           break;
 
         case 'E':
           model.finder.moduleKey = ctrl.moduleEntity.key;
-          delete model.dataSource;
+          delete model.serviceSource;
           break; 
 
         case 'S':
-          if (!model.dataSource) {
-            model.dataSource = {};
-          }
-          model.dataSource.key = model.dataSource.sourceKey;
-          model.dataSource.method = model.dataSource.sourceMethod;
-
-          delete model.dataSource.sourceKey; 
-          delete model.dataSource.sourceMethod;
           delete model.finder;
+          delete model.options;
           break;
       }
 
@@ -850,12 +843,9 @@
         ctrl.moduleEntity = getModuleFromApps(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
         formField.dataSourceType = 'E';
 
-      }else if(formField.dataSource){
-        getModuleEntity(getModuleIdByKey(formField.dataSource.moduleKey) || formField.dataSource.moduleId, formField);
-        formField.dataSourceType = formField.dataSource.type;
-        formField.dataSource.sourceMethod = formField.dataSource.method;
-        formField.dataSource.sourceKey = formField.dataSource.key;
-        formField.dataSourceType = 'E';
+      }else if(formField.serviceSource){
+        getSources(getModuleIdByKey(formField.serviceSource.moduleKey));
+        formField.dataSourceType = 'S';
 
       }else if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
         formField.rawEntityField && formField.rawEntityField.domains? formField.dataSourceType = 'D' : formField.dataSourceType = 'O';
@@ -1275,6 +1265,17 @@
       setFinder(entityName, model, isSection);
     }
 
+    function selectDataSourcetype(type){
+      switch(type){
+        case 'S':
+          !ctrl.fieldEdit.serviceSource && (ctrl.fieldEdit.serviceSource = {});
+          if(ctrl.moduleEntity && Object.keys(ctrl.moduleEntity).length){
+            getSources(getModuleIdByKey(ctrl.moduleEntity.key), ctrl.fieldEdit.serviceSource);
+          };
+          break;
+      }
+    }
+
     function getModuleTemplates(moduleId){
       getModule(moduleId).then(function(response){
         ctrl.moduleEntity = response.data;
@@ -1296,23 +1297,17 @@
     }
 
     function getSources(idModule, model){
-      if (idModule && model) {
-        getModule(idModule).then(function(response){
-          model.title = response.data.title;
-          model.sources = [];
+      ctrl.moduleEntity = getModuleFromApps(idModule);
+      model? model.moduleKey = ctrl.moduleEntity.key : false;
 
-          angular.forEach(response.data.sources, function(source, key){
-            source.forEach(function(item){ model.sources.push(item) });
-          });
-        });
-        return;
-      }
+      getModule(idModule).then(function(response){
+        var moduleEntitySources = [];
 
-      ctrl.moduleEntitySources = [];
-      angular.forEach(ctrl.moduleEntity.sources, function(source, key){
-        source.forEach(function(item, index){
-          ctrl.moduleEntitySources.push(item);
+        angular.forEach(response.data.sources, function(source, key){
+          moduleEntitySources = moduleEntitySources.concat(source);
         });
+
+        ctrl.moduleEntitySources = moduleEntitySources;
       });
     }
 
@@ -1656,7 +1651,8 @@
       validateField: validateField,
       getModuleTemplates: getModuleTemplates,
       selectEntityFinder: selectEntityFinder,
-      selectFinder: selectFinder
+      selectFinder: selectFinder,
+      selectDataSourcetype: selectDataSourcetype
     }); 
   };
 })();
