@@ -2,5 +2,8 @@
   <input type="text" readonly class="input-sm form-control">
   <span class="input-group-btn" ng-if="field.meta.type == 'finder'">
     <button class="btn btn-primary btn-sm"><i class="fa fa-fw fa-search"></i></button>
+    <button type="button" class="btn btn-primary btn-sm" ng-if="field.hasButton">
+      <i class="fa {[{field.buttonEvent.icon}]}"></i>
+    </button>
   </span>
 </div>
