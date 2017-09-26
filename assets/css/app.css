@@ -2083,7 +2083,8 @@ ul.nav-components.sb-field-text.sb-edit-action
   width: 100%;
 }
 
-.dropdown-finders-options{
+.dropdown-finders-options,
+.dropdown-extensions-options{
   padding: 10px;
   max-height: 300px;
   overflow: auto;

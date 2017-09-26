@@ -7,10 +7,10 @@
 
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
-    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS", 'TIME_FORMAT_PATTERNS', 'ICONS'
+    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS", 'TIME_FORMAT_PATTERNS', 'ICONS', 'FILE_EXTENSIONS'
   ];
  
- function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS, TIME_FORMAT_PATTERNS, ICONS) {
+ function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS, TIME_FORMAT_PATTERNS, ICONS, FILE_EXTENSIONS) {
     var ctrl = this,
         idForm = $state.params.id;
 
@@ -689,6 +689,20 @@
       if(!fieldEdit.hasButton){
         delete fieldEdit.buttonEvent;
       }
+
+      if(fieldEdit.fileTypes){
+        fieldEdit.meta.extensions = '';
+        var mimetypes = [];
+
+        FILE_EXTENSIONS.types.forEach(function(ext){
+          if(fieldEdit.fileTypes.indexOf(ext.name) != -1){
+            mimetypes = mimetypes.concat(ext.mimetypes);
+          }
+        });
+
+        fieldEdit.meta.extensions = mimetypes.join(',');
+        fieldEdit.meta.extensions.concat(fieldEdit.othersExtensions || '');
+      }
        
       delete fieldEdit.rawEntityField;
       delete fieldEdit.col;
@@ -863,6 +877,14 @@
 
       if (formField.meta.type.match(/(date)/g) || formField.meta.type == 'currency') {
         getFormatsPattern();
+      }
+
+      if(formField.fileTypes && formField.fileTypes.length){
+        FILE_EXTENSIONS.types.forEach(function(ext){
+          if(formField.fileTypes.indexOf(ext.name) != -1){
+            ext.checked = true;
+          }
+        });
       }
 
       ctrl.fieldEdit = formField;
@@ -1586,7 +1608,22 @@
       }
     }
 
+    function selectExtension(fileType){
+      !ctrl.fieldEdit.fileTypes && (ctrl.fieldEdit.fileTypes = []);
+
+      if(fileType.checked){
+        ctrl.fieldEdit.fileTypes.push(fileType.name);
+      }else{
+        ctrl.fieldEdit.fileTypes.forEach(function(name, index){
+          if(name == fileType.name){
+            ctrl.fieldEdit.fileTypes.splice(index, 1);
+          }
+        });
+      }
+    }
+
     angular.extend(ctrl, {
+      FILE_EXTENSIONS: FILE_EXTENSIONS,
       TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
       ICONS: ICONS,
       ACTIONS: ACTIONS,
@@ -1652,7 +1689,8 @@
       getModuleTemplates: getModuleTemplates,
       selectEntityFinder: selectEntityFinder,
       selectFinder: selectFinder,
-      selectDataSourcetype: selectDataSourcetype
+      selectDataSourcetype: selectDataSourcetype,
+      selectExtension: selectExtension
     }); 
   };
 })();
