@@ -701,6 +701,19 @@
         });
 
         fieldEdit.meta.extensions = mimetypes.join(',');
+
+        if(fieldEdit.othersExtensions){
+          var extensions = fieldEdit.othersExtensions.replace(/\./g, '').split(','); 
+
+          extensions.forEach(function(extName){
+            FILE_EXTENSIONS.extensions.forEach(function(extension){
+              if(extension.name == extName){
+                fieldEdit.meta.extensions.concat(extension.name);
+              }
+            });
+          });
+        }
+
         fieldEdit.meta.extensions.concat(fieldEdit.othersExtensions || '');
       }
        
