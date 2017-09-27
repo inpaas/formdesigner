@@ -1006,7 +1006,7 @@
             promises.push(p);
           }else{
             var p = httpService.saveNewForm(form, getModuleIdByKey(form.moduleKey)).then(function(response){
-                      form.id = response.data.id;
+                      section.jsonForm.id = form.id = response.data.id;
                       return form;
                     }).then(function(form){
                       return httpService.saveEditForm(form, form.id, getModuleIdByKey(form.moduleKey) || form.moduleId); 
