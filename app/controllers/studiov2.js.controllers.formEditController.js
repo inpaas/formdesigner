@@ -598,6 +598,10 @@
             }
           }
           break;
+          case 'file': 
+            var reference = findReferences(fieldEdit);
+            fieldEdit.reference = reference.alias;
+          break;
       }
 
       showEditField();
