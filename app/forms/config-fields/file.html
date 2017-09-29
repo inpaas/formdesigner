@@ -1,27 +1,8 @@
 <div class="form-group">
   <label for="">Max Size (MB)</label>
-  <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxSize" placeholder="Ex: 1024">
+  <input type="number" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxSize" placeholder="Ex: 1024">
 </div>
 
-<!-- por input text -->
-<!-- <div class="form-group">
-  <label for="">Extensões permitidas (separados por vírgulas)</label>
-  <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.extensions" placeholder="Ex: jpg, png, exe">
-</div> -->
-
-<!-- <div class="form-group">
-  <label for="">Tipos de arquivos</label>
-  <tags-input ng-model="ctrl.fieldEdit.meta.extensions" 
-            display-property="name" 
-            replace-spaces-with-dashes="false"
-            add-from-autocomplete-only="true"
-            select-first-match="true"
-            placeholder="">
-    
-  </tags-input>
-</div>
-
- --><!-- por seleção -->
 <div class="form-group">
   <label for="">Tipos de arquivos</label>
   <div class="btn-group btn-block" uib-dropdown is-open="status.isopen" auto-close="outsideClick">
