@@ -845,6 +845,8 @@
 
       }else if(formField.serviceSource){
         getSources(getModuleIdByKey(formField.serviceSource.moduleKey));
+        filterSelectFields(formField);
+        ctrl.moduleEntity = getModuleFromApps(getModuleIdByKey(formField.serviceSource.moduleKey) || formField.serviceSource.moduleId);
         formField.dataSourceType = 'S';
 
       }else if(formField.meta.type.match('checkbox') || formField.meta.type.match('select') ){
@@ -1272,6 +1274,7 @@
           if(ctrl.moduleEntity && Object.keys(ctrl.moduleEntity).length){
             getSources(getModuleIdByKey(ctrl.moduleEntity.key), ctrl.fieldEdit.serviceSource);
           };
+          filterSelectFields(ctrl.fieldEdit);
           break;
       }
     }
