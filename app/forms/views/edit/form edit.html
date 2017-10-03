@@ -50,14 +50,14 @@
       <div class="widget-body" ng-if="section.includeType == 'list'">
         <p class="text-center" ng-if="section.finder.relatedFinders"> 
           <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.relatedKey[0].key}]}" ng-if="section.finder.relatedFinders.length == 1">
-            Lista: {[{ section.finder.relatedFinders[0].title }]}
+            Lista: {[{ section.finder.relatedFinders[0].title }]} ({[{section.finder.entityName}]})
           </a>
           <span ng-if="section.finder.relatedFinders.length > 1"> {[{ section.finder.relatedFinders.length }]} finder(s) selecionados(s)</span>
         </p>
 
         <p class="text-center" ng-if="!section.finder.relatedFinders || !section.finder.relatedFinders.length">
           <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.key}]}">
-            Lista: {[{ section.finder.title }]}
+            Lista: {[{ section.finder.title }]} ({[{section.finder.title}]})
           </a>
         </p>
       </div>
