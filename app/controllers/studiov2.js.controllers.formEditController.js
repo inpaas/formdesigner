@@ -318,18 +318,8 @@
 
         if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
           currentSection.dependenciesKeys.forEach(function(key){ 
-            var attr = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0],
-                field = ctrl.data.entityFields.filter(function(field){return field.name == key; })[0];
-
-            if(!attr){
-              currentSection.entity.references.filter(function(ref){
-                return ref.fields.filter(function(field, index){
-                  return field.fieldName == field.name;
-                });
-              });
-            }
-
-            dependencies[attr.alias] = 'id'
+            var entitySectionField = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0];
+            dependencies[entitySectionField.alias] = 'id';
           });
 
           currentSection.finder.dependencies = dependencies;
@@ -443,7 +433,7 @@
           var dependenciesKeys = [];
 
           angular.forEach(currentSection.finder.dependencies, function(value, key){
-            var field = ctrl.data.entityFields.filter(function(field){return field.alias == value; })[0];
+            var field = currentSection.entity.attributes.filter(function(field){return field.alias == key; })[0];
 
             if (field) {
               dependenciesKeys.push(field.name);
@@ -510,7 +500,9 @@
       var references = [];
 
       entity.references && entity.references.forEach(function(ref, index){
-        references.push(ref.fieldReference || ref.field);
+        if(ref.name.indexOf(ctrl.currentEntity.name) != -1){
+          references.push(ref.fieldReference || ref.field);
+        }
       });
 
       return references;
