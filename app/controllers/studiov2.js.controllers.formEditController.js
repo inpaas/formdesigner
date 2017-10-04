@@ -510,7 +510,9 @@
       var references = [];
 
       entity.references && entity.references.forEach(function(ref, index){
-        references.push(ref.fieldReference || ref.field);
+        if(ref.name.toLowerCase().indexOf('fk_'.concat(ctrl.currentEntity.name.toLowerCase()))!= -1){ 
+          references.push(ref.fieldReference || ref.field);
+        }
       });
 
       return references;
