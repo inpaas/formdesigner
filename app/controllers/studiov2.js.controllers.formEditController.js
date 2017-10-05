@@ -1701,6 +1701,7 @@
       getModuleTemplates: getModuleTemplates,
       selectEntityFinder: selectEntityFinder,
       selectFinder: selectFinder,
+      setFinder: setFinder,
       selectDataSourcetype: selectDataSourcetype,
       selectExtension: selectExtension
     }); 
