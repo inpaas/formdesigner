@@ -42,7 +42,7 @@
           class="form-control input-sm" 
           placeholder="Selecione" 
           ng-model="ctrl.fieldEdit.finder.entityName" 
-          typeahead-on-select="ctrl.setFinder($model, ctrl.fieldEdit)" 
+          ng-blur="ctrl.setFinder($model, ctrl.fieldEdit)" 
           uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
           typeahead-min-length="0" />
   </div>
