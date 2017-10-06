@@ -1634,6 +1634,29 @@
       }
     }
 
+    function showSourcesJs(){
+      var modalInstance = $uibModal.open({
+        templateUrl: 'sources.html',
+        controller: 'sourcesController',
+        controllerAs: 'ctrl',
+        resolve: {
+          sources: function(){
+            var sources = ctrl.currentSection.views.edit.sources.js;
+
+            if(angular.isString(sources)){
+              sources = []
+              sources.push(ctrl.currentSection.views.edit.sources.js);
+            }
+            return sources;
+          }
+        }
+      }); 
+
+      modalInstance.result.then(function(result){
+        ctrl.currentSection.views.edit.sources.js = result;
+      });
+    }
+
     angular.extend(ctrl, {
       FILE_EXTENSIONS: FILE_EXTENSIONS,
       TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
@@ -1703,7 +1726,8 @@
       selectFinder: selectFinder,
       setFinder: setFinder,
       selectDataSourcetype: selectDataSourcetype,
-      selectExtension: selectExtension
+      selectExtension: selectExtension,
+      showSourcesJs: showSourcesJs
     }); 
   };
 })();
