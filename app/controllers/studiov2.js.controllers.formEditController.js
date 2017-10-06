@@ -1016,7 +1016,7 @@
         delete field.dependenciesKeys;
         delete field.entity;
 
-        if(field.finder && field.finder.relatedFinders.length == 1){
+        if(field.finder && field.finder.relatedFinders && field.finder.relatedFinders.length == 1){
           var finder = field.finder.relatedFinders[0];
           angular.extend(field.finder, {key : finder.key, title: finder.title});
           delete field.finder.relatedFinders;
