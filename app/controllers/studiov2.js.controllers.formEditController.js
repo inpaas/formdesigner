@@ -484,6 +484,11 @@
         currentSection.views.edit.layout = 'horizontal';
       }
 
+      if(currentSection.views.edit.sources.js && angular.isString(currentSection.views.edit.sources.js)){
+        var sources = [currentSection.views.edit.sources.js]; 
+        currentSection.views.edit.sources.js = sources; 
+      }
+
       ctrl.currentSection = currentSection;
       showConfigSection();
     }
@@ -592,7 +597,8 @@
           break;
           case 'file': 
             var reference = findReferences(fieldEdit);
-            fieldEdit.reference = reference.alias;
+            fieldEdit.reference = reference[0].alias;
+            fieldEdit.FILE_EXTENSIONS = FILE_EXTENSIONS;
           break;
       }
 
@@ -686,11 +692,11 @@
         delete fieldEdit.buttonEvent;
       }
 
-      if(fieldEdit.fileTypes){
+      if(fieldEdit.meta.type == 'file'){
         fieldEdit.meta.extensions = '';
         var mimetypes = [];
 
-        FILE_EXTENSIONS.types.forEach(function(ext){
+        fieldEdit.FILE_EXTENSIONS.types.forEach(function(ext){
           if(fieldEdit.fileTypes.indexOf(ext.name) != -1){
             mimetypes = mimetypes.concat(ext.mimetypes);
           }
@@ -702,7 +708,7 @@
           var extensions = fieldEdit.othersExtensions.replace(/\./g, '').split(','); 
 
           extensions.forEach(function(extName){
-            FILE_EXTENSIONS.extensions.forEach(function(extension){
+            fieldEdit.FILE_EXTENSIONS.extensions.forEach(function(extension){
               if(extension.name == extName){
                 fieldEdit.meta.extensions.concat(extension.name);
               }
@@ -711,6 +717,7 @@
         }
 
         fieldEdit.meta.extensions.concat(fieldEdit.othersExtensions || '');
+        delete fieldEdit.FILE_EXTENSIONS;
       }
        
       delete fieldEdit.rawEntityField;
@@ -891,7 +898,9 @@
       }
 
       if(formField.fileTypes && formField.fileTypes.length){
-        FILE_EXTENSIONS.types.forEach(function(ext){
+        formField.FILE_EXTENSIONS = FILE_EXTENSIONS;
+
+        formField.FILE_EXTENSIONS.types.forEach(function(ext){
           if(formField.fileTypes.indexOf(ext.name) != -1){
             ext.checked = true;
           }
@@ -1641,13 +1650,7 @@
         controllerAs: 'ctrl',
         resolve: {
           sources: function(){
-            var sources = ctrl.currentSection.views.edit.sources.js;
-
-            if(angular.isString(sources)){
-              sources = []
-              sources.push(ctrl.currentSection.views.edit.sources.js);
-            }
-            return sources;
+            return ctrl.currentSection.views.edit.sources.js;
           }
         }
       }); 
@@ -1658,7 +1661,6 @@
     }
 
     angular.extend(ctrl, {
-      FILE_EXTENSIONS: FILE_EXTENSIONS,
       TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
       ICONS: ICONS,
       ACTIONS: ACTIONS,
