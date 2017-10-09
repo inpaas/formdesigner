@@ -596,8 +596,6 @@
           }
           break;
           case 'file': 
-            var reference = findReferences(fieldEdit);
-            fieldEdit.reference = reference[0].alias;
             fieldEdit.FILE_EXTENSIONS = FILE_EXTENSIONS;
           break;
       }
