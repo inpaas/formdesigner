@@ -4,48 +4,6 @@
     .constant('FILE_EXTENSIONS', {
       types: [
         {
-          name: 'Documentos', 
-          mimetypes: [
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/rtf',
-            'text/plain', 
-            'application/xml'
-          ].join(',')
-        },
-        {
-          name: 'PowerPoint', 
-          mimetypes: [
-            'application/vnd.ms-powerpoint',
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-            'application/vnd.openxmlformats-officedocument.presentationml.slideshow'
-          ].join(',')
-        },
-        {
-          name: 'Email', 
-          mimetypes: 'application/CDFV2-corrupt'
-        },
-        {
-          name: 'Planilhas', 
-          mimetypes: 'application/vnd.ms-excel'
-        },
-        {
-          name: 'Imagens', 
-          mimetypes: 'image/*'
-        },
-        {
-          name: 'Zip', 
-          mimetypes: [
-            'application/x-tar',
-            'application/x-compressed',
-            'application/zip'
-          ].join(',')
-        },
-        {
-          name: 'Video', 
-          mimetypes: 'video/*'
-        },
-        {
           name: 'Audio', 
           mimetypes: 'audio/*'
         },
@@ -58,8 +16,50 @@
           ].join(',')
         },
         {
+          name: 'Documentos', 
+          mimetypes: [
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/rtf',
+            'text/plain', 
+            'application/xml'
+          ].join(',')                  
+        },
+        {
+          name: 'Email', 
+          mimetypes: 'application/CDFV2-corrupt'
+        },       
+         {
+          name: 'Imagens', 
+          mimetypes: 'image/*'
+        },       
+        {
           name: 'PDF', 
           mimetypes: 'application/pdf'
+        },
+         {
+          name: 'Planilhas', 
+          mimetypes: 'application/vnd.ms-excel'
+        },       
+        {
+          name: 'PowerPoint', 
+          mimetypes: [
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'application/vnd.openxmlformats-officedocument.presentationml.slideshow'
+          ].join(',')         
+        },
+        {
+          name: 'Video', 
+          mimetypes: 'video/*'
+        },
+        {
+          name: 'Zip', 
+          mimetypes: [
+            'application/x-tar',
+            'application/x-compressed',
+            'application/zip'
+          ].join(',')         
         }
       ],
       extensions: [

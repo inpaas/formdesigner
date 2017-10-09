@@ -45,12 +45,16 @@
     {{#include-html}}studiov2.forms.breadcrumb{{/include-html}}
   </script>
 
-  {{#include-html}}studiov2.forms.actions.actions{{/include-html}}
-
   <script type="text/ng-template" id="icons.html">
     {{#include-html}}studiov2.forms.config-fields.icons{{/include-html}}
   </script>
 
+  <script type="text/ng-template" id="sources.html">
+    {{#include-html}}studiov2.forms.sidebar.sources{{/include-html}}
+  </script>
+
+  {{#include-html}}studiov2.forms.actions.actions{{/include-html}}
+  
   <!-- Libs -->
   <script src="{{ assets-base-url }}/assets/jquery/jquery-2.2.0.min.js?_v={{assets-random-id}}"></script>
   <script src="{{ assets-base-url }}/assets/bootstrap/dist/js/bootstrap.min.js?_v={{assets-random-id}}"></script>
@@ -77,6 +81,7 @@
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.constants.icons"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.constants.mimeTypes"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.controllers.formEditController"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.controllers.sourcesController"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.controllers.modalController"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.directives.breadcrumb"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.jsonForm"></script>

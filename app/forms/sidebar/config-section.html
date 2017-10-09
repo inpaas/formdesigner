@@ -210,11 +210,14 @@
         <label for="">Static Sources</label>
       </div>
       <div class="form-group">
-        <label for="">Javascript</label>
-        <input type="text" 
-              class="input-sm form-control" 
-              ng-model="ctrl.currentSection.views.edit.sources.js" 
-              placeholder="Source key">
+        <button class="btn btn-sm btn-default">
+          <span ng-show="ctrl.currentSection.views.edit.sources.js.length" ng-click="ctrl.showSourcesJs()">
+            {[{ ctrl.currentSection.views.edit.sources.js.length }]} adicionados
+          </span>
+          <span ng-show="!ctrl.currentSection.views.edit.sources.js.length">
+            Adicionar sources
+          </span>
+        </button> 
       </div>
     </div>
 

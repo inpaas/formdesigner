@@ -12,7 +12,7 @@
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu dropdown-extensions-options" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-      <li role="menuitem" ng-repeat="type in ctrl.FILE_EXTENSIONS.types track by $index">
+      <li role="menuitem" ng-repeat="type in ctrl.fieldEdit.FILE_EXTENSIONS.types track by $index">
         <label for="choose-type{[{ $index }]}">
           <input type="checkbox" id="choose-type{[{ $index }]}" ng-model="type.checked" ng-change="ctrl.selectExtension(type)">
           {[{ type.name }]}

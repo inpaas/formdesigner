@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Adicionar ou remover sources javascript</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <div class="row" ng-repeat="source in ctrl.sources track by $index">
+    <div class="col-sm-8">
+      <input type="text" ng-model="source.key" class="form-control input-sm"> 
+    </div>
+    <div class="col-sm-2 no-padding">
+      <button ng-click="ctrl.sources.splice($index, 1)" class="btn btn-sm btn-danger">
+        <i class="fa fa-remove"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <button ng-click="ctrl.sources.push({key: ''})" class="btn btn-sm btn-primary">
+        <i class="fa fa-plus"></i> Adcionar outro source
+      </button>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="ctrl.ok()">OK</button>
+  <button class="btn btn-warning" type="button" ng-click="ctrl.cancel()">Cancel</button>
+</div>

@@ -484,6 +484,11 @@
         currentSection.views.edit.layout = 'horizontal';
       }
 
+      if(currentSection.views.edit.sources.js && angular.isString(currentSection.views.edit.sources.js)){
+        var sources = [currentSection.views.edit.sources.js]; 
+        currentSection.views.edit.sources.js = sources; 
+      }
+
       ctrl.currentSection = currentSection;
       showConfigSection();
     }
@@ -591,8 +596,7 @@
           }
           break;
           case 'file': 
-            var reference = findReferences(fieldEdit);
-            fieldEdit.reference = reference.alias;
+            fieldEdit.FILE_EXTENSIONS = FILE_EXTENSIONS;
           break;
       }
 
@@ -686,11 +690,11 @@
         delete fieldEdit.buttonEvent;
       }
 
-      if(fieldEdit.fileTypes){
+      if(fieldEdit.meta.type == 'file'){
         fieldEdit.meta.extensions = '';
         var mimetypes = [];
 
-        FILE_EXTENSIONS.types.forEach(function(ext){
+        fieldEdit.FILE_EXTENSIONS.types.forEach(function(ext){
           if(fieldEdit.fileTypes.indexOf(ext.name) != -1){
             mimetypes = mimetypes.concat(ext.mimetypes);
           }
@@ -702,7 +706,7 @@
           var extensions = fieldEdit.othersExtensions.replace(/\./g, '').split(','); 
 
           extensions.forEach(function(extName){
-            FILE_EXTENSIONS.extensions.forEach(function(extension){
+            fieldEdit.FILE_EXTENSIONS.extensions.forEach(function(extension){
               if(extension.name == extName){
                 fieldEdit.meta.extensions.concat(extension.name);
               }
@@ -711,6 +715,7 @@
         }
 
         fieldEdit.meta.extensions.concat(fieldEdit.othersExtensions || '');
+        delete fieldEdit.FILE_EXTENSIONS;
       }
        
       delete fieldEdit.rawEntityField;
@@ -891,7 +896,9 @@
       }
 
       if(formField.fileTypes && formField.fileTypes.length){
-        FILE_EXTENSIONS.types.forEach(function(ext){
+        formField.FILE_EXTENSIONS = FILE_EXTENSIONS;
+
+        formField.FILE_EXTENSIONS.types.forEach(function(ext){
           if(formField.fileTypes.indexOf(ext.name) != -1){
             ext.checked = true;
           }
@@ -1007,7 +1014,7 @@
         delete field.dependenciesKeys;
         delete field.entity;
 
-        if(field.finder && field.finder.relatedFinders.length == 1){
+        if(field.finder && field.finder.relatedFinders && field.finder.relatedFinders.length == 1){
           var finder = field.finder.relatedFinders[0];
           angular.extend(field.finder, {key : finder.key, title: finder.title});
           delete field.finder.relatedFinders;
@@ -1634,8 +1641,24 @@
       }
     }
 
+    function showSourcesJs(){
+      var modalInstance = $uibModal.open({
+        templateUrl: 'sources.html',
+        controller: 'sourcesController',
+        controllerAs: 'ctrl',
+        resolve: {
+          sources: function(){
+            return ctrl.currentSection.views.edit.sources.js;
+          }
+        }
+      }); 
+
+      modalInstance.result.then(function(result){
+        ctrl.currentSection.views.edit.sources.js = result;
+      });
+    }
+
     angular.extend(ctrl, {
-      FILE_EXTENSIONS: FILE_EXTENSIONS,
       TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
       ICONS: ICONS,
       ACTIONS: ACTIONS,
@@ -1703,7 +1726,8 @@
       selectFinder: selectFinder,
       setFinder: setFinder,
       selectDataSourcetype: selectDataSourcetype,
-      selectExtension: selectExtension
+      selectExtension: selectExtension,
+      showSourcesJs: showSourcesJs
     }); 
   };
 })();

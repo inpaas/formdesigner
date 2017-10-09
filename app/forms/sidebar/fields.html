@@ -41,11 +41,19 @@
                 <label for="" class="tlt-type">Checkbox</label>
                 <p class="txt-type">Usado para obter multiplas respostas.</p>
             </li>
+            
             <li class="item-type" ng-click="ctrl.setTypeField('file', ctrl.fieldEdit)">
-                <div class="box-img-field field-image"></div>
+                <div class="box-img-field field-file"></div>
                 <label for="" class="tlt-type">File</label>
                 <p class="txt-type">Fazer upload de arquivos</p>
             </li>
+
+            <li class="item-type" ng-click="ctrl.setTypeField('number', ctrl.fieldEdit)">
+                <div class="box-img-field field-number"></div>
+                <label for="" class="tlt-type">Número</label>
+                <p class="txt-type">Campo de números.</p>
+            </li>
+
             <li class="item-type" ng-click="ctrl.setTypeField('currency', ctrl.fieldEdit)">
                 <div class="box-img-field field-value"></div>
                 <label for="" class="tlt-type">Moeda</label>
@@ -58,10 +66,11 @@
                 <p class="txt-type">Obter um período ou uma data específica.</p>
             </li>
             <li class="item-type" ng-click="ctrl.setTypeField('time', ctrl.fieldEdit)">
-                <div class="box-img-field field-date"></div>
+                <div class="box-img-field field-time"></div>
                 <label for="" class="tlt-type">Hora</label>
                 <p class="txt-type">Obter uma hora específica.</p>
             </li>
+
         </ul>
     </div> 
 </ul>
