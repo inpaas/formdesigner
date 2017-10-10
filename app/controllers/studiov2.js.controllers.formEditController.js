@@ -743,8 +743,6 @@
           delete model.options;
           break;
       }
-
-      delete model.dataSourceType;
     } 
 
     function setNameField(field) {
