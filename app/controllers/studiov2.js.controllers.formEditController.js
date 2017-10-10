@@ -575,7 +575,7 @@
 
           }else{
             fieldEdit.datasourceType = 'O';
-            fieldEdit.meta.options = {};
+            fieldEdit.meta.options = [];
           }
           break;
 
