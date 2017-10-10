@@ -1648,13 +1648,14 @@
         controllerAs: 'ctrl',
         resolve: {
           sources: function(){
-            return ctrl.currentSection.views.edit.sources.js;
+            var sources = ctrl.currentSection.views.edit.sources;
+            return (sources && sources.js? sources.js : ['']);
           }
         }
       }); 
 
       modalInstance.result.then(function(result){
-        ctrl.currentSection.views.edit.sources.js = result;
+        angular.extend(ctrl.currentSection.views.edit, {sources: {js: result}});
       });
     }
 
