@@ -484,7 +484,7 @@
         currentSection.views.edit.layout = 'horizontal';
       }
 
-      if(currentSection.views.edit.sources.js && angular.isString(currentSection.views.edit.sources.js)){
+      if(currentSection.views.edit.sources && currentSection.views.edit.sources.js && angular.isString(currentSection.views.edit.sources.js)){
         var sources = [currentSection.views.edit.sources.js]; 
         currentSection.views.edit.sources.js = sources; 
       }
