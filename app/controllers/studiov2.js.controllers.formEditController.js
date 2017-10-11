@@ -484,7 +484,7 @@
         currentSection.views.edit.layout = 'horizontal';
       }
 
-      if(currentSection.views.edit.sources.js && angular.isString(currentSection.views.edit.sources.js)){
+      if(currentSection.views.edit.sources && currentSection.views.edit.sources.js && angular.isString(currentSection.views.edit.sources.js)){
         var sources = [currentSection.views.edit.sources.js]; 
         currentSection.views.edit.sources.js = sources; 
       }
@@ -574,7 +574,7 @@
               });
 
           }else{
-            fieldEdit.dataSourceType = 'O';
+            fieldEdit.datasourceType = 'O';
             fieldEdit.meta.options = [];
           }
           break;
@@ -743,8 +743,6 @@
           delete model.options;
           break;
       }
-
-      delete model.dataSourceType;
     } 
 
     function setNameField(field) {
@@ -1648,13 +1646,14 @@
         controllerAs: 'ctrl',
         resolve: {
           sources: function(){
-            return ctrl.currentSection.views.edit.sources.js;
+            var sources = ctrl.currentSection.views.edit.sources;
+            return (sources && sources.js? sources.js : ['']);
           }
         }
       }); 
 
       modalInstance.result.then(function(result){
-        ctrl.currentSection.views.edit.sources.js = result;
+        angular.extend(ctrl.currentSection.views.edit, {sources: {js: result}});
       });
     }
 
