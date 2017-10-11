@@ -574,8 +574,8 @@
               });
 
           }else{
-            fieldEdit.datasourcetype = 'O';
-            fieldEdit.meta.options = {};
+            fieldEdit.dataSourceType = 'O';
+            fieldEdit.meta.options = [];
           }
           break;
 
