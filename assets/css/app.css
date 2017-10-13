@@ -1170,6 +1170,11 @@ ul.nav-components .inner-item.type-field {
   background-position: 0 -271px;
 }
 
+.list-type .item-type .box-img-field.field-password {
+  height: 18px;
+  background-position: 0 -345px;
+}
+
 .list-type .item-type .box-img-field.field-file {
   background-position: 0 -307px;
   height: 38px;
