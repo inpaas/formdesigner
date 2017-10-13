@@ -1583,8 +1583,17 @@
     }
 
     function formPreview(){
-      var url = '/forms-v2/'.concat(ctrl.jsonModel.key).concat('/new');
-      window.open(url);
+      var url = '/forms-v2/'.concat(ctrl.jsonModel.key).concat('/'),
+          href = window.location.href;
+
+      if(href.indexOf('embed=true') != -1){
+        var resourceId = href.split('row-id=').pop();
+        resourceId = resourceId != 'undefined'? resourceId : 'new';
+
+        window.location = url.concat(resourceId);
+      }else{
+        window.open(url.concat('new'));
+      }
     }
 
     function filterSelectFields(fieldEdit){
