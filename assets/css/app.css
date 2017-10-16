@@ -2133,3 +2133,7 @@ ul.nav-components.sb-field-text.sb-edit-action
   vertical-align: top;
   margin-right: 5px;
 }
+
+label[for="pattern-ignorecase"]{
+  margin-right: 10px;
+}

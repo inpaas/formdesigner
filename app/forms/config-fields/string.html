@@ -3,3 +3,16 @@
 {{#include-html}}studiov2.forms.sidebar.config-fields.max-length{{/include-html}}
 {{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}
 {{#include-html}}studiov2.forms.sidebar.config-fields.mask{{/include-html}}
+
+<div class="form-group">
+  <label for="">Pattern (Regexp)</label>
+  <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.pattern.regexp">
+</div>
+<div class="form-inline">
+  <label for="pattern-ignorecase">
+    <input type="checkbox" id="pattern-ignorecase" ng-model="ctrl.fieldEdit.meta.pattern.ignoreCase" ng-true-value="'i'" ng-false-value="''"> Ignore case
+  </label>
+  <label for="pattern-global">
+    <input type="checkbox" id="pattern-global" ng-model="ctrl.fieldEdit.meta.pattern.global" ng-true-value="'g'" ng-false-value="''"> Global
+  </label>
+</div>
