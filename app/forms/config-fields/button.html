@@ -1,0 +1,34 @@
+<div class="form-group">
+  <label for="">Tipo do botão</label>
+  <select class="input-sm form-control" ng-model="ctrl.fieldEdit.meta.buttonType" ng-options="type for type in ['danger', 'primary', 'warning', 'success']">
+    <option value="">Selecione</option>
+  </select>
+</div>
+<div class="form-group">
+  <label for="">Label do Botão</label>
+  <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.buttonLabel">
+</div>
+<div class="row">
+  <div class="stock-separator">
+    <label for="">Eventos</label>
+  </div>
+  <div class="form-group">
+    <label for="">Controller</label>
+    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.buttonController">
+  </div>
+  
+  <div class="form-group">
+    <label for="">Function Name</label>
+    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.functionName">
+  </div>
+
+  <div class="form-group">
+    <label for="">Ícone</label>
+    <input type="text" 
+          class="form-control input-sm" 
+          ng-model="ctrl.fieldEdit.meta.icon" 
+          uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
+          typeahead-template-url="icons.html"
+          typeahead-min-length="0">
+  </div>
+</div>
