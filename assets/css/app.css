@@ -2137,3 +2137,7 @@ ul.nav-components.sb-field-text.sb-edit-action
 label[for="pattern-ignorecase"]{
   margin-right: 10px;
 }
+
+.d-block{
+  display: block;
+}

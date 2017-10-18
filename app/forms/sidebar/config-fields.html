@@ -8,6 +8,7 @@
       <label for="">Tipo do Campo</label>
       <select  class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.type" ng-change="ctrl.setTypeField(ctrl.fieldEdit.meta.type)">
         <option value="textarea">Área de Texto</option>
+        <option value="button">Botão</option>
         <option value="string">Campo de Texto</option>
         <option value="checkbox">Checkbox</option>
         <option value="date">Data</option>
@@ -47,7 +48,7 @@
         ng-include="'studiov2.forms.sidebar.config-fields.'+ ctrl.fieldEdit.meta.type">
     </div>
 
-    <div class="row">
+    <div class="row" ng-if="ctrl.fieldEdit.meta.type != 'button'">
       <div class="stock-separator">
         <label for="">Eventos</label>
       </div>
