@@ -23,24 +23,18 @@
       </select>
     </div>
 
-    <div class="row">
-      <div class="form-group">
-        <label for="">Título do Campo</label>
-        <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label">
-      </div>
+    <div class="form-group">
+      <label for="">Título do Campo</label>
+      <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label">
     </div>
 
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 no-padding">
-        <div class="form-group">
-          <label for="">Campo atribuído</label>
-          <input type="text" 
-                class="form-control input-sm" 
-                ng-model="ctrl.fieldEdit.meta.bind"
-                uib-typeahead="field.alias as field.alias for field in ctrl.data.entityFields | filter:{alias: $viewValue}" 
-                typeahead-min-length="0" />
-        </div>
-      </div>
+    <div class="form-group" ng-show="ctrl.fieldEdit.meta.type != 'button'">
+      <label for="">Campo atribuído</label>
+      <input type="text" 
+            class="form-control input-sm" 
+            ng-model="ctrl.fieldEdit.meta.bind"
+            uib-typeahead="field.alias as field.alias for field in ctrl.data.entityFields | filter:{alias: $viewValue}" 
+            typeahead-min-length="0" />
     </div>
 
     <div class="row" 
