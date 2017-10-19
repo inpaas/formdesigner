@@ -126,8 +126,11 @@
       fields.forEach(function(field, index){
         var key = 'label.'.concat(dataSourcekey).concat('.');
         key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) );
-        saveLabel(field.label, key, moduleId);
-        field.label = key; 
+
+        if(field.label){
+          saveLabel(field.label, key, moduleId);
+          field.label = key; 
+        }
 
         if (field.meta.placeholder) {
           var keyPlaceholder = key.concat('.').concat('placeholder');
