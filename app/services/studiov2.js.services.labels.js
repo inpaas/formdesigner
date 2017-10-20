@@ -75,7 +75,7 @@
       }
 
       if(jsonForm.fields){
-        buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase()); 
+        buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase(), jsonForm.key); 
       }
       
       return jsonForm;
@@ -122,10 +122,16 @@
       return actions;
     }
 
-    function buildLabelsFromFields(fields, moduleId, dataSourcekey){
+    function buildLabelsFromFields(fields, moduleId, dataSourcekey, formKey){
       fields.forEach(function(field, index){
-        var key = 'label.'.concat(dataSourcekey).concat('.');
-        key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()) || ('field-'.concat(index)) );
+        var key;
+
+        if(field.colllumnName || field.meta.bind){
+          key = 'label.'.concat(dataSourcekey).concat('.');
+          key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()));
+        }else{
+          key = 'label.'.concat(formKey).concat('.').concat(field.name);
+        }
 
         if(field.label){
           saveLabel(field.label, key, moduleId);
