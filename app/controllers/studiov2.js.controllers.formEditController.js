@@ -745,8 +745,12 @@
       }
     } 
 
-    function setNameField(field) {
-      field.name = 'input'.concat(field.meta.bind);
+    function setNameField(field)  {
+      if(field.meta.bind){
+        field.name = 'input'.concat(field.meta.bind);
+      }else{
+        field.name = 'input'.concat( (new Date().getTime()) );
+      }
     } 
 
     function addNewField() {
