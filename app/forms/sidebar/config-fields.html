@@ -28,6 +28,11 @@
       <label for="">Título do Campo</label>
       <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label">
     </div>
+    
+    <div class="form-group">
+      <input type="checkbox" ng-model="ctrl.fieldEdit.meta.notDisplayLabel" id="editfield-notDisplayLabel">
+      <label for="editfield-notDisplayLabel">Não mostrar o título</label> 
+    </div>
 
     <div class="form-group" ng-show="ctrl.fieldEdit.meta.type != 'button'">
       <label for="">Campo atribuído</label>
