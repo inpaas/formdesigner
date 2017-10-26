@@ -1327,20 +1327,6 @@
       });
     }
 
-    function getQueries(entityName){
-      var entityId;
-
-      ctrl.entities.forEach(function(entity, index){
-        if (entity.name == entityName) {
-          entityId = entity.id;
-        } 
-      });
-
-      httpService.getEntity(entityId).then(function(response) {
-        ctrl.currentQueries = response.data.queries;
-      });
-    }
-
     function getSources(idModule, model){
       ctrl.moduleEntity = getModuleFromApps(idModule);
       model? model.moduleKey = ctrl.moduleEntity.key : false;
@@ -1720,7 +1706,6 @@
       removeField: removeField,
       bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
       enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
-      getQueries: getQueries,
       codeView: codeView,
       completeKeyForm: completeKeyForm,
       sanitizeKeyForm: sanitizeKeyForm,
