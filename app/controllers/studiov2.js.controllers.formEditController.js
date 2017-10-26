@@ -7,10 +7,10 @@
 
   FormEditController.$inject = [
     "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
-    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS", 'TIME_FORMAT_PATTERNS', 'ICONS', 'FILE_EXTENSIONS'
+    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS", 'TIME_FORMAT_PATTERNS', 'ICONS', 'FILE_EXTENSIONS', 'fieldIconsService'
   ];
  
- function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS, TIME_FORMAT_PATTERNS, ICONS, FILE_EXTENSIONS) {
+ function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS, TIME_FORMAT_PATTERNS, ICONS, FILE_EXTENSIONS, fieldIconsService) {
     var ctrl = this,
         idForm = $state.params.id;
 
@@ -124,7 +124,7 @@
     function linkColumnNameToFields(){
       if(!ctrl.jsonModel.fields.length){return;}
 
-      ctrl.data.entityFields.forEach(function(entityField){
+      ctrl.entityForm.attributes.forEach(function(entityField){
         ctrl.sections[0].fields.forEach(function(field){
           if (entityField.alias == field.meta.bind) {
             field.collumnName = entityField.name.toLowerCase();
@@ -505,7 +505,7 @@
       var references = [];
 
       entity.references && entity.references.forEach(function(ref, index){
-        if(ctrl.currentEntity.name == ref.entity){ 
+        if(ctrl.entityForm.name == ref.entity){ 
           references.push(ref.fieldReference || ref.field);
         }
       });
@@ -626,7 +626,7 @@
     }
 
     function findReferences(fieldForm){
-      return ctrl.currentEntity.references.filter(function(ref, index){
+      return ctrl.entityForm.references.filter(function(ref, index){
         return ref.field.toLowerCase() === fieldForm.rawEntityField.name.toLowerCase();
       });
     }
@@ -848,7 +848,7 @@
         return;
       }
       
-      ctrl.currentEntity.attributes.forEach(function(entityField, index){
+      ctrl.entityForm.attributes.forEach(function(entityField, index){
         if(entityField.alias === formField.meta.bind){
           formField.rawEntityField = entityField;
         }
@@ -1235,20 +1235,22 @@
       });
 
       return httpService.getEntity(entityId || entityName).then(function(response) {
-        ctrl.data.entityFields = response.data.attributes;
-        ctrl.currentEntity = response.data;
+        var entityForm = response.data;
 
-        ctrl.currentEntity.references.forEach(function(ref, index){
-          var titleEntityReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ) );
-          var titleFieldReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ).concat('.'.concat(ref.field.toLowerCase()) ));
+        entityForm.references.forEach(function(ref, index){
+          var titleEntityReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ) ),
+              titleFieldReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ).concat('.'.concat(ref.field.toLowerCase()) ));
 
-         ref.label = titleFieldReference.concat(' (').concat(titleEntityReference).concat(')');
+          ref.label = titleFieldReference.concat(' (').concat(titleEntityReference).concat(')');
         });
 
-        ctrl.data.entityFields.forEach(function(field, index){
+        entityForm.attributes.forEach(function(field, index){
           var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();
           field.translatedName = $l10n.hasLabel(label)? $l10n.translate(label) : field.alias;
+          field.icon = fieldIconsService.setIconForTypeField(field);
         });
+
+        ctrl.entityForm = entityForm;
       });
     }
 
@@ -1261,7 +1263,7 @@
     }
 
     function getEntityFormsByBind(bind){
-      var ref = ctrl.currentEntity.references.filter(function(ref){ return ref.alias == bind})[0];
+      var ref = ctrl.entityForm.references.filter(function(ref){ return ref.alias == bind})[0];
       getEntityForms(ref.entity);
     }
 
@@ -1676,8 +1678,6 @@
       ACTIONS: ACTIONS,
       addedButtons: {edit: {}, list: {}},
       onComponents: true,
-      data: {},
-      form: {},
       sections: [],
       addButton: addButton,
       saveEditField: saveEditField,
@@ -1720,7 +1720,6 @@
       removeField: removeField,
       bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
       enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
-      currentEntity: {},
       getQueries: getQueries,
       codeView: codeView,
       completeKeyForm: completeKeyForm,

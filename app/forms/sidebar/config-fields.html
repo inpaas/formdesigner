@@ -39,7 +39,7 @@
       <input type="text" 
             class="form-control input-sm" 
             ng-model="ctrl.fieldEdit.meta.bind"
-            uib-typeahead="field.alias as field.alias for field in ctrl.data.entityFields | filter:{alias: $viewValue}" 
+            uib-typeahead="field.alias as field.alias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}" 
             typeahead-min-length="0" />
     </div>
 

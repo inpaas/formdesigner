@@ -36,12 +36,15 @@
   <div class="inner-item field-item collapse in">
     <ul class="list-existing" id="fields-component">
       <li class="field-existing" 
-          ng-repeat="field in ctrl.data.entityFields" 
-          ng-click="ctrl.addField(field)" 
-          ng-bind="field.translatedName">
+          ng-repeat="field in ctrl.entityForm.attributes" 
+          ng-click="ctrl.addField(field)">
+        <i class="fa fa-{[{field.icon}]}"></i>
+        {[{field.translatedName}]}
       </li>
     </ul>
-    <button type="button" class="btn btn-primary full-width" ng-click="ctrl.addField('')"><i class="fa fa-plus"></i> Novo campo</button>
+    <button type="button" class="btn btn-primary full-width" ng-click="ctrl.addField('')">
+      <i class="fa fa-plus"></i> Novo campo
+    </button>
   </div>
   <!-- /Campos -->
 

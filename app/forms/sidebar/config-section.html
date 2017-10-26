@@ -164,7 +164,7 @@
             <select class="form-control input-sm" 
                     ng-model="ctrl.currentSection.meta.bind"
                     ng-change="ctrl.getEntityFormsByBind(ctrl.currentSection.meta.bind)"
-                    ng-options="ref.alias as ref.label for ref in ctrl.currentEntity.references">
+                    ng-options="ref.alias as ref.label for ref in ctrl.entityForm.references">
             </select>
           </div>
           

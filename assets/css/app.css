@@ -694,10 +694,10 @@ ul.list-existing .bx-elements span.ic-paragraph {
 ul.list-existing .bx-elements span.ic-image {
   background-position: 0 -210px;
 }
-ul.list-existing .bx-elements span.ic-blank-space
-{
+ul.list-existing .bx-elements span.ic-blank-space {
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGgAAABGCAYAAAAgutHnAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjEyMjlFQTY5Rjc5RDExRTZCRTQ3Rjk1NUExMzgwNTZCIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjEyMjlFQTZBRjc5RDExRTZCRTQ3Rjk1NUExMzgwNTZCIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MTIyOUVBNjdGNzlEMTFFNkJFNDdGOTU1QTEzODA1NkIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MTIyOUVBNjhGNzlEMTFFNkJFNDdGOTU1QTEzODA1NkIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4Mp3qlAAAAu0lEQVR42uzcMQqAIBiA0YymOqen8pzNJu1B5A9Fvm8OB5+WNZRqrZO+22wKAAkQIAESIEACBEiABAiQAAkQIAECJEACBEiAAAmQAAESIJ0tdy8speymK66c8xYK1FrboMnU9tcWew3fQU8GD1xtwy4MzyBAAgRIgATo1y+qjrx2kAABEiCHhMve+A43esmfRtziBAiQAAkQIAECJEACBEiABAiQAAESIAECJECABEiAAAmQAAFSd4cAAwDDdhaZ+pDp3AAAAABJRU5ErkJggg==') no-repeat;
 }
+
 .template-col ul.list-existing .txt-info-col,
 ul.list-existing .item-list .txt-subtitle {
   width: 100%;
@@ -705,21 +705,27 @@ ul.list-existing .item-list .txt-subtitle {
   font-size: 11px;
   margin-bottom: 5px;
 }
-ul.list-existing li.field-existing {
+
+.field-existing {
   background: #F0F0F0;
   border: solid 1px #DDDADA;
   color: #999999;
-  text-align: center;
   border-radius: 5px;
-  padding: 2px 0;
-  margin: 4px 0;
+  padding: 5px 0 5px 40px;
+  margin: 5px 0;
 }
+
+.field-existing i {
+  margin-right: 12px;
+}
+
 ul.list-existing li.field-existing.field-active,
 ul.list-existing li.field-existing:hover {
   transition: .3s;
   background: #EAE9E9;
   cursor: pointer;
 }
+
 ul.list-existing li.field-existing.field-active {
   opacity: 0.95;
   -moz-opacity: 0.95;
