@@ -18,37 +18,39 @@
         idForm = $state.params.id;
 
     setCurrentViewFlag();
-    getWatchers();
     settingsDragNDrop();
 
     getApps().then(function(){
       getJsonForm(idForm, 0)
         .then(function(response){
-          ctrl.jsonModel = angular.copy(response);
+          var jsonModel = angular.copy(response);
 
-          if(!ctrl.jsonModel.moduleKey && ctrl.jsonModel.moduleId) {
-            ctrl.jsonModel.moduleKey = getModuleKeyById(ctrl.jsonModel.moduleId);
-            delete ctrl.jsonModel.moduleId;
+          if(!jsonModel.moduleKey && jsonModel.moduleId) {
+            jsonModel.moduleKey = getModuleKeyById(jsonModel.moduleId);
+            delete jsonModel.moduleId;
           } 
 
-          if (!ctrl.jsonModel.dataSource.moduleKey && ctrl.jsonModel.dataSource.moduleKey) {
-            ctrl.jsonModel.dataSource.moduleKey = getModuleKeyById(ctrl.jsonModel.dataSource.moduleId || response.data.moduleId);
-            delete ctrl.jsonModel.dataSource.moduleId;
+          if (!jsonModel.dataSource.moduleKey && jsonModel.dataSource.moduleKey) {
+            jsonModel.dataSource.moduleKey = getModuleKeyById(jsonModel.dataSource.moduleId || response.data.moduleId);
+            delete jsonModel.dataSource.moduleId;
           }
 
-          buildSections(ctrl.jsonModel);
-          mapAddedButtons(ctrl.jsonModel.views.edit.actions, 'edit');
+          buildSections(jsonModel);
+          mapAddedButtons(jsonModel.views.edit.actions, 'edit');
+          setBreadcrumb(jsonModel.views.edit.breadcrumb, jsonModel.dataSource.key);
 
-          if (ctrl.jsonModel.dataSource.key) {
-            getEntitiesByModule(getModuleIdByKey(ctrl.jsonModel.dataSource.moduleKey) || ctrl.jsonModel.dataSource.moduleId)
+          if (jsonModel.dataSource.key) {
+            getEntitiesByModule(getModuleIdByKey(jsonModel.dataSource.moduleKey) || jsonModel.dataSource.moduleId)
               .then(function(response){
-                getFieldsByEntity(ctrl.jsonModel.dataSource.key).then(function(response){
-                  linkColumnNameToFields();
+                getFieldsByEntity(jsonModel.dataSource.key).then(function(response){
+                  linkColumnNameToFields(jsonModel.fields);
                 });
               });
           }else{
-            showConfigForm(ctrl.jsonModel);
+            showConfigForm(jsonModel);
           }
+
+          ctrl.jsonModel = jsonModel;
         });
     });
 
@@ -124,8 +126,8 @@
       });
     }
 
-    function linkColumnNameToFields(){
-      if(!ctrl.jsonModel.fields.length){return;}
+    function linkColumnNameToFields(fields){
+      if(!fields.length){return;}
 
       ctrl.entityForm.attributes.forEach(function(entityField){
         ctrl.sections[0].fields.forEach(function(field){
@@ -845,11 +847,6 @@
       if (!section.views.edit.collumns){
         section.views.edit.collumns = 1; 
       }
-
-      if(ctrl.onBindBreadcrumb){
-        bindFieldOnBreadcrumb(formField.meta.bind);
-        return;
-      }
       
       ctrl.entityForm.attributes.forEach(function(entityField, index){
         if(entityField.alias === formField.meta.bind){
@@ -954,6 +951,8 @@
     }
 
     function saveForm(){
+      ctrl.jsonModel.views.edit.breadcrumb = setBreadcrumbOnForm(); 
+
       if(ctrl.sections.length == 1){
         setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
         setFieldsIncludes(ctrl.jsonModel, ctrl.sections.slice(1, ctrl.sections.length));
@@ -1238,22 +1237,24 @@
       });
 
       return httpService.getEntity(entityId || entityName).then(function(response) {
-        var entityForm = response.data;
+        var entity = response.data;
 
-        entityForm.references.forEach(function(ref, index){
+        entity.references.forEach(function(ref, index){
           var titleEntityReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ) ),
               titleFieldReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ).concat('.'.concat(ref.field.toLowerCase()) ));
 
           ref.label = titleFieldReference.concat(' (').concat(titleEntityReference).concat(')');
         });
 
-        entityForm.attributes.forEach(function(field, index){
+        entity.attributes.concat(AUDIT_FIELDS);
+
+        entity.attributes.forEach(function(field, index){
           var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();
           field.translatedName = $l10n.hasLabel(label)? $l10n.translate(label) : field.alias;
           field.icon = fieldIconsService.setIconForTypeField(field);
         });
 
-        ctrl.entityForm = entityForm;
+        ctrl.entityForm = entity;
       });
     }
 
@@ -1385,10 +1386,6 @@
     }
 
     function saveConfigForm() {
-      if (!ctrl.jsonModel.views.edit.breadcrumb.length) {
-        setBreadcrumb();
-      }
-
       if(ctrl.configForm.dataSource.type == 'E' && ctrl.configForm.dataSource.key){
         getFieldsByEntity(ctrl.configForm.dataSource.key);
       }
@@ -1444,18 +1441,6 @@
       return result;
     }
 
-    function buildBreadcrumb() {
-      if (!ctrl.jsonModel.views.edit.breadcrumb.length && !idForm) {
-        var breadcrumb = ctrl.jsonModel.views.edit.breadcrumb;
-
-        breadcrumb.push({label: ctrl.moduleForm.title}); 
-        breadcrumb.push({divisor: '>'});
-        breadcrumb.push({label: ctrl.jsonModel.label});
-        breadcrumb.push({divisor: '>'});
-        breadcrumb.push({label: 'Recurso Id'});
-      }
-    }
-
     function goToList(forceReload) {
       var promise; 
 
@@ -1498,36 +1483,25 @@
         ctrl.onConfigForm = false;
 
         buildSections(ctrl.jsonModel);
-        setBreadcrumb();
       });
     }
 
-    function setBreadcrumb() {
-      var breadcrumb = [];
+    function setBreadcrumb(formBreadcrumb, entityName) {
+      var path = $l10n.translate('label.'.concat(entityName.toLowerCase()).concat('.path')),
+          breadcrumb = {};
 
-      breadcrumb.push({icon: 'fa fa-home'});
-      breadcrumb.push({label: ctrl.moduleForm.title});
-      breadcrumb.push({divisor: '>'});
-      breadcrumb.push({label: ctrl.jsonModel.label});
+      breadcrumb.path = formBreadcrumb[0].path || path; 
+      breadcrumb.bind = formBreadcrumb.length > 1 && formBreadcrumb[1].bind? formBreadcrumb[1].bind : '';
 
-      ctrl.jsonModel.views.edit.breadcrumb = angular.copy(breadcrumb);
-      ctrl.jsonModel.views.list.breadcrumb = angular.copy(breadcrumb);
-    }
-    
-    var indexBreadcrumb;
-    function enableSelectFieldToBreadcrumb(index){
-      ctrl.onBindBreadcrumb = true;
-      indexBreadcrumb = index;
+      ctrl.breadcrumb = breadcrumb;
     }
 
-    function bindFieldOnBreadcrumb(fieldBind){
-      ctrl.jsonModel.views[ctrl.currentView].breadcrumb[indexBreadcrumb] = {bind: fieldBind};
-      ctrl.onBindBreadcrumb = false;
+    function setBreadcrumbOnForm(){
+      var bind = {bind: ctrl.breadcrumb.bind},
+          path = {path: ctrl.breadcrumb.path};
+          
+      return [path, bind]; 
     }
-    
-    function getWatchers(){
-      
-    } 
 
     function getPermissions(moduleId){
       httpService.getPermissions(moduleId).then(function(response){
@@ -1705,8 +1679,6 @@
       goToEdit: goToEdit,
       generateForm: generateForm,
       removeField: removeField,
-      bindFieldOnBreadcrumb: bindFieldOnBreadcrumb,
-      enableSelectFieldToBreadcrumb: enableSelectFieldToBreadcrumb,
       codeView: codeView,
       completeKeyForm: completeKeyForm,
       sanitizeKeyForm: sanitizeKeyForm,

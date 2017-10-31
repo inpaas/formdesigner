@@ -67,7 +67,7 @@
       jsonForm.label = buildLabelsFromTitle(jsonForm.label, moduleId);
 
       if (jsonForm.views.edit.breadcrumb) {
-        buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, 'edit', moduleId);  
+        buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, jsonForm.dataSource.key, moduleId);  
       }
       
       if(jsonForm.views.edit.actions){
@@ -87,20 +87,11 @@
       return key;
     }
 
-    function buildLabelsFromBreadcrumb(breadcrumb, view, moduleId){
-      breadcrumb.forEach(function(item, index){
-        if (item.hasOwnProperty('label')) {
-          var key = generateKey('breadcrumb-')
-                      .concat(view)
-                      .concat('-')
-                      .concat(index), 
-              value = item.label; 
-              
-          item.label = key;
+    function buildLabelsFromBreadcrumb(breadcrumb, entityName, moduleId){
+      var value = breadcrumb = breadcrumb[0].path,
+          key = 'label.'.concat(entityName.toLowerCase()).concat('.path');
 
-          saveLabel(value, key, moduleId);
-        }
-      });
+      saveLabel(value, key, moduleId);
     }
 
     function buildLabelsFromActions(actions, view, moduleId){
@@ -171,10 +162,6 @@
     function translateLabels(form){
       form.label = translateTitle(form.label);
 
-      if (form.views.edit.breadcrumb) {
-        translateBreadcrumb(form.views.edit.breadcrumb);
-      }
-
       if(form.views.edit.actions){
         translateActions(form.views.edit.actions);
       }
@@ -188,15 +175,6 @@
 
     function translateTitle(label){
       return $l10n.translate(label);
-    }
-
-    function translateBreadcrumb(breadcrumb){
-      breadcrumb.forEach(function(item, index){
-        if (item.hasOwnProperty('label')) {
-          item.label = $l10n.translate(item.label);
-        }
-      });
-      return breadcrumb;
     }
 
     function translateActions(actions){

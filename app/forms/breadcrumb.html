@@ -1,97 +1,17 @@
-<ol class="breadcrumb">
-  <li class="breadcrumb-item breadcrumb-divisor" ng-if="bc.hasOwnProperty('icon')" ng-repeat-start="bc in breadcrumb track by $index">
-    <div class="dropdown pull-left">
-      <button class="btn btn-primary dropdown-toggle" 
-              type="button" 
-              id="dropdownMenu1" 
-              data-toggle="dropdown" 
-              aria-haspopup="true" 
-              aria-expanded="true"
-              ng-show="breadcrumb[0].icon">
+<div class="page-breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item bc-bind">
+      <input type="text" class="form-control input-sm bc-txt" ng-model="ctrl.breadcrumb.path" />
+    </li>
 
-        <i class="{[{breadcrumb[0].icon}]}" aria-hidden="true"></i>
-      </button>
+    <li class="breadcrumb-item bc-bind">
+      <input class="form-control input-sm bc-txt" 
+            placeholder="bind"
+            ng-model="ctrl.breadcrumb.bind"
+            type="text"
+            uib-typeahead="field.alias as field.alias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}" 
+            typeahead-min-length="0" />
+    </li>
 
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li ng-click="breadcrumb[0].icon = 'fa fa-home'">
-          <a href="#"><i class="fa fa-home" aria-hidden="true"></i></a>
-        </li>
-        <li ng-click="breadcrumb[0].icon = ''">
-          <a href="#" class="li-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remover</a>
-        </li>
-      </ul>
-    </div>
-  </li>
-
-  <li class="breadcrumb-item bc-bind" ng-if="bc.hasOwnProperty('bind')">
-    <input class="form-control input-sm bc-txt" 
-           placeholder="Escreva aqui"
-           disabled
-           ng-model="bc.bind"
-           type="text" />
-    <a href="" title="Fechar" class="trash-bc-input" ng-click="removeItem($index)">
-      <i class="fa fa-trash" aria-hidden="true"></i>
-    </a>
-
-    <ul class="list-options">
-      <li class="item-op">
-        <button class="btn btn-primary btn-block" type="button" ng-click="enableSelectFieldToBreadcrumb($index)">Selecione um campo</button>
-      </li>
-      <li class="item-op">
-        <label>ou</label>
-      </li>
-      <li class="item-op">
-        <button class="btn btn-primary btn-block" type="button" ng-click="enableEditBreadcrumb(bc)">
-          <i class="fa fa-plus" aria-hidden="true"></i> Edite o campo
-        </button>
-      </li>
-    </ul>
-  </li>
-
-  <li class="breadcrumb-item bc-bind" ng-if="bc.hasOwnProperty('label')">
-    <input class="form-control input-sm bc-txt" 
-           placeholder="Escreva aqui"
-           ng-model="bc.label"
-           type="text" />
-    <a href="" title="Fechar" class="trash-bc-input" ng-click="removeItem($index)">
-      <i class="fa fa-trash" aria-hidden="true"></i>
-    </a>
-
-    <ul class="list-options">
-      <li class="item-op">
-        <label>ou</label>
-      </li>
-      <li class="item-op">
-        <button class="btn btn-primary btn-block" type="button" ng-click="enableSelectFieldToBreadcrumb($index)">Selecione um campo</button>
-      </li>
-    </ul>
-  </li>
-  
-  <li class="breadcrumb-item breadcrumb-divisor" ng-if="bc.hasOwnProperty('divisor')" ng-repeat-end>
-    <div class="dropdown pull-left">
-      <button class="btn btn-primary dropdown-toggle" 
-              type="button" 
-              id="dropdownMenu1" 
-              ng-bind="bc.divisor"
-              data-toggle="dropdown"
-              aria-haspopup="true"  
-              aria-expanded="true">
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li ng-click="changeDivisor('>')"><a href="">></a></li>
-        <li ng-click="changeDivisor('/')"><a href="">/</a></li>
-      </ul>
-    </div>
-  </li>
-
-
-  <li class="breadcrumb-item">
-    <button class="btn btn-primary btn-bc"
-            type="button" 
-            ng-click="addItem()"
-            id="add-bc">
-      <i class="fa fa-plus" aria-hidden="true"></i>
-    </button>
-  </li>
-
-</ol>
+  </ol>
+</div>
