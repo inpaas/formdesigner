@@ -6,11 +6,14 @@
     .controller("FormEditController", FormEditController);
 
   FormEditController.$inject = [
-    "$scope", "$rootScope", "$q", "$state", "jsonFormService", "httpService", "labelsService", 
-    "$l10n", "$uibModal", "dragulaService", "Notification", "ACTIONS", 'TIME_FORMAT_PATTERNS', 'ICONS', 'FILE_EXTENSIONS', 'fieldIconsService'
+    //Constants
+    'ACTIONS', 'TIME_FORMAT_PATTERNS', 'ICONS', 'FILE_EXTENSIONS', 'AUDIT_FIELDS',
+    //Services
+    '$scope', '$q', '$state', 'jsonFormService', 'httpService', 'labelsService', 
+    '$l10n', '$uibModal', 'dragulaService', 'Notification', 'fieldIconsService'
   ];
  
- function FormEditController($scope, $rootScope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, ACTIONS, TIME_FORMAT_PATTERNS, ICONS, FILE_EXTENSIONS, fieldIconsService) {
+ function FormEditController(ACTIONS, TIME_FORMAT_PATTERNS, ICONS, FILE_EXTENSIONS, AUDIT_FIELDS, $scope, $q, $state, jsonFormService, httpService, labelsService, $l10n, $uibModal, dragulaService, Notification, fieldIconsService) {
     var ctrl = this,
         idForm = $state.params.id;
 
@@ -1523,9 +1526,7 @@
     }
     
     function getWatchers(){
-      $rootScope.$on('enableSelectFieldToBreadcrumb', function(event, indexBreadcrumb){
-        enableSelectFieldToBreadcrumb(indexBreadcrumb);
-      });
+      
     } 
 
     function getPermissions(moduleId){
