@@ -752,7 +752,7 @@
 
     function setNameField(field)  {
       if(field.meta.bind){
-        field.name = 'input'.concat(field.meta.bind);
+        field.name = 'input'.concat(field.meta.bind.replace(/\./g, ''));
       }else{
         field.name = 'input'.concat( (new Date().getTime()) );
       }
