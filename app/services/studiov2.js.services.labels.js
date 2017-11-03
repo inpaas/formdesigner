@@ -117,18 +117,21 @@
       fields.forEach(function(field, index){
         var key;
 
-        if(field.colllumnName || field.meta.bind){
-          key = 'label.'.concat(dataSourcekey).concat('.');
-          key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()));
-        }else{
-          key = 'label.'.concat(formKey).concat('.').concat(field.name);
+        if(!field.auditField){
+          if(field.colllumnName || field.meta.bind ){
+            key = 'label.'.concat(dataSourcekey).concat('.');
+            key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()));
+          }else{
+            key = 'label.'.concat(formKey).concat('.').concat(field.name);
+          }
+
+          if(field.label){
+            saveLabel(field.label, key, moduleId);
+            field.label = key; 
+          }
         }
 
-        if(field.label){
-          saveLabel(field.label, key, moduleId);
-          field.label = key; 
-        }
-
+        
         if (field.meta.placeholder) {
           var keyPlaceholder = key.concat('.').concat('placeholder');
           saveLabel(field.meta.placeholder, keyPlaceholder, moduleId);

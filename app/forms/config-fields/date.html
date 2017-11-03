@@ -11,7 +11,7 @@
 </div>
 
 <!-- Min e Max para datetime -->
-<div class="row" ng-if="ctrl.formatsPattern.T.formats">
+<div class="row" ng-show="ctrl.formatsPattern.T.formats && !ctrl.fieldEdit.auditField">
   <div class="form-group" ng-repeat-start="format in ctrl.formatsPattern.T.formats" ng-if="ctrl.fieldEdit.meta.format == format.key">
     <label for="">Min. Date</label>
     <input type="text" 

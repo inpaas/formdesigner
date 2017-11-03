@@ -5,34 +5,34 @@
       {
         "alias": "audit.created.date",
         "fieldName": "DT_CREATED",
-        "title": "Record Date (Autor)",
-        "description": "Record Date (Autor)",
+        "label": "label.dt_created",
         "type": "Datetime",
-        "readonly": true
+        "readonly": true,
+        "auditField": true
       },
       {
         "alias": "audit.lastUpdated.date",
         "fieldName": "DT_UPDATED",
-        "title": "Update Date (Autor)",
-        "description": "Update Date (Autor)",
+        "label": "label.dt_updated",
         "type": "Datetime",
-        "readonly": true
+        "readonly": true,
+        "auditField": true
       },
       {
         "alias": "audit.created.userId",
         "fieldName": "ID_USERCREATED",
-        "title": "Record User Id (Autor)",
-        "description": "Record User Id (Autor)",
+        "label": "label.id_usercreated",
         "type": "Integer",
-        "readonly": true
+        "readonly": true,
+        "auditField": true
       },
       {
         "alias": "audit.lastUpdated.userId",
         "fieldName": "ID_USERUPDATED",
-        "title": "Update User Id (Autor)",
-        "description": "Update User Id (Autor)",
+        "label": "label.id_userupdated",
         "type": "Integer",
-        "readonly": true
+        "readonly": true,
+        "auditField": true
       }
     ]);
 })()

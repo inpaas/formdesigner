@@ -131,7 +131,7 @@
 
       ctrl.entityForm.attributes.forEach(function(entityField){
         ctrl.sections[0].fields.forEach(function(field){
-          if (entityField.alias == field.meta.bind) {
+          if (!field.auditField && entityField.alias == field.meta.bind) {
             field.collumnName = entityField.name.toLowerCase();
           }
         });
@@ -787,10 +787,17 @@
 
       if(entityField){
         fieldEdit.meta.bind = entityField.alias;
-        fieldEdit.meta.maxLength = (entityField.size > 0) ? entityField.size : '';
-        fieldEdit.meta.defaultValue = entityField.defaultValue;
-        fieldEdit.rawEntityField = angular.copy(entityField);
-        fieldEdit.collumnName = entityField.name.toLowerCase();
+
+        if(entityField.auditField){
+          fieldEdit.auditField = true;
+
+        }else{
+          fieldEdit.meta.maxLength = (entityField.size > 0) ? entityField.size : '';
+          fieldEdit.meta.defaultValue = entityField.defaultValue;
+          fieldEdit.rawEntityField = angular.copy(entityField);
+          fieldEdit.collumnName = entityField.name.toLowerCase();
+        }
+
         setConfigFieldDefault(entityField, fieldEdit);
       }else{
         fieldEdit.customField = true;
@@ -808,11 +815,16 @@
     function setConfigFieldDefault(entityField, fieldEdit){
       fieldEdit.visibilityType = 'true';
       fieldEdit.visibilityExpression = true;
-      fieldEdit.disabledType = 'false';
-      fieldEdit.disabledExpression = false;
       fieldEdit.requiredType = entityField.required? 'true' : 'false';
       fieldEdit.requiredExpression = entityField.required? true : false; 
       
+      if(entityField.auditField){
+        fieldEdit.views.edit.readOnly = true;
+      }else{
+        fieldEdit.disabledType = 'false';
+        fieldEdit.disabledExpression = false;
+      }
+
       if(entityField.alias == 'id' && entityField.primaryKey){
         fieldEdit.viewList = true;
         fieldEdit.requiredType = 'false';
@@ -821,7 +833,6 @@
         fieldEdit.disabledExpression  = true;
         setTypeField('number', fieldEdit);
       }
-
     }
 
     function editField(_formField, index, section) {
@@ -1246,12 +1257,17 @@
           ref.label = titleFieldReference.concat(' (').concat(titleEntityReference).concat(')');
         });
 
-        entity.attributes.concat(AUDIT_FIELDS);
+        entity.attributes = entity.attributes.concat(AUDIT_FIELDS);
 
         entity.attributes.forEach(function(field, index){
-          var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();
-          field.translatedName = $l10n.hasLabel(label)? $l10n.translate(label) : field.alias;
           field.icon = fieldIconsService.setIconForTypeField(field);
+
+          if(field.auditField){
+            field.translatedName = $l10n.translate(field.label);
+          }else{
+            var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();
+            field.translatedName = $l10n.translate(label);
+          }
         });
 
         ctrl.entityForm = entity;
@@ -1499,7 +1515,7 @@
     function setBreadcrumbOnForm(){
       var bind = {bind: ctrl.breadcrumb.bind},
           path = {path: ctrl.breadcrumb.path};
-          
+
       return [path, bind]; 
     }
 

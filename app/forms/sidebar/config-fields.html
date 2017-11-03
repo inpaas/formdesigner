@@ -26,7 +26,7 @@
 
     <div class="form-group">
       <label for="">Título do Campo</label>
-      <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label">
+      <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.fieldEdit.label" ng-disabled="ctrl.fieldEdit.auditField">
     </div>
     
     <div class="form-group">
@@ -39,6 +39,7 @@
       <input type="text" 
             class="form-control input-sm" 
             ng-model="ctrl.fieldEdit.meta.bind"
+            ng-disabled="ctrl.fieldEdit.auditField"
             uib-typeahead="field.alias as field.alias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}" 
             typeahead-min-length="0" />
     </div>
@@ -48,7 +49,7 @@
         ng-include="'studiov2.forms.sidebar.config-fields.'+ ctrl.fieldEdit.meta.type">
     </div>
 
-    <div class="row" ng-if="ctrl.fieldEdit.meta.type != 'button'">
+    <div class="row" ng-if="ctrl.fieldEdit.meta.type != 'button' && !ctrl.fieldEdit.auditField">
       <div class="stock-separator">
         <label for="">Eventos</label>
       </div>
@@ -113,7 +114,7 @@
               ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
     </div>
 
-    <div class="row">
+    <div class="row" ng-hide="ctrl.fieldEdit.auditField">
       <div class="form-group" ng-hide="ctrl.fieldEdit.meta.type == 'checkbox' && ctrl.fieldEdit.defaultValue == 'N'">
         <label>Campo obrigatório</label>
         <select class="form-control input-sm" ng-model="ctrl.fieldEdit.requiredType">
@@ -132,7 +133,7 @@
               ng-click="ctrl.openModalForConfig(ctrl.fieldEdit, 'requiredExpression', 'map')">Editar Propriedade/Valor</button>
     </div>
 
-    <div class="row">
+    <div class="row" ng-hide="ctrl.fieldEdit.auditField">
       <div class="form-group">
         <label>Campo desabilitado</label>
         <select class="form-control input-sm" ng-model="ctrl.fieldEdit.disabledType">
