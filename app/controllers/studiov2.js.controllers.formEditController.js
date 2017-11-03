@@ -951,11 +951,10 @@
     }
 
     function saveForm(){
-      ctrl.jsonModel.views.edit.breadcrumb = setBreadcrumbOnForm(); 
-
       if(ctrl.sections.length == 1){
         setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
         setFieldsIncludes(ctrl.jsonModel, ctrl.sections.slice(1, ctrl.sections.length));
+        ctrl.jsonModel.views.edit.breadcrumb = setBreadcrumbOnForm(); 
         var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId);
         save(form);
 
@@ -963,6 +962,7 @@
         saveIncludeForms().then(function(responses){
           setFieldsOnMainForm(ctrl.jsonModel, ctrl.sections);
           setFieldsIncludes(ctrl.jsonModel, ctrl.sections.slice(1, ctrl.sections.length));
+          ctrl.jsonModel.views.edit.breadcrumb = setBreadcrumbOnForm(); 
           var form = labelsService.buildLabels(angular.copy(ctrl.jsonModel), getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId);
           save(form);
         });
@@ -1491,7 +1491,7 @@
           breadcrumb = {};
 
       breadcrumb.path = formBreadcrumb[0].path || path; 
-      breadcrumb.bind = formBreadcrumb.length > 1 && formBreadcrumb[1].bind? formBreadcrumb[1].bind : '';
+      breadcrumb.bind = formBreadcrumb[1] && formBreadcrumb[1].bind? formBreadcrumb[1].bind : '';
 
       ctrl.breadcrumb = breadcrumb;
     }

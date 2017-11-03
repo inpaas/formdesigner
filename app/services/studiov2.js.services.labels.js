@@ -66,7 +66,7 @@
 
       jsonForm.label = buildLabelsFromTitle(jsonForm.label, moduleId);
 
-      if (jsonForm.views.edit.breadcrumb) {
+      if (jsonForm.views.edit.breadcrumb.length) {
         buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, jsonForm.dataSource.key, moduleId);  
       }
       
