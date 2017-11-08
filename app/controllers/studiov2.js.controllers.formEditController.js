@@ -37,15 +37,16 @@
 
           buildSections(jsonModel);
           mapAddedButtons(jsonModel.views.edit.actions, 'edit');
-          setBreadcrumb(jsonModel.views.edit.breadcrumb, jsonModel.dataSource.key);
 
           if (jsonModel.dataSource.key) {
+            setBreadcrumb(jsonModel.views.edit.breadcrumb, jsonModel.dataSource.key);
             getEntitiesByModule(getModuleIdByKey(jsonModel.dataSource.moduleKey) || jsonModel.dataSource.moduleId)
               .then(function(response){
                 getFieldsByEntity(jsonModel.dataSource.key).then(function(response){
                   linkColumnNameToFields(jsonModel.fields);
                 });
               });
+
           }else{
             showConfigForm(jsonModel);
           }
@@ -1402,9 +1403,8 @@
     }
 
     function saveConfigForm() {
-      if(ctrl.configForm.dataSource.type == 'E' && ctrl.configForm.dataSource.key){
-        getFieldsByEntity(ctrl.configForm.dataSource.key);
-      }
+      getFieldsByEntity(ctrl.configForm.dataSource.key);
+      setBreadcrumb(ctrl.jsonModel.views.edit.breadcrumb, ctrl.configForm.dataSource.key);
 
       ctrl.moduleForm.key && (ctrl.configForm.moduleKey = ctrl.moduleForm.key);
       ctrl.moduleForm.key && (ctrl.configForm.dataSource.moduleKey = ctrl.moduleEntity.key);
@@ -1506,8 +1506,13 @@
       var path = $l10n.translate('label.'.concat(entityName.toLowerCase()).concat('.path')),
           breadcrumb = {};
 
-      breadcrumb.path = formBreadcrumb[0].path || path; 
-      breadcrumb.bind = formBreadcrumb[1] && formBreadcrumb[1].bind? formBreadcrumb[1].bind : '';
+      if(formBreadcrumb.length){
+        breadcrumb.path = formBreadcrumb[0].path;
+        breadcrumb.bind = formBreadcrumb[1] && formBreadcrumb[1].bind? formBreadcrumb[1].bind : '';
+      }else{
+        breadcrumb.path = path;
+        breadcrumb.bind = '';
+      }
 
       ctrl.breadcrumb = breadcrumb;
     }
