@@ -723,13 +723,71 @@
         fieldEdit.meta.extensions.concat(fieldEdit.othersExtensions || '');
         delete fieldEdit.FILE_EXTENSIONS;
       }
-       
+      
+      if(fieldEdit.bindDependencies && fieldEdit.bindDependencies.length){
+        var dependencies = [],
+            hasBindRefs = fieldEdit.bindReferences && fieldEdit.bindReferences.length;
+
+        fieldEdit.bindDependencies.forEach(function(bindDep){
+          var map = hasBindRefs? fieldEdit.bindReferences.filter(filterBindRef.bind(null, bindDep)) : null;
+
+          if(map){
+            dependencies = dependencies.concat(map);
+          }else{
+            dependencies.push(bindDep);
+          }
+        });
+
+        fieldEdit.finder.dependencies = dependencies;
+
+        function filterBindRef(bindDep, bindRef){
+          return bindRef.bindForm == bindDep;
+        }
+      } 
+
       delete fieldEdit.rawEntityField;
       delete fieldEdit.col;
 
       ctrl.fieldEdit = {};
       showComponents();
     }
+
+    function getReferenceFk(binds, field){
+      var depReferences = [],
+          field = field || ctrl.fieldEdit;
+
+      binds.forEach(function(bindDep){
+        var referenceOfField = ctrl.entityForm.references.filter(function(ref){ return ref.field == field.rawEntityField.name})[0],
+            //A entity do finder pode ou não ter FK com a entity do form
+            entityFinder = ctrl.entityForm.entitiesReference[referenceOfField.entity.toLowerCase()],
+            dependenceField = ctrl.selectFields.filter(function(field){ return field.meta.bind == bindDep})[0],
+            dependences = [];
+
+        if(!dependenceField || !dependenceField.finder){ return }
+
+        entityFinder.references.forEach(function(ref){ 
+          if(ref.entity == dependenceField.finder.entityName){ 
+            var aliasRef = [];
+
+            entityFinder.attributes.forEach(function(attr){ 
+              if(attr.name == ref.field) {
+                var refMap = {
+                  fk: dependenceField.label.concat(' (').concat(attr.alias).concat(')'),
+                  bindForm: dependenceField.meta.bind,
+                  bindRef: attr.alias
+                };
+
+                aliasRef.push(refMap);
+              }
+            });
+
+            depReferences = depReferences.concat(aliasRef);
+          }
+        });
+      });
+
+      ctrl.depReferences = depReferences;
+    };
 
     function configDataSource(model){
       switch(model.dataSourceType){
@@ -884,6 +942,24 @@
         filterSelectFields(formField);
         ctrl.moduleEntity = getModuleFromApps(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
         formField.dataSourceType = 'E';
+
+        if(formField.finder.dependencies){
+          var bindDependencies = [],
+              bindReferences = [];
+
+          formField.finder.dependencies.forEach(function(dep){
+            if(angular.isObject(dep)){
+              bindReferences.push(dep);
+              bindDependencies.push(dep.bindForm);
+            }else{
+              bindDependencies.push(dep);
+            }
+          }); 
+
+          getReferenceFk(bindDependencies, formField);
+          formField.bindDependencies = bindDependencies;
+          formField.bindReferences = bindReferences;
+        }
 
       }else if(formField.serviceSource){
         getSources(getModuleIdByKey(formField.serviceSource.moduleKey));
@@ -1250,12 +1326,19 @@
 
       return httpService.getEntity(entityId || entityName).then(function(response) {
         var entity = response.data;
+        entity.entitiesReference = {};
 
         entity.references.forEach(function(ref, index){
           var titleEntityReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ) ),
               titleFieldReference = $l10n.translate( 'label.'.concat( ref.entity.toLowerCase() ).concat('.'.concat(ref.field.toLowerCase()) ));
 
           ref.label = titleFieldReference.concat(' (').concat(titleEntityReference).concat(')');
+
+          getEntity(ref.entity).then(callback.bind(null, ref));
+
+          function callback(ref, entity){
+            ctrl.entityForm.entitiesReference[ref.entity.toLowerCase()] = entity;
+          };
         });
 
         entity.attributes = entity.attributes.concat(AUDIT_FIELDS);
@@ -1322,6 +1405,12 @@
 
               });
             });
+    }
+
+    function setFinderForField(entityName, model){
+      setFinder(entityName, model, false).then(function(){
+
+      });
     }
 
     function selectEntityFinder(entityName, model, isSection){
@@ -1715,9 +1804,11 @@
       selectEntityFinder: selectEntityFinder,
       selectFinder: selectFinder,
       setFinder: setFinder,
+      setFinderForField: setFinderForField,
       selectDataSourcetype: selectDataSourcetype,
       selectExtension: selectExtension,
-      showSourcesJs: showSourcesJs
+      showSourcesJs: showSourcesJs,
+      getReferenceFk: getReferenceFk
     }); 
   };
 })();
