@@ -16,7 +16,6 @@
     <label for="">Min. Date</label>
     <input type="text" 
           class="input-sm form-control"
-          ng-blur="ctrl.validateField(ctrl.fieldEdit.meta.minDate, ctrl.fieldEdit.meta.type, 'minDate')"
           ng-model="ctrl.fieldEdit.meta.minDate"
           ui-mask="{[{ format.key.concat('.formatmask') | translate }]}"
           ui-mask-placeholder-char="space"
@@ -24,7 +23,6 @@
           ui-mask-placeholder
           ui-options="{clearOnBlur: false, allowInvalidValue: true}" />
 
-    <small ng-show="ctrl.fieldEdit.fieldInvalid" ng-bind="ctrl.fieldEdit.fieldInvalid"></small>
   </div>
 
   <div class="form-group" ng-repeat-end ng-if="ctrl.fieldEdit.meta.format == format.key">
