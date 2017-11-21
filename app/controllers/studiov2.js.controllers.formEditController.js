@@ -679,6 +679,14 @@
         fieldEdit.meta.maxDate = moment(fieldEdit.meta.maxDate, $l10n.translate(fieldEdit.meta.format.concat('.formatjs')) ).format('YYYY-MM-DD HH:mm:ss');
       }
 
+      if(fieldEdit.minCount){
+        fieldEdit.min.minCount = parseNumber(fieldEdit.minCount);
+      }
+
+      if(fieldEdit.maxCount){
+        fieldEdit.meta.maxCount = parseNumber(fieldEdit.maxCount);
+      }
+
       if (angular.isUndefined(fieldEdit.index)){
         addNewField();
 
@@ -996,20 +1004,7 @@
       }
 
       ctrl.fieldEdit = formField;
-
       showEditField();
-    }
-
-    function validateField(fieldValue, typeField, propDataField){
-      switch(typeField){
-        case 'date': 
-          validateFieldDate(fieldValue, propDataField);
-          break;
-      } 
-
-      function validateFieldDate(fieldValue, propDataField){
-        ctrl.fieldEdit.fieldInvalid = 'xxx';
-      }
     }
      
     function cancelEditField() {
@@ -1743,6 +1738,14 @@
       });
     }
 
+    function parseNumber(str){
+      str = (str + '').replace(/[^\d,.-]/g, '')    // just digits, separators and sign
+      var sign = str.charAt(0) === '-' ? '-' : '+' // store sign
+      var minor = str.match(/[.,](\d+)$/)          // filter decimals
+      str = str.replace(/[.,]\d*$/, '').replace(/\D/g, '')      // remove decimals and any integer separator
+      return Number(sign + str + (minor ? '.' + minor[1] : '')) // build number
+    } 
+
     angular.extend(ctrl, {
       TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
       ICONS: ICONS,
@@ -1799,7 +1802,6 @@
       getEntityFormsByBind: getEntityFormsByBind,
       openFormTab: openFormTab,
       moveSection: moveSection, 
-      validateField: validateField,
       getModuleTemplates: getModuleTemplates,
       selectEntityFinder: selectEntityFinder,
       selectFinder: selectFinder,
