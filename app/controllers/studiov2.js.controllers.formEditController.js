@@ -1259,6 +1259,8 @@
           model.moduleKey = response.data.key;
         }
       }); 
+
+      getPermissions(idModule);
     }
 
     function getModuleForm(idModule) {
