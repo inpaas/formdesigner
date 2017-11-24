@@ -18,7 +18,9 @@
                 </button>
                 <ul class="dropdown-menu btn-block">
                   <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-                  <li ng-repeat="mod in app.modules" ng-click="ctrl.getModuleForm(mod.id)"><a href="" ng-bind="mod.title"></a></li>
+                  <li ng-repeat="mod in app.modules" ng-click="ctrl.getModuleForm(mod.id)">
+                    <a href="" ng-bind="mod.title"></a>
+                  </li>
                   <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
                 </ul>
               </div>

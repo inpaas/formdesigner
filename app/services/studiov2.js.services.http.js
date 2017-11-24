@@ -147,19 +147,21 @@
       var url = '/api/studio/modules/'
             .concat(idModule)
             .concat('/forms-v2/')
-            .concat(idForm);
+            .concat(idForm),
+          data = {
+            allowAnon: false,
+            key: form.key,
+            name: form.label,
+            json: JSON.stringify(form),
+            template: form.template,
+            moduleId: idModule,
+            permission: form.permissionId
+          }
 
       return $http({
         method: 'put',
         url: url,
-        data: {
-          allowAnon: false,
-          key: form.key,
-          name: form.label,
-          json: JSON.stringify(form),
-          template: form.template,
-          moduleId: idModule
-        }
+        data: data
       }, onSuccess, onError);
     }
 

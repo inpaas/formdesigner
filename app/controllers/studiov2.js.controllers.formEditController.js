@@ -35,6 +35,7 @@
             delete jsonModel.dataSource.moduleId;
           }
 
+          getPermissions(getModuleKeyById(jsonModel.dataSource.moduleId));
           buildSections(jsonModel);
           mapAddedButtons(jsonModel.views.edit.actions, 'edit');
 
@@ -1263,7 +1264,6 @@
     function getModuleForm(idModule) {
       httpService.getModule(idModule).then(function(response) {
         ctrl.moduleForm = response.data;
-        ctrl.configForm.key = response.data.key;
         ctrl.templates = response.data.templates;
 
         getPermissions(idModule);
@@ -1490,6 +1490,10 @@
       getFieldsByEntity(ctrl.configForm.dataSource.key);
       setBreadcrumb(ctrl.jsonModel.views.edit.breadcrumb, ctrl.configForm.dataSource.key);
 
+      if(ctrl.configForm.permissions){
+        ctrl.jsonModel.permissionId = ctrl.permissions.filter(function(p){ return p.key == ctrl.jsonModel.permissions})[0].id;
+      }
+      
       ctrl.moduleForm.key && (ctrl.configForm.moduleKey = ctrl.moduleForm.key);
       ctrl.moduleForm.key && (ctrl.configForm.dataSource.moduleKey = ctrl.moduleEntity.key);
 
@@ -1587,6 +1591,8 @@
     }
 
     function setBreadcrumb(formBreadcrumb, entityName) {
+      if(!entityName){return}
+
       var path = $l10n.translate('label.'.concat(entityName.toLowerCase()).concat('.path')),
           breadcrumb = {};
 
