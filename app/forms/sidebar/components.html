@@ -52,9 +52,12 @@
   <li class="item-components">
     Botões
     <div class="widget-toolbar default-toolbar hidden-print">
-      <a href="" data-toggle="collapse" data-target="#buttons-component"><i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i></a>
+      <a href="" data-toggle="collapse" data-target="#buttons-component">
+        <i class="fa fa-fw fa-chevron-up" role="app-widget-collapse"></i>
+      </a>
     </div>
   </li>
+  
   <div class="inner-item buttons-item collapse in">
     <div class="btn-cluster" ng-show="ctrl.currentView == 'edit'">
       <div dragula="'buttons-edit'" dragula-model="ctrl.ACTIONS" class="buttons-default-group" id="buttons-component">
@@ -62,10 +65,10 @@
                 ng-repeat="action in ctrl.ACTIONS"
                 class="btn {[{action.class}]}" 
                 id="btn-{[{action.name}]}"
-                ng-disabled="ctrl.addedButtons.edit[action.name]"
+                ng-disabled="ctrl.addedButtons.edit[action.name] && !action.btCustom"
                 ng-click="ctrl.addButton(action.name)">
           <i class="fa fa-fw {[{action.iconClass}]}"></i> 
-          {[{ action.label | translate }]}
+          <i ng-bind-html="action.label | translate"></i>
         </button>
       </div>
     </div>

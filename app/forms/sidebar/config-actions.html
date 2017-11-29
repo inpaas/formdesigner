@@ -42,7 +42,17 @@
                 </div>
             </div>
         </div>
-        
+
+        <div class="form-group" ng-if="ctrl.editBt.action == 'custom'">
+          <label for="">Ícone</label>
+          <input type="text" 
+                class="form-control input-sm" 
+                ng-model="ctrl.editBt.event.icon" 
+                uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
+                typeahead-template-url="icons.html"
+                typeahead-min-length="0">
+        </div>
+
         <ng-include src="'/forms/studiov2.forms.actions.config-action-modal'" ng-if="ctrl.editBt.action == 'modal'"></ng-include>
 
         <div class="btn-cluster">
