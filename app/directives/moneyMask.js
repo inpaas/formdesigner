@@ -3,7 +3,7 @@
   https://github.com/rwaltenberg/angular-money-mask
   v1.0.4
 
-  Alterado para o InPaas
+  Customizado por @danilorodrigues
 */
 
 
@@ -14,8 +14,9 @@
     .module('rw.moneymask', [])
     .directive('moneyMask', moneyMask);
 
-  moneyMask.$inject = ['$filter', '$window'];
-  function moneyMask($filter, $window) {
+  moneyMask.$inject = ['$filter', '$locale'];
+
+  function moneyMask($filter, $locale) {
     var directive = {
       require: 'ngModel',
       link: link,
@@ -23,17 +24,24 @@
       scope: {
         model: '=ngModel',
         thousandSeparator: '@',
-        decimalSeparator:'@',
-        numScale: '@'
+        decimalSeparator:'@'
       }
     };
+
     return directive;
 
     function link(scope, element, attrs, ngModelCtrl) {
       var display, 
-          cents, 
-          powOfTen = Math.pow(10, parseInt(scope.numScale));
+          cents,
+          localeDecimalSep = $locale.NUMBER_FORMATS.DECIMAL_SEP,
+          localeThousandSep = $locale.NUMBER_FORMATS.GROUP_SEP,
+          scale = attrs.numScale? parseInt(attrs.numScale) : 2;
 
+      if(scale > 6){
+        scale = 6;
+      }
+
+      var powOfTen = Math.pow(10, scale);
 
       ngModelCtrl.$render = function () {
         if(cents == undefined || cents == null || cents == ''){
@@ -44,11 +52,11 @@
         }
 
         if(scope.thousandSeparator){
-          display = display.replace(',', scope.thousandSeparator);
+          display = display.replace(localeThousandSep, scope.thousandSeparator);
         }
 
         if(scope.decimalSeparator){
-          display = display.replace('.', scope.decimalSeparator);
+          display = display.replace(localeDecimalSep, scope.decimalSeparator);
         }
 
         if (attrs.moneyMaskPrepend) {
@@ -81,6 +89,11 @@
       });
 
       scope.$watch('thousandSeparator', function(newValue, oldValue) {
+        if(newValue === oldValue){return}; 
+        ngModelCtrl.$render();
+      });
+
+      scope.$watch('decimalSeparator', function(newValue, oldValue) {
         if(newValue === oldValue){return}; 
         ngModelCtrl.$render();
       });
