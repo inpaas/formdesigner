@@ -696,6 +696,11 @@
         }
       }
 
+      if(!fieldEdit.fixedFormat){
+        delete fieldEdit.meta.decimalSeparator
+        delete fieldEdit.meta.thousandSeparator
+      }
+
       if (angular.isUndefined(fieldEdit.index)){
         addNewField();
 

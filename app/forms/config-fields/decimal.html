@@ -2,32 +2,44 @@
 {{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}
 
 <div class="form-group">
-  <label for="">Separador de grupos</label>
-  <select class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.groupSeparator" ng-change="ctrl.onChangeSeparators()">
-    <option ng-show="ctrl.fieldEdit.meta.decimalSeparator != ','" value=",">Vírgula (,)</option>
-    <option ng-show="ctrl.fieldEdit.meta.decimalSeparator != '.'" value=".">Ponto (.)</option>
-    <option value="{[{' '}]}">Espaço</option>
-    <option value="'">Apóstrofo</option>
-  </select>
+  <input type="checkbox" ng-model="ctrl.fieldEdit.fixedFormat" id="fixedFormat">
+  <label for="fixedFormat"> Usar separadores fixos</label>
 </div>
 
-<div class="form-group">
-  <label for="">Separador de decimal</label>
-  <select class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.decimalSeparator" ng-change="ctrl.onChangeSeparators()">
-    <option ng-show="ctrl.fieldEdit.meta.groupSeparator != ','" value=",">Vírgula (,)</option>
-    <option ng-show="ctrl.fieldEdit.meta.groupSeparator != '.'" value=".">Ponto (.)</option>
-  </select>
+<div ng-if="ctrl.fieldEdit.fixedFormat">
+  <div class="form-group">
+    <label for="">Separador de grupos</label>
+    <select class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.groupSeparator" ng-change="ctrl.onChangeSeparators()">
+      <option ng-show="ctrl.fieldEdit.meta.decimalSeparator != ','" value=",">Vírgula (,)</option>
+      <option ng-show="ctrl.fieldEdit.meta.decimalSeparator != '.'" value=".">Ponto (.)</option>
+      <option value="{[{' '}]}">Espaço</option>
+      <option value="'">Apóstrofo</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="">Separador de decimal</label>
+    <select class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.decimalSeparator" ng-change="ctrl.onChangeSeparators()">
+      <option ng-show="ctrl.fieldEdit.meta.groupSeparator != ','" value=",">Vírgula (,)</option>
+      <option ng-show="ctrl.fieldEdit.meta.groupSeparator != '.'" value=".">Ponto (.)</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-group" ng-show="!ctrl.fieldEdit.rawEntityField.scale">
+  <label for="">Número de dígitos decimais <small>(máx. 6)</small></label>
+  <input type="text" ng-model="ctrl.fieldEdit.meta.numscale" class="input-sm form-control">
 </div>
 
 <!-- Min e Max  -->
-<div class="row">
+<div class="row" ng-if="ctrl.fieldEdit.fixedFormat">
   <div class="form-group">
     <label for="">Valor mín.</label>
     <input type="text" 
           class="input-sm form-control"
           money-mask
           decimal-separator="{[{ctrl.fieldEdit.meta.decimalSeparator}]}"
-          thousand-separator="{[{ctrl.fieldEdit.meta.groupSeparator || ' '}]}"
+          thousand-separator="{[{ctrl.fieldEdit.meta.groupSeparator}]}"
           num-scale="{[{ctrl.fieldEdit.rawEntityField.scale}]}"
           ng-model="ctrl.fieldEdit.meta.minCount"/>
   </div>
@@ -38,8 +50,29 @@
           class="input-sm form-control"
           money-mask
           decimal-separator="{[{ctrl.fieldEdit.meta.decimalSeparator}]}"
+          thousand-separator="{[{ctrl.fieldEdit.meta.groupSeparator}]}"
           num-scale="{[{ctrl.fieldEdit.rawEntityField.scale}]}"
-          thousand-separator="{[{ctrl.fieldEdit.meta.groupSeparator || ' '}]}"
+          ng-model="ctrl.fieldEdit.meta.maxCount"/>
+  </div>
+</div>
+
+<!-- Min e Max  -->
+<div class="row" ng-if="!ctrl.fieldEdit.fixedFormat">
+  <div class="form-group">
+    <label for="">Valor mín.</label>
+    <input type="text" 
+          class="input-sm form-control"
+          money-mask
+          num-scale="{[{ctrl.fieldEdit.rawEntityField.scale}]}"
+          ng-model="ctrl.fieldEdit.meta.minCount"/>
+  </div>
+
+  <div class="form-group">
+    <label for="">Valor max.</label>
+    <input type="text"
+          class="input-sm form-control"
+          money-mask
+          num-scale="{[{ctrl.fieldEdit.rawEntityField.scale}]}"
           ng-model="ctrl.fieldEdit.meta.maxCount"/>
   </div>
 </div>
