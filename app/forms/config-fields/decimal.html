@@ -1,12 +1,12 @@
 {{#include-html}}studiov2.forms.sidebar.config-fields.size{{/include-html}}
 {{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}
 
-<div class="form-group">
+<div class="form-group hidden">
   <input type="checkbox" ng-model="ctrl.fieldEdit.fixedFormat" id="fixedFormat">
   <label for="fixedFormat"> Usar separadores fixos</label>
 </div>
 
-<div ng-if="ctrl.fieldEdit.fixedFormat">
+<div class="hidden" ng-if="ctrl.fieldEdit.fixedFormat">
   <div class="form-group">
     <label for="">Separador de grupos</label>
     <select class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.groupSeparator" ng-change="ctrl.onChangeSeparators()">
@@ -32,7 +32,7 @@
 </div>
 
 <!-- Min e Max  -->
-<div class="row" ng-if="ctrl.fieldEdit.fixedFormat">
+<div class="row hidden" ng-if="ctrl.fieldEdit.fixedFormat">
   <div class="form-group">
     <label for="">Valor mín.</label>
     <input type="text" 
