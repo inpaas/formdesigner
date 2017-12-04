@@ -1,0 +1,46 @@
+{{#include-html}}studiov2.forms.sidebar.config-fields.size{{/include-html}}
+{{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}
+
+<div class="form-group">
+  <label for="">Separador de grupos</label>
+  <select class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.groupSeparator" ng-change="ctrl.onChangeSeparators()">
+    <option ng-show="ctrl.fieldEdit.meta.decimalSeparator != ','" value=",">Vírgula (,)</option>
+    <option ng-show="ctrl.fieldEdit.meta.decimalSeparator != '.'" value=".">Ponto (.)</option>
+    <option value="{[{' '}]}">Espaço</option>
+    <option value="'">Apóstrofo</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="">Separador de decimal</label>
+  <select class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.decimalSeparator" ng-change="ctrl.onChangeSeparators()">
+    <option ng-show="ctrl.fieldEdit.meta.groupSeparator != ','" value=",">Vírgula (,)</option>
+    <option ng-show="ctrl.fieldEdit.meta.groupSeparator != '.'" value=".">Ponto (.)</option>
+  </select>
+</div>
+
+<!-- Min e Max  -->
+<div class="row">
+  <div class="form-group">
+    <label for="">Valor mín.</label>
+    <input type="text" 
+          class="input-sm form-control"
+          money-mask
+          decimal-separator="{[{ctrl.fieldEdit.meta.decimalSeparator}]}"
+          thousand-separator="{[{ctrl.fieldEdit.meta.groupSeparator || ' '}]}"
+          num-scale="{[{ctrl.fieldEdit.rawEntityField.scale}]}"
+          ng-model="ctrl.fieldEdit.meta.minCount"/>
+  </div>
+
+  <div class="form-group">
+    <label for="">Valor max.</label>
+    <input type="text"
+          class="input-sm form-control"
+          money-mask
+          decimal-separator="{[{ctrl.fieldEdit.meta.decimalSeparator}]}"
+          num-scale="{[{ctrl.fieldEdit.rawEntityField.scale}]}"
+          thousand-separator="{[{ctrl.fieldEdit.meta.groupSeparator || ' '}]}"
+          ng-model="ctrl.fieldEdit.meta.maxCount"/>
+  </div>
+</div>
+
