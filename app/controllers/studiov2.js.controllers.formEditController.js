@@ -675,6 +675,27 @@
         fieldEdit.meta.maxDate = moment(fieldEdit.meta.maxDate, $l10n.translate(fieldEdit.meta.format.concat('.formatjs')) ).format('YYYY-MM-DD HH:mm:ss');
       }
 
+      if(fieldEdit.bindDependencies && fieldEdit.bindDependencies.length){
+        var dependencies = [],
+            hasBindRefs = fieldEdit.bindReferences && fieldEdit.bindReferences.length;
+
+        fieldEdit.bindDependencies.forEach(function(bindDep){
+          var map = hasBindRefs? fieldEdit.bindReferences.filter(filterBindRef.bind(null, bindDep)) : null;
+
+          if(map){
+            dependencies = dependencies.concat(map);
+          }else{
+            dependencies.push(bindDep);
+          }
+        });
+
+        fieldEdit.finder.dependencies = dependencies;
+
+        function filterBindRef(bindDep, bindRef){
+          return bindRef.bindForm == bindDep;
+        }
+      }
+
       if (angular.isUndefined(fieldEdit.index)){
         addNewField();
 
@@ -719,27 +740,6 @@
         fieldEdit.meta.extensions.concat(fieldEdit.othersExtensions || '');
         delete fieldEdit.FILE_EXTENSIONS;
       }
-      
-      if(fieldEdit.bindDependencies && fieldEdit.bindDependencies.length){
-        var dependencies = [],
-            hasBindRefs = fieldEdit.bindReferences && fieldEdit.bindReferences.length;
-
-        fieldEdit.bindDependencies.forEach(function(bindDep){
-          var map = hasBindRefs? fieldEdit.bindReferences.filter(filterBindRef.bind(null, bindDep)) : null;
-
-          if(map){
-            dependencies = dependencies.concat(map);
-          }else{
-            dependencies.push(bindDep);
-          }
-        });
-
-        fieldEdit.finder.dependencies = dependencies;
-
-        function filterBindRef(bindDep, bindRef){
-          return bindRef.bindForm == bindDep;
-        }
-      } 
 
       delete fieldEdit.rawEntityField;
       delete fieldEdit.col;
@@ -753,7 +753,7 @@
           field = field || ctrl.fieldEdit;
 
       binds.forEach(function(bindDep){
-        var referenceOfField = ctrl.entityForm.references.filter(function(ref){ return ref.field == field.rawEntityField.name})[0],
+        var referenceOfField = ctrl.entityForm.references.filter(function(ref){ return ref.field.toLowerCase() == field.rawEntityField.name.toLowerCase()})[0],
             //A entity do finder pode ou não ter FK com a entity do form
             entityFinder = ctrl.entityForm.entitiesReference[referenceOfField.entity.toLowerCase()],
             dependenceField = ctrl.selectFields.filter(function(field){ return field.meta.bind == bindDep})[0],
