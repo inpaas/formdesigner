@@ -680,7 +680,7 @@
             hasBindRefs = fieldEdit.bindReferences && fieldEdit.bindReferences.length;
 
         fieldEdit.bindDependencies.forEach(function(bindDep){
-          var map = hasBindRefs? fieldEdit.bindReferences.filter(filterBindRef.bind(null, bindDep)) : null;
+          var map = hasBindRefs? ctrl.depReferences.filter(filterBindRef.bind(null, bindDep)) : null;
 
           if(map){
             dependencies = dependencies.concat(map);
@@ -696,7 +696,7 @@
         }
       }
 
-      if(!fieldEdit.fixedFormat){
+      if(!fieldEdit.formatDefault){
         delete fieldEdit.meta.decimalSeparator
         delete fieldEdit.meta.thousandSeparator
       }
@@ -758,7 +758,10 @@
           field = field || ctrl.fieldEdit;
 
       binds.forEach(function(bindDep){
-        var referenceOfField = ctrl.entityForm.references.filter(function(ref){ return ref.field.toLowerCase() == field.rawEntityField.name.toLowerCase()})[0],
+        var referenceOfField = ctrl.entityForm.references.filter(function(ref){ 
+              return ref.field.toLowerCase() == field.rawEntityField.name.toLowerCase();
+            })[0],
+
             //A entity do finder pode ou não ter FK com a entity do form
             entityFinder = ctrl.entityForm.entitiesReference[referenceOfField.entity.toLowerCase()],
             dependenceField = ctrl.selectFields.filter(function(field){ return field.meta.bind == bindDep})[0],
@@ -947,20 +950,22 @@
 
         if(formField.finder.dependencies){
           var bindDependencies = [],
-              bindReferences = [];
+              bindReferences = [],
+              depReferences = [];
 
           formField.finder.dependencies.forEach(function(dep){
             if(angular.isObject(dep)){
-              bindReferences.push(dep);
+              bindReferences.push(dep.bindForm);
               bindDependencies.push(dep.bindForm);
+              depReferences.push(dep);
             }else{
               bindDependencies.push(dep);
             }
           }); 
 
-          getReferenceFk(bindDependencies, formField);
           formField.bindDependencies = bindDependencies;
           formField.bindReferences = bindReferences;
+          ctrl.depReferences = depReferences;
         }
 
       }else if(formField.serviceSource){

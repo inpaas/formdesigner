@@ -82,7 +82,7 @@
     <label for="">Dependências (Referências)</label>
     <select class="form-control input-sm" 
             multiple 
-            ng-options="ref as ref.fk for ref in ctrl.depReferences track by $index" 
+            ng-options="ref.bindForm as ref.fk for ref in ctrl.depReferences" 
             ng-model="ctrl.fieldEdit.bindReferences">
     </select>
   </div>
