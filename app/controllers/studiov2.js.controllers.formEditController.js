@@ -289,8 +289,8 @@
       ctrl.onNewSection = true;
       ctrl.currentSection = {
         type: 'include',
-        name: 'include-'.concat(ctrl.sections.length), 
-        id: 'section-'.concat(ctrl.sections.length),
+        name: 'include-'.concat( new Date().getTime() ), 
+        id: 'section-'.concat( new Date().getTime() ),
         meta: {type: 'include'},
         isSameDataSource: true,
         fieldsCol1: [],
