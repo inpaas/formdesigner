@@ -541,6 +541,9 @@
         case 'currency':
         case 'date':
           getFormatsPattern();
+          if(!fieldEdit.meta.datepickerPosition){
+            fieldEdit.meta.datepickerPosition = 'top-left';
+          } 
           break;
 
         case 'select': 
@@ -1000,6 +1003,10 @@
             ext.checked = true;
           }
         });
+      }
+
+      if(!formField.meta.datepickerPosition && formField.type == 'date'){
+        formField.meta.datepickerPosition = 'top-left';
       }
 
       ctrl.fieldEdit = formField;

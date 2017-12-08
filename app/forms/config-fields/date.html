@@ -22,7 +22,6 @@
           model-view-value="true"
           ui-mask-placeholder
           ui-options="{clearOnBlur: false, allowInvalidValue: true}" />
-
   </div>
 
   <div class="form-group" ng-repeat-end ng-if="ctrl.fieldEdit.meta.format == format.key">
@@ -36,4 +35,14 @@
           ui-mask-placeholder
           ui-options="{clearOnBlur: false, allowInvalidValue: true}">
   </div>
+</div>
+
+<div class="form-group">
+  <label for="">Posição do datapicker</label>
+  <select ng-model="ctrl.fieldEdit.meta.datepickerPosition" class="input-sm form-control">
+    <option value="top-left">Canto superior esquerdo </option> 
+    <option value="top-right">Canto superior direito</option>
+    <option value="bottom-left">Canto inferior esquerdo</option>
+    <option value="bottom-right">Canto inferior direito</option>
+  </select>
 </div>
