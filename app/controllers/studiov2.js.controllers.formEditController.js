@@ -90,6 +90,12 @@
             field.finder.relatedFinders = [{title: field.finder.title, key: field.finder.key}];
           }
 
+          var hasDuplicateName = form.fields.map(function(_field){ return field.name == field.name});
+
+          if(hasDuplicateName){
+            field.name.replace('-', (new Date().getTime()));
+          }
+
           ctrl.sections.push(field);
         }
       });
@@ -118,6 +124,7 @@
             }
           });
         }
+
       });
     } 
 
