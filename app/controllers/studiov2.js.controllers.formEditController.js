@@ -306,7 +306,12 @@
         fields: [],
         views: {
           edit: {
-            layout: 'horizontal'
+            layout: 'horizontal',
+            buttons:{
+              add: true,
+              edit: true,
+              remove: true
+            }
           }
         }
       };
