@@ -554,12 +554,13 @@
         case 'date':
           getFormatsPattern();
           if(!fieldEdit.meta.datetimepickerPosition){
-            fieldEdit.meta.datetimepickerPosition = 'left-top';
+            fieldEdit.meta.datetimepickerPosition = 'top-left';
           } 
           break;
 
         case 'select': 
           var reference = [];
+          
           filterSelectFields(fieldEdit);
           fieldEdit.rawEntityField && (reference = findReferences(fieldEdit));
 
