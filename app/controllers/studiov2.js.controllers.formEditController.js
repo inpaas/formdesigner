@@ -553,8 +553,8 @@
         case 'currency':
         case 'date':
           getFormatsPattern();
-          if(!fieldEdit.meta.datepickerPosition){
-            fieldEdit.meta.datepickerPosition = 'top-left';
+          if(!fieldEdit.meta.datetimepickerPosition){
+            fieldEdit.meta.datetimepickerPosition = 'left-top';
           } 
           break;
 
