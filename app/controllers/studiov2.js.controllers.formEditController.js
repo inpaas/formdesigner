@@ -1512,9 +1512,9 @@
 
       if(ctrl.configForm.permissions){
         var permission = ctrl.permissions.filter(function(p){ return p.key == ctrl.configForm.permissions});
-        
+
         if(permission.length){
-          ctrl.jsonModel.permissionId = permission.id;
+          ctrl.jsonModel.permissionId = permission[0].id;
         }
       }
       
