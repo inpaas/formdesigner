@@ -1511,7 +1511,11 @@
       setBreadcrumb(ctrl.jsonModel.views.edit.breadcrumb, ctrl.configForm.dataSource.key);
 
       if(ctrl.configForm.permissions){
-        ctrl.jsonModel.permissionId = ctrl.permissions.filter(function(p){ return p.key == ctrl.configForm.permissions})[0].id;
+        var permission = ctrl.permissions.filter(function(p){ return p.key == ctrl.configForm.permissions});
+        
+        if(permission.length){
+          ctrl.jsonModel.permissionId = permission.id;
+        }
       }
       
       ctrl.moduleForm.key && (ctrl.configForm.moduleKey = ctrl.moduleForm.key);
