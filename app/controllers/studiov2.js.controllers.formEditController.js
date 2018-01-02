@@ -1374,9 +1374,7 @@
     }
 
     function getEntityForms(entityName){
-      var entityId = ctrl.entities.filter(function(e){return e.name === entityName; })[0].id;
-
-      return httpService.getEntity(entityId).then(function(response){
+      return httpService.getEntity(entityName).then(function(response){
         ctrl.entityForms = response.data.forms.filter(function(form){ return form.type == 'v2'});
       }); 
     }
