@@ -35,8 +35,8 @@
             jsonModel.dataSource.moduleKey = getModuleKeyById(jsonModel.dataSource.moduleId || response.data.moduleId);
             delete jsonModel.dataSource.moduleId;
           }
-
-          getPermissions(getModuleKeyById(jsonModel.dataSource.moduleId));
+          
+          getPermissions(getModuleIdByKey(jsonModel.permissionModuleKey) || getModuleIdByKey(jsonModel.dataSource.moduleKey) || jsonModel.dataSource.moduleId);
           buildSections(jsonModel);
           mapAddedButtons(jsonModel.views.edit.actions, 'edit');
 
@@ -1278,17 +1278,13 @@
         }
       }); 
 
-      getPermissions(idModule);
     }
 
     function getModuleForm(idModule) {
       httpService.getModule(idModule).then(function(response) {
         ctrl.moduleForm = response.data;
         ctrl.templates = response.data.templates;
-
-        getPermissions(idModule);
       }); 
-
     }
 
     function getModule(idModule){
@@ -1492,8 +1488,9 @@
         }
       });
 
+
       if(ctrl.moduleEntity){
-        getPermissions(ctrl.moduleEntity.id);
+        getPermissions(getModuleIdByKey(ctrl.jsonModel.permissionModuleKey) || ctrl.moduleEntity.id);
         getEntitiesByModule(ctrl.moduleEntity.id);
       }
 
@@ -1510,6 +1507,8 @@
 
       if(ctrl.configForm.permissions){
         var permission = ctrl.permissions.filter(function(p){ return p.key == ctrl.configForm.permissions});
+
+        ctrl.jsonModel.permissionModuleKey = ctrl.modulePermission.key;
 
         if(permission.length){
           ctrl.jsonModel.permissionId = permission[0].id;
@@ -1637,6 +1636,7 @@
     }
 
     function getPermissions(moduleId){
+      ctrl.modulePermission = getModuleFromApps(moduleId);
       httpService.getPermissions(moduleId).then(function(response){
         ctrl.permissions = angular.copy(response.data); 
       });
@@ -1830,7 +1830,8 @@
       selectDataSourcetype: selectDataSourcetype,
       selectExtension: selectExtension,
       showSourcesJs: showSourcesJs,
-      getReferenceFk: getReferenceFk
+      getReferenceFk: getReferenceFk,
+      getPermissions: getPermissions
     }); 
   };
 })();
