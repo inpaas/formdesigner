@@ -12,28 +12,6 @@
         "type": "E"
       },
       "views": {
-        "list": {
-          "actions":[
-            {
-              "action": "new",
-              "name": "new",
-              "label": "button.new.title"
-            },
-            {
-              "action": "list.view_edit", 
-              "name": "view_edit",
-              "label": "button.viewedit.title",
-              "notDisplayLabel": true
-            },
-            {
-              "action": "list.remove",
-              "name": "listDelete",
-              "label": "button.remove.title",
-              "notDisplayLabel": true
-            }
-          ],
-          "breadcrumb": []
-        },
         "edit": {
           "actions": [
             {
