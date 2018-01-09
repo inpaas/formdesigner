@@ -3,9 +3,9 @@
     .module('studio-v2')
     .service('labelsService', labelsService);
     
-  labelsService.$inject = ['$http', '$filter', '$l10n', '$q', 'jsonFormService'];
+  labelsService.$inject = ['$http', '$filter', '$l10n', '$q', 'jsonFormService', 'AUDIT_FIELDS'];
 
-  function labelsService($http, $filter, $l10n, $q, jsonFormService){
+  function labelsService($http, $filter, $l10n, $q, jsonFormService, AUDIT_FIELDS){
     var _userLocale = getLanguageUser(),
         labelsNamespace = ""; 
         labels = [];
@@ -113,24 +113,30 @@
       return actions;
     }
 
-    function buildLabelsFromFields(fields, moduleId, dataSourcekey, formKey){
+    function buildLabelsFromFields(fields, moduleId, entityName, formKey){
       fields.forEach(function(field, index){
         var key;
 
-        if(!field.auditField){
+        if(field.auditField){
+          var auditField = AUDIT_FIELDS.filter(function(auditField){return auditField.alias == field.meta.bind})[0];
+
+          if($l10n.translate(auditField.label).toLowerCase() != field.label.toLowerCase()){
+            key = 'label.'.concat(entityName).concat('.');
+            key = key.concat(auditField.label.split('.')[1]);
+          }
+        }else{
           if(field.colllumnName || field.meta.bind ){
-            key = 'label.'.concat(dataSourcekey).concat('.');
+            key = 'label.'.concat(entityName).concat('.');
             key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()));
           }else{
             key = 'label.'.concat(formKey).concat('.').concat(field.name);
           }
-
-          if(field.label){
-            saveLabel(field.label, key, moduleId);
-            field.label = key; 
-          }
         }
 
+        if(field.label){
+          saveLabel(field.label, key, moduleId);
+          field.label = key; 
+        }
         
         if (field.meta.placeholder) {
           var keyPlaceholder = key.concat('.').concat('placeholder');

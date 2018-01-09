@@ -1358,7 +1358,7 @@
           field.icon = fieldIconsService.setIconForTypeField(field);
 
           if(field.auditField){
-            field.translatedName = $l10n.translate(field.label);
+            field.translatedName = $l10n.translate(field.label, $l10n.translate("label.".concat(entityName).toLowerCase()));
           }else{
             var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();
             field.translatedName = $l10n.translate(label);
