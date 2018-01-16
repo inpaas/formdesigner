@@ -388,26 +388,27 @@
         angular.extend(ctrl.jsonModel.views, currentSection.views);
       }
 
-      delete currentSection.onload;
-      delete currentSection.onsubmit;
-      delete currentSection.onchange;
-
       switch(currentSection.views.edit.collumns) {
         case 1:
-          currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol2);
-          currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol3);
-          currentSection.fieldsCol2.length = 0;
-          currentSection.fieldsCol3.length = 0;
+          if(currentSection.fieldsCol2.length){
+            currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol2);
+            currentSection.fieldsCol3.length = 0;
+          }
+          if(currentSection.fieldsCol3.length){
+            currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol3);
+            currentSection.fieldsCol2.length = 0;
+          }
         case 2:
-          currentSection.fieldsCol2 = currentSection.fieldsCol3.concat(currentSection.fieldsCol3);
-          currentSection.fieldsCol3.length = 0;
+          if(currentSection.fieldsCol3.length){
+            currentSection.fieldsCol2 = currentSection.fieldsCol3.concat(currentSection.fieldsCol3);
+            currentSection.fieldsCol3.length = 0;
+          }
       }
-
 
       if (!angular.isUndefined(currentSection.index)) {
         angular.extend(ctrl.sections[currentSection.index], currentSection);
       }else{
-       ctrl.sections.push(currentSection);
+        ctrl.sections.push(currentSection);
       }
 
       if (ctrl.sections.length == 1) {
@@ -480,18 +481,6 @@
 
       if(!currentSection.views.edit.collumns) {
         currentSection.views.edit.collumns = 1; 
-      }
-
-      if(currentSection.views.edit.onload){
-        currentSection.onload = true;
-      }
-
-      if(currentSection.views.edit.onsubmit){
-        currentSection.onsubmit = true;
-      }
-
-      if(currentSection.views.edit.onchange){
-        currentSection.onchange = true;
       }
 
       if(!currentSection.views.edit.layout){
