@@ -10,8 +10,8 @@
         labelsNamespace = ""; 
         labels = [];
 
-    function saveLabel(text, key, idModule){
-      if (($l10n.translate(key) == text) || !text){
+    function saveLabel(text, key, idModule, forceUpdate){
+      if ((!forceUpdate && $l10n.translate(key) == text) || !text){
         return false;
       }
 
@@ -62,39 +62,40 @@
     }
 
     function buildLabels(jsonForm, moduleId){
+      var forceLabelUpdate = jsonForm.prevModuleId;
       setLabelsNamespace(jsonForm.key);
 
       jsonForm.label = buildLabelsFromTitle(jsonForm.label, moduleId);
 
       if (jsonForm.views.edit.breadcrumb.length) {
-        buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, jsonForm.dataSource.key, moduleId);  
+        buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, jsonForm.dataSource.key, moduleId, forceLabelUpdate);  
       }
       
       if(jsonForm.views.edit.actions){
-        buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId);
+        buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId, forceLabelUpdate);
       }
 
       if(jsonForm.fields){
-        buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase(), jsonForm.key); 
+        buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase(), jsonForm.key, forceLabelUpdate); 
       }
-      
+      delete jsonForm.prevModuleId; 
       return jsonForm;
     }
 
-    function buildLabelsFromTitle(title, moduleId, lang){
+    function buildLabelsFromTitle(title, moduleId, lang, forceUpdate){
       var key = generateKey('title');
-      saveLabel(title, key, moduleId);
+      saveLabel(title, key, moduleId, forceUpdate);
       return key;
     }
 
-    function buildLabelsFromBreadcrumb(breadcrumb, entityName, moduleId){
+    function buildLabelsFromBreadcrumb(breadcrumb, entityName, moduleId, forceUpdate){
       var value = breadcrumb = breadcrumb[0].path,
           key = 'label.'.concat(entityName.toLowerCase()).concat('.path');
 
-      saveLabel(value, key, moduleId);
+      saveLabel(value, key, moduleId, forceUpdate);
     }
 
-    function buildLabelsFromActions(actions, view, moduleId){
+    function buildLabelsFromActions(actions, view, moduleId, forceUpdate){
       actions.forEach(function(action, index){
         if (action.label && !isKeyLabel(action.label)) {
           var key = generateKey('action-')
@@ -106,14 +107,14 @@
 
           action.label = key;
 
-          saveLabel(value, key, moduleId);
+          saveLabel(value, key, moduleId, forceUpdate);
         }
       });
 
       return actions;
     }
 
-    function buildLabelsFromFields(fields, moduleId, entityName, formKey){
+    function buildLabelsFromFields(fields, moduleId, entityName, formKey, forceUpdate){
       fields.forEach(function(field, index){
         var key;
 
@@ -134,19 +135,19 @@
         }
 
         if(field.label){
-          saveLabel(field.label, key, moduleId);
+          saveLabel(field.label, key, moduleId, forceUpdate);
           field.label = key; 
         }
         
         if (field.meta.placeholder) {
           var keyPlaceholder = key.concat('.').concat('placeholder');
-          saveLabel(field.meta.placeholder, keyPlaceholder, moduleId);
+          saveLabel(field.meta.placeholder, keyPlaceholder, moduleId, forceUpdate);
           field.meta.placeholder = keyPlaceholder;
         }
 
         if(field.meta.help){
           var keyHelp = key.concat('help');
-          saveLabel(field.meta.help, keyHelp, moduleId);
+          saveLabel(field.meta.help, keyHelp, moduleId, forceUpdate);
           field.meta.help = keyHelp;
         }
 
@@ -155,10 +156,10 @@
 
       return fields;
 
-      function buildLabelsOptions(fieldName, options){
+      function buildLabelsOptions(fieldName, options, forceUpdate){
         options.forEach(function(item, index){
           if(!$l10n.hasLabel(item.label)){
-            saveLabel(item.value, item.label, moduleId); 
+            saveLabel(item.value, item.label, moduleId, forceUpdate); 
           }
         });
       }

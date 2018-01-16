@@ -1139,7 +1139,8 @@
 
           form.fields.length = 0;
           form.label = section.label;
-          form.moduleKey = ctrl.jsonModel.moduleKey
+          form.moduleKey = ctrl.jsonModel.moduleKey;
+          form.prevModuleId = ctrl.jsonModel.prevModuleId;
           form.include = true;
           angular.extend(form.views.edit, section.views.edit);
           form.views.edit.collumns = section.views.edit.collumns;
@@ -1517,6 +1518,14 @@
       
       ctrl.moduleForm.key && (ctrl.configForm.moduleKey = ctrl.moduleForm.key);
       ctrl.moduleForm.key && (ctrl.configForm.dataSource.moduleKey = ctrl.moduleEntity.key);
+
+      var configModuleKey = ctrl.configForm.moduleKey,
+          jsonModelModuleKey = ctrl.jsonModel.moduleKey;
+
+
+      if(configModuleKey && configModuleKey != jsonModelModuleKey){
+        ctrl.jsonModel.prevModuleId = getModuleIdByKey(jsonModelModuleKey);        
+      }
 
       angular.extend(ctrl.jsonModel, ctrl.configForm);
       ctrl.onConfigForm = false;
