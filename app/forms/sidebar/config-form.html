@@ -90,33 +90,29 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 no-padding">
-            <div class="form-group">
-              <div class="btn-group btn-block">
-                <label for="">Módulo da permissão</label>
-                <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                  {[{ ctrl.modulePermission.title || 'Módulo'}]} <i class="caret"></i>
-                </button>
-                <ul class="dropdown-menu btn-block">
-                  <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-                  <li ng-repeat="mod in app.modules" ng-click="ctrl.getPermissions(mod.id)">
-                    <a href="" ng-bind="mod.title"></a>
-                  </li>
-                  <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
-                </ul>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="">Permissão</label>
-              <input type="text" 
-                    class="form-control input-sm" 
-                    ng-model="ctrl.configForm.permissions"
-                    placeholder="Permissão" 
-                    uib-typeahead="pm.key as pm.title for pm in ctrl.permissions | filter:{title: $viewValue}" 
-                    typeahead-min-length="0" />
-            </div>
+        <div class="form-group">
+          <div class="btn-group btn-block">
+            <label for="">Módulo da permissão</label>
+            <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+              {[{ ctrl.modulePermission.title || 'Módulo'}]} <i class="caret"></i>
+            </button>
+            <ul class="dropdown-menu btn-block">
+              <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+              <li ng-repeat="mod in app.modules" ng-click="ctrl.getPermissions(mod.id)">
+                <a href="" ng-bind="mod.title"></a>
+              </li>
+              <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+            </ul>
           </div>
+        </div>
+        <div class="form-group">
+          <label for="">Permissão</label>
+          <input type="text" 
+                class="form-control input-sm" 
+                ng-model="ctrl.configForm.permissions"
+                placeholder="Permissão" 
+                uib-typeahead="pm.key as pm.title for pm in ctrl.permissions | filter:{title: $viewValue}" 
+                typeahead-min-length="0" />
         </div>
 
         <div class="form-group">
@@ -146,6 +142,11 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <input type="checkbox" ng-model="ctrl.configForm.final" id="config-form-final">
+          <label for="config-form-final"> Final </label>
+        </div>
+        
         <div class="row">
           <div class="col-xs-12 col-sm-12 no-padding">
             <div class="form-group">

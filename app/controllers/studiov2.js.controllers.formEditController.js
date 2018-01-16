@@ -1470,7 +1470,8 @@
         moduleKey: form.moduleKey,
         template: form.template,
         permissions: form.permissions,
-        description: form.description
+        description: form.description,
+        final: form.final
       };
 
       ctrl.apps.forEach(function(app, index){
