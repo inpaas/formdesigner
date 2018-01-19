@@ -1375,6 +1375,8 @@
     }
 
     function setFinder(entityName, model, isSection){
+      var entityName = entityName || ctrl.fieldEdit.finder.entityName;
+      
       return getEntity(entityName).then(function(entity){
               model.entity = entity;
               model.references = getReferences(entity);
