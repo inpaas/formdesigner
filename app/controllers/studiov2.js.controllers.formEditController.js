@@ -49,11 +49,11 @@
                 });
               });
 
+            ctrl.jsonModel = jsonModel;
           }else{
+            ctrl.jsonModel = jsonModel;
             showConfigForm(jsonModel);
           }
-
-          ctrl.jsonModel = jsonModel;
         });
     });
 
