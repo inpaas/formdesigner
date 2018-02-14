@@ -50,10 +50,12 @@
               });
 
             ctrl.jsonModel = jsonModel;
+            
           }else{
-            ctrl.jsonModel = jsonModel;
-            showConfigForm(jsonModel);
+          ctrl.jsonModel = jsonModel;
+            showConfigForm(ctrl.jsonModel);
           }
+
         });
     });
 
@@ -206,9 +208,10 @@
     function saveEditButton() {
       var clone = angular.copy(ctrl.editBt), 
           action = {
+            action: clone.action,
             label: clone.label,
             notDisplayLabel: !!clone.notDisplayLabel,
-            name: clone.name || clone.label.toLowerCase().replace(/\s/g, '-'),
+            name: clone.name || clone.action || clone.label.toLowerCase().replace(/\s/g, '-'),
             visible: setDisplayConfig(clone.visibilityType, clone.visibilityExpression),
             event: setEventConfig(), 
             saveAndStay: clone.saveAndStay
