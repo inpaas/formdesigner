@@ -1616,15 +1616,15 @@
     }
 
     function setBreadcrumb(formBreadcrumb, entityName) {
-      if(!entityName){return}
+      if(!entityName){ return; }
 
-      var path = $l10n.translate('label.'.concat(entityName.toLowerCase()).concat('.path')),
-          breadcrumb = {};
+      var breadcrumb = {};
 
       if(formBreadcrumb.length){
-        breadcrumb.path = formBreadcrumb[0].path;
+        breadcrumb.path = $l10n.translate(formBreadcrumb[0].path);
         breadcrumb.bind = formBreadcrumb[1] && formBreadcrumb[1].bind? formBreadcrumb[1].bind : '';
       }else{
+        var path = $l10n.translate('label.'.concat(entityName.toLowerCase()).concat('.path'));
         breadcrumb.path = path;
         breadcrumb.bind = '';
       }
