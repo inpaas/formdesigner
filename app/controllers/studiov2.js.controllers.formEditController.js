@@ -1370,7 +1370,10 @@
 
     function getEntityFormsByBind(bind){
       var ref = ctrl.entityForm.references.filter(function(ref){ return ref.alias == bind})[0];
-      getEntityForms(ref.entity);
+
+      if(ref){
+        getEntityForms(ref.entity);
+      }
     }
 
     function getEntity(entityName){
