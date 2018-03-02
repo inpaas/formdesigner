@@ -69,21 +69,13 @@
 
       <div class="row">
         <div class="form-group">
-          <label for="section-type-list">
-            <input type="radio" id="section-type-list" name="includetype" ng-model="ctrl.currentSection.includeType" value="list"> Master/Details
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label for="section-type-edit">
-            <input type="radio" id="section-type-edit" name="includetype" ng-model="ctrl.currentSection.includeType" value="edit"> Form de Edição
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label for="section-type-template">
-            <input type="radio" id="section-type-template" name="includetype" ng-model="ctrl.currentSection.includeType" value="templateCustom"> Template custom
-          </label>
+          <select class="form-control input-sm" ng-model="ctrl.currentSection.includeType">
+            <option value="">Selecione</option>
+            <option value="edit"> Form de edição </option>
+            <option value="list"> Master/Details (Entidade)</option>
+            <option value="finder-service"> Master/Details (Serviço)</option>
+            <option value="templateCustom">Template Custom</option>
+          </select>
         </div>
 
         <!-- Config Finder Include -->
@@ -102,7 +94,7 @@
               </ul>
             </div>
           </div>
-
+          
           <div class="form-group">
             <label for="">Entidade</label>
             <input type="text" 
@@ -113,7 +105,7 @@
                   uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
                   typeahead-min-length="0" />
           </div>
-          
+            
           <div class="form-group">
             <label for="">Finder:</label>
             <div class="btn-group btn-block" uib-dropdown is-open="status.isopen" auto-close="outsideClick">
@@ -131,15 +123,6 @@
                 </li>
               </ul>
             </div>
-          </div>
-
-          <div class="form-group">
-            <label for="">Dependências</label>
-            <select class="form-control input-sm" 
-                    multiple 
-                    ng-options="ref for ref in ctrl.currentSection.references" 
-                    ng-model="ctrl.currentSection.dependenciesKeys">
-            </select>
           </div>
 
           <div class="form-group">
@@ -171,6 +154,36 @@
                 Botão de exclusão
               </label>
             </div>
+          </div>
+        </div>
+
+        <div ng-if="ctrl.currentSection.includeType == 'finder-service'">
+          <div class="form-group">
+            <div class="btn-group btn-block">
+              <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
+                {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+              </button>
+              <ul class="dropdown-menu btn-block">
+                <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+                <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getSources(mod.id, ctrl.currentSection)">
+                  <a ng-bind="mod.title"></a>
+                </li>
+                <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="">SourceKey</label> 
+            <input class="form-control" 
+                    type="text" 
+                    ng-model="ctrl.currentSection.serviceSource" 
+                    typeahead-min-length="0"
+                    uib-typeahead="source as source.name for source in ctrl.moduleEntitySources | filter:{name: $viewValue}" />
+          </div>
+
+          <div class="form-group">
+            <label for="">Method</label>
+            <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.finder.method" />
           </div>
         </div>
         

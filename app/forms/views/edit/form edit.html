@@ -57,9 +57,15 @@
 
         <p class="text-center" ng-if="!section.finder.relatedFinders || !section.finder.relatedFinders.length">
           <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.key}]}">
-            Lista: {[{ section.finder.title }]} ({[{section.finder.entityName}]})
+            Lista: {[{ section.finder.title }]} ({[{ section.finder.entityName }]})
           </a>
         </p>
+      </div>
+
+      <div class="widget-body" ng-if="section.includeType =='finder-service'">
+        <p class="text-center">
+          Service: {[{ section.finder.serviceName }]}
+        </p>   
       </div>
 
       <div class="widget-body" ng-if="section.includeType == 'edit' && !section.isSameDataSource">

@@ -302,6 +302,7 @@
         name: 'include-'.concat( new Date().getTime() ), 
         id: 'section-'.concat( new Date().getTime() ),
         meta: {type: 'include'},
+        finderService:{},
         isSameDataSource: true,
         fieldsCol1: [],
         fieldsCol2: [],
@@ -327,48 +328,29 @@
       var currentSection = angular.copy(ctrl.currentSection),
           dependencies = {};
 
-      if (currentSection.includeType == 'list') {
-        
-        if(ctrl.moduleEntity && ctrl.moduleEntity.key){
-          currentSection.finder.moduleKey = ctrl.moduleEntity.key;
-        } 
+      if (currentSection.isSameDataSource) {
+        saveSectionEntity();
+      }
+      
+      switch (currentSection.includeType){
+        case 'list':
+          saveSectionList();
+          break;
 
-        if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
-          currentSection.dependenciesKeys.forEach(function(key){ 
-            var entitySectionField = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0];
-            dependencies[entitySectionField.alias] = 'id';
-          });
+        case 'edit':
+          saveSectionEdit();
+          break;
 
-          currentSection.finder.dependencies = dependencies;
-        }
+        case 'templateCustom':
+          currentSection.include.moduleKey = ctrl.moduleEntity.key;
+          break;
 
-      }else if(currentSection.isSameDataSource){
-        currentSection.includeType = 'edit';
-
-        if(!currentSection.jsonForm){
-          var jsonForm = jsonFormService.getFormTemplate();
-          jsonForm.key = ctrl.jsonModel.key.concat('.form-include-').concat( (new Date().getTime()) ),
-          jsonForm.label = currentSection.label;
-          jsonForm.dataSource = ctrl.jsonModel.dataSource;
-          jsonForm.moduleKey = ctrl.jsonModel.moduleKey;
-          currentSection.include = {
-            key: jsonForm.key,
-            moduleKey: ctrl.jsonModel.moduleKey
+        case 'finder-service':
+          currentSection.finder = {
+            sourceKey: currentSection.serviceSource,
+            serviceName: currentSection.serviceSource.name,
           }
-          currentSection.jsonForm = jsonForm;
-        }
-
-        angular.extend(currentSection.jsonForm.views.edit, currentSection.views.edit);
-
-      }else if(currentSection.includeType == 'edit'){
-        ctrl.entityForms.forEach(function(form, index){
-          if(form.key == currentSection.include.key) {
-            currentSection.include = form;
-          }
-        }); 
-
-      }else if(currentSection.includeType == 'templateCustom'){
-        currentSection.include.moduleKey = ctrl.moduleEntity.key;
+          break;
       }
 
       if (currentSection.visibilityType) {
@@ -419,6 +401,48 @@
       }
 
       showComponents();
+
+      function saveSectionEdit(){
+        ctrl.entityForms.forEach(function(form, index){
+          if(form.key == currentSection.include.key) {
+            currentSection.include = form;
+          }
+        }); 
+      }
+
+      function saveSectionList(){
+        if(ctrl.moduleEntity && ctrl.moduleEntity.key){
+          currentSection.finder.moduleKey = ctrl.moduleEntity.key;
+        } 
+
+        if (currentSection.dependenciesKeys && currentSection.dependenciesKeys.length) {
+          currentSection.dependenciesKeys.forEach(function(key){ 
+            var entitySectionField = currentSection.entity.attributes.filter(function(attr){return attr.name == key; })[0];
+            dependencies[entitySectionField.alias] = 'id';
+          });
+
+          currentSection.finder.dependencies = dependencies;
+        }
+      }
+
+      function saveSectionEntity(){
+        currentSection.includeType = 'edit';
+
+        if(!currentSection.jsonForm){
+          var jsonForm = jsonFormService.getFormTemplate();
+          jsonForm.key = ctrl.jsonModel.key.concat('.form-include-').concat( (new Date().getTime()) ),
+          jsonForm.label = currentSection.label;
+          jsonForm.dataSource = ctrl.jsonModel.dataSource;
+          jsonForm.moduleKey = ctrl.jsonModel.moduleKey;
+          currentSection.include = {
+            key: jsonForm.key,
+            moduleKey: ctrl.jsonModel.moduleKey
+          }
+          currentSection.jsonForm = jsonForm;
+        }
+
+        angular.extend(currentSection.jsonForm.views.edit, currentSection.views.edit);
+      }
     }
 
     function addFieldInclude(field){
