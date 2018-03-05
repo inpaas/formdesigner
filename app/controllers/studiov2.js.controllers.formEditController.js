@@ -334,22 +334,22 @@
       
       switch (currentSection.includeType){
         case 'list':
-          saveSectionList();
+          configSectionFinderList();
           break;
 
         case 'edit':
-          saveSectionEdit();
+          configSectionEdit();
           break;
 
         case 'templateCustom':
-          currentSection.include.moduleKey = ctrl.moduleEntity.key;
+            delete currentSection.finder;
+            currentSection.include.moduleKey = ctrl.moduleEntity.key;
           break;
 
         case 'finder-service':
-          currentSection.finder = {
-            sourceKey: currentSection.serviceSource,
-            serviceName: currentSection.serviceSource.name,
-          }
+          delete currentSection.finder.entityName;
+          delete currentSection.finder.key;
+          delete currentSection.finder.title;
           break;
       }
 
@@ -402,7 +402,7 @@
 
       showComponents();
 
-      function saveSectionEdit(){
+      function configSectionEdit(){
         ctrl.entityForms.forEach(function(form, index){
           if(form.key == currentSection.include.key) {
             currentSection.include = form;
@@ -410,7 +410,11 @@
         }); 
       }
 
-      function saveSectionList(){
+  
+      function configSectionFinderList(){
+        delete currentSection.finder.sourceKey;
+        delete currentSection.finder.method;
+
         if(ctrl.moduleEntity && ctrl.moduleEntity.key){
           currentSection.finder.moduleKey = ctrl.moduleEntity.key;
         } 

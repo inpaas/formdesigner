@@ -50,22 +50,22 @@
       <div class="widget-body" ng-if="section.includeType == 'list'">
         <p class="text-center" ng-if="section.finder.relatedFinders"> 
           <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.relatedKey[0].key}]}" ng-if="section.finder.relatedFinders.length == 1">
-            Lista: {[{ section.finder.relatedFinders[0].title }]} ({[{section.finder.entityName}]})
+            Finder: {[{ section.finder.relatedFinders[0].title }]} ({[{section.finder.entityName}]})
           </a>
           <span ng-if="section.finder.relatedFinders.length > 1"> {[{ section.finder.relatedFinders.length }]} finder(s) selecionados(s)</span>
         </p>
 
         <p class="text-center" ng-if="!section.finder.relatedFinders || !section.finder.relatedFinders.length">
           <a target="_blank" href="/static/finder/edit.html?entityName={[{section.finder.entityName}]}&finder={[{section.finder.key}]}">
-            Lista: {[{ section.finder.title }]} ({[{ section.finder.entityName }]})
+            Finder Entity: {[{ section.finder.title }]} ({[{ section.finder.entityName }]})
           </a>
         </p>
       </div>
 
       <div class="widget-body" ng-if="section.includeType =='finder-service'">
         <p class="text-center">
-          Service: {[{ section.finder.serviceName }]}
-        </p>   
+          Finder service: {[{ section.finder.sourceKey }]}
+        </p>
       </div>
 
       <div class="widget-body" ng-if="section.includeType == 'edit' && !section.isSameDataSource">

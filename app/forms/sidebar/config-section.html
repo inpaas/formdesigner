@@ -161,7 +161,7 @@
           <div class="form-group">
             <div class="btn-group btn-block">
               <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
-                {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+                {[{ ctrl.moduleSources.title || 'Módulos' }]} <i class="caret"></i>
               </button>
               <ul class="dropdown-menu btn-block">
                 <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
@@ -176,9 +176,9 @@
             <label for="">SourceKey</label> 
             <input class="form-control" 
                     type="text" 
-                    ng-model="ctrl.currentSection.serviceSource" 
+                    ng-model="ctrl.currentSection.finder.sourceKey" 
                     typeahead-min-length="0"
-                    uib-typeahead="source as source.name for source in ctrl.moduleSources | filter:{name: $viewValue}" />
+                    uib-typeahead="source.key as source.key for source in ctrl.sources | filter:{name: $viewValue}" />
           </div>
 
           <div class="form-group">
