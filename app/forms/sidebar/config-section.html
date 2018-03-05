@@ -178,7 +178,7 @@
                     type="text" 
                     ng-model="ctrl.currentSection.serviceSource" 
                     typeahead-min-length="0"
-                    uib-typeahead="source as source.name for source in ctrl.moduleEntitySources | filter:{name: $viewValue}" />
+                    uib-typeahead="source as source.name for source in ctrl.moduleSources | filter:{name: $viewValue}" />
           </div>
 
           <div class="form-group">

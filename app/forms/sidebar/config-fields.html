@@ -50,18 +50,7 @@
     </div>
 
     <div class="row" ng-if="ctrl.fieldEdit.meta.type != 'button' && !ctrl.fieldEdit.auditField">
-      <div class="stock-separator">
-        <label for="">Eventos</label>
-      </div>
-      <div class="form-group">
-        <label for="">SourceKey</label>
-        <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.sourceKey">
-      </div>
-      
-      <div class="form-group">
-        <label for="">Function Name</label>
-        <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.functionName">
-      </div>
+      {{#include-html}}studiov2.forms.sidebar.config-fields.events{{/include-html}}
 
       <div class="form-group">
         <input type="checkbox" id="buttonCustomEvent" ng-model="ctrl.fieldEdit.hasButton">

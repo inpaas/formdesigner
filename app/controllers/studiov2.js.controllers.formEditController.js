@@ -826,6 +826,8 @@
     };
 
     function configDataSource(model){
+      delete model.entity;
+
       switch(model.dataSourceType){
         case 'O':
         case 'D':
@@ -842,6 +844,12 @@
           delete model.finder;
           delete model.options;
           break;
+
+        case 'FS':
+          delete model.options;
+          delete model.serviceSource;
+          delete model.finder.entityName;
+          delete model.finder.key;
       }
     } 
 
@@ -974,11 +982,16 @@
       }
 
       if (formField.finder) {
-        getFinders(formField.finder.entityName);
-        getFinder(formField.finder.entityName, formField.finder.key);
         filterSelectFields(formField);
-        ctrl.moduleEntity = getModuleFromApps(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
-        formField.dataSourceType = 'E';
+
+        if(formField.dataSourceType == 'E'){
+          getModuleEntity(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
+          getFinders(formField.finder.entityName);
+          getFinder(formField.finder.entityName, formField.finder.key);
+
+        }else {
+          getSources(getModuleIdByKey(formField.finder.moduleKey));
+        }
 
         if(formField.finder.dependencies){
           var bindDependencies = [],
@@ -1294,7 +1307,6 @@
           model.moduleKey = response.data.key;
         }
       }); 
-
     }
 
     function getModuleForm(idModule) {
@@ -1469,17 +1481,18 @@
     }
 
     function getSources(idModule, model){
-      ctrl.moduleEntity = getModuleFromApps(idModule);
-      model? model.moduleKey = ctrl.moduleEntity.key : false;
+      var moduleEntity = getModuleFromApps(idModule);
+      model && (model.moduleKey = moduleEntity.key);
 
       getModule(idModule).then(function(response){
-        var moduleEntitySources = [];
+        var sources = [];
 
         angular.forEach(response.data.sources, function(source, key){
-          moduleEntitySources = moduleEntitySources.concat(source);
+          sources = sources.concat(source);
         });
 
-        ctrl.moduleEntitySources = moduleEntitySources;
+        ctrl.moduleSources = response.data;
+        ctrl.sources = sources;
       });
     }
 

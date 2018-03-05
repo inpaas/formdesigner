@@ -1,2 +1,124 @@
 {{#include-html}}studiov2.forms.sidebar.config-fields.size{{/include-html}}
-{{#include-html}}studiov2.forms.sidebar.config-fields.datasource{{/include-html}}
+
+<div class="row">
+  <div class="stock-separator">
+    <label for="">Origem do Finder</label>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="entity-finder">
+        <input type="radio" id="entity-finder" ng-model="ctrl.fieldEdit.dataSourceType" value="E" name="finder-datasource">
+        Entidade
+      </label>
+    </div>
+    <div class="col-sm-6">
+      <label for="service-finder">
+        <input type="radio" id="service-finder" ng-model="ctrl.fieldEdit.dataSourceType" value="FS" name="finder-datasource">
+        Service
+      </label> 
+    </div>
+  </div>
+  
+  <div ng-if="ctrl.fieldEdit.dataSourceType == 'E'">
+    <div class="form-group">
+      <label for="">Módulo</label>
+      <div class="btn-group btn-block">
+        <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
+          {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+        </button>
+        <ul class="dropdown-menu btn-block">
+          <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+          <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getModuleEntity(mod.id, ctrl.fieldEdit.finder)">
+            <a href="" ng-bind="mod.title"></a>
+          </li>
+          <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+        </ul>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="">Entidade</label>
+      <input type="text" 
+            class="form-control input-sm" 
+            placeholder="Selecione" 
+            ng-model="ctrl.fieldEdit.finder.entityName" 
+            ng-blur="ctrl.setFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit)"
+            uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
+            typeahead-min-length="0" />
+    </div>
+
+    <div class="form-group">
+      <label for="">Finder:</label>
+      <select class="form-control input-sm" 
+              ng-change="ctrl.getFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)"
+              ng-model="ctrl.fieldEdit.finder.key"
+              ng-options="finder.key as finder.title for finder in ctrl.finders">
+      </select>
+    </div>
+  </div>
+  
+  <div ng-if="ctrl.fieldEdit.dataSourceType == 'FS'">
+    <div class="form-group">
+      <label for="">Módulo</label>
+      <div class="btn-group btn-block">
+        <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
+          {[{ ctrl.moduleSources.title || 'Módulos' }]} <i class="caret"></i>
+        </button>
+        <ul class="dropdown-menu btn-block">
+          <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+          <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getSources(mod.id, ctrl.fieldEdit.finder)">
+            <a href="" ng-bind="mod.title"></a>
+          </li>
+          <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+        </ul>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="">Source Key:</label>
+      <input type="text"
+              class="form-control input-sm" 
+              ng-model="ctrl.fieldEdit.finder.sourceKey"
+              typeahead-min-length="0"
+              uib-typeahead="source.key as source.key for source in ctrl.sources">
+      
+    </div>
+    
+    <div class="form-group">
+      <label for="">Método:</label>
+      <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.finder.method">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="">Bind text</label>
+    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.finder.bindText">
+  </div>
+
+  <div class="form-group">
+    <label for="">Dependências (Fields)</label>
+    <select class="form-control input-sm" 
+            multiple 
+            ng-change="ctrl.getReferenceFk(ctrl.fieldEdit.bindDependencies)"
+            ng-options="field.meta.bind as field.label for field in ctrl.selectFields" 
+            ng-model="ctrl.fieldEdit.bindDependencies">
+    </select>
+  </div>
+
+  <div class="form-group" ng-if="ctrl.depReferences && ctrl.fieldEdit.finder.type == 'entity'">
+    <label for="">Dependências (Referências)</label>
+    <select class="form-control input-sm" 
+            multiple 
+            ng-options="ref.bindForm as ref.fk for ref in ctrl.depReferences" 
+            ng-model="ctrl.fieldEdit.bindReferences">
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="">Formulário de edição</label>
+    <select class="form-control input-sm" 
+            ng-model="ctrl.fieldEdit.finder.editTemplate"
+            ng-options="form.key as (form.name || form.key) for form in ctrl.entityForms">
+        <option value="">Padrão</option>
+    </select>
+  </div>
+</div>
