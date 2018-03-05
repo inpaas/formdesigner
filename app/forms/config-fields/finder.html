@@ -112,13 +112,4 @@
             ng-model="ctrl.fieldEdit.bindReferences">
     </select>
   </div>
-  
-  <div class="form-group">
-    <label for="">Formulário de edição</label>
-    <select class="form-control input-sm" 
-            ng-model="ctrl.fieldEdit.finder.editTemplate"
-            ng-options="form.key as (form.name || form.key) for form in ctrl.entityForms">
-        <option value="">Padrão</option>
-    </select>
-  </div>
 </div>
