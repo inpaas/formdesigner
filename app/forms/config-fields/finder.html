@@ -79,7 +79,7 @@
               class="form-control input-sm" 
               ng-model="ctrl.fieldEdit.finder.sourceKey"
               typeahead-min-length="0"
-              uib-typeahead="source.key as source.key for source in ctrl.sources">
+              uib-typeahead="source.key as source.key for source in ctrl.sources | filter:{name: $viewValue}">
       
     </div>
     
