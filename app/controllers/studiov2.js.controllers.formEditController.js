@@ -414,6 +414,7 @@
       function configSectionFinderList(){
         delete currentSection.finder.sourceKey;
         delete currentSection.finder.method;
+        delete currentSection.finder.title;
 
         if(ctrl.moduleEntity && ctrl.moduleEntity.key){
           currentSection.finder.moduleKey = ctrl.moduleEntity.key;
@@ -859,7 +860,7 @@
             key: model.finder.key,
             entityName: model.finder.entityName
           };
-          
+
           model.finder = finder;
 
           delete model.serviceSource;
