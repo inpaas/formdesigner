@@ -855,14 +855,9 @@
           break;
 
         case 'E':
-          var finder = {
-            moduleKey: ctrl.moduleEntity.key,
-            key: model.finder.key,
-            entityName: model.finder.entityName
-          };
-
-          model.finder = finder;
-
+          delete model.finder.method;
+          delete model.finder.sourceKey;
+          delete model.options;
           delete model.serviceSource;
           break; 
 
