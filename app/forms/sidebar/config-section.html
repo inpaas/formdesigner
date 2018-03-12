@@ -133,7 +133,14 @@
                 <option value="">Padrão</option>
             </select>
           </div>
-
+          <div class="form-group">
+             <label for="">Dependências</label>
+             <select class="form-control input-sm" 
+                     multiple 
+                     ng-options="ref for ref in ctrl.currentSection.references" 
+                     ng-model="ctrl.currentSection.dependenciesKeys">
+             </select>
+          </div>
           <div class="form-group">
             <label for="">Esconder botões do Finder</label>
             <div>
