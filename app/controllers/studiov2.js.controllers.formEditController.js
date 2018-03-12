@@ -519,10 +519,7 @@
     function onSelectSection(type){
       switch (type){
         case 'finder-service':
-          if(!ctrl.currentSection.finder.dependencies){
-            ctrl.currentSection.finder.dependencies = [];
-          }
-
+          ctrl.currentSection.finder.dependencies = [];
           ctrl.currentSection.finder.dependencies.push('id');
         break;
       }
