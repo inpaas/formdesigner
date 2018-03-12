@@ -301,8 +301,8 @@
         type: 'include',
         name: 'include-'.concat( new Date().getTime() ), 
         id: 'section-'.concat( new Date().getTime() ),
+        finder: {},
         meta: {type: 'include'},
-        finderService:{},
         isSameDataSource: true,
         fieldsCol1: [],
         fieldsCol2: [],
@@ -476,29 +476,17 @@
         }
 
         setFinder(currentSection.finder.entityName, currentSection, true).then(function(){ 
-          var dependenciesKeys = [];
-
-          angular.forEach(currentSection.finder.dependencies, function(value, key){
-            var field = currentSection.entity.attributes.filter(function(field){return field.alias == key; })[0];
-
-            if (field) {
-              dependenciesKeys.push(field.name);
-            }
-          });
-
-          currentSection.dependenciesKeys = dependenciesKeys;
+          currentSection.dependenciesKeys = setDependenciesKeys(currentSection); 
           ctrl.currentSection = currentSection;
           showConfigSection();
         });
 
         return;
-      }
 
-      if(currentSection.includeType == 'edit' && !currentSection.isSameDataSource){
+      }else if(currentSection.includeType == 'edit' && !currentSection.isSameDataSource){
         getEntityFormsByBind(currentSection.meta.bind);
-      }
 
-      if(currentSection.includeType == 'templateCustom'){
+      }else if(currentSection.includeType == 'templateCustom'){
         getModuleTemplates(getModuleIdByKey(currentSection.include.moduleKey));
       }
 
@@ -525,6 +513,32 @@
 
       ctrl.currentSection = currentSection;
       showConfigSection();
+    }
+
+    function onSelectSection(type){
+      switch (type){
+        case 'finder-service':
+          if(!ctrl.currentSection.finder.dependencies){
+            ctrl.currentSection.finder.dependencies = [];
+          }
+
+          ctrl.currentSection.finder.dependencies.push('id');
+        break;
+      }
+    }
+
+    function setDependenciesKeys(section){
+      var dependenciesKeys = [];
+
+      angular.forEach(section.finder.dependencies, function(value, key){
+        var field = section.entity.attributes.filter(function(field){return field.alias == key; })[0];
+
+        if (field) {
+          dependenciesKeys.push(field.name);
+        }
+      });
+
+      return dependenciesKeys;
     }
 
     function getFinderTitleByKey(finders, key){
@@ -1879,7 +1893,8 @@
       selectExtension: selectExtension,
       showSourcesJs: showSourcesJs,
       getReferenceFk: getReferenceFk,
-      getPermissions: getPermissions
+      getPermissions: getPermissions,
+      onSelectSection: onSelectSection
     }); 
   };
 })();
