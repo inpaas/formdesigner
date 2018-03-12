@@ -854,7 +854,14 @@
           break;
 
         case 'E':
-          model.finder.moduleKey = ctrl.moduleEntity.key;
+          var finder = {
+            moduleKey: ctrl.moduleEntity.key,
+            key: model.finder.key,
+            entityName: model.finder.entityName
+          };
+          
+          model.finder = finder;
+
           delete model.serviceSource;
           break; 
 
@@ -1006,29 +1013,28 @@
           getModuleEntity(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
           getFinders(formField.finder.entityName);
           getFinder(formField.finder.entityName, formField.finder.key);
+          
+          if(formField.finder.dependencies){
+            var bindDependencies = [],
+                bindReferences = [],
+                depReferences = [];
 
+            formField.finder.dependencies.forEach(function(dep){
+              if(angular.isObject(dep)){
+                bindReferences.push(dep.bindForm);
+                bindDependencies.push(dep.bindForm);
+                depReferences.push(dep);
+              }else{
+                bindDependencies.push(dep);
+              }
+            }); 
+
+            formField.bindDependencies = bindDependencies;
+            formField.bindReferences = bindReferences;
+            ctrl.depReferences = depReferences;
+          }
         }else {
           getSources(getModuleIdByKey(formField.finder.moduleKey));
-        }
-
-        if(formField.finder.dependencies){
-          var bindDependencies = [],
-              bindReferences = [],
-              depReferences = [];
-
-          formField.finder.dependencies.forEach(function(dep){
-            if(angular.isObject(dep)){
-              bindReferences.push(dep.bindForm);
-              bindDependencies.push(dep.bindForm);
-              depReferences.push(dep);
-            }else{
-              bindDependencies.push(dep);
-            }
-          }); 
-
-          formField.bindDependencies = bindDependencies;
-          formField.bindReferences = bindReferences;
-          ctrl.depReferences = depReferences;
         }
 
       }else if(formField.serviceSource){

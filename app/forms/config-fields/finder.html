@@ -79,14 +79,22 @@
               class="form-control input-sm" 
               ng-model="ctrl.fieldEdit.finder.sourceKey"
               typeahead-min-length="0"
-              uib-typeahead="source.key as source.key for source in ctrl.sources | filter:{name: $viewValue}">
-      
+              uib-typeahead="source.key as source.key for source in ctrl.sources | filter:{name: $viewValue}"> 
     </div>
     
     <div class="form-group">
       <label for="">Método:</label>
       <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.finder.method">
     </div>
+    
+    <div class="form-group">
+      <label for="">Dependências</label>
+      <select class="form-control input-sm" 
+              multiple 
+              ng-options="field.alias as field.alias for field in ctrl.entityForm.attributes" 
+              ng-model="ctrl.fieldEdit.finder.dependencies">
+      </select>
+    </div> 
   </div>
 
   <div class="form-group">
@@ -94,22 +102,24 @@
     <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.finder.bindText">
   </div>
 
-  <div class="form-group">
-    <label for="">Dependências (Fields)</label>
-    <select class="form-control input-sm" 
-            multiple 
-            ng-change="ctrl.getReferenceFk(ctrl.fieldEdit.bindDependencies)"
-            ng-options="field.meta.bind as field.label for field in ctrl.selectFields" 
-            ng-model="ctrl.fieldEdit.bindDependencies">
-    </select>
-  </div>
+  <div ng-if="ctrl.depReferences && ctrl.fieldEdit.dataSourceType == 'E'">
+    <div class="form-group">
+      <label for="">Dependências (Fields)</label>
+      <select class="form-control input-sm" 
+              multiple 
+              ng-change="ctrl.getReferenceFk(ctrl.fieldEdit.bindDependencies)"
+              ng-options="field.meta.bind as field.label for field in ctrl.selectFields" 
+              ng-model="ctrl.fieldEdit.bindDependencies">
+      </select>
+    </div>
 
-  <div class="form-group" ng-if="ctrl.depReferences && ctrl.fieldEdit.finder.type == 'entity'">
-    <label for="">Dependências (Referências)</label>
-    <select class="form-control input-sm" 
-            multiple 
-            ng-options="ref.bindForm as ref.fk for ref in ctrl.depReferences" 
-            ng-model="ctrl.fieldEdit.bindReferences">
-    </select>
+    <div class="form-group">
+      <label for="">Dependências (Referências)</label>
+      <select class="form-control input-sm" 
+              multiple 
+              ng-options="ref.bindForm as ref.fk for ref in ctrl.depReferences" 
+              ng-model="ctrl.fieldEdit.bindReferences">
+      </select>
+    </div>
   </div>
 </div>

@@ -197,7 +197,7 @@
             <label for="">Dependências</label>
             <select class="form-control input-sm" 
                     multiple 
-                    ng-options="ref.alias as ref.alias for ref in ctrl.entityForm.attributes" 
+                    ng-options="field.alias as field.alias for field in ctrl.entityForm.attributes" 
                     ng-model="ctrl.currentSection.finder.dependencies">
             </select>
           </div> 
