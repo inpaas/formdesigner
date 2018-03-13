@@ -519,7 +519,7 @@
       showConfigSection();
     }
 
-    function onSelectSection(type){
+    function onSelectTypeSection(type){
       switch (type){
         case 'finder-service':
           ctrl.currentSection.finder.dependencies = [];
@@ -1798,6 +1798,11 @@
       }
     }
 
+    function selectModuleForFinderService(modId, currentSection){
+      getSources(modId, currentSection);
+      getModuleForms(modId, currentSection);
+    }
+
     function selectExtension(fileType){
       !ctrl.fieldEdit.fileTypes && (ctrl.fieldEdit.fileTypes = []);
 
@@ -1896,7 +1901,8 @@
       showSourcesJs: showSourcesJs,
       getReferenceFk: getReferenceFk,
       getPermissions: getPermissions,
-      onSelectSection: onSelectSection
+      onSelectTypeSection: onSelectTypeSection,
+      selectModuleForFinderService: selectModuleForFinderService
     }); 
   };
 })();

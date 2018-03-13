@@ -69,7 +69,7 @@
 
       <div class="row">
         <div class="form-group">
-          <select class="form-control input-sm" ng-model="ctrl.currentSection.includeType" ng-change="ctrl.onSelectSection(ctrl.currentSection.includeType)">
+          <select class="form-control input-sm" ng-model="ctrl.currentSection.includeType" ng-change="ctrl.onSelectTypeSection(ctrl.currentSection.includeType)">
             <option value="">Selecione</option>
             <option value="edit"> Form de edição </option>
             <option value="list"> Master/Details (Entidade)</option>
@@ -172,7 +172,7 @@
               </button>
               <ul class="dropdown-menu btn-block">
                 <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-                <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.getSources(mod.id, ctrl.currentSection)">
+                <li ng-repeat="mod in app.modules track by $index" ng-click="ctrl.selectModuleForFinderService(mod.id, ctrl.currentSection)">
                   <a ng-bind="mod.title"></a>
                 </li>
                 <li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
@@ -201,6 +201,13 @@
                     ng-model="ctrl.currentSection.finder.dependencies">
             </select>
           </div> 
+          <div class="form-group">
+            <label for="">Formulário de edição</label>
+            <select class="form-control input-sm" 
+                    ng-model="ctrl.currentSection.finder.form"
+                    ng-options="form.key as form.name for form in ctrl.currentSection.forms">
+            </select>
+          </div>
         </div>
 
         <!-- Config include edit  -->
@@ -215,7 +222,7 @@
           </div>
           
           <div class="form-group">
-            <label for="">Forms</label>
+            <label for="">Formulário de edição</label>
             <select class="form-control input-sm" 
                     ng-model="ctrl.currentSection.include.key"
                     ng-options="form.key as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
