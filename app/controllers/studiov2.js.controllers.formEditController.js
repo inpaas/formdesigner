@@ -338,7 +338,10 @@
           break;
 
         case 'edit':
-          configSectionEdit();
+          delete currentSection.finder;
+          if(!currentSection.isSameDataSource){
+            configSectionEdit();
+          }
           break;
 
         case 'templateCustom':
