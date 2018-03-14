@@ -351,8 +351,6 @@
 
         case 'finder-service':
           delete currentSection.finder.entityName;
-          delete currentSection.finder.key;
-          delete currentSection.finder.title;
           break;
       }
 
@@ -492,6 +490,7 @@
 
       }else if(currentSection.includeType == 'templateCustom'){
         getModuleTemplates(getModuleIdByKey(currentSection.include.moduleKey));
+
       }
 
       if(currentSection.meta && currentSection.meta.visible) {
@@ -1154,28 +1153,28 @@
 
     function setFieldsIncludes(form, sections){
       sections.forEach(function(section){
-        var field = angular.copy(section);
+        var section = angular.copy(section);
 
-        delete field.fields;
-        delete field.newInclude;
-        delete field.jsonForm;
-        delete field.type;
-        delete field.fieldsCol1;
-        delete field.fieldsCol2;
-        delete field.fieldsCol3;
-        delete field.rawEntityField;
-        delete field.referencesChild;
-        delete field.references;
-        delete field.dependenciesKeys;
-        delete field.entity;
+        delete section.fields;
+        delete section.newInclude;
+        delete section.jsonForm;
+        delete section.type;
+        delete section.fieldsCol1;
+        delete section.fieldsCol2;
+        delete section.fieldsCol3;
+        delete section.rawEntityField;
+        delete section.referencesChild;
+        delete section.references;
+        delete section.dependenciesKeys;
+        delete section.entity;
 
-        if(field.finder && field.finder.relatedFinders && field.finder.relatedFinders.length == 1){
-          var finder = field.finder.relatedFinders[0];
-          angular.extend(field.finder, {key : finder.key, title: finder.title});
-          delete field.finder.relatedFinders;
+        if(section.finder && section.finder.relatedFinders && section.finder.relatedFinders.length == 1){
+          var finder = section.finder.relatedFinders[0];
+          angular.extend(section.finder, {key : finder.key, title: finder.title});
+          delete section.finder.relatedFinders;
         }
 
-        form.fields.push(field);
+        form.fields.push(section);
       });
     }
 
@@ -1798,6 +1797,12 @@
       }
     }
 
+    function getFindersService(sourceKey, currentSection){
+      httpService.getFindersSourcesKey(sourceKey).then(function(response){
+        currentSection.methods = response.data.finders;
+      });
+    }
+
     function selectModuleForFinderService(modId, currentSection){
       getSources(modId, currentSection);
       getModuleForms(modId, currentSection);
@@ -1902,7 +1907,8 @@
       getReferenceFk: getReferenceFk,
       getPermissions: getPermissions,
       onSelectTypeSection: onSelectTypeSection,
-      selectModuleForFinderService: selectModuleForFinderService
+      selectModuleForFinderService: selectModuleForFinderService,
+      getFindersService: getFindersService
     }); 
   };
 })();

@@ -241,6 +241,15 @@
       }, onSuccess, onError);
     }
 
+    function getFindersSourcesKey(sourceKey){
+      var url = '/api/data-sources/s/'.concat(sourceKey);
+
+      return $http({
+        method: 'get',
+        url: url
+      }, onSuccess, onError);
+    }
+
     return {
       getModule: getModule,
       getApps: getApps,
@@ -256,7 +265,8 @@
       getFinders: getFinders,
       getFinder: getFinder,
       getFormInclude: getFormInclude,
-      getEntityByKey: getEntityByKey
+      getEntityByKey: getEntityByKey,
+      getFindersSourcesKey: getFindersSourcesKey
     }
   }
 
