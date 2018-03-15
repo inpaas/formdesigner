@@ -19,45 +19,9 @@
         <label for="notDisplayLabel">Não mostrar o título</label>
       </div>
     </div>
-  
-    <!-- Config Collumns-->
-    <div class="row" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource)">
-      <div class="stock-separator">
-        <label for="">Colunas da seção</label>
-      </div>
-
-      <div class="form-group template-col" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource)">
-        <ul class="list-existing">
-          <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 1" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 1 || !ctrl.currentSection.views.edit.collumns}">
-            <div class="row-bx">
-              <div class="col-amount col-am-1"></div>
-            </div>
-            <p class="txt-info-col">1 Coluna</p>
-          </li>
-
-          <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 2" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 2}">
-            <div class="row-bx">
-              <div class="col-amount col-am-2"></div>
-              <div class="col-amount col-am-2"></div>
-            </div>
-            <p class="txt-info-col">2 Colunas</p>
-          </li>
-
-          <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 3" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 3}">
-            <div class="row-bx">
-              <div class="col-amount col-am-3"></div>
-              <div class="col-amount col-am-3"></div>
-              <div class="col-amount col-am-3"></div>
-            </div>
-            <p class="txt-info-col">3 Colunas</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!-- /Config Collumns-->
 
     <!-- Config include Datasource-->
-    <div class="row" ng-show="ctrl.currentSection.type != 'main' && !ctrl.currentSection.isSameDataSource">
+    <div class="row" ng-show="ctrl.currentSection.type != 'main'">
       <div class="stock-separator">
         <label for="">Tipo do seção</label>
       </div>
@@ -67,7 +31,7 @@
         <label for="section-datasource"> Usar a entidade do Form </label>
       </div>
 
-      <div class="row">
+      <div class="row" ng-hide="ctrl.currentSection.isSameDataSource">
         <div class="form-group">
           <select class="form-control input-sm" ng-model="ctrl.currentSection.includeType" ng-change="ctrl.onSelectTypeSection(ctrl.currentSection.includeType)">
             <option value="">Selecione</option>
@@ -140,27 +104,6 @@
                      ng-options="ref for ref in ctrl.currentSection.references" 
                      ng-model="ctrl.currentSection.dependenciesKeys">
              </select>
-          </div>
-          <div class="form-group">
-            <label for="">Esconder botões do Finder</label>
-            <div>
-              <label for="bt-finder-add">
-                <input type="checkbox" id="bt-finder-add" ng-model="ctrl.currentSection.views.edit.hiddenButtons.add">
-                Botão de inclusão
-              </label>
-            </div>
-            <div>
-              <label for="bt-finder-edit">
-                <input type="checkbox" id="bt-finder-edit" ng-model="ctrl.currentSection.views.edit.hiddenButtons.edit">
-                Botão de edição
-              </label>
-            </div>
-            <div>
-              <label for="bt-finder-del">
-                <input type="checkbox" id="bt-finder-del" ng-model="ctrl.currentSection.views.edit.hiddenButtons.remove">
-                Botão de exclusão
-              </label>
-            </div>
           </div>
         </div>
 
@@ -274,6 +217,41 @@
     </div>
     <!-- /Config include Datasource-->
 
+    <!-- Config Collumns-->
+    <div class="row" ng-show="ctrl.currentSection.type == 'main' || (ctrl.currentSection.isSameDataSource)">
+      <div class="stock-separator">
+        <label for="">Colunas da seção</label>
+      </div>
+
+      <div class="form-group template-col">
+        <ul class="list-existing">
+          <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 1" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 1 || !ctrl.currentSection.views.edit.collumns}">
+            <div class="row-bx">
+              <div class="col-amount col-am-1"></div>
+            </div>
+            <p class="txt-info-col">1 Coluna</p>
+          </li>
+
+          <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 2" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 2}">
+            <div class="row-bx">
+              <div class="col-amount col-am-2"></div>
+              <div class="col-amount col-am-2"></div>
+            </div>
+            <p class="txt-info-col">2 Colunas</p>
+          </li>
+
+          <li class="item-list" ng-click="ctrl.currentSection.views.edit.collumns = 3" ng-class="{'item-list-selected' : ctrl.currentSection.views.edit.collumns == 3}">
+            <div class="row-bx">
+              <div class="col-amount col-am-3"></div>
+              <div class="col-amount col-am-3"></div>
+              <div class="col-amount col-am-3"></div>
+            </div>
+            <p class="txt-info-col">3 Colunas</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- /Config Collumns-->
     <div class="row">
       <div class="stock-separator">
         <label for="">Static Sources</label>
@@ -294,6 +272,27 @@
     <div class="row">
       <div class="stock-separator">
         <label for="">Display</label>
+      </div>
+      <div class="form-group" ng-show="ctrl.currentSection.includeType == 'list' || ctrl.currentSection.includeType == 'finder-service'">
+        <label for="">Esconder botões do Finder</label>
+        <div>
+          <label for="bt-finder-add">
+            <input type="checkbox" id="bt-finder-add" ng-model="ctrl.currentSection.views.edit.hiddenButtons.add">
+            Botão de inclusão
+          </label>
+        </div>
+        <div>
+          <label for="bt-finder-edit">
+            <input type="checkbox" id="bt-finder-edit" ng-model="ctrl.currentSection.views.edit.hiddenButtons.edit">
+            Botão de edição
+          </label>
+        </div>
+        <div>
+          <label for="bt-finder-del">
+            <input type="checkbox" id="bt-finder-del" ng-model="ctrl.currentSection.views.edit.hiddenButtons.remove">
+            Botão de exclusão
+          </label>
+        </div>
       </div>
       <div class="row" ng-show="ctrl.currentSection.type != 'main'">
         <div class="form-group">
