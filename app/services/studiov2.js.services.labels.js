@@ -89,8 +89,10 @@
     }
 
     function buildLabelsFromBreadcrumb(breadcrumb, entityName, moduleId, forceUpdate){
-      var value = breadcrumb = breadcrumb[0].path,
+      var value = breadcrumb[0].path,
           key = 'label.'.concat(entityName.toLowerCase()).concat('.path');
+
+      breadcrumb[0].path = key;
 
       saveLabel(value, key, moduleId, forceUpdate);
     }
@@ -172,16 +174,21 @@
     function translateLabels(form){
       form.label = translateTitle(form.label);
 
-      if(form.views.edit.actions){
+      if(form.views.edit.actions.length){
         translateActions(form.views.edit.actions);
       }
 
-      if(form.fields){
+      if(form.fields.length){
         translateFields(form.fields);
       }
 
+      translateBreadcrumb(form.views.edit.breadcrumb);
       return form;
     }
+
+    function translateBreadcrumb(breadcrumb){
+      breadcrumb[0].path = $l10n.translate(breadcrumb[0].path);
+    };
 
     function translateTitle(label){
       return $l10n.translate(label);
