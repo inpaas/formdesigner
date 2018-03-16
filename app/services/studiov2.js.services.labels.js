@@ -182,7 +182,10 @@
         translateFields(form.fields);
       }
 
-      translateBreadcrumb(form.views.edit.breadcrumb);
+      if(form.views.edit.breadcurmb.length){
+        translateBreadcrumb(form.views.edit.breadcrumb);
+      }
+      
       return form;
     }
 
