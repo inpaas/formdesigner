@@ -2151,3 +2151,14 @@ label[for="pattern-ignorecase"]{
 .d-block{
   display: block;
 }
+
+.panel-form{
+  padding: 10px;
+  background: #f6f6f6;
+  margin-bottom: 10px;
+  box-shadow: 1px 1px 3px #c1c1c1;
+}
+
+.btn-config-form{
+  margin-right: 20px;
+}

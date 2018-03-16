@@ -1,3 +1,21 @@
+<!-- Form Actions -->
+<div class="panel-form">
+  <button type="button" class="btn btn-default btn-form-config" ng-click="ctrl.showConfigForm(ctrl.jsonModel)" title="Configurações">
+    <i class="fa fa-cog" aria-hidden="true"></i>
+  </button>
+
+  Form Designer - {[{ctrl.moduleForm.title}]} // {[{ctrl.jsonModel.label}]}
+
+  <div class="pull-right">
+    <button type="button" class="btn btn-primary" ng-click="ctrl.saveForm()" title="Salvar">
+      <i class="fa fa-fw fa-save"></i>
+    </button>
+    <button type="button" class="btn btn-sm btn-primary" title="Preview" ng-click="ctrl.formPreview()" title="Executar o Form">
+      <i class="fa fa-fw fa-play"></i>
+    </button>  
+  </div>
+</div>
+
 <!-- sidebar -->
 <div class="sidebar" ui-view="sidebar"> </div>
 <!-- End Sidebar -->

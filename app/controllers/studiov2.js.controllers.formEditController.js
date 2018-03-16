@@ -31,6 +31,8 @@
             delete jsonModel.moduleId;
           } 
 
+          ctrl.moduleForm = getModuleFromApps(getModuleIdByKey(jsonModel.moduleKey));
+
           if (!jsonModel.dataSource.moduleKey && jsonModel.dataSource.moduleKey) {
             jsonModel.dataSource.moduleKey = getModuleKeyById(jsonModel.dataSource.moduleId || response.data.moduleId);
             delete jsonModel.dataSource.moduleId;
