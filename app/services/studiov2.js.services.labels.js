@@ -6,31 +6,20 @@
   labelsService.$inject = ['$http', '$filter', '$l10n', '$q', 'jsonFormService', 'AUDIT_FIELDS'];
 
   function labelsService($http, $filter, $l10n, $q, jsonFormService, AUDIT_FIELDS){
-    var _userLocale = getLanguageUser(),
-        labelsNamespace = ""; 
-        labels = [];
+      var labelsNamespace = "",
+          labels = [];
 
-    function saveLabel(text, key, idModule, forceUpdate){
-      if ((!forceUpdate && $l10n.translate(key) == text) || !text){
-        return false;
-      }
-
-      var url = '/api/studio/modules/'.concat(idModule).concat('/labels'), 
-          data = {
-            "key": key,
-            "text": text,
-            "translations": {}
-          };
-
-      data.translations[_userLocale] = text;
+    function saveLabels(labels, idModule){
+      var url = '/api/studio/modules/'.concat(idModule).concat('/labels/').concat(getLanguageUser());
 
       return $http({
           url: url,
           method: 'post',
-          data: data
-        }).then(function(response){
-          $l10n.editLabel(key, text);
-          return response;
+          data: labels
+        }).then(function(){
+          angular.forEach(labels, function(labelValue, labelKey){
+            $l10n.editLabel(labelKey, labelValue);
+          });
         });
     }
 
@@ -62,42 +51,60 @@
     }
 
     function buildLabels(jsonForm, moduleId){
-      var forceLabelUpdate = jsonForm.prevModuleId;
+      var labels,
+          labelsToSave = {};
+
       setLabelsNamespace(jsonForm.key);
 
-      jsonForm.label = buildLabelsFromTitle(jsonForm.label, moduleId);
+      labels = buildLabelsFromTitle(jsonForm);
+      angular.extend(labelsToSave, labels);
 
       if (jsonForm.views.edit.breadcrumb.length) {
-        buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, jsonForm.dataSource.key, moduleId, forceLabelUpdate);  
+        labels = buildLabelsFromBreadcrumb(jsonForm.views.edit.breadcrumb, jsonForm.dataSource.key, moduleId);  
+        angular.extend(labelsToSave, labels);
       }
       
       if(jsonForm.views.edit.actions){
-        buildLabelsFromActions(jsonForm.views.edit.actions, 'edit', moduleId, forceLabelUpdate);
+        labels = buildLabelsFromActions(jsonForm.views.edit.actions, 'edit');
+        angular.extend(labelsToSave, labels);
       }
 
       if(jsonForm.fields){
-        buildLabelsFromFields(jsonForm.fields, moduleId, jsonForm.dataSource.key.toLowerCase(), jsonForm.key, forceLabelUpdate); 
+        labels = buildLabelsFromFields(jsonForm.fields, jsonForm.dataSource.key.toLowerCase(), jsonForm.key); 
+        angular.extend(labelsToSave, labels);
       }
+
+      saveLabels(labelsToSave, moduleId);
+
       delete jsonForm.prevModuleId; 
       return jsonForm;
     }
 
-    function buildLabelsFromTitle(title, moduleId, lang, forceUpdate){
-      var key = generateKey('title');
-      saveLabel(title, key, moduleId, forceUpdate);
-      return key;
+    function buildLabelsFromTitle(jsonForm){
+      var key = generateKey('title'),
+          value = jsonForm.label,
+          label = {};
+
+      jsonForm.label = key;
+      label[key] = value || null;
+
+      return label;
     }
 
-    function buildLabelsFromBreadcrumb(breadcrumb, entityName, moduleId, forceUpdate){
+    function buildLabelsFromBreadcrumb(breadcrumb, entityName){
       var value = breadcrumb[0].path,
-          key = 'label.'.concat(entityName.toLowerCase()).concat('.path');
+          key = 'label.'.concat(entityName.toLowerCase()).concat('.path'),
+          label = {};
 
       breadcrumb[0].path = key;
+      label[key] = value || null;
 
-      saveLabel(value, key, moduleId, forceUpdate);
+      return label;
     }
 
-    function buildLabelsFromActions(actions, view, moduleId, forceUpdate){
+    function buildLabelsFromActions(actions, view){
+      var labels = {};
+
       actions.forEach(function(action, index){
         if (action.label && !isKeyLabel(action.label)) {
           var key = generateKey('action-')
@@ -108,27 +115,29 @@
               value = action.label;
 
           action.label = key;
-
-          saveLabel(value, key, moduleId, forceUpdate);
+          labels[key] = value || null;
         }
       });
 
-      return actions;
+      return labels;
     }
 
-    function buildLabelsFromFields(fields, moduleId, entityName, formKey, forceUpdate){
+    function buildLabelsFromFields(fields, entityName, formKey){
+      var labels = {};
+
       fields.forEach(function(field, index){
-        var key;
+        var key, value = field.label;
 
         if(field.auditField){
           var auditField = AUDIT_FIELDS.filter(function(auditField){return auditField.alias == field.meta.bind})[0];
 
-          if($l10n.translate(auditField.label).toLowerCase() != field.label.toLowerCase()){
+          if($l10n.translate(auditField.label).toLowerCase() != value.toLowerCase()){
             key = 'label.'.concat(entityName).concat('.');
             key = key.concat(auditField.label.split('.')[1]);
           }
+
         }else{
-          if(field.colllumnName || field.meta.bind ){
+          if(field.colllumnName || field.meta.bind){
             key = 'label.'.concat(entityName).concat('.');
             key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()));
           }else{
@@ -136,35 +145,25 @@
           }
         }
 
-        if(field.label){
-          saveLabel(field.label, key, moduleId, forceUpdate);
-          field.label = key; 
-        }
+        field.label = key; 
+        labels[key] = value || null;
         
         if (field.meta.placeholder) {
           var keyPlaceholder = key.concat('.').concat('placeholder');
-          saveLabel(field.meta.placeholder, keyPlaceholder, moduleId, forceUpdate);
           field.meta.placeholder = keyPlaceholder;
+          labels[key] = value;
         }
 
         if(field.meta.help){
           var keyHelp = key.concat('help');
-          saveLabel(field.meta.help, keyHelp, moduleId, forceUpdate);
           field.meta.help = keyHelp;
+          labels[key] = value;
         }
 
         delete field.collumnName;
       });
 
-      return fields;
-
-      function buildLabelsOptions(fieldName, options, forceUpdate){
-        options.forEach(function(item, index){
-          if(!$l10n.hasLabel(item.label)){
-            saveLabel(item.value, item.label, moduleId, forceUpdate); 
-          }
-        });
-      }
+      return labels;
     }
 
     function isKeyLabel(label){
@@ -182,7 +181,7 @@
         translateFields(form.fields);
       }
 
-      if(form.views.edit.breadcurmb.length){
+      if(form.views.edit.breadcrumb.length){
         translateBreadcrumb(form.views.edit.breadcrumb);
       }
       
@@ -222,11 +221,7 @@
     }
 
     return{
-      getLabelsNamespace: getLabelsNamespace,
-      setLabelsNamespace: setLabelsNamespace,
       buildLabels: buildLabels,
-      saveLabel: saveLabel,
-      buildLabelsFromTitle: buildLabelsFromTitle,
       translateLabels: translateLabels
     }
   }
