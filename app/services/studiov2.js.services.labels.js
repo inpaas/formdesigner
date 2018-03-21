@@ -3,9 +3,9 @@
     .module('studio-v2')
     .service('labelsService', labelsService);
     
-  labelsService.$inject = ['$http', '$filter', '$l10n', '$q', 'jsonFormService', 'AUDIT_FIELDS'];
+  labelsService.$inject = ['$http', '$filter', '$l10n', 'AUDIT_FIELDS'];
 
-  function labelsService($http, $filter, $l10n, $q, jsonFormService, AUDIT_FIELDS){
+  function labelsService($http, $filter, $l10n, AUDIT_FIELDS){
       var labelsNamespace = "",
           labels = [];
 
