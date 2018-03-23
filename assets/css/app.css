@@ -107,7 +107,6 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   border-radius: 5px;
 }
 .page-content .content-field div.row {
-  float: left;
   width: 100%;
   margin: 0;
 }
@@ -500,18 +499,16 @@ select.input-sm {
 }
 
 .edit-form .container-fields .sidebar {
-  height: 100%;
   width: 265px;
   position: absolute;
   z-index: 2;
-  /*-webkit-box-shadow: 1px 0px 5px -1px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 1px 0px 5px -1px rgba(0, 0, 0, 0.75);
-  box-shadow: 1px 0px 5px -1px rgba(181, 181, 181, 0.75);*/
   background: #F6F6F6;
   padding-bottom: 67px;
   border-right: solid 1px #eaeaea;
   padding-bottom: 0;
   overflow: hidden;
+  top: 60px;
+  bottom: 0;
 }
 
 .edit-form .sidebar .box-sb {
@@ -569,7 +566,7 @@ select.input-sm {
   padding: 10px;
   margin: 0;
   width: 100%;
-  margin-bottom: 150px;
+  margin-bottom: 80px;
 }
 
 .edit-form ul.nav-components.position-field .inner-item .btn {
@@ -775,12 +772,13 @@ ul.nav-components li.item-components .widget-toolbar i {
 .edit-form .container-fields .main-full {
   width: 100%;
   position: absolute;
-  height: 100%;
   padding-left: 265px;
   overflow: auto;
   background: #ffffff;
   padding-bottom: 20px;
   overflow: auto;
+  bottom: 0;
+  top: 60px;
 }
 .edit-form .main-full .btn-active .btn {
   cursor: default;
@@ -834,7 +832,7 @@ ul.nav-components li.item-components .widget-toolbar i {
   margin-right: 10px;
 }
 .edit-form .main-full .content-field {
-  padding: 10px 15px;
+  padding: 0 10px 15px;
 }
 .content-field .row-title .tlt-drop {
   font-weight: bold;
