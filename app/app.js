@@ -71,9 +71,9 @@
       
       NotificationProvider.setOptions({
         delay: 4000,
-        startTop: 20,
+        startTop: 50,
         startRight: 10,
-        verticalSpacing: 20,
+        verticalSpacing: 30,
         horizontalSpacing: 20,
         positionX: 'right',
         positionY: 'top'
