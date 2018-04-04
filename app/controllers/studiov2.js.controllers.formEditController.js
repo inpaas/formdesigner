@@ -143,12 +143,18 @@
     function linkColumnNameToFields(fields){
       if(!fields.length){return;}
 
-      ctrl.entityForm.attributes.forEach(function(entityField){
-        ctrl.sections[0].fields.forEach(function(field){
-          if (!field.auditField && entityField.alias == field.meta.bind) {
-            field.collumnName = entityField.name.toLowerCase();
-          }
-        });
+      ctrl.sections.forEach(function(section, index){
+        if((section.type == 'main' || section.isSameDataSource) && section.fields.length){
+          section.fields.forEach(function(field, index){
+            ctrl.entityForm.attributes.forEach(function(entityField){
+
+              if (!field.auditField && entityField.alias == field.meta.bind) {
+                field.collumnName = entityField.name.toLowerCase();
+              }
+
+            });
+          });
+        }
       });
     }
 

@@ -150,14 +150,14 @@
         
         if (field.meta.placeholder) {
           var keyPlaceholder = key.concat('.').concat('placeholder');
+          labels[keyPlaceholder] = field.meta.placeholder;
           field.meta.placeholder = keyPlaceholder;
-          labels[key] = value;
         }
 
         if(field.meta.help){
           var keyHelp = key.concat('help');
+          labels[keyHelp] = field.meta.help;
           field.meta.help = keyHelp;
-          labels[key] = value;
         }
 
         delete field.collumnName;
