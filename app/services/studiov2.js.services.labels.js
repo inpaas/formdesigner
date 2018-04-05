@@ -144,8 +144,12 @@
             key = 'label.'.concat(formKey).concat('.').concat(field.name);
           }
         }
+        if(field.meta.type == 'button'){
+          field.meta.buttonLabel = key;
+        }else{
+          field.label = key; 
+        }
 
-        field.label = key; 
         labels[key] = value || null;
         
         if (field.meta.placeholder) {
@@ -219,7 +223,7 @@
 
       return fields;
     }
-
+    
     return{
       buildLabels: buildLabels,
       translateLabels: translateLabels
