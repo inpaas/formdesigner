@@ -1105,7 +1105,10 @@
 
     function removeSection(index){
       ctrl.sections.splice(index, 1);
-      showComponents();
+
+      if(ctrl.onEditSection && ctrl.currentSection.index == index){
+        showComponents();
+      }
     }
 
     function saveForm(){
@@ -1134,6 +1137,7 @@
         }, function error(response){
           Notification.error('O formulário não pode ser salvo. \n'.concat( $l10n.translate(response.data.message) ));
         });
+        
       }else{
         httpService.saveNewForm(form, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId)
           .then(function(response){
