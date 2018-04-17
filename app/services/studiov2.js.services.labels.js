@@ -146,6 +146,16 @@
         }
 
         field.label = key; 
+
+       if(field.meta.type == 'button' && field.meta.buttonLabel){
+          var buttonKey = key.concat('.buttonlabel'),
+              buttonValue = field.meta.buttonLabel;
+
+          labels[buttonKey] = buttonValue;
+          field.meta.buttonLabel = buttonKey;
+        }
+
+        field.label = key; 
         labels[key] = value || null;
         
         if (field.meta.placeholder) {
@@ -214,6 +224,10 @@
         
         if(field.meta.help){
           field.meta.help = $l10n.translate(field.meta.help);
+        }
+
+        if(field.meta.type == 'button'){
+          field.meta.buttonLabel = $l10n.translate(field.meta.buttonLabel);
         }
       });
 
