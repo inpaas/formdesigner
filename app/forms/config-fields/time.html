@@ -4,9 +4,10 @@
   <label for="">Formatação</label>
   <select class="form-control input-sm" 
           ng-model="ctrl.fieldEdit.meta.format" 
-          ng-options="format.key as format.title for format in ctrl.TIME_FORMAT_PATTERNS">
+          ng-options="format.key as format.title for format in ctrl.TIME_FORMAT_PATTERNS" ng-change="ctrl.validateConfigField('time_formatType')">
     <option value="">Selecione</option>
   </select>
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.time_formatType">Selecione um formato</small>
 </div>
 
 <div class="form-group" ng-repeat-start="format in ctrl.TIME_FORMAT_PATTERNS" ng-if="ctrl.fieldEdit.meta.format == format.key">
@@ -18,7 +19,10 @@
         ui-mask-placeholder-char="space"
         model-view-value="true"
         ui-mask-placeholder
+        ng-blur="ctrl.validateConfigField('time_minTime')"
         ui-options="{clearOnBlur: false, allowInvalidValue: true}">
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.time_minTime">O tempo mínimo não pode ser maior que o máximo</small>
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.time_minTimeInvalid">O tempo mínimo está inválido</small>
 </div>
 
 <div class="form-group" ng-repeat-end ng-if="ctrl.fieldEdit.meta.format == format.key">
@@ -30,7 +34,10 @@
         ui-mask-placeholder-char="space"
         model-view-value="true"
         ui-mask-placeholder
+        ng-blur="ctrl.validateConfigField('time_maxTime')"
         ui-options="{clearOnBlur: false, allowInvalidValue: true}">
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.time_maxTime"> O tempo máximo não pode ser menor que o mínimo</small>
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.time_maxTimeInvalid">O tempo máximo está inválido</small>
 </div>
 
 {{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}

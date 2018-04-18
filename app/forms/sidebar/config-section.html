@@ -27,21 +27,21 @@
       </div>
 
       <div class="form-group">
-        <input type="checkbox" id="section-datasource" ng-model="ctrl.currentSection.isSameDataSource"> 
+        <input type="checkbox" id="section-datasource" ng-model="ctrl.currentSection.isSameDataSource" ng-change="ctrl.onSelectTypeSection(ctrl.currentSection.isSameDataSource)"> 
         <label for="section-datasource"> Usar a entidade do Form </label>
       </div>
+      <div class="form-group" ng-if="!ctrl.currentSection.isSameDataSource">
+        <select class="form-control input-sm" ng-model="ctrl.currentSection.includeType" ng-change="ctrl.onSelectTypeSection(ctrl.currentSection.includeType)">
+          <option value="">Selecione</option>
+          <option value="edit"> Form de edição </option>
+          <option value="list"> Master/Details (Entidade)</option>
+          <option value="finder-service"> Master/Details (Serviço)</option>
+          <option value="templateCustom">Template Custom</option>
+        </select>
+      </div>
+      <small class="text-danger" ng-if="ctrl.currentSection.error.sectionType">Selecione o tipo da seção</small>
 
-      <div class="row" ng-hide="ctrl.currentSection.isSameDataSource">
-        <div class="form-group">
-          <select class="form-control input-sm" ng-model="ctrl.currentSection.includeType" ng-change="ctrl.onSelectTypeSection(ctrl.currentSection.includeType)">
-            <option value="">Selecione</option>
-            <option value="edit"> Form de edição </option>
-            <option value="list"> Master/Details (Entidade)</option>
-            <option value="finder-service"> Master/Details (Serviço)</option>
-            <option value="templateCustom">Template Custom</option>
-          </select>
-        </div>
-
+      <div class="row" ng-if="!ctrl.currentSection.isSameDataSource">
         <!-- Config Finder Include -->
         <div ng-show="ctrl.currentSection.includeType == 'list'">
           <div class="form-group">
@@ -65,9 +65,12 @@
                   class="form-control input-sm" 
                   placeholder="Selecione" 
                   ng-model="ctrl.currentSection.finder.entityName" 
-                  ng-blur="ctrl.selectEntityFinder(ctrl.currentSection.finder.entityName, ctrl.currentSection, true)"
+                  ng-change="ctrl.selectEntityFinder(ctrl.currentSection.finder.entityName, ctrl.currentSection, true)"
+                  typeahead-on-select="ctrl.selectEntityFinder(ctrl.currentSection.finder.entityName, ctrl.currentSection, true)"
+                  ng-blur="ctrl.validateConfigSection('sectionList', 'finder_entityName')"
                   uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
                   typeahead-min-length="0" />
+              <small class="text-danger" ng-if="ctrl.currentSection.error.finder_entityName">Selecione uma entidade</small>
           </div>
             
           <div class="form-group">
@@ -87,6 +90,7 @@
                 </li>
               </ul>
             </div>
+            <small class="text-danger" ng-if="ctrl.currentSection.error.finder_relatedFinders">Selecione ao menos um finder</small>
           </div>
 
           <div class="form-group">
@@ -97,6 +101,7 @@
                 <option value="">Padrão</option>
             </select>
           </div>
+
           <div class="form-group">
              <label for="">Dependências</label>
              <select class="form-control input-sm" 
@@ -130,26 +135,33 @@
                     typeahead-min-length="0"
                     ng-model-options="{debounce: 400}"
                     ng-change="ctrl.getFindersService(ctrl.currentSection.finder.sourceKey, ctrl.currentSection)" 
+                    ng-blur="ctrl.validateConfigSection('sectionFinderService', 'finder_sourceKey')"
                     typeahead-on-select="ctrl.getFindersService($item.key, ctrl.currentSection)"
                     uib-typeahead="source.key as source.key for source in ctrl.sources | filter:{name: $viewValue}" />
+            <small class="text-danger" ng-if="ctrl.currentSection.error.finder_sourceKey">Selecione um source</small>
           </div>
+
           <div class="form-group">
             <label for="">Method</label>
             <div class="btn-group btn-block" uib-dropdown is-open="status.isopen" auto-close="outsideClick">
-              <button id="single-button" type="button" class="btn btn-default btn-sm full-width" uib-dropdown-toggle>
+              <button id="single-button" type="button" class="btn btn-default btn-sm full-width" uib-dropdown-toggle ng-blur="ctrl.validateConfigSection('sectionList', finderService_relatedFinders)">
                 <span ng-if="!ctrl.currentSection.finder.relatedFinders.length">Selecione</span>
                 <span ng-if="ctrl.currentSection.finder.relatedFinders.length">{[{ ctrl.currentSection.finder.relatedFinders.length }]} finder(s) selecionado(s)</span>
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu dropdown-finders-options" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                <li role="menuitem" ng-repeat="method in ctrl.currentSection.methods track by $index">
+                <li role="menuitem" ng-repeat="method in ctrl.currentSection.methods track by $index" ng-if="ctrl.currentSection.methods.length">
                   <label for="choose-method-{[{ $index }]}">
                     <input type="checkbox" id="choose-method-{[{ $index }]}" ng-model="method.checked" ng-change="ctrl.selectFinder(method)">
                     {[{ method.title }]}
                   </label>
                 </li>
+                <li>
+                  <small class="text-danger" ng-if="ctrl.currentSection.finder.sourceKey && !ctrl.currentSection.methods.length">Não há métodos expostos nesse sourceKey</small>
+                </li>
               </ul>
             </div>
+            <small class="text-danger" ng-if="ctrl.currentSection.error.finderService_relatedFinders">Selecione ao menos um method</small>
           </div>
 
           <div class="form-group">
@@ -160,12 +172,15 @@
                     ng-model="ctrl.currentSection.finder.dependencies">
             </select>
           </div> 
+
           <div class="form-group">
             <label for="">Formulário de edição</label>
             <select class="form-control input-sm" 
                     ng-model="ctrl.currentSection.finder.form"
+                    ng-blur="ctrl.validateConfigSection('sectionFinderService', 'finderService_form')"
                     ng-options="form.key as form.name for form in ctrl.currentSection.forms">
             </select>
+            <small class="text-danger" ng-if="ctrl.currentSection.error.finderService_form">Escoha um form</small>
           </div>
         </div>
 
@@ -175,17 +190,20 @@
             <label for="">Referência</label>
             <select class="form-control input-sm" 
                     ng-model="ctrl.currentSection.meta.bind"
-                    ng-change="ctrl.getEntityFormsByBind(ctrl.currentSection.meta.bind)"
+                    ng-change="ctrl.onChangeRefIncludeEdit()"
                     ng-options="ref.alias as ref.label for ref in ctrl.entityForm.references">
             </select>
+            <small class="text-danger" ng-if="ctrl.currentSection.error.sectionType_edit_bind">Escoha uma referência</small>
           </div>
           
           <div class="form-group">
             <label for="">Formulário de edição</label>
             <select class="form-control input-sm" 
                     ng-model="ctrl.currentSection.include.key"
+                    ng-change="ctrl.currentSection.error.sectionType_edit_formKey = false"
                     ng-options="form.key as (form.name.concat(' ').concat('(').concat(form.key).concat(')')) for form in ctrl.entityForms">
             </select>
+            <small class="text-danger" ng-if="ctrl.currentSection.error.sectionType_edit_formKey">Escoha um form</small>
           </div>
         </div>
 
@@ -207,10 +225,13 @@
           </div> 
           <div class="form-group">
             <label for="">Template Key</label>
-            <select class="form-control input-sm" 
+            <input type="text"
+                    class="form-control input-sm" 
                     ng-model="ctrl.currentSection.include.template" 
-                    ng-options="template.key as template.name for template in ctrl.moduleEntity.templates">
-            </select>
+                    ng-blur="ctrl.validateConfigSection('sectionTemplate', 'include_templateKey')"
+                    typeahead-min-length="0"
+                    uib-typeahead="template.key as template.name for template in ctrl.moduleEntity.templates | filter: {name: $viewValue}">
+            <small class="text-danger" ng-if="ctrl.currentSection.error.include_templateKey">Selecione um template</small>
           </div>
         </div>
       </div>
@@ -370,30 +391,34 @@
       </div>
       
       <!-- onload -->
-      <div class="row">
-        <div class="form-group" ng-show="ctrl.currentSection.type == 'main'">
+      <div class="row" ng-hide="ctrl.currentSection.includeType == 'templateCustom'">
+        <div class="form-group">
           <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
-          <label for="section-onload">Ao carregar a página</label>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.type != 'main'">
-          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
-          <label for="section-onload">Ao carregar a seção</label>
+          <label for="section-onload" ng-show="ctrl.currentSection.type == 'main'">Ao carregar a página</label>
+          <label for="section-onload" ng-show="ctrl.currentSection.type != 'main'">Ao carregar a seção</label>
         </div>
 
         <div class="form-group" ng-show="ctrl.currentSection.onload">
           <label for="">SourceKey</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.sourceKey"/>
+          <input type="text" 
+                class="form-control input-sm" 
+                ng-blur="ctrl.validateConfigSection('event_onload')"
+                ng-model="ctrl.currentSection.views.edit.onload.sourceKey"/>
+          <small class="text-danger" ng-if="ctrl.currentSection.error.onload_sourceKey">Escreva o source key</small>
         </div>
 
         <div class="form-group" ng-show="ctrl.currentSection.onload">
           <label for="">Function Name</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onload.functionName"/>
+          <input type="text" 
+                class="form-control input-sm" 
+                ng-blur="ctrl.validateConfigSection('event_onload')"
+                ng-model="ctrl.currentSection.views.edit.onload.functionName"/>
+          <small class="text-danger" ng-if="ctrl.currentSection.error.onload_functionName">Escreva o nome da função</small>
         </div>
       </div>
 
       <!-- onsubmit -->
-      <div class="row">
+      <div class="row" ng-hide="ctrl.currentSection.includeType == 'templateCustom'">
         <div class="form-group">
           <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
           <label for="section-onsubmit">Ao salvar o form</label>
@@ -401,12 +426,20 @@
 
         <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
           <label for="">SourceKey</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
+          <input type="text" 
+                class="form-control input-sm" 
+                ng-blur="ctrl.validateConfigSection('event_onsubmit')"
+                ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
+          <small class="text-danger" ng-if="ctrl.currentSection.error.onsubmit_sourceKey">Escreva o source key</small>
         </div>
 
         <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
           <label for="">Function Name</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
+          <input type="text" 
+                class="form-control input-sm" 
+                ng-blur="ctrl.validateConfigSection('event_onsubmit')"
+                ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
+          <small class="text-danger" ng-if="ctrl.currentSection.error.onsubmit_functionName">Escreva o nome da função</small>
         </div>
       </div>
 
@@ -419,25 +452,33 @@
 
         <div class="form-group" ng-show="ctrl.currentSection.onchange">
           <label for="">SourceKey</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onchange.sourceKey"/>
+          <input type="text" 
+                class="form-control input-sm" 
+                ng-model="ctrl.currentSection.views.edit.onchange.sourceKey" 
+                ng-blur="ctrl.validateConfigSection('event_onchange')"/>
+          <small class="text-danger" ng-if="ctrl.currentSection.error.onchange_sourceKey">Escreva o source key </small>
         </div>
 
         <div class="form-group" ng-show="ctrl.currentSection.onchange">
           <label for="">Function Name</label>
-          <input type="text" class="form-control input-sm" ng-model="ctrl.currentSection.views.edit.onchange.functionName"/>
+          <input type="text" 
+                class="form-control input-sm" 
+                ng-blur="ctrl.validateConfigSection('event_onchange')"
+                ng-model="ctrl.currentSection.views.edit.onchange.functionName" />
+          <small class="text-danger" ng-if="ctrl.currentSection.error.onchange_functionName"> Escreva o nome da função </small>
         </div>
       </div>
     </div>
     <!-- /Events -->
-  </div>
 
-  <div class="action-buttons" style="z-index: 1;">
-    <div class="row">
-      <div class="col-xs-12 col-sm-6 no-padding col-pdd">
-        <button type="button" id="btnWidgetCancel" class="btn btn-default btn-block" ng-click="ctrl.cancelEditSection()">Cancelar</button>
-      </div>
-      <div class="col-xs-12 col-sm-6 no-padding">
-        <button type="button" id="btnWidgetSave" class="btn btn-success btn-block" ng-click="ctrl.saveSection()">Confirmar</button>
+    <div class="action-buttons" style="z-index: 1;">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 no-padding col-pdd">
+          <button type="button" id="btnWidgetCancel" class="btn btn-default btn-block" ng-click="ctrl.cancelEditSection()">Cancelar</button>
+        </div>
+        <div class="col-xs-12 col-sm-6 no-padding">
+          <button type="button" id="btnWidgetSave" class="btn btn-success btn-block" ng-click="ctrl.saveSection()">Confirmar</button>
+        </div>
       </div>
     </div>
   </div>

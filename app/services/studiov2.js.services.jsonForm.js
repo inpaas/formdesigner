@@ -6,7 +6,18 @@
   jsonFormService.$inject = ["$q", "$filter", 'JSONMODEL'];
   
   function jsonFormService($q, $filter, JSONMODEL){
-    var forms = {};
+    var form = {},
+        validations = {
+          formKey: validate_formKey,
+          datasource: validate_datasource
+        }
+
+    angular.extend(this, {
+      validateConfigForm: validateConfigForm,
+      validateAllConfigForm: validateAllConfigForm,
+      getFormTemplate: getFormTemplate,
+      setJsonForm: setJsonForm,
+    }); 
 
     function setJsonForm(_form){
       form = _form;
@@ -16,10 +27,23 @@
       var form = angular.copy(JSONMODEL);
       return form;
     }
-   
-    return {
-      getFormTemplate: getFormTemplate,
-      setJsonForm: setJsonForm,
-    };
+
+    function validateConfigForm(configForm, validationKey){
+      return validations[validationKey](configForm);
+    }
+
+    function validateAllConfigForm(configForm){
+      validate_formKey(configForm);
+      validate_datasource(configForm);
+    }
+
+    function validate_datasource(configForm){
+      configForm.error.entity = !configForm.dataSource.key;
+    }
+
+    function validate_formKey(configForm){
+      configForm.error.key = !configForm.key;
+    } 
+
   }
 })();

@@ -6,6 +6,11 @@
   <label for="fixedFormat"> Usar separadores fixos</label>
 </div>
 
+<div class="form-group">
+  <label for="">Número de dígitos decimais <small>(máx. 6)</small></label>
+  <input type="text" only-number ng-model="ctrl.fieldEdit.meta.numscale" class="input-sm form-control">
+</div>
+
 <div ng-if="ctrl.fieldEdit.fixedFormat">
   <div class="form-group">
     <label for="">Separador de grupos</label>
@@ -26,11 +31,6 @@
   </div>
 </div>
 
-<div class="form-group" ng-show="!ctrl.fieldEdit.rawEntityField.scale">
-  <label for="">Número de dígitos decimais <small>(máx. 6)</small></label>
-  <input type="text" ng-model="ctrl.fieldEdit.meta.numscale" class="input-sm form-control">
-</div>
-
 <!-- Min e Max  -->
 <div class="row" ng-if="ctrl.fieldEdit.fixedFormat">
   <div class="form-group">
@@ -41,7 +41,9 @@
           decimal-separator="{[{ctrl.fieldEdit.meta.decimalSeparator}]}"
           thousand-separator="{[{ctrl.fieldEdit.meta.groupSeparator}]}"
           num-scale="{[{ctrl.fieldEdit.rawEntityField.scale || ctrl.fieldEdit.meta.numScale}]}"
+          ng-blur="ctrl.validateConfigField('number_minCount')"
           ng-model="ctrl.fieldEdit.meta.minCount"/>
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.number_minCount">O valor mínimo não pode ser maior que o valor máximo</small>
   </div>
 
   <div class="form-group">
@@ -52,7 +54,9 @@
           decimal-separator="{[{ctrl.fieldEdit.meta.decimalSeparator}]}"
           thousand-separator="{[{ctrl.fieldEdit.meta.groupSeparator}]}"
           num-scale="{[{ctrl.fieldEdit.rawEntityField.scale}]}"
+          ng-blur="ctrl.validateConfigField('number_maxCount')"
           ng-model="ctrl.fieldEdit.meta.maxCount"/>
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.number_maxCount">O valor máximo não pode ser menor que o valor mínimo</small>
   </div>
 </div>
 
@@ -64,7 +68,9 @@
           class="input-sm form-control"
           money-mask
           num-scale="{[{ctrl.fieldEdit.rawEntityField.scale}]}"
+          ng-blur="ctrl.validateConfigField('number_minCount')"
           ng-model="ctrl.fieldEdit.meta.minCount"/>
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.number_minCount">O valor mínimo não pode ser maior que o valor máximo</small>
   </div>
 
   <div class="form-group">
@@ -73,7 +79,9 @@
           class="input-sm form-control"
           money-mask
           num-scale="{[{ctrl.fieldEdit.rawEntityField.scale}]}"
+          ng-blur="ctrl.validateConfigField('number_maxCount')"
           ng-model="ctrl.fieldEdit.meta.maxCount"/>
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.number_maxCount">O valor máximo não pode ser menor que o valor mínimo</small>
   </div>
 </div>
 

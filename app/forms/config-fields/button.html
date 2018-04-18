@@ -1,34 +1,43 @@
 <div class="form-group">
-  <label for="">Tipo do botão</label>
-  <select class="input-sm form-control" ng-model="ctrl.fieldEdit.meta.buttonType" ng-options="type for type in ['danger', 'primary', 'warning', 'success']">
-    <option value="">Selecione</option>
+  <label for="">Estilo do botão</label>
+  <select class="input-sm form-control" ng-model="ctrl.fieldEdit.meta.buttonType">
+    <option value="">Nenhum</option>
+    <option value="danger" class="text-danger">Alerta</option>
+    <option value="warning" class="text-warning">Atenção</option>
+    <option value="primary" class="text-primary">Primário</option>
+    <option value="succes" class="text-success">Sucesso</option>
   </select>
 </div>
+
 <div class="form-group">
   <label for="">Label do Botão</label>
-  <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.buttonLabel">
+  <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.buttonLabel" ng-blur="ctrl.validateConfigField('buttonLabel')">
 </div>
+
+<div class="form-group">
+  <label for="">Ícone</label>
+  <input type="text" 
+        class="form-control input-sm" 
+        ng-model="ctrl.fieldEdit.meta.icon" 
+        uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
+        typeahead-template-url="icons.html"
+        typeahead-min-length="0">
+</div>
+<small class="text-danger" ng-if="ctrl.fieldEdit.error.button_buttonLabel">Adicione uma label ou um ícone para o botão</small>
+
 <div class="row">
   <div class="stock-separator">
     <label for="">Eventos</label>
   </div>
   <div class="form-group">
     <label for="">Controller</label>
-    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.Controller">
+    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.controller" ng-blur="ctrl.validateConfigField('event')">
   </div>
   
   <div class="form-group">
     <label for="">Function Name</label>
-    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.functionName">
+    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.functionName" ng-blur="ctrl.validateConfigField('event')">
   </div>
 
-  <div class="form-group">
-    <label for="">Ícone</label>
-    <input type="text" 
-          class="form-control input-sm" 
-          ng-model="ctrl.fieldEdit.meta.icon" 
-          uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
-          typeahead-template-url="icons.html"
-          typeahead-min-length="0">
-  </div>
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.button_event">Adicione um controller e uma função para o botão</small>
 </div>
