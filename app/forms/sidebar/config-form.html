@@ -81,8 +81,10 @@
                       class="form-control input-sm" 
                       placeholder= "Selecione"
                       ng-model="ctrl.configForm.dataSource.key"
+                      ng-blur="ctrl.validateConfigForm('datasource')"
                       uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}" 
                       typeahead-min-length="0" />
+              <small class="text-danger" ng-if="ctrl.configForm.error.datasource">Escolha uma entidade para o form</small>
             </div>
           </div>
         </div>

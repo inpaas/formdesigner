@@ -38,7 +38,7 @@
     }
 
     function validate_datasource(configForm){
-      configForm.error.entity = !configForm.dataSource.key;
+      configForm.error.datasource = !configForm.dataSource.key;
     }
 
     function validate_formKey(configForm){
