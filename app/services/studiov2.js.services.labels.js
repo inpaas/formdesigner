@@ -126,7 +126,7 @@
       var labels = {};
 
       fields.forEach(function(field, index){
-        var key, value = field.label;
+        var key = '', value = field.label;
 
         if(field.auditField){
           var auditField = AUDIT_FIELDS.filter(function(auditField){return auditField.alias == field.meta.bind})[0];
@@ -136,15 +136,13 @@
             key = key.concat(auditField.label.split('.')[1]);
           }
 
-        }else{
-          if(field.colllumnName || field.meta.bind){
-            key = 'label.'.concat(entityName).concat('.');
-            key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()));
-          }else{
-            key = 'label.'.concat(formKey).concat('.').concat(field.name);
-          }
-        }
+        }else if(field.colllumnName || field.meta.bind){
+          key = 'label.'.concat(entityName).concat('.');
+          key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()));
 
+        }else{
+          key = 'label.'.concat(formKey).concat('.').concat(field.name);
+        }
 
         if(field.meta.type == 'button' && field.meta.buttonLabel){
           var buttonKey = key.concat('.buttonlabel'),
