@@ -8,8 +8,7 @@
     'Localization', 
     angularDragula(angular), 
     'ui.router', 
-    'ngTagsInput',
-    'rw.moneymask'
+    'ngTagsInput'
   ];
 
   angular

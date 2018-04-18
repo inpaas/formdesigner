@@ -6,12 +6,9 @@
   Customizado por @danilorodrigues
 */
 
-
-(function () {
-  'use strict';
-
+(function() {
   angular
-    .module('rw.moneymask', [])
+    .module('studio-v2')
     .directive('moneyMask', moneyMask);
 
   moneyMask.$inject = ['$filter', '$locale'];
