@@ -7,13 +7,13 @@ function FieldValidationString(){
 
   function validate(field, config) {
     if(config){
-      validateConfig(config);
+      validateConfig(field, config);
     }else{
-      validateAllConfig(config);
+      validateAllConfig(field);
     }
   }
 
-  function validateConfig(config) {
+  function validateConfig(field, config) {
     switch(config){
       case 'regexp':
       validateRegexp(field);
