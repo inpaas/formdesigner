@@ -51,7 +51,7 @@
           ctrl.jsonModel = jsonModel;
 
           if (jsonModel.dataSource.key) {
-            setBreadcrumb(jsonModel.views.edit.breadcrumb, jsonModel.dataSource.key);
+            setBreadcrumb(jsonModel);
             getEntitiesByModule(getModuleIdByKey(jsonModel.dataSource.moduleKey) || jsonModel.dataSource.moduleId)
             .then(function(response) {
               getFieldsByEntity(jsonModel.dataSource.key).then(function(response) {
@@ -1646,7 +1646,7 @@
       if (configIsInvalid(ctrl.configForm.error)) { return; }
 
       getFieldsByEntity(ctrl.configForm.dataSource.key);
-      setBreadcrumb(ctrl.jsonModel.views.edit.breadcrumb, ctrl.configForm.dataSource.key);
+      setBreadcrumb(ctrl.jsonModel);
 
       if (ctrl.configForm.permissions) {
         var permission = ctrl.permissions.filter(function(p) { return p.key == ctrl.configForm.permissions });
@@ -1762,26 +1762,19 @@
       });
     }
 
-    function setBreadcrumb(formBreadcrumb, entityName) {
-      if (!entityName) { return; }
-
-      var breadcrumb = {};
-
-      if (formBreadcrumb.length) {
-        breadcrumb.path = $l10n.translate(formBreadcrumb[0].path);
-        breadcrumb.bind = formBreadcrumb[1] && formBreadcrumb[1].bind ? formBreadcrumb[1].bind : '';
-      } else {
-        var path = $l10n.translate('label.'.concat(entityName.toLowerCase()).concat('.path'));
-        breadcrumb.path = path;
-        breadcrumb.bind = '';
+    function setBreadcrumb(form) {
+      ctrl.breadcrumb = {
+        path: $l10n.translate('label.'.concat(form.dataSource.key.toLowerCase()).concat('.path'))
       }
 
-      ctrl.breadcrumb = breadcrumb;
+      if(form.views.edit.breadcrumb[1] && form.views.edit.breadcrumb[1].bind){
+        ctrl.breadcrumb.bind = form.views.edit.breadcrumb[1].bind;
+      }
     }
 
     function setBreadcrumbOnForm() {
       var bind = { bind: ctrl.breadcrumb.bind },
-      path = { path: ctrl.breadcrumb.path };
+          path = { path: ctrl.breadcrumb.path };
 
       return [path, bind];
     }
