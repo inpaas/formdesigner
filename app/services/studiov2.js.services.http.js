@@ -3,13 +3,14 @@
     .module('studio-v2')
     .service('httpService', httpService);
   
-  httpService.$inject = ['$q', '$http', 'jsonFormService', 'labelsService', 'Notification'];
+  httpService.$inject = ['$q', '$http', 'jsonFormService', 'labelsService', 'Notification', '$l10n'];
   
-  function httpService($q, $http, jsonFormService, labelsService, Notification){
+  function httpService($q, $http, jsonFormService, labelsService, Notification, $l10n){
     function onError(response){
       Notification.error(response.data.message);
       return response;
     }
+    
     function onSuccess(response){
       return response;
     }
@@ -151,7 +152,7 @@
           data = {
             allowAnon: false,
             key: form.key,
-            name: form.label,
+            label: $l10n.translate(form.label),
             json: JSON.stringify(form),
             template: form.template,
             moduleId: idModule,
