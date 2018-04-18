@@ -1873,142 +1873,9 @@ li.breadcrumb-divisor > span.divisor-item
 .field-file
 { display: block; }
 
-/* ======================= Modal ======================== */
-section.modal_st
-{
-  display:none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1050;
-  overflow: hidden;
-  outline: 0;
-  background-color: rgba(115, 115, 115, 0.7);
-}
 
-section.modal_st article.modal_st-dialog
-{
-  margin: 30px auto;
-  position: relative;
-  width: auto;
-  max-width: 70%;
-}
-
-section.modal_st article.modal_st-dialog .modal_st-content
-{
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid rgba(0,0,0,.2);
-  border-radius: .3rem;
-  outline: 0;
-  min-height: 100px;
-}
-
-.modal_st .modal_st-content .modal_st-header
-{
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 15px;
-  border-bottom: 1px solid #eceeef;
-}
-
-.modal_st .modal_st-header > .modal_st-title
-{
-  font-size: 16px;
-  font-weight: 400;
-  color: #666;
-}
-
-.modal_st .modal_st-header > .btn-default
-{
-  background: transparent;
-  border-color: transparent;
-}
-
-.modal_st .modal_st-header > .btn-default:hover
-{ background: #fbfbfb; }
-
-.modal_st .modal_st-content .modal_st-body
-{
-  position: relative;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  padding: 15px;
-  max-height: 500px;
-  overflow: auto;
-}
-
-.modal_st .modal_st-content .modal_st-footer
-{
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-  padding: 15px;
-  border-top: 1px solid #eceeef;
-}
-
-.modal_st .modal_st-footer .btn-sm
-{ margin-left: 15px; }
-
-.modal_st-body .easy-code .checkbox-default
-{ margin-top: 30px; }
-
-.modal_st-body .easy-code .btn-primary.btn-sm
-{ margin-top: 25px; }
-
-.modal_st-body .easy-code,
-.modal_st-body .map-main
-{ margin-top: 20px; }
-
-.modal_st-body .map-main
-{
-  padding: 20px;
-  background: #fbfbfb;
-}
-
-.modal_st-body .map-main .view-map
-{ display: block; }
-.modal_st-body .map-main .view-code
-{ display: none; }
 /* ======================= Fim Modal ======================== */
 
-.form-group {
-  margin-bottom: 5px;
-}
 
 .row-checkbox .row .form-group .tlt-rule {
   font-weight: bold;
@@ -2113,9 +1980,6 @@ ul.nav-components.sb-field-text.sb-edit-action
 .type-map .form-group button.btn.btn-success:focus
 { border-color: #dedede; }
 
-.error-message{
-  color: #cd4c36;
-}
 
 .full-width{
   width: 100%;
@@ -2159,4 +2023,13 @@ label[for="pattern-ignorecase"]{
 
 .btn-config-form{
   margin-right: 20px;
+}
+
+.config-field-mask .fa.pull-right{
+  margin-top: 7px;
+}
+
+.tooltip .tooltip-inner,
+.tooltip .tooltip-inner *{
+  color: white; 
 }

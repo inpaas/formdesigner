@@ -1,6 +1,11 @@
 <div class="form-group">
   <label for="">Max Size (MB)</label>
-  <input type="number" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxSize" placeholder="Ex: 1024">
+  <i class="fa fa-info-circle pull-right" tooltip-placement="auto" uib-tooltip-html="'O tamanho máximo é de 50mb'"></i>
+  <input type="text" only-number class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxSize" placeholder="Ex: 40" ng-blur="crtl.validateConfigField()">
+
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.file_maxSize">O tamanho máximo é de 50Mb</small>
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.file_minSize">O tamanho mínimo é de 1Mb </small>
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.file_maxSizeNumber">Este não é um tamanho válido</small>
 </div>
 
 <div class="form-group">
@@ -11,6 +16,7 @@
       <span ng-if="ctrl.fieldEdit.fileTypes.length">{[{ctrl.fieldEdit.fileTypes.length}]} tipo(s) selecionados</span>
       <span class="caret"></span>
     </button>
+
     <ul class="dropdown-menu dropdown-extensions-options" uib-dropdown-menu role="menu" aria-labelledby="single-button">
       <li role="menuitem" ng-repeat="type in ctrl.fieldEdit.FILE_EXTENSIONS.types track by $index">
         <label for="choose-type{[{ $index }]}">

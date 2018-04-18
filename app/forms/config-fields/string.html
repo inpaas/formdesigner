@@ -6,8 +6,10 @@
 
 <div class="form-group" ng-hide="ctrl.fieldEdit.auditField">
   <label for="">Pattern (Regexp)</label>
-  <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.pattern.regexp">
+  <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.pattern.regexp" ng-blur="ctrl.validateConfigField('regexp')">
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.regexp"> A regex acima está inválida. </small>
 </div>
+
 <div class="form-inline" ng-hide="ctrl.fieldEdit.auditField">
   <label for="pattern-ignorecase">
     <input type="checkbox" id="pattern-ignorecase" ng-model="ctrl.fieldEdit.meta.pattern.ignoreCase" ng-true-value="'i'" ng-false-value="''"> Ignore case

@@ -1,12 +1,22 @@
-{{#include-html}}studiov2.forms.sidebar.config-fields.datasource{{/include-html}}
+<div class="form-group">
+  <div class="stock-separator">
+    <label for="">Origem das opções</label>
+  </div>
+
+  <label for="">Tipo</label>
+  <select class="form-control input-sm" ng-model="ctrl.fieldEdit.dataSourceType" ng-change="(ctrl.fieldEdit.meta.checked = ctrl.fieldEdit.meta.unchecked = null)">
+    <option value="D">Opções pré definidas</option>
+    <option value="O">Opções editáveis</option>
+  </select>
+</div>
 
 <div class="row" ng-if="ctrl.fieldEdit.dataSourceType == 'D'">
   <div class="col-sm-12 col-xs-12 no-padding form-group">
     <label for="">Valor quando marcado</label>
     <select class="form-control input-sm" 
             ng-model="ctrl.fieldEdit.meta.checked" 
+            ng-change="ctrl.validateConfigField('checkbox_options')"
             ng-options="domain.value as domain.value for domain in ctrl.fieldEdit.rawEntityField.domains">
-      <option value="">Selecione</option>
     </select>
   </div>
 
@@ -14,8 +24,8 @@
     <label for="">Valor quando desmarcado</label>
     <select class="form-control input-sm" 
             ng-model="ctrl.fieldEdit.meta.unchecked" 
+            ng-change="ctrl.validateConfigField('checkbox_options')"
             ng-options="domain.value as domain.value for domain in ctrl.fieldEdit.rawEntityField.domains">
-      <option value="">Selecione</option>
     </select>
   </div>
 </div>
@@ -23,11 +33,12 @@
 <div class="row" ng-if="ctrl.fieldEdit.dataSourceType === 'O'">
   <div class="col-sm-12 col-xs-12 no-padding form-group">
     <label for="">Valor quando marcado</label>
-    <input class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.checked">
+    <input class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.checked" ng-blur="ctrl.validateConfigField('checkbox_options')">
   </div>
 
   <div class="col-sm-12 col-xs-12 no-padding form-group">
     <label for="">Valor quando desmarcado</label>
-    <input class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.unchecked">
+    <input class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.unchecked" ng-blur="ctrl.validateConfigField('checkbox_options')">
   </div>
 </div>
+<small class="text-danger" ng-if="ctrl.fieldEdit.error.checkbox_options">Selecione os valores para as opções</small>

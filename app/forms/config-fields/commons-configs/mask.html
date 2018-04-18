@@ -1,4 +1,7 @@
-<div class="form-group" ng-hide="ctrl.fieldEdit.auditField">
+<div class="form-group config-field-mask" ng-hide="ctrl.fieldEdit.auditField">
+  <i class="fa fa-info-circle pull-right" 
+      tooltip-placement="auto"
+      uib-tooltip-html="'A máscara deve ser escrita utilizando: \n 9 - Para números \n A: Para letras \n *: Para qualquer caracter'"></i>
   <label for="">Máscara do campo</label>
   <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.mask">
 </div>

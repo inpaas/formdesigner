@@ -19,10 +19,11 @@
         break;
 
       case 'options':
-        if (Object.keys(expression).length) {
+        if (expression && Object.keys(expression).length) {
           expression.forEach(function(item, index){
             item.key = item.label;
           });
+          
         }else{
           expression = [];
         }

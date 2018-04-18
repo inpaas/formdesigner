@@ -53,6 +53,78 @@
     {{#include-html}}studiov2.forms.sidebar.sources{{/include-html}}
   </script>
 
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.string">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.string{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.button">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.button{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.checkbox">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.checkbox{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.colorpicker">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.colorpicker{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.currency">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.currency{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.date">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.date{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.decimal">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.decimal{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.file">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.file{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.finder">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.finder{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.hidden">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.hidden{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.image">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.image{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.number">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.number{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.password">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.password{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.radio">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.radio{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.select">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.select{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.string">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.string{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.textarea">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.textarea{{/include-html}}
+  </script>
+
+  <script type="text/ng-template" id="studiov2.forms.sidebar.config-fields.time">
+    {{#include-html}}studiov2.forms.sidebar.config-fields.time{{/include-html}}
+  </script>
+
   {{#include-html}}studiov2.forms.actions.actions{{/include-html}}
   
   <!-- Libs -->
@@ -69,6 +141,7 @@
   <script src="{{ assets-base-url }}/assets/angular-clipboard/angular-clipboard.js"></script> 
   <script src="{{ assets-base-url }}/assets/moment/js/moment.min.js"></script>
   <script src="{{ assets-base-url }}/assets/ng-tags-input/ng-tags-input.js"></script>
+  <script src="{{ assets-base-url }}/assets/lodash/lodash.min.js"></script> 
 
   <script src="/api/studio-v2-formdesigner-js/js/helperjs"></script>
   <script src="/api/l10n/translations?jsonp=l10n_data&_v={{assets-random-id}}&nocache=1"></script>
@@ -86,10 +159,24 @@
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.controllers.sourcesController"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.controllers.modalController"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.directives.moneyMask"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.directives.onlyNumber"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldIcons"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.http"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.jsonForm"></script>
   <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.labels"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.sectionService"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidationService"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.button"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.checkbox"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.date"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.datasource"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.event"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.file"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.finder"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.number"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.select"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.string"></script>
+  <script src="/api/studio-v2-formdesigner-js/js/studiov2.js.services.fieldValidation.time"></script>
 
   <script src="/includes/{{form.key}}/js/studiov2-{{ form.version }}.js"></script>
   <script>if (window.top && window.top.inPaaS) window.top.inPaaS.iframeload( "{{form.key}}", "" );</script>

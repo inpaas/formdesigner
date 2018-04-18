@@ -1,93 +1,95 @@
 <!-- Type Fields -->
 <ul class="nav-components sb-field" ng-show="ctrl.onTypeField">
-    <!-- Estrutura -->
-    <li class="item-components">
-        Tipo do Campo
-    </li><!-- Estrutura -->
-    <div class="inner-item type-field">
-        <ul class="list-type">
-            <li class="item-type" ng-click="ctrl.setTypeField('button', ctrl.fieldEdit)">
-                <div class="box-img-field field-button"></div>
-                <label for="" class="tlt-type">Botão</label>
-                <p class="txt-type">Botão para ações customizáveis</p>
-            </li>
+	<!-- Estrutura -->
+	<li class="item-components">
+		Tipo do Campo
+	</li><!-- Estrutura -->
+	<div class="inner-item type-field">
+		<ul class="list-type">
+			<li class="item-type" ng-click="ctrl.setTypeField('textarea', ctrl.fieldEdit)">
+				<div class="box-img-field field-text"></div>
+				<label for="" class="tlt-type">Área de Texto</label>
+				<p class="txt-type">Usados para obter textos longos.</p>
+			</li>
 
-            <li class="item-type" ng-click="ctrl.setTypeField('string', ctrl.fieldEdit)">
-                <div class="box-img-field field-input"></div>
-                <label for="" class="tlt-type">Campo Texto</label>
-                <p class="txt-type">Usado para obter textos curtos e simples.</p>
-            </li>
+			<li class="item-type" ng-click="ctrl.setTypeField('button', ctrl.fieldEdit)">
+				<div class="box-img-field field-button"></div>
+				<label for="" class="tlt-type">Botão</label>
+				<p class="txt-type">Botão para ações customizáveis</p>
+			</li>
 
-            <li class="item-type" ng-click="ctrl.setTypeField('colorpicker', ctrl.fieldEdit)">
-                <div class="box-img-field field-input"></div>
-                <label for="" class="tlt-type">Colorpicker</label>
-                <p class="txt-type">Widget para seleção de cores</p>
-            </li>
+			<li class="item-type" ng-click="ctrl.setTypeField('string', ctrl.fieldEdit)">
+				<div class="box-img-field field-input"></div>
+				<label for="" class="tlt-type">Campo Texto</label>
+				<p class="txt-type">Usado para obter textos curtos e simples.</p>
+			</li>
 
-            <li class="item-type" ng-click="ctrl.setTypeField('select', ctrl.fieldEdit)">
-                <div class="box-img-field field-combo"></div>
-                <label for="" class="tlt-type">Lista Suspensa</label>
-                <p class="txt-type">Usado para apresentar uma lista de opções.</p>
-            </li>
+			<li class="item-type" ng-click="ctrl.setTypeField('checkbox', ctrl.fieldEdit)">
+				<div class="box-img-field field-check"></div>
+				<label for="" class="tlt-type">Checkbox</label>
+				<p class="txt-type">Usado para obter multiplas respostas.</p>
+			</li>
 
-            <li class="item-type" ng-click="ctrl.setTypeField('finder', ctrl.fieldEdit)">
-                <div class="box-img-field field-combo"></div>
-                <label for="" class="tlt-type">Finder</label>
-                <p class="txt-type">Usado para selecionar um dado em uma lista de opções</p>
-            </li>
+			<li class="item-type" ng-click="ctrl.setTypeField('colorpicker', ctrl.fieldEdit)">
+				<div class="box-img-field field-input"></div>
+				<label for="" class="tlt-type">Colorpicker</label>
+				<p class="txt-type">Widget para seleção de cores</p>
+			</li>
 
-            <li class="item-type" ng-click="ctrl.setTypeField('textarea', ctrl.fieldEdit)">
-                <div class="box-img-field field-text"></div>
-                <label for="" class="tlt-type">Área de Texto</label>
-                <p class="txt-type">Usados para obter textos longos.</p>
-            </li>
+			<li class="item-type" ng-click="ctrl.setTypeField('date', ctrl.fieldEdit)">
+				<div class="box-img-field field-date"></div>
+				<label for="" class="tlt-type">Data</label>
+				<p class="txt-type">Obter um período ou uma data específica.</p>
+			</li>
 
-            <li class="item-type" ng-click="ctrl.setTypeField('radio', ctrl.fieldEdit)">
-                <div class="box-img-field field-radio"></div>
-                <label for="" class="tlt-type">Radio Button</label>
-                <p class="txt-type">Obter respostas rápidas como SIM e NÃO.</p>
-            </li>
+			<li class="item-type" ng-click="ctrl.setTypeField('file', ctrl.fieldEdit)">
+				<div class="box-img-field field-file"></div>
+				<label for="" class="tlt-type">File</label>
+				<p class="txt-type">Fazer upload de arquivos</p>
+			</li>
 
-            <li class="item-type" ng-click="ctrl.setTypeField('checkbox', ctrl.fieldEdit)">
-                <div class="box-img-field field-check"></div>
-                <label for="" class="tlt-type">Checkbox</label>
-                <p class="txt-type">Usado para obter multiplas respostas.</p>
-            </li>
-            
-            <li class="item-type" ng-click="ctrl.setTypeField('file', ctrl.fieldEdit)">
-                <div class="box-img-field field-file"></div>
-                <label for="" class="tlt-type">File</label>
-                <p class="txt-type">Fazer upload de arquivos</p>
-            </li>
+			<li class="item-type" ng-click="ctrl.setTypeField('finder', ctrl.fieldEdit)">
+				<div class="box-img-field field-combo"></div>
+				<label for="" class="tlt-type">Finder</label>
+				<p class="txt-type">Usado para selecionar um dado em uma lista de opções</p>
+			</li>
 
-            <li class="item-type" ng-click="ctrl.setTypeField('number', ctrl.fieldEdit)">
-                <div class="box-img-field field-number"></div>
-                <label for="" class="tlt-type">Número inteiros</label>
-                <p class="txt-type">Campo de números.</p>
-            </li>
+			<li class="item-type" ng-click="ctrl.setTypeField('time', ctrl.fieldEdit)">
+				<div class="box-img-field field-time"></div>
+				<label for="" class="tlt-type">Hora</label>
+				<p class="txt-type">Obter uma hora específica.</p>
+			</li> 
 
-            <li class="item-type" ng-click="ctrl.setTypeField('currency', ctrl.fieldEdit)">
-                <div class="box-img-field field-value"></div>
-                <label for="" class="tlt-type">Números decimais</label>
-                <p class="txt-type">Números decimais como moeda, latitude, longitude etc</p>
-            </li>
+			<li class="item-type" ng-click="ctrl.setTypeField('select', ctrl.fieldEdit)">
+				<div class="box-img-field field-combo"></div>
+				<label for="" class="tlt-type">Lista Suspensa</label>
+				<p class="txt-type">Usado para apresentar uma lista de opções.</p>
+			</li>
 
-            <li class="item-type" ng-click="ctrl.setTypeField('date', ctrl.fieldEdit)">
-                <div class="box-img-field field-date"></div>
-                <label for="" class="tlt-type">Data</label>
-                <p class="txt-type">Obter um período ou uma data específica.</p>
-            </li>
-            <li class="item-type" ng-click="ctrl.setTypeField('time', ctrl.fieldEdit)">
-                <div class="box-img-field field-time"></div>
-                <label for="" class="tlt-type">Hora</label>
-                <p class="txt-type">Obter uma hora específica.</p>
-            </li>
-            <li class="item-type" ng-click="ctrl.setTypeField('password', ctrl.fieldEdit)">
-                <div class="box-img-field field-password"></div>
-                <label for="" class="tlt-type">Senha</label>
-                <p class="txt-type">Adiciona um campo de senha</p>
-            </li>
-        </ul>
-    </div> 
+			<li class="item-type" ng-click="ctrl.setTypeField('number', ctrl.fieldEdit)">
+				<div class="box-img-field field-number"></div>
+				<label for="" class="tlt-type">Número inteiros</label>
+				<p class="txt-type">Campo de números.</p>
+			</li>
+
+			<li class="item-type" ng-click="ctrl.setTypeField('currency', ctrl.fieldEdit)">
+				<div class="box-img-field field-value"></div>
+				<label for="" class="tlt-type">Números decimais</label>
+				<p class="txt-type">Números decimais como moeda, latitude, longitude etc</p>
+			</li>
+
+			<li class="item-type" ng-click="ctrl.setTypeField('radio', ctrl.fieldEdit)">
+				<div class="box-img-field field-radio"></div>
+				<label for="" class="tlt-type">Radio Button</label>
+				<p class="txt-type">Obter respostas rápidas como SIM e NÃO.</p>
+			</li>
+
+			<li class="item-type" ng-click="ctrl.setTypeField('password', ctrl.fieldEdit)">
+				<div class="box-img-field field-password"></div>
+				<label for="" class="tlt-type">Senha</label>
+				<p class="txt-type">Adiciona um campo de senha</p>
+			</li>
+		</ul>
+	</div> 
 </ul>
 <!-- Type Fields -->

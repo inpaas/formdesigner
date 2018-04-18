@@ -1,14 +1,38 @@
-<div class="row">
+<div class="row" ng-if="ctrl.fieldEdit.meta.type != 'button' && !ctrl.fieldEdit.auditField">
   <div class="stock-separator">
     <label for="">Eventos</label>
   </div>
+
   <div class="form-group">
     <label for="">SourceKey</label>
-    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.sourceKey">
+    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.sourceKey" ng-blur="ctrl.validateConfigField('sourceKey')">
   </div>
 
   <div class="form-group">
     <label for="">Function Name</label>
-    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.functionName">
+    <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.functionName" ng-blur="ctrl.validateConfigField('functionName')">
+  </div>
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.field_event">O evento deve ter um sourceKey e uma função</small>
+  
+  <div class="form-group">
+    <input type="checkbox" id="buttonCustomEvent" ng-model="ctrl.fieldEdit.hasButton" ng-disabled="!ctrl.fieldEdit.sourceKey && !ctrl.fieldEdit.functionName">
+    <label for="buttonCustomEvent">Adicionar botão para o evento</label>
+  </div>
+
+  <div class="form-group" ng-if="ctrl.fieldEdit.hasButton">
+    <label for="">Ícone</label>
+    <input type="text" 
+          class="form-control input-sm" 
+          ng-model="ctrl.fieldEdit.buttonEvent.icon" 
+          ng-blur="ctrl.validateConfigField()"
+          uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
+          typeahead-template-url="icons.html"
+          typeahead-min-length="0">
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.event_bt_icon">Escolha um ícone para o botão</small>
+  </div>
+
+  <div class="form-group" ng-if="ctrl.fieldEdit.hasButton">
+    <label for="">Texto da tooltip</label>
+    <textarea type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.buttonEvent.tooltip"></textarea>
   </div>
 </div>

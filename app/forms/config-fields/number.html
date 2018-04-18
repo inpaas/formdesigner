@@ -2,12 +2,14 @@
 
 <div class="form-group">
   <label for="">Valor Mínimo</label>
-  <input type="number" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.minCount" step="1">
+  <input type="text" only-number class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.minCount" ng-blur="ctrl.validateConfigField('number_minCount')">
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.number_minCount"> O valor mínimo não pode ser maior que o valor máximo</small>
 </div>
 
 <div class="form-group">
   <label for="">Valor Máximo</label>
-  <input type="number" class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxCount" step="1">
+  <input type="text" only-number class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxCount" ng-blur="ctrl.validationConfigField('number_maxCount')">
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.number_maxCount">O valor máximo não pode ser menor que o valor minimo</small>
 </div>
 
 {{#include-html}}studiov2.forms.sidebar.config-fields.placeholder{{/include-html}}

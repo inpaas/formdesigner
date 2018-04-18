@@ -8,16 +8,17 @@
   <div class="row">
     <div class="col-sm-6">
       <label for="entity-finder">
-        <input type="radio" id="entity-finder" ng-model="ctrl.fieldEdit.dataSourceType" value="E" name="finder-datasource">
+        <input type="radio" id="entity-finder" ng-model="ctrl.fieldEdit.dataSourceType" value="E" name="finder-datasource" ng-blur="ctrl.validateConfigField('datasource_type')">
         Entidade
       </label>
     </div>
     <div class="col-sm-6">
       <label for="service-finder">
-        <input type="radio" id="service-finder" ng-model="ctrl.fieldEdit.dataSourceType" value="FS" name="finder-datasource">
+        <input type="radio" id="service-finder" ng-model="ctrl.fieldEdit.dataSourceType" value="FS" name="finder-datasource" ng-blur="ctrl.validateConfigField('datasource_type')">
         Service
       </label> 
     </div>
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_type"> Selecione um tipo de datasource</small>
   </div>
   
   <div ng-if="ctrl.fieldEdit.dataSourceType == 'E'">
@@ -45,15 +46,18 @@
             ng-blur="ctrl.setFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit)"
             uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
             typeahead-min-length="0" />
+      <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_finder_entityName">Selecione uma entidade</small>
     </div>
 
     <div class="form-group">
       <label for="">Finder:</label>
       <select class="form-control input-sm" 
               ng-change="ctrl.getFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)"
+              ng-blur="ctrl.validateConfigField('datasource_finder_key')"
               ng-model="ctrl.fieldEdit.finder.key"
               ng-options="finder.key as finder.title for finder in ctrl.finders">
       </select>
+      <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_finder_key">Selecione um finder</small>
     </div>
   </div>
   
@@ -78,13 +82,16 @@
       <input type="text"
               class="form-control input-sm" 
               ng-model="ctrl.fieldEdit.finder.sourceKey"
+              ng-blur="ctrl.validateConfigField('datasource_service_sourceKey')"
               typeahead-min-length="0"
               uib-typeahead="source.key as source.key for source in ctrl.sources | filter:{name: $viewValue}"> 
+      <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_service_sourceKey">Selecione um sourceKey</small> 
     </div>
     
     <div class="form-group">
       <label for="">Método:</label>
-      <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.finder.method">
+      <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.finder.method" ng-blur="ctrl.validateConfigField('datasource_service_method')">
+      <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_service_method">Selecione um método</small>
     </div>
     
     <div class="form-group">
@@ -100,6 +107,15 @@
   <div class="form-group">
     <label for="">Bind text</label>
     <input type="text" class="form-control input-sm" ng-model="ctrl.fieldEdit.finder.bindText">
+  </div>
+
+  <div class="form-group">
+    <label for="">Formulário de edição</label>
+    <select class="form-control input-sm" 
+            ng-model="ctrl.fieldEdit.finder.editTemplate"
+            ng-options="form.key as (form.name || form.key) for form in ctrl.entityForms">
+        <option value="">Padrão</option>
+    </select>
   </div>
 
   <div ng-if="ctrl.depReferences && ctrl.fieldEdit.dataSourceType == 'E'">

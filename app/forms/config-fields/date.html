@@ -5,9 +5,11 @@
   <label for="">Formatação</label>
   <select class="form-control input-sm" 
           ng-model="ctrl.fieldEdit.meta.format" 
+          ng-change="ctrl.validateConfigField('date_formatType')"
           ng-options="format.key as format.title for format in ctrl.formatsPattern.T.formats">
     <option value="">Selecione</option>
   </select>
+  <small class="text-danger" ng-if="ctrl.fieldEdit.error.date_formatType">Escolha um formato de data</small>
 </div>
 
 <!-- Min e Max para datetime -->
@@ -17,11 +19,14 @@
     <input type="text" 
           class="input-sm form-control"
           ng-model="ctrl.fieldEdit.meta.minDate"
+          ng-blur="ctrl.validateConfigField('minDate')"
           ui-mask="{[{ format.key.concat('.formatmask') | translate }]}"
           ui-mask-placeholder-char="space"
           model-view-value="true"
           ui-mask-placeholder
           ui-options="{clearOnBlur: false, allowInvalidValue: true}" />
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.date_minDate">A data mínima não pode ser maior que a data máxima</small>
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.date_minDate_invalid">Esta não é uma data válida</small>
   </div>
 
   <div class="form-group" ng-repeat-end ng-if="ctrl.fieldEdit.meta.format == format.key">
@@ -29,11 +34,14 @@
     <input type="text"
           class="input-sm form-control"
           ng-model="ctrl.fieldEdit.meta.maxDate"
+          ng-blur="ctrl.validateConfigField('maxDate')"
           ui-mask="{[{ format.key.concat('.formatmask') | translate }]}"
           ui-mask-placeholder-char="space"
           model-view-value="true"
           ui-mask-placeholder
           ui-options="{clearOnBlur: false, allowInvalidValue: true}">
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.date_maxDate">A data máxima não pode ser menor que a data mínima</small>
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.date_maxDate_invalid">Esta não é uma data válida</small>
   </div>
 </div>
 
