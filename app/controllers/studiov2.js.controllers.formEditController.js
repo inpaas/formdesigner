@@ -12,14 +12,14 @@
       //Services
       '$scope', '$q', '$state', 'jsonFormService', 'httpService', 'labelsService',
       '$l10n', '$uibModal', 'dragulaService', 'Notification', 'fieldIconsService',
-      'SectionService', 'FieldValidationService'
+      'SectionService', 'FieldValidationService', 'HelpersService'
       ];
 
   function FormEditController(
     ACTIONS, TIME_FORMAT_PATTERNS, ICONS, FILE_EXTENSIONS, AUDIT_FIELDS,
     $scope, $q, $state, jsonFormService, httpService, labelsService,
     $l10n, $uibModal, dragulaService, Notification, fieldIconsService,
-    SectionService, FieldValidationService) {
+    SectionService, FieldValidationService, HelpersService) {
 
     var ctrl = this,
     idForm = $state.params.id;
@@ -1827,9 +1827,9 @@
     }
 
     function sanitizeKeyForm(string) {
-      string = Helpers.replaceAccentChars(string);
-      string = Helpers.removeSpace(string);
-      string = Helpers.removeSpecialChars(string);
+      string = HelpersService.replaceAccentChars(string);
+      string = HelpersService.removeSpace(string);
+      string = HelpersService.removeSpecialChars(string);
       return string.toLowerCase();
     }
 
