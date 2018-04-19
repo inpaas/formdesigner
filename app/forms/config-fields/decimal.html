@@ -8,7 +8,7 @@
 
 <div class="form-group">
   <label for="">Número de dígitos decimais <small>(máx. 6)</small></label>
-  <input type="text" only-number ng-model="ctrl.fieldEdit.meta.numscale" class="input-sm form-control">
+  <input type="text" only-number ng-model="ctrl.fieldEdit.meta.numscale" class="input-sm form-control" ui-mask="9" ui-mask-placeholder-char="space">
 </div>
 
 <div ng-if="ctrl.fieldEdit.fixedFormat">
