@@ -69,21 +69,22 @@ function SectionService(){
 
   function validateConfigSectionEdit(configSection){
     configSection.error.sectionType_edit_bind = !configSection.meta.bind;
-    configSection.error.sectionType_edit_formKey = !configSection.include.key;
+    configSection.error.sectionType_edit_formKey = !configSection.include || !configSection.include.key;
   }
 
   function validateConfigSectionList(configSection, configKey){
     switch(configKey){
       case 'finder_entityName':
-        configSection.error.finder_entityName = !configSection.finder.entityName;
+        configSection.error.finder_entityName = !configSection.finder || !configSection.finder.entityName;
       break;
+
       case 'finder_relatedFinders':
-        configSection.error.finder_relatedFinders = !configSection.finder.relatedFinders.length;
+        configSection.error.finder_relatedFinders = !configSection.finder || !configSection.finder.relatedFinders || !configSection.finder.relatedFinders.length;
       break;
 
       case undefined:
-        configSection.error.finder_entityName = !configSection.finder.entityName;
-        configSection.error.finder_relatedFinders = !configSection.finder.relatedFinders.length;
+        configSection.error.finder_entityName = !configSection.finder || !configSection.finder.entityName;
+        configSection.error.finder_relatedFinders = !configSection.finder || !configSection.finder.relatedFinders || !configSection.finder.relatedFinders.length;
       break;
     }
   }
@@ -91,26 +92,26 @@ function SectionService(){
   function validateConfigSectionFinderService(configSection, configKey){
     switch(configKey){
       case 'finder_sourceKey':
-        configSection.error.finder_sourceKey = !configSection.finder.sourceKey;
+        configSection.error.finder_sourceKey = !configSection.finder || !configSection.finder.sourceKey;
       break;
 
       case 'finderService_relatedFinders':
-        configSection.error.finderService_relatedFinders = !configSection.finder.relatedFinders.length;
+        configSection.error.finderService_relatedFinders = !configSection.finder || !configSection.finder.relatedFinders.length;
       break;
 
       case 'finderService_form':
-        configSection.error.finderService_form = !configSection.finder.form;
+        configSection.error.finderService_form = !configSection.finder || !configSection.finder.form;
       break;
 
       case undefined:
-        configSection.error.finder_sourceKey = !configSection.finder.sourceKey;
-        configSection.error.finderService_relatedFinders = !configSection.finder.relatedFinders.length;
-        configSection.error.finderService_form = !configSection.finder.form;
+        configSection.error.finder_sourceKey = !configSection.finder || !configSection.finder.sourceKey;
+        configSection.error.finderService_relatedFinders = !configSection.finder || !configSection.finder.relatedFinders.length;
+        configSection.error.finderService_form = !configSection.finder || !configSection.finder.form;
       break;
     }
   } 
 
   function validateConfigSectionTemplate(configSection){
-    configSection.error.include_templateKey = !configSection.include.template;
+    configSection.error.include_templateKey = !configSection.include || !configSection.include.template;
   }
 }

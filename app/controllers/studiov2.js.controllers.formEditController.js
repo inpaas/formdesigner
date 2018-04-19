@@ -556,6 +556,7 @@
       }
 
       ctrl.currentSection = currentSection;
+      ctrl.currentSection.error = {};
       showConfigSection();
     }
 
@@ -660,7 +661,7 @@
           .then(function() {
             getFinder(fieldEdit.finder.entityName, fieldEdit.finder.key).then(function(finder) {
               if (finder.fields.length == 1) {
-                fieldEdit.finder.fieldIndex = 0;
+                fieldEdit.finder.fieldIndex = '0';
               }
             });
           });
@@ -1072,8 +1073,8 @@
 
           if (formField.finder.dependencies) {
             var bindDependencies = [],
-            bindReferences = [],
-            depReferences = [];
+                bindReferences = [],
+                depReferences = [];
 
             formField.finder.dependencies.forEach(function(dep) {
               if (angular.isObject(dep)) {
@@ -1509,7 +1510,7 @@
       if (!entityName) { return };
 
       if (ctrl.fieldEdit) {
-        FieldValidationService.validateConfigField(ctrl.fieldEdit, 'sectionList', 'finder_entityName');
+        FieldValidationService.validateConfigField(ctrl.fieldEdit, 'datasource_finder_entityName');
       }
 
       return getEntity(entityName).then(function(entity) {
@@ -1527,7 +1528,12 @@
               model && (model.finder.relatedFinders = [{ title: finder.title, key: finder.key }]);
             } else {
               model && (model.finder.key = finder.key);
-              getFinder(model.finder.entityName, finder.key);
+              
+              getFinder(model.finder.entityName, finder.key).then(function(response){
+                if (finder.fields.length == 1) {
+                  fieldEdit.finder.fieldIndex = '0';
+                }
+              });
             }
           }
 
@@ -1869,7 +1875,8 @@
 
       if (finder.checked) {
         ctrl.currentSection.finder.relatedFinders.push({ key: finder.key, title: finder.title });
-      } else {
+
+      }else {
         ctrl.currentSection.finder.relatedFinders.forEach(function(_finder, index) {
           if (_finder.key == finder.key && _finder.title == finder.title) {
             ctrl.currentSection.finder.relatedFinders.splice(index, 1);

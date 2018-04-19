@@ -11,7 +11,7 @@ function FieldValidationFile() {
       field.error.file_maxSize = false;
       field.error.file_maxSizeNumber = false;
 
-    }else if(!angular.isNumber(field.meta.maxSize)){
+    }else if(!angular.isNumber(Number(field.meta.maxSize))){
       field.error.file_maxSizeNumber = true;
 
     } else if(field.meta.maxSize > 50){
