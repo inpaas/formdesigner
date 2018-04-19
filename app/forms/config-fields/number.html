@@ -8,7 +8,7 @@
 
 <div class="form-group">
   <label for="">Valor Máximo</label>
-  <input type="text" only-number class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxCount" ng-blur="ctrl.validationConfigField('number_maxCount')">
+  <input type="text" only-number class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxCount" ng-blur="ctrl.validateConfigField('number_maxCount')">
   <small class="text-danger" ng-if="ctrl.fieldEdit.error.number_maxCount">O valor máximo não pode ser menor que o valor minimo</small>
 </div>
 
