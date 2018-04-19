@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="">Max Size (MB)</label>
   <i class="fa fa-info-circle pull-right" tooltip-placement="auto" uib-tooltip-html="'O tamanho máximo é de 50mb'"></i>
-  <input type="text" only-number class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxSize" placeholder="Ex: 40" ng-blur="crtl.validateConfigField()">
+  <input type="text" only-number class="form-control input-sm" ng-model="ctrl.fieldEdit.meta.maxSize" placeholder="Ex: 40" ng-blur="ctrl.validateConfigField()">
 
   <small class="text-danger" ng-if="ctrl.fieldEdit.error.file_maxSize">O tamanho máximo é de 50Mb</small>
   <small class="text-danger" ng-if="ctrl.fieldEdit.error.file_minSize">O tamanho mínimo é de 1Mb </small>
