@@ -1,29 +1,15 @@
 <div class="modal-header">
   <h3 class="modal-title" id="modal-title">Área do código</h3>
-  <p class="alert alert-info">
-    <i class="fa fa-info-circle"></i>
-    Sua função receberá um objeto chamado <b>data</b> com todo o dado do form como parâmetro. 
-    E deve retornar um boleano para causar o efeito desejado.
-  </p>
-  <p class="alert alert-info">
-    <i class="fa fa-info-circle"></i>
-    Escreva somente o corpo da função.
-  </p>
+  <p class="alert alert-info"><i class="fa fa-info-circle"></i>Sua função receberá um objeto chamado <b>data</b> com todo o dado do formulário como parâmetro.</p>
+  <p class="alert alert-info"><i class="fa fa-info-circle"></i>Escreva somente o corpo da função.</p>
 </div>
 
 <div class="modal-body" id="modal-body">
-  <div class="inner-item">
-    <div class="hard-code">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12">
-          <textarea class="form-control input-sm input-txt" required="required" ng-model="$ctrl.expression"></textarea>
-        </div>
-      </div> 
-    </div>
-  </div>
+  <textarea class="form-control input-sm input-txt" required="required" code-mirror ng-model="$ctrl.expression" id="code-function"></textarea>
 </div>
 
 <div class="modal-footer">
   <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
   <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
 </div>
+
