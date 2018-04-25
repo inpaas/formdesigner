@@ -268,8 +268,8 @@
     }
 
     function openModalForConfig(model, modelKey, typeConfig) {
-      var typeFunctionTemplateUrl = "/forms/studiov2.forms.config-function",
-      typeMapTemplateUrl = "/forms/studiov2.forms.config-map";
+      var typeFunctionTemplateUrl = "studiov2.forms.config-function",
+      typeMapTemplateUrl = "studiov2.forms.config-map";
 
       var uibModalInstance = $uibModal.open({
         templateUrl: typeConfig == 'function' ? typeFunctionTemplateUrl : typeMapTemplateUrl,
