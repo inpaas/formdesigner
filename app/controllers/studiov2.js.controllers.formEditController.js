@@ -636,6 +636,7 @@
         case 'select':
         var reference = [];
 
+        filterSelectFields(fieldEdit);
         fieldEdit.rawEntityField && (reference = findReferences(fieldEdit));
 
         if (fieldEdit.rawEntityField && fieldEdit.rawEntityField.domains) {
@@ -860,38 +861,38 @@
       var depReferences = [],
       field = field || ctrl.fieldEdit;
 
-      var referenceOfField = ctrl.entityForm.references.filter(function(ref) {
-            return ref.field.toLowerCase() == field.rawEntityField.name.toLowerCase();
-          })[0];
-
-      if (referenceOfField) { return };
-
       binds.forEach(function(bindDep) {
-        //A entity do finder pode ou não ter FK com a entity do form
-        var entityFinder = ctrl.entityForm.entitiesReference[field.finder.entityName],
-            dependenceField = ctrl.entityForm.attributes.filter(function(field) { return field.alias == bindDep })[0],
-            dependences = [];
-        
-        entityFinder.references.forEach(function(ref) {
-          if (ref.entity == ctrl.entityForm.name) {
-            var aliasRef = [];
+        var referenceOfField = ctrl.entityForm.references.filter(function(ref) {
+          return ref.field.toLowerCase() == field.rawEntityField.name.toLowerCase();
+        })[0],
 
-            entityFinder.attributes.forEach(function(attr) {
-              if (attr.name == ref.field) {
-                var refMap = {
-                  fk: dependenceField.title.concat(' (').concat(attr.alias).concat(')'),
-                  bindForm: dependenceField.alias,
-                  bindRef: attr.alias
-                };
+              //A entity do finder pode ou não ter FK com a entity do form
+              entityFinder = ctrl.entityForm.entitiesReference[referenceOfField.entity.toLowerCase()],
+              dependenceField = ctrl.selectFields.filter(function(field) { return field.meta.bind == bindDep })[0],
+              dependences = [];
 
-                aliasRef.push(refMap);
-              }
+              if (!dependenceField || !dependenceField.finder) { return }
+
+                entityFinder.references.forEach(function(ref) {
+                  if (ref.entity == dependenceField.finder.entityName) {
+                    var aliasRef = [];
+
+                    entityFinder.attributes.forEach(function(attr) {
+                      if (attr.name == ref.field) {
+                        var refMap = {
+                          fk: dependenceField.label.concat(' (').concat(attr.alias).concat(')'),
+                          bindForm: dependenceField.meta.bind,
+                          bindRef: attr.alias
+                        };
+
+                        aliasRef.push(refMap);
+                      }
+                    });
+
+                    depReferences = depReferences.concat(aliasRef);
+                  }
+                });
             });
-
-            depReferences = depReferences.concat(aliasRef);
-          }
-        });
-      });
 
       ctrl.depReferences = depReferences;
     };
@@ -902,8 +903,8 @@
       switch (model.dataSourceType) {
         case 'O':
         case 'D':
-          delete model.serviceSource;
-          delete model.finder;
+        delete model.serviceSource;
+        delete model.finder;
         break;
 
         case 'E':
@@ -916,8 +917,8 @@
         break;
 
         case 'S':
-          delete model.finder;
-          delete model.options;
+        delete model.finder;
+        delete model.options;
         break;
 
         case 'FS':
@@ -1063,6 +1064,7 @@
       }
 
       if (formField.finder) {
+        filterSelectFields(formField);
 
         if (formField.dataSourceType == 'E') {
           getModuleEntity(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
@@ -1094,6 +1096,7 @@
 
       } else if (formField.serviceSource) {
         getSources(getModuleIdByKey(formField.serviceSource.moduleKey));
+        filterSelectFields(formField);
         ctrl.moduleEntity = getModuleFromApps(getModuleIdByKey(formField.serviceSource.moduleKey) || formField.serviceSource.moduleId);
         formField.dataSourceType = 'S';
 
@@ -1571,6 +1574,7 @@
           getSources(getModuleIdByKey(ctrl.moduleEntity.key), ctrl.fieldEdit.serviceSource);
         };
 
+        filterSelectFields(ctrl.fieldEdit);
         break;
       }
     }
@@ -1839,6 +1843,22 @@
         window.location = url.concat(resourceId);
       } else {
         window.open(url.concat('new'));
+      }
+    }
+
+    function filterSelectFields(fieldEdit) {
+      var selectFields = [];
+
+      ctrl.sections.forEach(function(section) {
+        selectFields = selectFields.concat(section.fieldsCol1.filter(getSelectField));
+        selectFields = selectFields.concat(section.fieldsCol2.filter(getSelectField));
+        selectFields = selectFields.concat(section.fieldsCol3.filter(getSelectField));
+      });
+
+      ctrl.selectFields = selectFields;
+
+      function getSelectField(field) {
+        return field.meta.type == 'select' && field.meta.bind != fieldEdit.meta.bind;
       }
     }
 
