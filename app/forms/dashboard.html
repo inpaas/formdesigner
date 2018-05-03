@@ -8,6 +8,7 @@
 
   <div class="pull-right">
     <button type="button" class="btn btn-primary" ng-click="ctrl.saveForm()" title="Salvar">
+      <i class="fa fa-spinner fa-spin" ng-if="ctrl.onSaving"></i>
       <i class="fa fa-fw fa-save"></i>
     </button>
     <button type="button" class="btn btn-sm btn-primary" title="Preview" ng-click="ctrl.formPreview()" title="Executar o Form">
