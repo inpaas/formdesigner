@@ -81,7 +81,7 @@
     }
 
     function buildLabelsFromTitle(jsonForm){
-      var key = generateKey('title'),
+      var key = generateKey('title').toLowerCase(),
           value = jsonForm.label,
           label = {};
 
