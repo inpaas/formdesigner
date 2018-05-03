@@ -636,7 +636,7 @@
         case 'select':
         var reference = [];
 
-        filterSelectFields(fieldEdit);
+        getAllFields(fieldEdit);
         fieldEdit.rawEntityField && (reference = findReferences(fieldEdit));
 
         if (fieldEdit.rawEntityField && fieldEdit.rawEntityField.domains) {
@@ -735,7 +735,7 @@
       if (!ctrl.sections.length || configIsInvalid(ctrl.fieldEdit.error)) { return false; }
 
       var fieldEdit = ctrl.fieldEdit,
-      section = ctrl.sections[ctrl.sectionSelectedIndex];
+          section = ctrl.sections[ctrl.sectionSelectedIndex];
 
       setNameField(fieldEdit);
 
@@ -778,10 +778,10 @@
 
       if (fieldEdit.bindDependencies && fieldEdit.bindDependencies.length) {
         var dependencies = [],
-        hasBindRefs = fieldEdit.bindReferences && fieldEdit.bindReferences.length;
+            hasBindRefs = fieldEdit.bindReferences && fieldEdit.bindReferences.length;
 
         fieldEdit.bindDependencies.forEach(function(bindDep) {
-          var map = hasBindRefs ? ctrl.depReferences.filter(filterBindRef.bind(null, bindDep)) : null;
+          var map = hasBindRefs ? fieldEdit.depReferences.filter(filterBindRef.bind(null, bindDep)) : null;
 
           if (map) {
             dependencies = dependencies.concat(map);
@@ -795,6 +795,8 @@
         function filterBindRef(bindDep, bindRef) {
           return bindRef.bindForm == bindDep;
         }
+      }else if(_.get(fieldEdit, 'finder.dependencies')){
+        delete fieldEdit.finder.dependencies;
       }
 
       if (!fieldEdit.formatDefault) {
@@ -857,44 +859,52 @@
       showComponents();
     }
 
-    function getReferenceFk(binds, field) {
-      var depReferences = [],
-      field = field || ctrl.fieldEdit;
+    function getReferencesFk(fieldEdit) {
+      var entityOfFinder = fieldEdit.entity;
 
-      binds.forEach(function(bindDep) {
-        var referenceOfField = ctrl.entityForm.references.filter(function(ref) {
-          return ref.field.toLowerCase() == field.rawEntityField.name.toLowerCase();
-        })[0],
+      fieldEdit.depReferences = [];
+      
+      ctrl.allFields.forEach(function(field, index) {
+        var reference = {},
+            alias = field.alias,
+            depEntityField = ctrl.entityForm.attributes.filter(function(a){ return a.alias == alias})[0];
 
-              //A entity do finder pode ou não ter FK com a entity do form
-              entityFinder = ctrl.entityForm.entitiesReference[referenceOfField.entity.toLowerCase()],
-              dependenceField = ctrl.selectFields.filter(function(field) { return field.meta.bind == bindDep })[0],
-              dependences = [];
+        if(depEntityField){
+          var entityFormReferences = ctrl.entityForm.references.filter(function(r) {return r.field == depEntityField.name});
 
-              if (!dependenceField || !dependenceField.finder) { return }
+          if(!entityFormReferences.length){return}
 
-                entityFinder.references.forEach(function(ref) {
-                  if (ref.entity == dependenceField.finder.entityName) {
-                    var aliasRef = [];
+          entityFormReferences.forEach(function(ref) {
+            if(ref.entity != fieldEdit.entity.name){
+              var finderRef = entityOfFinder.references.filter(function(r) {return r.entity == ref.entity})[0];
 
-                    entityFinder.attributes.forEach(function(attr) {
-                      if (attr.name == ref.field) {
-                        var refMap = {
-                          fk: dependenceField.label.concat(' (').concat(attr.alias).concat(')'),
-                          bindForm: dependenceField.meta.bind,
-                          bindRef: attr.alias
-                        };
+              if(!finderRef){return}
 
-                        aliasRef.push(refMap);
-                      }
-                    });
+              var fieldRef = entityOfFinder.attributes.filter(function(a) {return a.name == finderRef.field})[0];
 
-                    depReferences = depReferences.concat(aliasRef);
-                  }
-                });
-            });
+              reference.bindRef = fieldRef.alias;
 
-      ctrl.depReferences = depReferences;
+            }else if(ref && ref.entity == fieldEdit.entity.name){
+              reference.bindRef = 'id';
+            }
+
+            reference.fk = depEntityField.alias.concat(' (').concat(ref.entity).concat(')');
+            reference.bindForm = alias;
+            fieldEdit.depReferences.push(reference);
+          });
+
+        }else if(field.formField.finder){
+          var finderRef = entityOfFinder.references.filter(function(r) {return r.entity == field.formField.finder.entityName})[0],
+              fieldRef = entityOfFinder.attributes.filter(function(a) {return a.name == finderRef.field})[0];
+
+          reference.bindRef = fieldRef.alias;
+          reference.fk = fieldRef.alias.concat(' (').concat(finderRef.entity).concat(')');
+
+          reference.bindForm = alias;
+          fieldEdit.depReferences.push(reference);
+        }
+
+      });
     };
 
     function configDataSource(model) {
@@ -903,32 +913,31 @@
       switch (model.dataSourceType) {
         case 'O':
         case 'D':
-        delete model.serviceSource;
-        delete model.finder;
+          delete model.serviceSource;
+          delete model.finder;
         break;
 
         case 'E':
-        try {
-          delete model.finder.method;
-          delete model.finder.sourceKey;
-          delete model.options;
-          delete model.serviceSource;
-        } catch (e) {}
+          try {
+            delete model.finder.method;
+            delete model.finder.sourceKey;
+            delete model.options;
+            delete model.serviceSource;
+          } catch (e) {}
         break;
 
         case 'S':
-        delete model.finder;
-        delete model.options;
+          delete model.finder;
+          delete model.options;
         break;
 
         case 'FS':
-        try {
-          delete model.options;
-          delete model.serviceSource;
-          delete model.finder.entityName;
-          delete model.finder.key;
-        } catch (e) {}
-
+          try {
+            delete model.options;
+            delete model.serviceSource;
+            delete model.finder.entityName;
+            delete model.finder.key;
+          } catch (e) {}
         break;
       }
     }
@@ -948,7 +957,7 @@
       }
 
       var sectionSelected = ctrl.sections[ctrl.sectionSelectedIndex],
-      newField = angular.copy(ctrl.fieldEdit);
+          newField = angular.copy(ctrl.fieldEdit);
 
       newField.views.edit.size = sectionSelected.views.edit.collumns == 3 ? 8 : (newField.views.edit.size || 5);
 
@@ -958,14 +967,14 @@
 
     function addField(entityField) {
       var fieldEdit = {
-        meta: {},
-        views: {
-          edit: {
-            position: 1,
-            size: '5'
-          }
-        }
-      };
+            meta: {},
+            views: {
+              edit: {
+                position: 1,
+                size: '5'
+              }
+            }
+          };
 
       fieldEdit.label = entityField.translatedName || entityField.alias;
 
@@ -1031,7 +1040,7 @@
       };
 
       var formField = angular.copy(_formField),
-      sectionIndex = ctrl.sections.indexOf(section);
+          sectionIndex = ctrl.sections.indexOf(section);
 
       formField.index = index;
 
@@ -1064,39 +1073,22 @@
       }
 
       if (formField.finder) {
-        filterSelectFields(formField);
+        getAllFields(formField);
 
         if (formField.dataSourceType == 'E') {
+          formField.entity = ctrl.entityForm.entitiesReference[formField.finder.entityName.toLowerCase()];
           getModuleEntity(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
           getFinders(formField.finder.entityName);
           getFinder(formField.finder.entityName, formField.finder.key);
+          getReferencesFk(formField);
 
-          if (formField.finder.dependencies) {
-            var bindDependencies = [],
-                bindReferences = [],
-                depReferences = [];
-
-            formField.finder.dependencies.forEach(function(dep) {
-              if (angular.isObject(dep)) {
-                bindReferences.push(dep.bindForm);
-                bindDependencies.push(dep.bindForm);
-                depReferences.push(dep);
-              } else {
-                bindDependencies.push(dep);
-              }
-            });
-
-            formField.bindDependencies = bindDependencies;
-            formField.bindReferences = bindReferences;
-            ctrl.depReferences = depReferences;
-          }
         } else {
           getSources(getModuleIdByKey(formField.finder.moduleKey));
         }
 
       } else if (formField.serviceSource) {
         getSources(getModuleIdByKey(formField.serviceSource.moduleKey));
-        filterSelectFields(formField);
+        getAllFields(formField);
         ctrl.moduleEntity = getModuleFromApps(getModuleIdByKey(formField.serviceSource.moduleKey) || formField.serviceSource.moduleId);
         formField.dataSourceType = 'S';
 
@@ -1188,11 +1180,16 @@
     }
 
     function save(form) {
+      ctrl.onSaving = true;
+
       if (form.id) {
         httpService.saveEditForm(form, form.id, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId).then(function success(response) {
           Notification.success('Formulário salvo com sucesso');
+          ctrl.onSaving = false;
+
         }, function error(response) {
           Notification.error('O formulário não pode ser salvo. \n'.concat($l10n.translate(response.data.message)));
+          ctrl.onSaving = false;
         });
         
       } else {
@@ -1201,9 +1198,12 @@
           return httpService.saveEditForm(form, response.data.id, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId).then(function(response) {
             Notification.success('Formulário salvo com sucesso');
             goToEdit(response.data.id, false);
+            ctrl.onSaving = false;
           });
+          
         }, function error(response) {
           Notification.error('O formulário não pode ser salvo. \n'.concat($l10n.translate(response.data.message)));
+          ctrl.onSaving = false;
         });
       }
     }
@@ -1517,10 +1517,9 @@
         model.entity = entity;
         model.references = getReferences(entity);
         ctrl.entityForms = entity.forms.filter(function(form) { return form.type == 'v2' });
-
+        getReferencesFk(model);
       }).then(function() {
         getFinders(model.finder.entityName).then(function() {
-
           if ((ctrl.finders && ctrl.finders.length == 1)) {
             var finder = ctrl.finders[0];
 
@@ -1529,9 +1528,9 @@
             } else {
               model && (model.finder.key = finder.key);
               
-              getFinder(model.finder.entityName, finder.key).then(function(response){
+              getFinder(model.finder.entityName, finder.key).then(function(finder){
                 if (finder.fields.length == 1) {
-                  fieldEdit.finder.fieldIndex = '0';
+                  model && (model.finder.fieldIndex = '0');
                 }
               });
             }
@@ -1544,19 +1543,13 @@
               }
             });
           }
-
         });
-      });
-    }
-
-    function setFinderForField(entityName, model) {
-      setFinder(entityName, model, false).then(function() {
-
       });
     }
 
     function selectEntityFinder(entityName, model, isSection) {
       if (!entityName) { return };
+
       model.finder && model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
       setFinder(entityName, model, isSection);
     }
@@ -1574,7 +1567,6 @@
           getSources(getModuleIdByKey(ctrl.moduleEntity.key), ctrl.fieldEdit.serviceSource);
         };
 
-        filterSelectFields(ctrl.fieldEdit);
         break;
       }
     }
@@ -1692,7 +1684,7 @@
     function setDisplayConfig(type, expression) {
       if ((!type && !expression) || type == 'default') { return undefined }
 
-        var config;
+      var config;
 
       if (type == 'map' || type == 'function') {
         config = {
@@ -1846,19 +1838,28 @@
       }
     }
 
-    function filterSelectFields(fieldEdit) {
-      var selectFields = [];
-
-      ctrl.sections.forEach(function(section) {
-        selectFields = selectFields.concat(section.fieldsCol1.filter(getSelectField));
-        selectFields = selectFields.concat(section.fieldsCol2.filter(getSelectField));
-        selectFields = selectFields.concat(section.fieldsCol3.filter(getSelectField));
+    function getAllFields(fieldEdit) {
+      var allFields = ctrl.entityForm.attributes.filter(function(field) {
+        return !field.auditField;
       });
 
-      ctrl.selectFields = selectFields;
+      ctrl.sections.forEach(function(section) {
+        section.fieldsCol1.forEach(getCustomFields);
+        section.fieldsCol2.forEach(getCustomFields);
+        section.fieldsCol3.forEach(getCustomFields);
+      });
 
-      function getSelectField(field) {
-        return field.meta.type == 'select' && field.meta.bind != fieldEdit.meta.bind;
+      ctrl.allFields = allFields;
+
+      function getCustomFields(field) {
+        if(field.customField){
+          allFields.push({
+            alias: field.meta.bind,
+            label: field.label,
+            formField: field,
+            customField: true
+          });
+        }
       }
     }
 
@@ -2000,12 +2001,9 @@
       getModuleTemplates: getModuleTemplates,
       selectEntityFinder: selectEntityFinder,
       selectFinder: selectFinder,
-      setFinder: setFinder,
-      setFinderForField: setFinderForField,
       selectDataSourcetype: selectDataSourcetype,
       selectExtension: selectExtension,
       showSourcesJs: showSourcesJs,
-      getReferenceFk: getReferenceFk,
       getPermissions: getPermissions,
       onSelectTypeSection: onSelectTypeSection,
       selectModuleForFinderService: selectModuleForFinderService,
@@ -2013,7 +2011,7 @@
       onChangeRefIncludeEdit: onChangeRefIncludeEdit,
       validateConfigForm: validateConfigForm,
       validateConfigSection: validateConfigSection,
-      validateConfigField: validateConfigField
+      validateConfigField: validateConfigField,
     });
   };
 })();

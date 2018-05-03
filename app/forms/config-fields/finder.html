@@ -43,7 +43,7 @@
             class="form-control input-sm" 
             placeholder="Selecione" 
             ng-model="ctrl.fieldEdit.finder.entityName" 
-            ng-blur="ctrl.setFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit)"
+            ng-blur="ctrl.selectEntityFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit)"
             uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
             typeahead-min-length="0" />
       <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_finder_entityName">Selecione uma entidade</small>
@@ -123,7 +123,6 @@
       <label for="">Dependências (Fields)</label>
       <select class="form-control input-sm" 
               multiple 
-              ng-change="ctrl.getReferenceFk(ctrl.fieldEdit.bindDependencies)"
               ng-options="field.meta.bind as field.label for field in ctrl.selectFields" 
               ng-model="ctrl.fieldEdit.bindDependencies">
       </select>
