@@ -3,9 +3,9 @@
     .module('studio-v2')
     .service('labelsService', labelsService);
     
-  labelsService.$inject = ['$http', '$filter', '$l10n', 'AUDIT_FIELDS'];
+  labelsService.$inject = ['$http', '$filter', '$l10n', 'AUDIT_FIELDS', 'Notification'];
 
-  function labelsService($http, $filter, $l10n, AUDIT_FIELDS){
+  function labelsService($http, $filter, $l10n, AUDIT_FIELDS, Notification){
       var labelsNamespace = "",
           labels = [];
 
@@ -20,7 +20,7 @@
           angular.forEach(labels, function(labelValue, labelKey){
             $l10n.editLabel(labelKey, labelValue);
           });
-        });
+        }, onError);
     }
 
     function generateKey(name){
@@ -47,7 +47,7 @@
         method: 'get'
       }).then(function(response){
         labels = response.data.data;
-      });
+      }, onError);
     }
 
     function buildLabels(jsonForm, moduleId){
@@ -237,4 +237,7 @@
     }
   }
 
+  function onError(response){
+    Notification.error({message: $l10n.translate(response.error || response.message), delay: null});
+  }
 })();
