@@ -59,6 +59,30 @@
       </select>
       <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_finder_key">Selecione um finder</small>
     </div>
+
+    <div class="row">
+      <div class="stock-separator">
+        <label for="">Dependências</label>
+      </div>
+  
+      <div class="form-group">
+        <label for="">Campos da entitidade do form</label>
+        <select class="form-control input-sm" 
+                multiple 
+                ng-options="field.alias as (field.alias || field.label) for field in ctrl.allFields" 
+                ng-model="ctrl.fieldEdit.bindDependencies">
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="">Referências</label>
+        <select class="form-control input-sm" 
+                multiple 
+                ng-options="ref.bindForm as ref.fk for ref in ctrl.fieldEdit.depReferences"
+                ng-model="ctrl.fieldEdit.bindReferences">
+        </select>
+      </div>
+    </div>
   </div>
   
   <div ng-if="ctrl.fieldEdit.dataSourceType == 'FS'">
@@ -98,7 +122,7 @@
       <label for="">Dependências</label>
       <select class="form-control input-sm" 
               multiple 
-              ng-options="field.alias as field.alias for field in ctrl.entityForm.attributes" 
+              ng-options="field.alias as field.alias for field in ctrl.allFields" 
               ng-model="ctrl.fieldEdit.finder.dependencies">
       </select>
     </div> 
@@ -116,25 +140,5 @@
             ng-options="form.key as (form.name || form.key) for form in ctrl.entityForms">
         <option value="">Padrão</option>
     </select>
-  </div>
-
-  <div ng-if="ctrl.depReferences && ctrl.fieldEdit.dataSourceType == 'E'">
-    <div class="form-group">
-      <label for="">Dependências (Fields)</label>
-      <select class="form-control input-sm" 
-              multiple 
-              ng-options="field.meta.bind as field.label for field in ctrl.selectFields" 
-              ng-model="ctrl.fieldEdit.bindDependencies">
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="">Dependências (Referências)</label>
-      <select class="form-control input-sm" 
-              multiple 
-              ng-options="ref.bindForm as ref.fk for ref in ctrl.depReferences" 
-              ng-model="ctrl.fieldEdit.bindReferences">
-      </select>
-    </div>
   </div>
 </div>
