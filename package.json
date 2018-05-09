@@ -2,7 +2,6 @@
   "name": "formdesigner",
   "version": "1.0.0",
   "description": "Form Designer Interface for the Development Studio",
-  "main": "index.html",
   "scripts": {
     "gulp": "gulp",
     "test": "karma start"
@@ -30,6 +29,9 @@
   },
   "devDependencies": {
     "angular-mock": "^1.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "0.0.14",
