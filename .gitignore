@@ -39,3 +39,7 @@ Issues Forms Designer V2
 
 # local files
 .local_notes
+
+dist
+issues
+.vscode
