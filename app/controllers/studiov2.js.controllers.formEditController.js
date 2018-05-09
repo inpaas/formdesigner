@@ -1,19 +1,18 @@
-/*eslint-env browser */
-/*globals moment angular jQuery debounce*/
+/* global angular moment _ */
 (function() {
   angular
-  .module("studio-v2")
-  .controller("FormEditController", FormEditController);
+    .module('studio-v2')
+    .controller('FormEditController', FormEditController);
 
   FormEditController.$inject = [
-      //Constants
-      'ACTIONS', 'TIME_FORMAT_PATTERNS', 'ICONS', 'FILE_EXTENSIONS', 'AUDIT_FIELDS',
+    //Constants
+    'ACTIONS', 'TIME_FORMAT_PATTERNS', 'ICONS', 'FILE_EXTENSIONS', 'AUDIT_FIELDS',
 
-      //Services
-      '$scope', '$q', '$state', 'jsonFormService', 'httpService', 'labelsService',
-      '$l10n', '$uibModal', 'dragulaService', 'Notification', 'fieldIconsService',
-      'SectionService', 'FieldValidationService', 'HelpersService'
-      ];
+    //Services
+    '$scope', '$q', '$state', 'jsonFormService', 'httpService', 'labelsService',
+    '$l10n', '$uibModal', 'dragulaService', 'Notification', 'fieldIconsService',
+    'SectionService', 'FieldValidationService', 'HelpersService'
+  ];
 
   function FormEditController(
     ACTIONS, TIME_FORMAT_PATTERNS, ICONS, FILE_EXTENSIONS, AUDIT_FIELDS,
@@ -22,7 +21,7 @@
     SectionService, FieldValidationService, HelpersService) {
 
     var ctrl = this,
-        idForm = $state.params.id;
+      idForm = $state.params.id;
 
     setCurrentViewFlag();
     settingsDragNDrop();
@@ -53,11 +52,11 @@
           if (jsonModel.dataSource.key) {
             setBreadcrumb(jsonModel);
             getEntitiesByModule(getModuleIdByKey(jsonModel.dataSource.moduleKey) || jsonModel.dataSource.moduleId)
-            .then(function(response) {
-              getFieldsByEntity(jsonModel.dataSource.key).then(function(response) {
-                linkColumnNameToFields(jsonModel.fields);
+              .then(function() {
+                getFieldsByEntity(jsonModel.dataSource.key).then(function() {
+                  linkColumnNameToFields(jsonModel.fields);
+                });
               });
-            });
           }else{
             showConfigForm(ctrl.jsonModel);
           }
@@ -77,14 +76,14 @@
 
     function buildSections(form) {
       var section = {
-            fields: setFieldsToMainSection(form.fields),
-            label: form.views.edit.label,
-            type: 'main',
-            views: form.views,
-            fieldsCol1: [],
-            fieldsCol2: [],
-            fieldsCol3: []
-          };
+        fields: setFieldsToMainSection(form.fields),
+        label: form.views.edit.label,
+        type: 'main',
+        views: form.views,
+        fieldsCol1: [],
+        fieldsCol2: [],
+        fieldsCol3: []
+      };
 
       ctrl.sections.push(section);
 
@@ -98,7 +97,7 @@
             field.finder.relatedFinders = [{ title: field.finder.title, key: field.finder.key }];
           }
 
-          var hasDuplicateName = form.fields.map(function(_field) { return field.name == field.name });
+          var hasDuplicateName = form.fields.map(function(_field) { return field.name == field.name; });
 
           if (hasDuplicateName) {
             field.name.replace('-', (new Date().getTime()));
@@ -118,16 +117,16 @@
             field.views.edit.size = section.views.edit.collumns == 3 ? 8 : (field.views.edit.size || 5);
 
             switch (field.views.edit.position) {
-              case undefined:
-              case 1:
+            case undefined:
+            case 1:
               section.fieldsCol1.push(field);
               break;
 
-              case 2:
+            case 2:
               section.fieldsCol2.push(field);
               break;
 
-              case 3:
+            case 3:
               section.fieldsCol3.push(field);
             }
           });
@@ -178,10 +177,10 @@
 
     function addButton(actionName, position, label) {
       var button = {
-            action: actionName,
-            view: ctrl.currentView,
-            label: label
-          };
+        action: actionName,
+        view: ctrl.currentView,
+        label: label
+      };
 
       if (actionName.match(/(custom)|(modal)/g)) {
         button.btCustom = true;
@@ -219,15 +218,15 @@
 
     function saveEditButton() {
       var clone = angular.copy(ctrl.editBt),
-      action = {
-        action: clone.action,
-        label: clone.label,
-        notDisplayLabel: !!clone.notDisplayLabel,
-        name: clone.name || clone.action || clone.label.toLowerCase().replace(/\s/g, '-'),
-        visible: setDisplayConfig(clone.visibilityType, clone.visibilityExpression),
-        event: setEventConfig(),
-        saveAndStay: clone.saveAndStay
-      };
+        action = {
+          action: clone.action,
+          label: clone.label,
+          notDisplayLabel: !!clone.notDisplayLabel,
+          name: clone.name || clone.action || clone.label.toLowerCase().replace(/\s/g, '-'),
+          visible: setDisplayConfig(clone.visibilityType, clone.visibilityExpression),
+          event: setEventConfig(),
+          saveAndStay: clone.saveAndStay
+        };
 
       if (!angular.isUndefined(clone.index)) {
         var bt = ctrl.jsonModel.views[ctrl.currentView].actions[clone.index];
@@ -244,7 +243,7 @@
           action.event = {
             method: clone.method,
             sourceKey: clone.sourceKey
-          }
+          };
         }
       }
     }
@@ -268,15 +267,15 @@
     }
 
     function openModalForConfig(model, modelKey, typeConfig) {
-      var typeFunctionTemplateUrl = "studiov2.forms.config-function",
-      typeMapTemplateUrl = "studiov2.forms.config-map";
+      var typeFunctionTemplateUrl = 'studiov2.forms.config-function',
+        typeMapTemplateUrl = 'studiov2.forms.config-map';
 
       var uibModalInstance = $uibModal.open({
         templateUrl: typeConfig == 'function' ? typeFunctionTemplateUrl : typeMapTemplateUrl,
         controller: 'ConfigDisplayController',
-        controllerAs: "$ctrl",
+        controllerAs: '$ctrl',
         resolve: {
-          typeConfig: function() { return typeConfig },
+          typeConfig: function() { return typeConfig; },
           expression: function() {
             var value;
 
@@ -375,23 +374,23 @@
       }
 
       switch (currentSection.includeType) {
-        case 'list':
+      case 'list':
         configSectionFinderList();
         break;
 
-        case 'edit':
+      case 'edit':
         delete currentSection.finder;
         if (!currentSection.isSameDataSource) {
           configSectionEdit();
         }
         break;
 
-        case 'templateCustom':
+      case 'templateCustom':
         delete currentSection.finder;
         currentSection.include.moduleKey = ctrl.moduleEntity.key;
         break;
 
-        case 'finder-service':
+      case 'finder-service':
         delete currentSection.finder.entityName;
         break;
       }
@@ -418,19 +417,21 @@
 
       switch (currentSection.views.edit.collumns) {
         case 1:
-        if (currentSection.fieldsCol2.length) {
-          currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol2);
-          currentSection.fieldsCol3.length = 0;
-        }
-        if (currentSection.fieldsCol3.length) {
-          currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol3);
-          currentSection.fieldsCol2.length = 0;
-        }
+          if (currentSection.fieldsCol2.length) {
+            currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol2);
+            currentSection.fieldsCol3.length = 0;
+          }
+          if (currentSection.fieldsCol3.length) {
+            currentSection.fieldsCol1 = currentSection.fieldsCol1.concat(currentSection.fieldsCol3);
+            currentSection.fieldsCol2.length = 0;
+          }
+        break;
+
         case 2:
-        if (currentSection.fieldsCol3.length) {
-          currentSection.fieldsCol2 = currentSection.fieldsCol3.concat(currentSection.fieldsCol3);
-          currentSection.fieldsCol3.length = 0;
-        }
+          if (currentSection.fieldsCol3.length) {
+            currentSection.fieldsCol2 = currentSection.fieldsCol3.concat(currentSection.fieldsCol3);
+            currentSection.fieldsCol3.length = 0;
+          }
       }
 
       if (!angular.isUndefined(currentSection.index)) {
@@ -484,7 +485,7 @@
           currentSection.include = {
             key: jsonForm.key,
             moduleKey: ctrl.jsonModel.moduleKey
-          }
+          };
           currentSection.jsonForm = jsonForm;
         }
 
@@ -591,14 +592,14 @@
     function getReferences(entity) {
       var references = [];
 
-      entity.references && entity.references.forEach(function(ref, index) {
+      entity.references && entity.references.forEach(function(ref) {
         if (ctrl.entityForm.name == ref.entity) {
           references.push(ref.fieldReference || ref.field);
         }
       });
 
       return references;
-    };
+    }
 
     function getEntityAndSetReferences(entityName, model) {
       getFinders(model.finder.entityName).then(function() {
@@ -623,17 +624,19 @@
       fieldEdit.meta.type = type;
 
       switch (type) {
-        case 'currency':
-        case 'date':
+      case 'currency':
+        getFormatsPattern();
+        break;
+
+      case 'date':
         getFormatsPattern();
 
-        case 'date':
         if (!fieldEdit.meta.datetimepickerPosition) {
           fieldEdit.meta.datetimepickerPosition = 'top-left';
         }
         break;
 
-        case 'select':
+      case 'select':
         var reference = [];
 
         getAllFields(fieldEdit);
@@ -649,22 +652,22 @@
 
           fieldEdit.finder = {
             entityName: reference[0].entity
-          }
+          };
 
           getFinders(reference[0].entity)
-          .then(function() {
-            if ((ctrl.finders && ctrl.finders.length == 1)) {
-              fieldEdit.finder.key = ctrl.finders[0].key;
-              fieldEdit.finder.entityName = reference[0].entity;
-            }
-          })
-          .then(function() {
-            getFinder(fieldEdit.finder.entityName, fieldEdit.finder.key).then(function(finder) {
-              if (finder.fields.length == 1) {
-                fieldEdit.finder.fieldIndex = '0';
+            .then(function() {
+              if ((ctrl.finders && ctrl.finders.length == 1)) {
+                fieldEdit.finder.key = ctrl.finders[0].key;
+                fieldEdit.finder.entityName = reference[0].entity;
               }
+            })
+            .then(function() {
+              getFinder(fieldEdit.finder.entityName, fieldEdit.finder.key).then(function(finder) {
+                if (finder.fields.length == 1) {
+                  fieldEdit.finder.fieldIndex = '0';
+                }
+              });
             });
-          });
 
         } else {
           fieldEdit.dataSourceType = 'O';
@@ -672,7 +675,7 @@
         }
         break;
 
-        case 'checkbox':
+      case 'checkbox':
         fieldEdit.requiredType = 'false';
         fieldEdit.requiredExpression = false;
 
@@ -684,12 +687,12 @@
         }
         break;
 
-        case 'file':
+      case 'file':
         fieldEdit.FILE_EXTENSIONS = angular.copy(FILE_EXTENSIONS);
         fieldEdit.meta.maxSize = '50';
         break;
 
-        case 'textarea':
+      case 'textarea':
         !fieldEdit.meta.rows && (fieldEdit.meta.rows = '5');
         break;
       }
@@ -706,9 +709,9 @@
     function getModuleFromApps(idModule) {
       var module = {};
 
-      ctrl.apps && ctrl.apps.forEach(function(app, index) {
+      ctrl.apps && ctrl.apps.forEach(function(app) {
         if (app.modules) {
-          app.modules.forEach(function(mod, index) {
+          app.modules.forEach(function(mod) {
             if (mod.id == idModule) {
               module = mod;
             }
@@ -720,7 +723,7 @@
     }
 
     function findReferences(fieldForm) {
-      return ctrl.entityForm.references.filter(function(ref, index) {
+      return ctrl.entityForm.references.filter(function(ref) {
         return ref.field.toLowerCase() === fieldForm.rawEntityField.name.toLowerCase();
       });
     }
@@ -735,7 +738,7 @@
       if (!ctrl.sections.length || configIsInvalid(ctrl.fieldEdit.error)) { return false; }
 
       var fieldEdit = ctrl.fieldEdit,
-          section = ctrl.sections[ctrl.sectionSelectedIndex];
+        section = ctrl.sections[ctrl.sectionSelectedIndex];
 
       setNameField(fieldEdit);
 
@@ -778,7 +781,7 @@
 
       if (fieldEdit.bindDependencies && fieldEdit.bindDependencies.length) {
         var dependencies = [],
-            hasBindRefs = fieldEdit.bindReferences && fieldEdit.bindReferences.length;
+          hasBindRefs = fieldEdit.bindReferences && fieldEdit.bindReferences.length;
 
         fieldEdit.bindDependencies.forEach(function(bindDep) {
           var map = hasBindRefs ? fieldEdit.depReferences.filter(filterBindRef.bind(null, bindDep)) : null;
@@ -800,8 +803,8 @@
       }
 
       if (!fieldEdit.formatDefault) {
-        delete fieldEdit.meta.decimalSeparator
-        delete fieldEdit.meta.thousandSeparator
+        delete fieldEdit.meta.decimalSeparator;
+        delete fieldEdit.meta.thousandSeparator;
       }
 
       if (angular.isUndefined(fieldEdit.index)) {
@@ -866,17 +869,17 @@
         var reference = {};
 
         if(!field.customField){
-          var formReferences = ctrl.entityForm.references.filter(function(r) {return r.field == field.name && r.entity != fieldEdit.entity.name});
+          var formReferences = ctrl.entityForm.references.filter(function(r) {return r.field == field.name && r.entity != fieldEdit.entity.name;});
 
-          if(!formReferences.length){return}
+          if(!formReferences.length){return;}
 
           formReferences.forEach(function(ref) {
             if(fieldEdit.entity && fieldEdit.entity.name != ref.entity){
-              var finderRef = fieldEdit.entity.references.filter(function(r) {return r.entity == ref.entity})[0];
+              var finderRef = fieldEdit.entity.references.filter(function(r) {return r.entity == ref.entity;})[0];
 
-              if(!finderRef){return}
+              if(!finderRef){return;}
 
-              var fieldRef = fieldEdit.entity.attributes.filter(function(a) {return a.name == finderRef.field})[0];
+              var fieldRef = fieldEdit.entity.attributes.filter(function(a) {return a.name == finderRef.field;})[0];
 
               reference.bindRef = fieldRef.alias;
 
@@ -890,11 +893,11 @@
           });
 
         }else {
-          var finderRef = fieldEdit.entity.references.filter(function(r) {return r.entity == field.formField.finder.entityName})[0];
+          var finderRef = fieldEdit.entity.references.filter(function(r) {return r.entity == field.formField.finder.entityName;})[0];
 
-          if(!finderRef){return}
+          if(!finderRef){return;}
 
-          var fieldRef = fieldEdit.entity.attributes.filter(function(a) {return a.name == finderRef.field})[0];
+          var fieldRef = fieldEdit.entity.attributes.filter(function(a) {return a.name == finderRef.field;})[0];
 
           reference.bindRef = fieldRef.alias;
           reference.fk = fieldRef.alias.concat(' (').concat(finderRef.entity).concat(')');
@@ -904,39 +907,39 @@
         }
 
       });
-    };
+    }
 
     function configDataSource(model) {
       delete model.entity;
 
       switch (model.dataSourceType) {
-        case 'O':
-        case 'D':
-          delete model.serviceSource;
-          delete model.finder;
+      case 'O':
+      case 'D':
+        delete model.serviceSource;
+        delete model.finder;
         break;
 
-        case 'E':
-          try {
-            delete model.finder.method;
-            delete model.finder.sourceKey;
-            delete model.options;
-            delete model.serviceSource;
-          } catch (e) {}
-        break;
-
-        case 'S':
-          delete model.finder;
+      case 'E':
+        try {
+          delete model.finder.method;
+          delete model.finder.sourceKey;
           delete model.options;
+          delete model.serviceSource;
+        } catch (e) {}
         break;
 
-        case 'FS':
-          try {
-            delete model.options;
-            delete model.serviceSource;
-            delete model.finder.entityName;
-            delete model.finder.key;
-          } catch (e) {}
+      case 'S':
+        delete model.finder;
+        delete model.options;
+        break;
+
+      case 'FS':
+        try {
+          delete model.options;
+          delete model.serviceSource;
+          delete model.finder.entityName;
+          delete model.finder.key;
+        } catch (e) {}
         break;
       }
     }
@@ -956,7 +959,7 @@
       }
 
       var sectionSelected = ctrl.sections[ctrl.sectionSelectedIndex],
-          newField = angular.copy(ctrl.fieldEdit);
+        newField = angular.copy(ctrl.fieldEdit);
 
       newField.views.edit.size = sectionSelected.views.edit.collumns == 3 ? 8 : (newField.views.edit.size || 5);
 
@@ -966,14 +969,14 @@
 
     function addField(entityField) {
       var fieldEdit = {
-            meta: {},
-            views: {
-              edit: {
-                position: 1,
-                size: '5'
-              }
-            }
-          };
+        meta: {},
+        views: {
+          edit: {
+            position: 1,
+            size: '5'
+          }
+        }
+      };
 
       fieldEdit.label = entityField.translatedName || entityField.alias;
 
@@ -1036,10 +1039,10 @@
         _formField.col = 2;
       } else {
         _formField.col = 3;
-      };
+      }
 
       var formField = angular.copy(_formField),
-          sectionIndex = ctrl.sections.indexOf(section);
+        sectionIndex = ctrl.sections.indexOf(section);
 
       formField.index = index;
 
@@ -1206,17 +1209,17 @@
         
       } else {
         httpService.saveNewForm(form, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId)
-        .then(function(response) {
-          return httpService.saveEditForm(form, response.data.id, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId).then(function(response) {
-            Notification.success('Formulário salvo com sucesso');
-            goToEdit(response.data.id, false);
+          .then(function(response) {
+            return httpService.saveEditForm(form, response.data.id, getModuleIdByKey(ctrl.jsonModel.moduleKey) || ctrl.jsonModel.moduleId).then(function(response) {
+              Notification.success('Formulário salvo com sucesso');
+              goToEdit(response.data.id, false);
+              ctrl.onSaving = false;
+            });
+          
+          }, function error(response) {
+            Notification.error('O formulário não pode ser salvo. \n'.concat($l10n.translate(response.data.message)));
             ctrl.onSaving = false;
           });
-          
-        }, function error(response) {
-          Notification.error('O formulário não pode ser salvo. \n'.concat($l10n.translate(response.data.message)));
-          ctrl.onSaving = false;
-        });
       }
     }
 
@@ -1299,7 +1302,7 @@
     function setFieldsOnMainForm(form, sections) {
       form.fields.length = 0;
 
-      sections.forEach(function(section, index) {
+      sections.forEach(function(section) {
         if (section.type == 'main') {
           setFieldsOnForm(section, form);
         }
@@ -1315,7 +1318,7 @@
         field.views.edit.position = position;
         delete field.rawEntityField;
         form.fields.push(field);
-      };
+      }
     }
 
     function showEditField() {
@@ -1377,9 +1380,9 @@
     function getFinders(entityName) {
       return httpService.getFinders(entityName).then(function(response) {
 
-        var finders = response.data.filter(function(f) { return f.entityFinder }),
-        key = 'finder.'.concat(entityName.toLowerCase()).concat('.default'),
-        title = $l10n.translate('label.finder.allrecords');
+        var finders = response.data.filter(function(f) { return f.entityFinder; }),
+          key = 'finder.'.concat(entityName.toLowerCase()).concat('.default'),
+          title = $l10n.translate('label.finder.allrecords');
 
         if (!finders.filter(function(f) { return f.key == key; }).length) {
           finders.push({ key: key, title: title, entityFinder: true });
@@ -1472,7 +1475,7 @@
 
         entity.references.forEach(function(ref, index) {
           var titleEntityReference = $l10n.translate('label.'.concat(ref.entity.toLowerCase())),
-          titleFieldReference = $l10n.translate('label.'.concat(ref.entity.toLowerCase()).concat('.'.concat(ref.field.toLowerCase())));
+            titleFieldReference = $l10n.translate('label.'.concat(ref.entity.toLowerCase()).concat('.'.concat(ref.field.toLowerCase())));
 
           ref.label = titleFieldReference.concat(' (').concat(titleEntityReference).concat(')');
 
@@ -1480,7 +1483,7 @@
 
           function callback(ref, entity) {
             ctrl.entityForm.entitiesReference[ref.entity.toLowerCase()] = entity;
-          };
+          }
         });
 
         entity.attributes = entity.attributes.concat(AUDIT_FIELDS);
@@ -1489,7 +1492,7 @@
           field.icon = fieldIconsService.setIconForTypeField(field);
 
           if (field.auditField) {
-            field.translatedName = $l10n.translate(field.label, $l10n.translate("label.".concat(entityName).toLowerCase()));
+            field.translatedName = $l10n.translate(field.label, $l10n.translate('label.'.concat(entityName).toLowerCase()));
           } else {
             var label = 'label.'.concat(ctrl.jsonModel.dataSource.key).concat('.').concat(field.name).toLowerCase();
             field.translatedName = $l10n.translate(label);
@@ -1502,12 +1505,12 @@
 
     function getEntityForms(entityName) {
       return httpService.getEntity(entityName).then(function(response) {
-        ctrl.entityForms = response.data.forms.filter(function(form) { return form.type == 'v2' });
+        ctrl.entityForms = response.data.forms.filter(function(form) { return form.type == 'v2'; });
       });
     }
 
     function getEntityFormsByBind(bind) {
-      var ref = ctrl.entityForm.references.filter(function(ref) { return ref.alias == bind })[0];
+      var ref = ctrl.entityForm.references.filter(function(ref) { return ref.alias == bind; })[0];
 
       if (ref) {
         getEntityForms(ref.entity);
@@ -1515,11 +1518,11 @@
     }
 
     function getEntity(entityName) {
-      return httpService.getEntity(entityName).then(function(response) { return response.data });
+      return httpService.getEntity(entityName).then(function(response) { return response.data; });
     }
 
     function setFinder(entityName, model, isSection) {
-      if (!entityName) { return };
+      if (!entityName) { return; }
 
       if (ctrl.fieldEdit) {
         FieldValidationService.validateConfigField(ctrl.fieldEdit, 'datasource_finder_entityName');
@@ -1528,7 +1531,7 @@
       return getEntity(entityName).then(function(entity) {
         model.entity = entity;
         model.references = getReferences(entity);
-        ctrl.entityForms = entity.forms.filter(function(form) { return form.type == 'v2' });
+        ctrl.entityForms = entity.forms.filter(function(form) { return form.type == 'v2'; });
         getReferencesFk(model);
       }).then(function() {
         getFinders(model.finder.entityName).then(function() {
@@ -1550,7 +1553,7 @@
 
           if (isSection) {
             ctrl.finders.forEach(function(finder, index) {
-              if (model.finder.relatedFinders && model.finder.relatedFinders.filter(function(f) { return f.key == finder.key }).length) {
+              if (model.finder.relatedFinders && model.finder.relatedFinders.filter(function(f) { return f.key == finder.key; }).length) {
                 finder.checked = true;
               }
             });
@@ -1560,7 +1563,7 @@
     }
 
     function selectEntityFinder(entityName, model, isSection) {
-      if (!entityName) { return };
+      if (!entityName) { return; }
 
       model.finder && model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
       setFinder(entityName, model, isSection);
@@ -1568,16 +1571,16 @@
 
     function selectDataSourcetype(type) {
       switch (type) {
-        case 'E':
+      case 'E':
         !ctrl.fieldEdit.finder && (ctrl.fieldEdit.finder = {});
         break;
 
-        case 'S':
+      case 'S':
         !ctrl.fieldEdit.serviceSource && (ctrl.fieldEdit.serviceSource = {});
 
         if (ctrl.moduleEntity && Object.keys(ctrl.moduleEntity).length) {
           getSources(getModuleIdByKey(ctrl.moduleEntity.key), ctrl.fieldEdit.serviceSource);
-        };
+        }
 
         break;
       }
@@ -1659,7 +1662,7 @@
       setBreadcrumb(ctrl.jsonModel);
 
       if (ctrl.configForm.permissions) {
-        var permission = ctrl.permissions.filter(function(p) { return p.key == ctrl.configForm.permissions });
+        var permission = ctrl.permissions.filter(function(p) { return p.key == ctrl.configForm.permissions; });
 
         ctrl.jsonModel.permissionModuleKey = ctrl.modulePermission.key;
 
@@ -1672,7 +1675,7 @@
       ctrl.moduleForm.key && (ctrl.configForm.dataSource.moduleKey = ctrl.moduleEntity.key);
 
       var configModuleKey = ctrl.configForm.moduleKey,
-      jsonModelModuleKey = ctrl.jsonModel.moduleKey;
+        jsonModelModuleKey = ctrl.jsonModel.moduleKey;
 
 
       if (configModuleKey && configModuleKey != jsonModelModuleKey) {
@@ -1694,7 +1697,7 @@
     }
 
     function setDisplayConfig(type, expression) {
-      if ((!type && !expression) || type == 'default') { return undefined }
+      if ((!type && !expression) || type == 'default') { return undefined; }
 
       var config;
 
@@ -1705,9 +1708,9 @@
         };
       } else {
         config = {
-          "type": "boolean",
-          "expression": type == 'true' ? true : false
-        }
+          'type': 'boolean',
+          'expression': type == 'true' ? true : false
+        };
       }
       return config;
     }
@@ -1715,7 +1718,7 @@
     function setDisplayConfigForEdit(config, keyType, keyExpression) {
       var result = {};
 
-      if (!config) { return result };
+      if (!config) { return result; }
 
       if (config.type == 'boolean') {
         result[keyType] = config.expression.toString();
@@ -1775,7 +1778,7 @@
     function setBreadcrumb(form) {
       ctrl.breadcrumb = {
         path: $l10n.translate('label.'.concat(form.dataSource.key.toLowerCase()).concat('.path'))
-      }
+      };
 
       if(form.views.edit.breadcrumb[1] && form.views.edit.breadcrumb[1].bind){
         ctrl.breadcrumb.bind = form.views.edit.breadcrumb[1].bind;
@@ -1784,7 +1787,7 @@
 
     function setBreadcrumbOnForm() {
       var bind = { bind: ctrl.breadcrumb.bind },
-          path = { path: ctrl.breadcrumb.path };
+        path = { path: ctrl.breadcrumb.path };
 
       return [path, bind];
     }
@@ -1825,8 +1828,8 @@
     }
 
     function completeKeyForm() {
-      if (idForm) { return }
-        ctrl.configForm.key = ctrl.moduleForm.key.concat('.').concat(sanitizeKeyForm(ctrl.configForm.label));
+      if (idForm) { return; }
+      ctrl.configForm.key = ctrl.moduleForm.key.concat('.').concat(sanitizeKeyForm(ctrl.configForm.label));
     }
 
     function sanitizeKeyForm(string) {
@@ -1838,7 +1841,7 @@
 
     function formPreview() {
       var url = '/forms-v2/'.concat(ctrl.jsonModel.key).concat('/'),
-      href = window.location.href;
+        href = window.location.href;
 
       if (href.indexOf('embed=true') != -1) {
         var resourceId = href.split('row-id=').pop();
@@ -1902,7 +1905,7 @@
     function getFindersService(sourceKey, currentSection) {
       httpService.getFindersSourcesKey(sourceKey).then(function(response) {
         currentSection.methods = response.data.finders;
-      })    
+      });    
     }
 
     function selectModuleForFinderService(modId, currentSection) {
@@ -2025,5 +2028,5 @@
       validateConfigSection: validateConfigSection,
       validateConfigField: validateConfigField,
     });
-  };
+  }
 })();

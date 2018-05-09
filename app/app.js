@@ -1,4 +1,4 @@
-/*globals moment angular jQuery*/
+/* global angular angularDragula */
 (function() {
   var dependencies = [
     'ui.bootstrap', 
