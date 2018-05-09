@@ -22,7 +22,7 @@
     SectionService, FieldValidationService, HelpersService) {
 
     var ctrl = this,
-    idForm = $state.params.id;
+        idForm = $state.params.id;
 
     setCurrentViewFlag();
     settingsDragNDrop();
@@ -860,27 +860,23 @@
     }
 
     function getReferencesFk(fieldEdit) {
-      var entityOfFinder = fieldEdit.entity;
-
       fieldEdit.depReferences = [];
       
       ctrl.allFields.forEach(function(field, index) {
-        var reference = {},
-            alias = field.alias,
-            depEntityField = ctrl.entityForm.attributes.filter(function(a){ return a.alias == alias})[0];
+        var reference = {};
 
-        if(depEntityField){
-          var entityFormReferences = ctrl.entityForm.references.filter(function(r) {return r.field == depEntityField.name});
+        if(!field.customField){
+          var formReferences = ctrl.entityForm.references.filter(function(r) {return r.field == field.name && r.entity != fieldEdit.entity.name});
 
-          if(!entityFormReferences.length){return}
+          if(!formReferences.length){return}
 
-          entityFormReferences.forEach(function(ref) {
-            if(ref.entity != fieldEdit.entity.name){
-              var finderRef = entityOfFinder.references.filter(function(r) {return r.entity == ref.entity})[0];
+          formReferences.forEach(function(ref) {
+            if(fieldEdit.entity && fieldEdit.entity.name != ref.entity){
+              var finderRef = fieldEdit.entity.references.filter(function(r) {return r.entity == ref.entity})[0];
 
               if(!finderRef){return}
 
-              var fieldRef = entityOfFinder.attributes.filter(function(a) {return a.name == finderRef.field})[0];
+              var fieldRef = fieldEdit.entity.attributes.filter(function(a) {return a.name == finderRef.field})[0];
 
               reference.bindRef = fieldRef.alias;
 
@@ -888,19 +884,22 @@
               reference.bindRef = 'id';
             }
 
-            reference.fk = depEntityField.alias.concat(' (').concat(ref.entity).concat(')');
-            reference.bindForm = alias;
+            reference.fk = field.alias.concat(' (').concat(ref.entity).concat(')');
+            reference.bindForm = field.alias;
             fieldEdit.depReferences.push(reference);
           });
 
-        }else if(field.formField.finder){
-          var finderRef = entityOfFinder.references.filter(function(r) {return r.entity == field.formField.finder.entityName})[0],
-              fieldRef = entityOfFinder.attributes.filter(function(a) {return a.name == finderRef.field})[0];
+        }else {
+          var finderRef = fieldEdit.entity.references.filter(function(r) {return r.entity == field.formField.finder.entityName})[0];
+
+          if(!finderRef){return}
+
+          var fieldRef = fieldEdit.entity.attributes.filter(function(a) {return a.name == finderRef.field})[0];
 
           reference.bindRef = fieldRef.alias;
           reference.fk = fieldRef.alias.concat(' (').concat(finderRef.entity).concat(')');
 
-          reference.bindForm = alias;
+          reference.bindForm = field.alias;
           fieldEdit.depReferences.push(reference);
         }
 
@@ -1077,10 +1076,23 @@
 
         if (formField.dataSourceType == 'E') {
           formField.entity = ctrl.entityForm.entitiesReference[formField.finder.entityName.toLowerCase()];
-          getModuleEntity(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
-          getFinders(formField.finder.entityName);
-          getFinder(formField.finder.entityName, formField.finder.key);
-          getReferencesFk(formField);
+
+          if(!formField.entity){
+            getEntity(formField.finder.entityName).then(function(entity){
+              formField.entity = entity;
+              getModuleEntity(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
+              getFinders(formField.finder.entityName);
+              getFinder(formField.finder.entityName, formField.finder.key);
+              getReferencesFk(formField);
+            });
+
+          }else{
+            getModuleEntity(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
+            getFinders(formField.finder.entityName);
+            getFinder(formField.finder.entityName, formField.finder.key);
+            getReferencesFk(formField);
+          }
+
 
         } else {
           getSources(getModuleIdByKey(formField.finder.moduleKey));
@@ -1126,7 +1138,7 @@
         formField.meta.datepickerPosition = 'top-left';
       }
 
-      ctrl.fieldEdit = angular.copy(formField);
+      ctrl.fieldEdit = formField;
       ctrl.fieldEdit.error = {};
       showEditField();
     }
