@@ -26,7 +26,7 @@ function SectionService(){
     if(configSection.type != 'main' && !configSection.isSameDataSource && !configSection.includeType){
       configSection.error.sectionType = true;
 
-    }else if(configSection.includeType == 'edit'){
+    }else if(configSection.includeType == 'edit' && !configSection.isSameDataSource){
       validateConfigSectionEdit(configSection);
 
     } else if(configSection.includeType == 'list'){
