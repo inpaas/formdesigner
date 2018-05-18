@@ -1077,6 +1077,10 @@
       if (formField.finder) {
         getAllFields(formField);
 
+        if(!formField.dataSourceType){
+          formField.dataSourceType = 'E';
+        }
+
         if (formField.dataSourceType == 'E') {
           formField.entity = ctrl.entityForm.entitiesReference[formField.finder.entityName.toLowerCase()];
 
