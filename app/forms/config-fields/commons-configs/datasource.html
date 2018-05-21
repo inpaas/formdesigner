@@ -142,7 +142,7 @@
     <label for="">Dependências</label>
     <select class="form-control input-sm" 
             multiple 
-            ng-options="field.meta.bind as field.label for field in ctrl.selectFields" 
+            ng-options="field.alias as (field.alias || field.label) for field in ctrl.allFields" 
             ng-model="ctrl.fieldEdit.serviceSource.dependencies">
     </select>
   </div>
