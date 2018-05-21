@@ -680,8 +680,21 @@
         fieldEdit.requiredType = 'false';
         fieldEdit.requiredExpression = false;
 
-        if (fieldEdit.rawEntityField && fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
-          fieldEdit.dataSourceType = fieldEdit.rawEntityField.domains ? 'D' : 'O';
+        if(fieldEdit.rawEntityField){
+          if (fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
+            fieldEdit.dataSourceType = fieldEdit.rawEntityField.domains ? 'D' : 'O';
+            
+            if(fieldEdit.rawEntityField.domains.length == 2 ){
+              var option1 = fieldEdit.rawEntityField.domains[0],
+                  option2 = fieldEdit.rawEntityField.domains[1];
+
+              if( (option1.value == 'N' || option1.value == 'Y') || 
+                  (option1.value == 'Y' || option.value == 'N')){
+                fieldEdit.meta.checked = 'Y';
+                fieldEdit.meta.unchecked = 'N';
+              }
+            }
+          }
 
         } else {
           fieldEdit.dataSourceType = 'O';
