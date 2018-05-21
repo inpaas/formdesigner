@@ -892,7 +892,7 @@
             fieldEdit.depReferences.push(reference);
           });
 
-        }else {
+        }else if(field.formField.finder){
           var finderRef = fieldEdit.entity.references.filter(function(r) {return r.entity == field.formField.finder.entityName;})[0];
 
           if(!finderRef){return;}
