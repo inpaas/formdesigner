@@ -1536,7 +1536,9 @@
         model.entity = entity;
         model.references = getReferences(entity);
         ctrl.entityForms = entity.forms.filter(function(form) { return form.type == 'v2'; });
-        getReferencesFk(model);
+        if(!isSection){
+          getReferencesFk(model);
+        }
       }).then(function() {
         getFinders(model.finder.entityName).then(function() {
           if ((ctrl.finders && ctrl.finders.length == 1)) {
