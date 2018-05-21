@@ -513,6 +513,7 @@
     function editSection(index) {
       var currentSection = angular.copy(ctrl.sections[index]);
       currentSection.index = index;
+      currentSection.error = {};
 
       if (currentSection.includeType == 'list') {
         if (currentSection.finder.moduleKey || currentSection.finder.moduleId) {
