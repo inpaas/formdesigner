@@ -28,6 +28,11 @@
             ng-options="domain.value as domain.value for domain in ctrl.fieldEdit.rawEntityField.domains">
     </select>
   </div>
+
+  <div class="col-sm-12 col-xs-12 no-padding form-group">
+    <label for="">Valor padrão</label>
+    <input class="form-control input-sm" ng-model="ctrl.fieldEdit.rawEntityField.defaultValue" disabled>
+  </div>
 </div>
 
 <div class="row" ng-if="ctrl.fieldEdit.dataSourceType === 'O'">
