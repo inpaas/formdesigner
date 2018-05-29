@@ -689,7 +689,7 @@
                   option2 = fieldEdit.rawEntityField.domains[1];
 
               if( (option1.value == 'N' || option1.value == 'Y') || 
-                  (option1.value == 'Y' || option.value == 'N')){
+                  (option1.value == 'Y' || option1.value == 'N')){
                 fieldEdit.meta.checked = 'Y';
                 fieldEdit.meta.unchecked = 'N';
               }
@@ -1297,12 +1297,13 @@
           setFieldsOnForm(section, form);
 
           form = labelsService.buildLabels(angular.copy(form), getModuleIdByKey(form.moduleKey) || form.moduleId);
+          var p;
 
           if (form.id) {
-            var p = httpService.saveEditForm(form, form.id, getModuleIdByKey(form.moduleKey) || form.moduleId);
+            p = httpService.saveEditForm(form, form.id, getModuleIdByKey(form.moduleKey) || form.moduleId);
             promises.push(p);
           } else {
-            var p = httpService.saveNewForm(form, getModuleIdByKey(form.moduleKey)).then(function(response) {
+            p = httpService.saveNewForm(form, getModuleIdByKey(form.moduleKey)).then(function(response) {
               section.jsonForm.id = form.id = response.data.id;
               return form;
             }).then(function(form) {
@@ -1542,7 +1543,7 @@
     function setFinder(entityName, model, isSection) {
       if (!entityName) { return; }
 
-      if (ctrl.fieldEdit) {
+      if (!isSection) {
         FieldValidationService.validateConfigField(ctrl.fieldEdit, 'datasource_finder_entityName');
       }
 
