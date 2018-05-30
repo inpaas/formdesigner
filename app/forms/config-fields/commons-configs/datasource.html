@@ -11,6 +11,7 @@
     <option value="">Selecione</option>
     <option value="E">Entidade</option>
     <option value="S">Serviço</option>
+    <option value="D">Pré definidas</option>
     <option value="O">Opções Editáveis</option>
   </select>
   <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_type"> Selecione um tipo de datasource</small>
@@ -109,7 +110,7 @@
   <div class="form-group">
     <div class="btn-group btn-block">
       <button class="btn btn-primary dropdown-toggle btn-block" data-toggle="dropdown">
-        {[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+        {[{ ctrl.moduleSources.title || 'Módulos' }]} <i class="caret"></i>
       </button>
       <ul class="dropdown-menu btn-block">
         <li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
