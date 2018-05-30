@@ -1125,7 +1125,7 @@
         ctrl.moduleEntity = getModuleFromApps(getModuleIdByKey(formField.serviceSource.moduleKey) || formField.serviceSource.moduleId);
         formField.dataSourceType = 'S';
 
-      } else if (formField.meta.type.match('checkbox') || formField.meta.type.match('select')) {
+      } else if (formField.meta.type.match('checkbox') || formField.meta.type.match('select') && !formField.dataSourceType) {
         formField.rawEntityField && formField.rawEntityField.domains ? formField.dataSourceType = 'D' : formField.dataSourceType = 'O';
       }
 
