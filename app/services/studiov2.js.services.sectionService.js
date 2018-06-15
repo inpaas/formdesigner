@@ -19,10 +19,13 @@ function SectionService(){
   this.validateAllConfigSection = validateAllConfigSection;
 
   function validateConfigSection(configSection, validationKey, configKey){
+    configSection.error = {};
     return validations[validationKey](configSection, configKey);
   }
 
   function validateAllConfigSection(configSection){
+    configSection.error = {};
+
     if(configSection.type != 'main' && !configSection.isSameDataSource && !configSection.includeType){
       configSection.error.sectionType = true;
 
