@@ -625,90 +625,94 @@
       fieldEdit.meta.type = type;
 
       switch (type) {
-      case 'currency':
-        getFormatsPattern();
-        break;
+        case 'currency':
+          getFormatsPattern();
+          break;
 
-      case 'date':
-        getFormatsPattern();
+        case 'date':
+          getFormatsPattern();
 
-        if (!fieldEdit.meta.datetimepickerPosition) {
-          fieldEdit.meta.datetimepickerPosition = 'top-left';
-        }
-        break;
+          if (!fieldEdit.meta.datetimepickerPosition) {
+            fieldEdit.meta.datetimepickerPosition = 'top-left';
+          }
+          break;
 
-      case 'select':
-        var reference = [];
+        case 'select':
+          var reference = [];
 
-        getAllFields(fieldEdit);
-        fieldEdit.rawEntityField && (reference = findReferences(fieldEdit));
+          getAllFields(fieldEdit);
+          fieldEdit.rawEntityField && (reference = findReferences(fieldEdit));
 
-        if (fieldEdit.rawEntityField && fieldEdit.rawEntityField.domains) {
-          fieldEdit.dataSourceType = 'D';
-          fieldEdit.meta.options = angular.copy(fieldEdit.rawEntityField.domains);
+          if (fieldEdit.rawEntityField && fieldEdit.rawEntityField.domains) {
+            fieldEdit.dataSourceType = 'D';
+            fieldEdit.meta.options = angular.copy(fieldEdit.rawEntityField.domains);
 
-        } else if (reference.length) {
-          fieldEdit.dataSourceType = 'E';
-          ctrl.moduleEntity = getModuleEntity(getModuleIdByKey(ctrl.jsonModel.moduleKey));
+          } else if (reference.length) {
+            fieldEdit.dataSourceType = 'E';
+            ctrl.moduleEntity = getModuleEntity(getModuleIdByKey(ctrl.jsonModel.moduleKey));
 
-          fieldEdit.finder = {
-            entityName: reference[0].entity
-          };
+            fieldEdit.finder = {
+              entityName: reference[0].entity
+            };
 
-          getFinders(reference[0].entity)
-            .then(function() {
-              if ((ctrl.finders && ctrl.finders.length == 1)) {
-                fieldEdit.finder.key = ctrl.finders[0].key;
-                fieldEdit.finder.entityName = reference[0].entity;
-              }
-            })
-            .then(function() {
-              getFinder(fieldEdit.finder.entityName, fieldEdit.finder.key).then(function(finder) {
-                if (finder.fields.length == 1) {
-                  fieldEdit.finder.fieldIndex = '0';
+            getFinders(reference[0].entity)
+              .then(function() {
+                if ((ctrl.finders && ctrl.finders.length == 1)) {
+                  fieldEdit.finder.key = ctrl.finders[0].key;
+                  fieldEdit.finder.entityName = reference[0].entity;
                 }
+              })
+              .then(function() {
+                getFinder(fieldEdit.finder.entityName, fieldEdit.finder.key).then(function(finder) {
+                  if (finder.fields.length == 1) {
+                    fieldEdit.finder.fieldIndex = '0';
+                  }
+                });
               });
-            });
 
-        } else {
-          fieldEdit.dataSourceType = 'O';
-          fieldEdit.meta.options = [];
-        }
-        break;
+          } else {
+            fieldEdit.dataSourceType = 'O';
+            fieldEdit.meta.options = [];
+          }
+          break;
 
-      case 'checkbox':
-        fieldEdit.requiredType = 'false';
-        fieldEdit.requiredExpression = false;
+        case 'checkbox':
+          fieldEdit.requiredType = 'false';
+          fieldEdit.requiredExpression = false;
 
-        if(fieldEdit.rawEntityField){
-          if (fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
-            fieldEdit.dataSourceType = fieldEdit.rawEntityField.domains ? 'D' : 'O';
-            
-            if(fieldEdit.rawEntityField.domains.length == 2 ){
-              var option1 = fieldEdit.rawEntityField.domains[0],
-                  option2 = fieldEdit.rawEntityField.domains[1];
+          if(fieldEdit.rawEntityField){
+            if (fieldEdit.rawEntityField.type == 'Char' && fieldEdit.rawEntityField.size == 1) {
+              fieldEdit.dataSourceType = fieldEdit.rawEntityField.domains ? 'D' : 'O';
+              
+              if(fieldEdit.rawEntityField.domains.length == 2 ){
+                var option1 = fieldEdit.rawEntityField.domains[0],
+                    option2 = fieldEdit.rawEntityField.domains[1];
 
-              if( (option1.value == 'N' || option1.value == 'Y') || 
-                  (option1.value == 'Y' || option1.value == 'N')){
-                fieldEdit.meta.checked = 'Y';
-                fieldEdit.meta.unchecked = 'N';
+                if( (option1.value == 'N' || option1.value == 'Y') || 
+                    (option1.value == 'Y' || option1.value == 'N')){
+                  fieldEdit.meta.checked = 'Y';
+                  fieldEdit.meta.unchecked = 'N';
+                }
               }
             }
+
+          } else {
+            fieldEdit.dataSourceType = 'O';
           }
+          break;
 
-        } else {
-          fieldEdit.dataSourceType = 'O';
-        }
-        break;
+        case 'file':
+          fieldEdit.FILE_EXTENSIONS = angular.copy(FILE_EXTENSIONS);
+          fieldEdit.meta.maxSize = '50';
+          break;
 
-      case 'file':
-        fieldEdit.FILE_EXTENSIONS = angular.copy(FILE_EXTENSIONS);
-        fieldEdit.meta.maxSize = '50';
-        break;
-
-      case 'textarea':
+        case 'textarea':
         !fieldEdit.meta.rows && (fieldEdit.meta.rows = '5');
         break;
+
+        case 'finder': 
+          getAllFields();
+          break;
       }
 
       showEditField();
