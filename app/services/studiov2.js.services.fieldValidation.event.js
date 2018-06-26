@@ -28,5 +28,11 @@ function FieldValidationEvent(FieldValidationDataSource){
     }else{
       field.error.field_event = false;
     }
+
+    if(field.hasButton && (field.buttonEvent && !field.buttonEvent.icon)){
+      field.error.event_bt_icon = true;
+    }else{
+      field.error.event_bt_icon = false; 
+    }
   }
 }
