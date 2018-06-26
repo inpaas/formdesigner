@@ -4,7 +4,7 @@
     .constant('AUDIT_FIELDS', [
       {
         "alias": "audit.created.date",
-        "fieldName": "DT_CREATED",
+        "name": "DT_CREATED",
         "label": "label.dt_created",
         "type": "Datetime",
         "readonly": true,
@@ -12,7 +12,7 @@
       },
       {
         "alias": "audit.lastUpdated.date",
-        "fieldName": "DT_UPDATED",
+        "name": "DT_UPDATED",
         "label": "label.dt_updated",
         "type": "Datetime",
         "readonly": true,
@@ -20,7 +20,7 @@
       },
       {
         "alias": "audit.created.userId",
-        "fieldName": "ID_USERCREATED",
+        "name": "ID_USERCREATED",
         "label": "label.id_usercreated",
         "type": "Integer",
         "readonly": true,
@@ -28,11 +28,11 @@
       },
       {
         "alias": "audit.lastUpdated.userId",
-        "fieldName": "ID_USERUPDATED",
+        "name": "ID_USERUPDATED",
         "label": "label.id_userupdated",
         "type": "Integer",
         "readonly": true,
         "auditField": true
       }
     ]);
-})()
+})();
