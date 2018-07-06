@@ -1,0 +1,63 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title"> Dependências </h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+	<div class="col-sm-5">
+		<label for="">Campo da entidade do form</label>
+	</div>
+	<div class="col-sm-5">
+		<label for="">Campo da entidade do finder</label>
+	</div>
+  <div class="row" ng-repeat="dep in ctrl.dependencies track by $index">
+    <div class="col-sm-5 form-group">
+			<input type="text" 
+						class="form-control input-sm"
+						ng-model="dep.bindForm" 
+						typeahead-min-length="0"
+						uib-typeahead="field.alias as field.alias for field in ctrl.fieldsEntityForm | filter: {alias: $viewValue}"
+			>
+		</div>
+		<div class="form-group col-sm-5">
+			<input type="text"
+							class="form-control input-sm"
+							ng-model="dep.bindRef"
+							typeahead-min-length="0"
+							uib-typeahead="field.alias as field.alias for field in ctrl.fieldsEntityFinder">
+		</div>
+		<button style="margin-top: 25px;" ng-click="ctrl.dependencies.splice($index, 1)" class="btn btn-sm btn-danger">
+			<i class="fa fa-remove"></i>
+		</button>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-5 form-group">
+			<input type="text" 
+						class="form-control input-sm"
+						ng-model="ctrl.newDep.bindForm" 
+						typeahead-min-length="0"
+						uib-typeahead="field.alias as field.alias for field in ctrl.fieldsEntityForm | filter: {alias: $viewValue}">
+		</div>
+
+		<div class="form-group col-sm-5">
+			<input type="text"
+							class="form-control input-sm"
+							ng-model="ctrl.newDep.bindRef"
+							typeahead-min-length="0"
+							uib-typeahead="field.alias as field.alias for field in ctrl.fieldsEntityFinder">
+		</div>
+	</div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <button ng-click="ctrl.addDependencies()" class="btn btn-sm btn-primary">
+        <i class="fa fa-plus"></i> Adcionar dependência
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="ctrl.ok()">OK</button>
+  <button class="btn btn-warning" type="button" ng-click="ctrl.cancel()">Cancel</button>
+</div>

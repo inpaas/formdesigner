@@ -620,14 +620,48 @@
       ctrl.sectionSelectedIndex = index;
     }
 
+    function setFinderConfig(entityName){
+      var deferred = $q.defer();
+      var config = {
+        finder: {}
+      };
+
+      ctrl.moduleEntity = getModuleEntity(getModuleIdByKey(ctrl.jsonModel.moduleKey));
+
+      getEntity(entityName).then(function(entity){
+        config.entity = entity; 
+        config.finder.entityName = entity.name;
+
+      }).then(function(){
+        getFinders(entityName).then(function(response){
+          config.finders = response.data;
+
+          if(response.data.length == 1){
+            getFinder(entityName, response.data[0].key).then(function(response){
+              if (response.data.fields.length == 1){
+                config.finder.fieldIndex = 0;
+                deferred.resolve(config);
+              }
+            });
+
+          }else{
+            deferred.resolve(config);
+          }
+        });
+      });
+
+        // deferred.resolve(configFinder);
+      return deferred.promise;
+    }
+
     function setTypeField(type, fieldEdit) {
       fieldEdit = fieldEdit || ctrl.fieldEdit;
       fieldEdit.meta.type = type;
 
       switch (type) {
         case 'currency':
-          getFormatsPattern();
-          break;
+        getFormatsPattern();
+        break;
 
         case 'date':
           getFormatsPattern();
@@ -640,7 +674,8 @@
         case 'select':
           var reference = [];
 
-          getAllFields(fieldEdit);
+          getAllFields();
+
           fieldEdit.rawEntityField && (reference = findReferences(fieldEdit));
 
           if (fieldEdit.rawEntityField && fieldEdit.rawEntityField.domains) {
@@ -649,26 +684,10 @@
 
           } else if (reference.length) {
             fieldEdit.dataSourceType = 'E';
-            ctrl.moduleEntity = getModuleEntity(getModuleIdByKey(ctrl.jsonModel.moduleKey));
 
-            fieldEdit.finder = {
-              entityName: reference[0].entity
-            };
-
-            getFinders(reference[0].entity)
-              .then(function() {
-                if ((ctrl.finders && ctrl.finders.length == 1)) {
-                  fieldEdit.finder.key = ctrl.finders[0].key;
-                  fieldEdit.finder.entityName = reference[0].entity;
-                }
-              })
-              .then(function() {
-                getFinder(fieldEdit.finder.entityName, fieldEdit.finder.key).then(function(finder) {
-                  if (finder.fields.length == 1) {
-                    fieldEdit.finder.fieldIndex = '0';
-                  }
-                });
-              });
+            setFinderConfig(reference[0].entity).then(function(config){
+              angular.extend(fieldEdit, config);
+            });
 
           } else {
             fieldEdit.dataSourceType = 'O';
@@ -797,29 +816,6 @@
         fieldEdit.meta.maxDate = moment(fieldEdit.meta.maxDate, $l10n.translate(fieldEdit.meta.format.concat('.formatjs'))).format('YYYY-MM-DD HH:mm:ss');
       }
 
-      if (fieldEdit.bindDependencies && fieldEdit.bindDependencies.length) {
-        var dependencies = [],
-          hasBindRefs = fieldEdit.bindReferences && fieldEdit.bindReferences.length;
-
-        fieldEdit.bindDependencies.forEach(function(bindDep) {
-          var map = hasBindRefs ? fieldEdit.depReferences.filter(filterBindRef.bind(null, bindDep)) : null;
-
-          if (map) {
-            dependencies = dependencies.concat(map);
-          } else {
-            dependencies.push(bindDep);
-          }
-        });
-
-        fieldEdit.finder.dependencies = dependencies;
-
-        function filterBindRef(bindDep, bindRef) {
-          return bindRef.bindForm == bindDep;
-        }
-      }else if(_.get(fieldEdit, 'finder.dependencies')){
-        delete fieldEdit.finder.dependencies;
-      }
-
       if (!fieldEdit.formatDefault) {
         delete fieldEdit.meta.decimalSeparator;
         delete fieldEdit.meta.thousandSeparator;
@@ -887,11 +883,16 @@
         var reference = {};
 
         if(!field.customField){
-          var formReferences = ctrl.entityForm.references.filter(function(r) {return r.field == field.name && r.entity != fieldEdit.entity.name;});
+          //A entidade tem uma reference com esse field?
+          var formReferences = ctrl.entityForm.references.filter(function(r) {
+            return r.field == field.name && r.entity != fieldEdit.entity.name;
+          });
 
           if(!formReferences.length){return;}
 
           formReferences.forEach(function(ref) {
+            //Esse field tem entity? (isso quer dizer que tem um finder atrelado a ele)
+            //Essa entity não é a mesma da reference em questão?
             if(fieldEdit.entity && fieldEdit.entity.name != ref.entity){
               var finderRef = fieldEdit.entity.references.filter(function(r) {return r.entity == ref.entity;})[0];
 
@@ -905,7 +906,7 @@
               reference.bindRef = 'id';
             }
 
-            reference.fk = field.alias.concat(' (').concat(ref.entity).concat(')');
+            reference.fk = ref.alias.concat(' (').concat(ref.entity).concat(')');
             reference.bindForm = field.alias;
             fieldEdit.depReferences.push(reference);
           });
@@ -1093,35 +1094,17 @@
       }
 
       if (formField.finder) {
+        formField.dataSourceType = 'E';
+
         getAllFields(formField);
+        setFinderConfig(formField.finder.entityName).then(function(config){
+          formField.finders = config.finders;
+          formField.entity = config.entity;
 
-        if(!formField.dataSourceType){
-          formField.dataSourceType = 'E';
-        }
-
-        if (formField.dataSourceType == 'E') {
-          formField.entity = ctrl.entityForm.entitiesReference[formField.finder.entityName.toLowerCase()];
-
-          if(!formField.entity){
-            getEntity(formField.finder.entityName).then(function(entity){
-              formField.entity = entity;
-              getModuleEntity(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
-              getFinders(formField.finder.entityName);
-              getFinder(formField.finder.entityName, formField.finder.key);
-              getReferencesFk(formField);
-            });
-
-          }else{
-            getModuleEntity(getModuleIdByKey(formField.finder.moduleKey) || formField.finder.moduleId);
-            getFinders(formField.finder.entityName);
-            getFinder(formField.finder.entityName, formField.finder.key);
-            getReferencesFk(formField);
-          }
-
-
-        } else {
-          getSources(getModuleIdByKey(formField.finder.moduleKey));
-        }
+          getFinder(formField.entity.name, formField.finder.key).then(function(response){
+            formField.finderFields = response.data.fields;
+          });
+        });
 
       } else if (formField.serviceSource) {
         getSources(getModuleIdByKey(formField.serviceSource.moduleKey));
@@ -1417,11 +1400,7 @@
     }
 
     function getFinder(entityName, finderKey) {
-      return httpService.getFinder(entityName, finderKey).then(function(response) {
-        ctrl.finder = response.data;
-
-        return response.data;
-      });
+      return httpService.getFinder(entityName, finderKey);
     }
 
     function getModuleEntity(idModule, model) {
@@ -1878,9 +1857,13 @@
       }
     }
 
-    function getAllFields(fieldEdit) {
-      var allFields = ctrl.entityForm.attributes.filter(function(field) {
-        return !field.auditField;
+    function getAllFields() {
+      var allFields = [];
+
+      ctrl.entityForm.attributes.forEach(function(field) {
+        if(!field.auditField){
+          allFields.push(field);
+        }
       });
 
       ctrl.sections.forEach(function(section) {
@@ -1906,6 +1889,7 @@
     function openFormTab(includeSection) {
       if (window.parent.fn_open_form_tab) {
         window.parent.fn_open_form_tab(includeSection.id, includeSection.name, 'v2');
+
       } else {
         window.open('/forms/studiov2.forms.main#/forms/'.concat(includeSection.id));
       }
@@ -1982,6 +1966,35 @@
       getEntityFormsByBind(ctrl.currentSection.meta.bind);
     }
 
+    function editDependencies(fieldEdit){
+      var modalInstance = $uibModal.open({
+        templateUrl: 'studiov2.forms.config-dependencies',
+        controller: 'ConfigDependencies',
+        controllerAs: 'ctrl',
+        resolve:{
+          fieldsEntityFinder: function(){
+            return fieldEdit.entity.attributes;
+          },
+          fieldsEntityForm: function(){
+            return ctrl.allFields;
+          },
+          dependencies: function(){
+            return fieldEdit.finder.dependencies;
+          }
+        }
+      });
+
+      modalInstance.result.then(function(dependencies){
+        fieldEdit.finder.dependencies = dependencies;
+      });
+    }
+
+    function onSelectFinder(entityName, finderKey){
+      getFinder(entityName, finderKey).then(function(response){
+        ctrl.fieldEdit.finderFields = response.data.fields;
+      });
+    }
+
     angular.extend(ctrl, {
       TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
       ICONS: ICONS,
@@ -2052,6 +2065,8 @@
       validateConfigForm: validateConfigForm,
       validateConfigSection: validateConfigSection,
       validateConfigField: validateConfigField,
+      editDependencies: editDependencies,
+      onSelectFinder: onSelectFinder
     });
   }
 })();

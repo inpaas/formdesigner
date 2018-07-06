@@ -61,27 +61,12 @@
     </div>
 
     <div class="row">
-      <div class="stock-separator">
-        <label for="">Dependências</label>
-      </div>
+      <button class="btn btn-primary" ng-click="ctrl.editDependencies(ctrl.fieldEdit)">
+        <i ng-if="!ctrl.fieldEdit.finder.dependencies.length">Adicionar dependências</i>
   
-      <div class="form-group">
-        <label for="">Campos da entitidade do form</label>
-        <select class="form-control input-sm" 
-                multiple 
-                ng-options="field.alias as (field.alias || field.label) for field in ctrl.allFields" 
-                ng-model="ctrl.fieldEdit.bindDependencies">
-        </select>
-      </div>
-  
-      <div class="form-group">
-        <label for="">Referências</label>
-        <select class="form-control input-sm" 
-                multiple 
-                ng-options="ref.bindForm as ref.fk for ref in ctrl.fieldEdit.depReferences"
-                ng-model="ctrl.fieldEdit.bindReferences">
-        </select>
-      </div>
+        <i class="badge badge-light" ng-if="ctrl.fieldEdit.finder.dependencies.length" ng-bind="ctrl.fieldEdit.finder.dependencies.length"></i>
+        <i ng-if="ctrl.fieldEdit.finder.dependencies.length"> Editar dependências </i>
+      </button>  
     </div>
   </div>
   

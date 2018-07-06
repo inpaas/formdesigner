@@ -58,7 +58,7 @@
   <div class="form-group">
     <label for="">Finder:</label>
     <select class="form-control input-sm" 
-            ng-change="ctrl.getFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)"
+            ng-change="ctrl.onSelectFinder(ctrl.fieldEdit.finder.entityName, ctrl.fieldEdit.finder.key)"
             ng-blur="ctrl.validateConfigField('datasource_finder_key')"
             ng-model="ctrl.fieldEdit.finder.key"
             ng-options="finder.key as finder.title for finder in ctrl.finders">
@@ -69,7 +69,7 @@
   <div class="form-group" ng-if="ctrl.fieldEdit.meta.type != 'finder'">
     <label for="">Campo</label>
     <select class="form-control input-sm" ng-model="ctrl.fieldEdit.finder.fieldIndex" ng-blur="ctrl.validateConfigField('datasource_finder_fieldIndex')">
-      <option value="{[{ $index }]}" ng-repeat="field in ctrl.finder.fields">{[{ field.fieldName }]}</option>
+      <option value="{[{ $index }]}" ng-repeat="field in ctrl.fieldEdit.finderFields">{[{ field.fieldName }]}</option>
     </select>
     <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_finder_fieldIndex">Selecione um campo</small>
   </div>
@@ -81,11 +81,18 @@
   </div>
 
   <div class="row">
-    <div class="stock-separator">
-      <label for="">Dependências</label>
-    </div>
+    <button class="btn btn-primary" ng-click="ctrl.editDependencies(ctrl.fieldEdit)">
+      <i ng-if="!ctrl.fieldEdit.finder.dependencies.length">Adicionar dependências</i>
 
-    <div class="form-group">
+      <i class="badge badge-light" ng-if="ctrl.fieldEdit.finder.dependencies.length" ng-bind="ctrl.fieldEdit.finder.dependencies.length"></i>
+      <i ng-if="ctrl.fieldEdit.finder.dependencies.length"> Editar dependências </i>
+    </button>
+    <!-- 
+      <div class="stock-separator">
+        <label for="">Dependências</label>
+      </div>
+     -->
+    <!-- <div class="form-group">
       <label for="">Campos da entitidade do form</label>
       <select class="form-control input-sm" 
               multiple 
@@ -95,13 +102,13 @@
     </div>
 
     <div class="form-group" ng-if="ctrl.fieldEdit.dataSourceType == 'E'">
-      <label for="">Referências</label>
+      <label for="">Campos da entitidade do finder</label>
       <select class="form-control input-sm" 
               multiple 
-              ng-options="ref.bindForm as ref.fk for ref in ctrl.fieldEdit.depReferences"
+              ng-options="field.alias as field.alias in ctrl.fieldEdit.entity.fields"
               ng-model="ctrl.fieldEdit.bindReferences">
       </select>
-    </div>
+    </div> -->
   </div>
 </div>
 
