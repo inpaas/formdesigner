@@ -2033,3 +2033,35 @@ label[for="pattern-ignorecase"]{
 .tooltip .tooltip-inner *{
   color: white; 
 }
+
+.loadwait {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, .9);
+  z-index: 1000;
+  opacity: 1;
+  visibility: visible;
+
+ 
+}
+.loadwait > span {
+  position: absolute;
+  top: calc(50% - 27px);
+  display: block;
+  height: 27px;
+  width: 100%;
+  text-align: center;
+}
+
+.loadwait i {
+  color: #888;
+  transition: .5s;
+}
+
+.ready .loadwait {
+  opacity: 0;
+  visibility: hidden;
+}
