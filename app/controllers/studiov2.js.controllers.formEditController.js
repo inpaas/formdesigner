@@ -1547,8 +1547,8 @@
             } else {
               model && (model.finder.key = finder.key);
               
-              getFinder(model.finder.entityName, finder.key).then(function(finder){
-                if (finder.fields.length == 1) {
+              getFinder(model.finder.entityName, finder.key).then(function(response){
+                if (response.data.fields.length == 1) {
                   model && (model.finder.fieldIndex = '0');
                 }
               });
