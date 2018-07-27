@@ -80,35 +80,12 @@
     <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_finder_bindText"></small>
   </div>
 
-  <div class="row">
+  <div class="form-group">
     <button class="btn btn-primary" ng-click="ctrl.editDependencies(ctrl.fieldEdit)">
       <i ng-if="!ctrl.fieldEdit.finder.dependencies.length">Adicionar dependências</i>
-
       <i class="badge badge-light" ng-if="ctrl.fieldEdit.finder.dependencies.length" ng-bind="ctrl.fieldEdit.finder.dependencies.length"></i>
       <i ng-if="ctrl.fieldEdit.finder.dependencies.length"> Editar dependências </i>
     </button>
-    <!-- 
-      <div class="stock-separator">
-        <label for="">Dependências</label>
-      </div>
-     -->
-    <!-- <div class="form-group">
-      <label for="">Campos da entitidade do form</label>
-      <select class="form-control input-sm" 
-              multiple 
-              ng-options="field.alias as (field.alias || field.label) for field in ctrl.allFields" 
-              ng-model="ctrl.fieldEdit.bindDependencies">
-      </select>
-    </div>
-
-    <div class="form-group" ng-if="ctrl.fieldEdit.dataSourceType == 'E'">
-      <label for="">Campos da entitidade do finder</label>
-      <select class="form-control input-sm" 
-              multiple 
-              ng-options="field.alias as field.alias in ctrl.fieldEdit.entity.fields"
-              ng-model="ctrl.fieldEdit.bindReferences">
-      </select>
-    </div> -->
   </div>
 </div>
 
@@ -147,11 +124,10 @@
   </div>
 
   <div class="form-group">
-    <label for="">Dependências</label>
-    <select class="form-control input-sm" 
-            multiple 
-            ng-options="field.alias as (field.alias || field.label) for field in ctrl.allFields" 
-            ng-model="ctrl.fieldEdit.serviceSource.dependencies">
-    </select>
+    <button class="btn btn-primary" ng-click="ctrl.editDependencies(ctrl.fieldEdit)">
+      <i ng-if="!ctrl.fieldEdit.finder.dependencies.length">Adicionar dependências</i>
+      <i class="badge badge-light" ng-if="ctrl.fieldEdit.finder.dependencies.length" ng-bind="ctrl.fieldEdit.finder.dependencies.length"></i>
+      <i ng-if="ctrl.fieldEdit.finder.dependencies.length"> Editar dependências </i>
+    </button>
   </div>
 </div>

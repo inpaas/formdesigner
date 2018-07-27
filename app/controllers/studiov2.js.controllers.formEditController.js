@@ -650,7 +650,6 @@
         });
       });
 
-        // deferred.resolve(configFinder);
       return deferred.promise;
     }
 

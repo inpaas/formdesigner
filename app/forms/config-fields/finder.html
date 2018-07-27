@@ -104,13 +104,12 @@
     </div>
     
     <div class="form-group">
-      <label for="">Dependências</label>
-      <select class="form-control input-sm" 
-              multiple 
-              ng-options="field.alias as field.alias for field in ctrl.allFields" 
-              ng-model="ctrl.fieldEdit.finder.dependencies">
-      </select>
-    </div> 
+      <button class="btn btn-primary" ng-click="ctrl.editDependencies(ctrl.fieldEdit)">
+        <i ng-if="!ctrl.fieldEdit.finder.dependencies.length">Adicionar dependências</i>
+        <i class="badge badge-light" ng-if="ctrl.fieldEdit.finder.dependencies.length" ng-bind="ctrl.fieldEdit.finder.dependencies.length"></i>
+        <i ng-if="ctrl.fieldEdit.finder.dependencies.length"> Editar dependências </i>
+      </button>
+    </div>
   </div>
 
   <div class="form-group">
