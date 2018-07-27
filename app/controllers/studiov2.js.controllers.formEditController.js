@@ -637,11 +637,16 @@
           config.finders = response.data;
 
           if(response.data.length == 1){
+            config.finder.key = response.data[0].key;
+
             getFinder(entityName, response.data[0].key).then(function(response){
+              config.finderFields = response.data.fields;
+
               if (response.data.fields.length == 1){
-                config.finder.fieldIndex = 0;
-                deferred.resolve(config);
+                config.finder.fieldIndex = "0";
               }
+              
+              deferred.resolve(config);
             });
 
           }else{
@@ -1096,13 +1101,10 @@
         formField.dataSourceType = 'E';
 
         getAllFields(formField);
+
         setFinderConfig(formField.finder.entityName).then(function(config){
           formField.finders = config.finders;
           formField.entity = config.entity;
-
-          getFinder(formField.entity.name, formField.finder.key).then(function(response){
-            formField.finderFields = response.data.fields;
-          });
         });
 
       } else if (formField.serviceSource) {
