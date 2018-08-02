@@ -620,11 +620,10 @@
       ctrl.sectionSelectedIndex = index;
     }
 
-    function setFinderConfig(entityName){
+    function setFinderConfig(entityName, config){
       var deferred = $q.defer();
-      var config = {
-        finder: {}
-      };
+
+      config = config || { finder:{} };
 
       ctrl.moduleEntity = getModuleEntity(getModuleIdByKey(ctrl.jsonModel.moduleKey));
 
@@ -636,14 +635,20 @@
         getFinders(entityName).then(function(response){
           config.finders = response.data;
 
-          if(response.data.length == 1){
+          if(config.finder.key){
+            getFinder(entityName, config.finder.key).then(function(response){
+              config.finderFields = response.data.fields;
+              deferred.resolve(config);
+            });
+
+          }else if(response.data.length == 1){
             config.finder.key = response.data[0].key;
 
             getFinder(entityName, response.data[0].key).then(function(response){
               config.finderFields = response.data.fields;
 
               if (response.data.fields.length == 1){
-                config.finder.fieldIndex = "0";
+                config.finder.fieldIndex = '0';
               }
               
               deferred.resolve(config);
@@ -1102,9 +1107,8 @@
 
         getAllFields(formField);
 
-        setFinderConfig(formField.finder.entityName).then(function(config){
-          formField.finders = config.finders;
-          formField.entity = config.entity;
+        setFinderConfig(formField.finder.entityName, formField).then(function(config){
+          angular.extend(formField, config);
         });
 
       } else if (formField.serviceSource) {
