@@ -846,6 +846,8 @@
       if (!fieldEdit.hasButton || (!fieldEdit.sourceKey && !fieldEdit.functionName)) {
         delete fieldEdit.buttonEvent;
         delete fieldEdit.hasButton;
+        delete fieldEdit.sourceKey;
+        delete fieldEdit.functionName;
       }
 
       if (fieldEdit.meta.type == 'file') {

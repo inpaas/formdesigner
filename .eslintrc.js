@@ -19,6 +19,9 @@ module.exports = {
         "semi": [
             "warn",
             "always"
+        ],
+        "no-unused-vars":[
+            "warn"
         ]
     }
 };
