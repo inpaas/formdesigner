@@ -843,7 +843,7 @@
         section.fieldsCol3[fieldEdit.index] = fieldEdit;
       }
 
-      if (!fieldEdit.hasButton || (!fieldEdit.sourceKey && !fieldEdit.functionName)) {
+      if ((!fieldEdit.sourceKey && !fieldEdit.functionName)) {
         delete fieldEdit.buttonEvent;
         delete fieldEdit.hasButton;
         delete fieldEdit.sourceKey;
