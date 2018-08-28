@@ -3,9 +3,9 @@
     .module('studio-v2')
     .service('labelsService', labelsService);
     
-  labelsService.$inject = ['$http', '$filter', '$l10n', 'AUDIT_FIELDS', 'Notification'];
+  labelsService.$inject = ['$http', '$filter', '$l10n', 'AUDIT_FIELDS'];
 
-  function labelsService($http, $filter, $l10n, AUDIT_FIELDS, Notification){
+  function labelsService($http, $filter, $l10n, AUDIT_FIELDS){
       var labelsNamespace = "",
           labels = [];
 
@@ -35,19 +35,6 @@
       var template = "label.forms.{{form}}.";
       labelsNamespace = template.replace('{{form}}', formKey);
       return labelsNamespace;
-    }
-
-    function getLabelsNamespace(){
-      return labelsNamespace;
-    }
-
-    function getLabelsByModule(moduleId){
-      return $http({
-        url: url,
-        method: 'get'
-      }).then(function(response){
-        labels = response.data.data;
-      }, onError);
     }
 
     function buildLabels(jsonForm, moduleId){
