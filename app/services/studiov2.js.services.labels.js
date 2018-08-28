@@ -81,11 +81,11 @@
     }
 
     function buildLabelsFromTitle(jsonForm){
-      var key = generateKey('title').toLowerCase(),
+      var key = generateKey('title'),
           value = jsonForm.label,
           label = {};
 
-      jsonForm.label = key;
+      jsonForm.label = key.toLowerCase();
       label[key] = value || null;
 
       return label;
@@ -96,7 +96,7 @@
           key = 'label.'.concat(entityName.toLowerCase()).concat('.path'),
           label = {};
 
-      breadcrumb[0].path = key;
+      breadcrumb[0].path = key.toLowerCase();
       label[key] = value || null;
 
       return label;
@@ -111,10 +111,10 @@
                     .concat(view)
                     .concat('-')
                     .concat('customAction')
-                    .concat(index), 
+                    .concat(index),
               value = action.label;
 
-          action.label = key;
+          action.label = key.toLowerCase();
           labels[key] = value || null;
         }
       });
@@ -145,24 +145,24 @@
         }
 
         if(field.meta.type == 'button' && field.meta.buttonLabel){
-          var buttonKey = key.concat('.buttonlabel'),
+          var buttonKey = key.concat('.buttonlabel').toLowerCase(),
               buttonValue = field.meta.buttonLabel;
 
           labels[buttonKey] = buttonValue;
           field.meta.buttonLabel = buttonKey;
         }
 
-        field.label = key; 
+        field.label = key.toLowerCase(); 
         labels[key] = value || null;
         
         if (field.meta.placeholder) {
-          var keyPlaceholder = key.concat('.').concat('placeholder');
+          var keyPlaceholder = key.concat('.placeholder').toLowerCase();
           labels[keyPlaceholder] = field.meta.placeholder;
           field.meta.placeholder = keyPlaceholder;
         }
 
         if(field.meta.help){
-          var keyHelp = key.concat('help');
+          var keyHelp = key.concat('help').toLowerCase();
           labels[keyHelp] = field.meta.help;
           field.meta.help = keyHelp;
         }
