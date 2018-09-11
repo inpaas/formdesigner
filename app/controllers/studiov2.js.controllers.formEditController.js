@@ -292,7 +292,22 @@
 
             ctrl.sections.forEach(function(section, index) {
               if (section.type == 'main' || section.isSameDataSource) {
-                fields = fields.concat(section.fields);
+                switch(section.views.edit.collumns.toString()){
+                case '1':
+                  fields = fields.concat(section.fieldsCol1);
+                  break;
+
+                case '2':
+                  fields = fields.concat(section.fieldsCol1);
+                  fields = fields.concat(section.fieldsCol2);
+                  break;
+
+                case '3':
+                  fields = fields.concat(section.fieldsCol1);
+                  fields = fields.concat(section.fieldsCol2);
+                  fields = fields.concat(section.fieldsCol3);
+                  break;
+                }
               }
             });
 
