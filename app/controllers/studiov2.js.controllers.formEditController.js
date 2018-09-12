@@ -803,7 +803,9 @@
       var fieldEdit = ctrl.fieldEdit,
         section = ctrl.sections[ctrl.sectionSelectedIndex];
 
-      setNameField(fieldEdit);
+      fieldEdit.name = 'field-'
+        .concat( fieldEdit.meta.bind || '' )
+        .concat( (new Date().getTime()) );
 
       if (fieldEdit.visibilityType) {
         fieldEdit.meta.visible = setDisplayConfig(fieldEdit.visibilityType, fieldEdit.visibilityExpression);
@@ -988,15 +990,6 @@
           delete model.finder.key;
         } catch (e) {}
         break;
-      }
-    }
-
-    function setNameField(field) {
-      if (field.meta.bind) {
-        field.name = 'input'.concat(field.meta.bind.replace(/\./g, ''));
-
-      } else if (!field.name) {
-        field.name = 'input'.concat((new Date().getTime()));
       }
     }
 
