@@ -1890,6 +1890,7 @@
       });
 
       ctrl.allFields = allFields;
+      return allFields;
 
       function getCustomFields(field) {
         if(field.customField){
@@ -1993,7 +1994,7 @@
             return fieldEdit.entity.attributes;
           },
           fieldsEntityForm: function(){
-            return ctrl.allFields;
+            return getAllFields()
           },
           dependencies: function(){
             return fieldEdit.finder.dependencies;
