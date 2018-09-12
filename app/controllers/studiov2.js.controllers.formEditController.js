@@ -62,6 +62,8 @@
           }
 
         });
+    }, function(response){
+      Notification.error(response.data.message);
     });
 
     function getJsonForm(id) {
