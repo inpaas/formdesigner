@@ -46,6 +46,14 @@
         </div>
 
         <div class="btn-cluster" ng-if="ctrl.editBt.action == 'dynamic_buttons'">
+            <div class="form-group">
+                <label for="">Bind</label>
+                <input type="text" 
+                       class="input-sm form-control" 
+                       ng-model="ctrl.editBt.bind"
+                       typeahead-min-length="0"
+                       uib-typeahead="field.alias as field.alias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}">
+            </div>
             <div class="row">
                 <div class="form-group">
                     <label for="">Source Key:</label>
@@ -90,18 +98,6 @@
                 <button class="btn btn-primary btn-sm" ng-if="ctrl.editBt.visibilityType == 'map'" ng-click="ctrl.openModalForConfig(ctrl.editBt,'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
             </div>
         </div>
-
-        <!-- <div class="btn-cluster">
-            <div class="stock-separator">
-                <label>Texto de Ajuda</label>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <textarea class="form-control input-sm input-txt" required="required" ng-bind="ctrl.editBt.help"></textarea>
-                </div>
-            </div>
-        </div> -->
-
     </div>
     <!-- Estrutura -->
     <div class="action-buttons">
