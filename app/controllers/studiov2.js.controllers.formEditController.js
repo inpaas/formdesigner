@@ -180,23 +180,15 @@
     function addButton(actionName, position, label) {
       var button = {
         action: actionName,
-        view: ctrl.currentView,
+        view: 'edit',
         label: label
       };
 
       if (actionName.match(/(custom)|(modal)/g)) {
         button.btCustom = true;
-      } else {
-        setAddedButton(button, ctrl.currentView);
-      }
 
-      if (actionName == 'modal') {
-        angular.extend(button, {
-          onClose: {
-            event: {},
-            updateParentForm: {}
-          }
-        });
+      } else {
+        setAddedButton(button, 'edit');
       }
 
       ctrl.editBt = button;
@@ -209,45 +201,30 @@
       action = angular.copy(ctrl.jsonModel.views[ctrl.currentView].actions[index]);
       action.index = index;
 
-      if (action.visible) {
+      if(action.visible) {
         angular.extend(action, setDisplayConfigForEdit(action.visible, 'visibilityType', 'visibilityExpression'));
       }
 
-      action.label = $l10n.translate(action.label);
       ctrl.editBt = action;
       showConfigBt();
     }
 
     function saveEditButton() {
-      var clone = angular.copy(ctrl.editBt),
-        action = {
-          action: clone.action,
-          label: clone.label,
-          notDisplayLabel: !!clone.notDisplayLabel,
-          name: clone.name || clone.action || clone.label.toLowerCase().replace(/\s/g, '-'),
-          visible: setDisplayConfig(clone.visibilityType, clone.visibilityExpression),
-          event: setEventConfig(),
-          saveAndStay: clone.saveAndStay
-        };
+      var action = angular.copy(ctrl.editBt);
 
-      if (!angular.isUndefined(clone.index)) {
-        var bt = ctrl.jsonModel.views[ctrl.currentView].actions[clone.index];
-        angular.extend(bt, action);
+      action.visible = setDisplayConfig(action.visibilityType, action.visibilityExpression);
+
+      if (action.index != undefined) {
+        var index = action.index;
+        delete action.index;
+        ctrl.jsonModel.views['edit'].actions[index] = action;
+
       } else {
-        ctrl.jsonModel.views[ctrl.currentView].actions.push(action);
+        ctrl.jsonModel.views['edit'].actions.push(action);
       }
 
       ctrl.editBt = {};
       showComponents();
-
-      function setEventConfig() {
-        if (clone.setEvent) {
-          action.event = {
-            method: clone.method,
-            sourceKey: clone.sourceKey
-          };
-        }
-      }
     }
 
     function removeBt(view, index) {
@@ -290,30 +267,7 @@
             return value;
           },
           formFields: function() {
-            var fields = [];
-
-            ctrl.sections.forEach(function(section, index) {
-              if (section.type == 'main' || section.isSameDataSource) {
-                switch(section.views.edit.collumns.toString()){
-                case '1':
-                  fields = fields.concat(section.fieldsCol1);
-                  break;
-
-                case '2':
-                  fields = fields.concat(section.fieldsCol1);
-                  fields = fields.concat(section.fieldsCol2);
-                  break;
-
-                case '3':
-                  fields = fields.concat(section.fieldsCol1);
-                  fields = fields.concat(section.fieldsCol2);
-                  fields = fields.concat(section.fieldsCol3);
-                  break;
-                }
-              }
-            });
-
-            return fields;
+            return getAllFields();
           }
         }
       });
@@ -1994,7 +1948,7 @@
             return fieldEdit.entity.attributes;
           },
           fieldsEntityForm: function(){
-            return getAllFields()
+            return getAllFields();
           },
           dependencies: function(){
             return fieldEdit.finder.dependencies;
