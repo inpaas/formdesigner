@@ -165,7 +165,9 @@
 
     function mapAddedButtons(buttons, view) {
       buttons.forEach(function(button, index) {
-        setAddedButton(button, view);
+        if(!button.action.match(/(custom)|(dynamic_buttons)/)){
+          setAddedButton(button, view);
+        }
       });
     }
 
@@ -177,21 +179,21 @@
       ctrl.addedButtons[view][button.action] = false;
     }
 
-    function addButton(actionName, position, label) {
-      var button = {
-        action: actionName,
-        view: 'edit',
-        label: label
+    function addButton(button) {
+      var editBt = {
+        label: $l10n.translate(button.label),
+        action: button.action,
+        name: button.name
       };
 
-      if (actionName.match(/(custom)|(modal)/g)) {
-        button.btCustom = true;
+      if( editBt.action.match(/(custom)|(dynamic_buttons)/) ){
+        editBt.name = editBt.name.concat('-', (new Date().getTime()) );
 
-      } else {
-        setAddedButton(button, 'edit');
+      }else{
+        setAddedButton(editBt, 'edit');
       }
 
-      ctrl.editBt = button;
+      ctrl.editBt = editBt;
       showConfigBt();
     }
 

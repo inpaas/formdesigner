@@ -60,10 +60,10 @@
                 ng-repeat="action in ctrl.ACTIONS"
                 class="btn {[{action.class}]}" 
                 id="btn-{[{action.name}]}"
-                ng-disabled="ctrl.addedButtons.edit[action.name] && !action.btCustom"
-                ng-click="ctrl.addButton(action.name)">
+                ng-disabled="ctrl.addedButtons.edit[action.name]"
+                ng-click="ctrl.addButton(action)">
           <i class="fa fa-fw {[{action.iconClass}]}"></i> 
-          <i ng-bind-html="action.label | translate"></i>
+          <i>{[{ action.label | translate }]} </i>
         </button>
       </div>
     </div>

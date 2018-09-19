@@ -5,7 +5,9 @@
   <div class="col-xs-12 col-sm-5 no-padding">
     <label class="title-form no-padding" ng-bind="ctrl.jsonModel.label"></label>
   </div>
+</div>
 
+<div class="row row-title">
   <div class="page-actions pull-right" id="edit-actions-top" dragula="'buttons-edit'" dragula-model="ctrl.jsonModel.views.edit.actions">
     <ng-include src="'/forms/studiov2.forms.actions.' + action.action"
                 ng-repeat="action in ctrl.jsonModel.views.edit.actions track by $index">

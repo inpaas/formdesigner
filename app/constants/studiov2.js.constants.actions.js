@@ -40,11 +40,16 @@
         },			
         {
           'action': 'custom',
-          'label': 'Bota&acute;o custom',
+          'label': 'button.custom.title',
           'name': 'custom',
-          'btCustom': true,
           'class': 'btn-primary',
           'iconClass': 'fa-plus'
+        },
+        {
+          'action': 'dynamic_buttons',
+          'name': 'dynamic_buttons',
+          'label': 'button.dynamic_button.title',
+          'class': 'btn-primary'
         }
 		]);
 })();
