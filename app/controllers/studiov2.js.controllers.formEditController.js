@@ -488,27 +488,7 @@
       currentSection.index = index;
       currentSection.error = {};
 
-      if (currentSection.includeType == 'list') {
-        if (currentSection.finder.moduleKey || currentSection.finder.moduleId) {
-          getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
-        }
-
-        setFinder(currentSection.finder.entityName, currentSection, true).then(function() {
-          currentSection.dependenciesKeys = setDependenciesKeys(currentSection);
-          ctrl.currentSection = currentSection;
-          showConfigSection();
-        });
-
-        return;
-
-      } else if (currentSection.includeType == 'edit' && !currentSection.isSameDataSource) {
-        getEntityFormsByBind(currentSection.meta.bind);
-
-      } else if (currentSection.includeType == 'templateCustom') {
-        getModuleTemplates(getModuleIdByKey(currentSection.include.moduleKey));
-
-      }
-
+     
       if (currentSection.meta && currentSection.meta.visible) {
         angular.extend(currentSection, setDisplayConfigForEdit(currentSection.meta.visible, 'visibilityType', 'visibilityExpression'));
       }
@@ -528,6 +508,26 @@
       if (currentSection.views.edit.sources && currentSection.views.edit.sources.js && angular.isString(currentSection.views.edit.sources.js)) {
         var sources = [currentSection.views.edit.sources.js];
         currentSection.views.edit.sources.js = sources;
+      }
+
+      if (currentSection.includeType == 'edit' && !currentSection.isSameDataSource) {
+        getEntityFormsByBind(currentSection.meta.bind);
+
+      } else if (currentSection.includeType == 'templateCustom') {
+        getModuleTemplates(getModuleIdByKey(currentSection.include.moduleKey));
+
+      } else if (currentSection.includeType == 'list') {
+        if (currentSection.finder.moduleKey || currentSection.finder.moduleId) {
+          getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
+        }
+
+        setFinder(currentSection.finder.entityName, currentSection, true).then(function() {
+          currentSection.dependenciesKeys = setDependenciesKeys(currentSection);
+          ctrl.currentSection = currentSection;
+          showConfigSection();
+        });
+
+        return;
       }
 
       ctrl.currentSection = currentSection;
