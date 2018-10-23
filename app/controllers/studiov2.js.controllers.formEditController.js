@@ -930,7 +930,9 @@
           delete model.finder.sourceKey;
           delete model.options;
           delete model.serviceSource;
-        } catch (e) {}
+        } catch (e) {
+          console.log(e);
+        }
         break;
 
       case 'S':
@@ -944,7 +946,9 @@
           delete model.serviceSource;
           delete model.finder.entityName;
           delete model.finder.key;
-        } catch (e) {}
+        } catch (e) {
+          console.log(e);
+        }
         break;
       }
     }
@@ -1214,8 +1218,8 @@
     }
 
     function setFieldsIncludes(form, sections) {
-      sections.forEach(function(section) {
-        var section = angular.copy(section);
+      sections.forEach(function(_section) {
+        var section = angular.copy(_section);
 
         delete section.fields;
         delete section.newInclude;
