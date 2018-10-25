@@ -152,11 +152,14 @@
         if((section.type == 'main' || section.isSameDataSource) && section.fields.length){
           section.fields.forEach(function(field, index){
             ctrl.entityForm.attributes.forEach(function(entityField){
+              if (field.auditField && entityField.alias.indexOf(field.meta.bind) ){
+                field.auditName = entityField.name.toLowerCase();
 
-              if (!field.auditField && entityField.alias == field.meta.bind) {
-                field.collumnName = entityField.name.toLowerCase();
+              }else{
+                if(field.meta.bind == entityField.alias){
+                  field.collumnName = entityField.name.toLowerCase();
+                }
               }
-
             });
           });
         }
@@ -1002,26 +1005,32 @@
       ctrl.fieldEdit = angular.copy(fieldEdit);
       ctrl.fieldEdit.error = {};
 
-      showTypeFields();
+      if(entityField.auditField){
+        showEditField();
+
+      }else{
+        showTypeFields();
+      }
 
       function configCustomField(fieldEdit) {
         fieldEdit.customField = true;
       }
 
       function configEntityField(fieldEdit, entityField) {
-        fieldEdit.auditField = entityField.auditField;
-        fieldEdit.collumnName = entityField.name ? entityField.name.toLowerCase() : '';
-        fieldEdit.meta.bind = entityField.alias;
-        fieldEdit.meta.maxLength = (entityField.size > 0) ? entityField.size : '';
-        fieldEdit.meta.numScale = entityField.scale || '2';
-        fieldEdit.meta.defaultValue = entityField.defaultValue;
         fieldEdit.rawEntityField = angular.copy(entityField);
-        fieldEdit.views.edit.readOnly = entityField.auditField;
-
         fieldEdit.requiredType = entityField.required ? 'true' : 'false';
         fieldEdit.requiredExpression = entityField.required ? true : false;
 
-        if (entityField.alias == 'id' && entityField.primaryKey) {
+        if(entityField.auditField){
+          fieldEdit.auditField = true;
+          fieldEdit.auditName = entityField.name;
+          fieldEdit.views.edit.readOnly = true;
+          fieldEdit.meta.bind = entityField.alias;
+          fieldEdit.meta.type = 'string';
+          fieldEdit.meta.bind = angular.isArray(entityField.alias)? entityField.alias[1] : entityField.alias;
+          return;
+
+        }else if (entityField.alias == 'id' && entityField.primaryKey) {
           fieldEdit.viewList = true;
           fieldEdit.requiredType = 'false';
           fieldEdit.requiredExpression = false;
@@ -1030,6 +1039,12 @@
           setTypeField('number', fieldEdit);
         }
       }
+
+      fieldEdit.collumnName = entityField.name ? entityField.name.toLowerCase() : '';
+      fieldEdit.meta.maxLength = (entityField.size > 0) ? entityField.size : '';
+      fieldEdit.meta.numScale = entityField.scale || '2';
+      fieldEdit.meta.bind = entityField.alias;
+      fieldEdit.meta.defaultValue = entityField.defaultValue;
     }
 
     function editField(_formField, index, section) {
@@ -1057,7 +1072,7 @@
       }
 
       ctrl.entityForm.attributes.forEach(function(entityField, index) {
-        if (entityField.alias === formField.meta.bind) {
+        if ( entityField.alias.indexOf(formField.meta.bind) != -1){
           formField.rawEntityField = entityField;
         }
       });

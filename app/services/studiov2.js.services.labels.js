@@ -116,31 +116,39 @@
         var key = '', value = field.label;
 
         if(field.auditField){
-          var auditField = AUDIT_FIELDS.filter(function(auditField){return auditField.alias == field.meta.bind})[0];
+          var auditField = AUDIT_FIELDS.filter(
+            function(auditField){
+              return auditField.name == field.auditName; 
+            }
+          )[0];
 
           if($l10n.translate(auditField.label).toLowerCase() != value.toLowerCase()){
-            key = 'label.'.concat(entityName).concat('.');
-            key = key.concat(auditField.label.split('.')[1]);
+            key = 'label.'.concat( entityName, '.', auditField.label.split('.')[1] );
+            field.label = key.toLowerCase(); 
+            labels[key] = value || null;
           }
 
-        }else if(field.colllumnName || field.meta.bind){
-          key = 'label.'.concat(entityName).concat('.');
-          key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()));
+        }else {
 
-        }else{
-          key = 'label.'.concat(formKey).concat('.').concat(field.name);
+          if(field.colllumnName || field.meta.bind){
+            key = 'label.'.concat(entityName).concat('.');
+            key = key.concat(field.collumnName || (field.meta.bind && field.meta.bind.toLowerCase()));
+
+          }else{
+            key = 'label.'.concat(formKey).concat('.').concat(field.name);
+          }
+
+          field.label = key.toLowerCase(); 
+          labels[key] = value || null;
         }
 
         if(field.meta.type == 'button' && field.meta.buttonLabel){
           var buttonKey = key.concat('.buttonlabel').toLowerCase(),
-              buttonValue = field.meta.buttonLabel;
+            buttonValue = field.meta.buttonLabel;
 
           labels[buttonKey] = buttonValue;
           field.meta.buttonLabel = buttonKey;
         }
-
-        field.label = key.toLowerCase(); 
-        labels[key] = value || null;
         
         if (field.meta.placeholder) {
           var keyPlaceholder = key.concat('.placeholder').toLowerCase();

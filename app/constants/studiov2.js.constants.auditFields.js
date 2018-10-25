@@ -4,33 +4,39 @@
     .constant('AUDIT_FIELDS', [
       {
         "alias": "audit.created.date",
-        "name": "DT_CREATED",
+        "name": "dateCreated",
         "label": "label.dt_created",
-        "type": "Datetime",
+        "type": "date",
         "readonly": true,
         "auditField": true
       },
       {
         "alias": "audit.lastUpdated.date",
-        "name": "DT_UPDATED",
+        "name": "dateupdated",
         "label": "label.dt_updated",
-        "type": "Datetime",
+        "type": "date",
         "readonly": true,
         "auditField": true
       },
       {
-        "alias": "audit.created.userId",
-        "name": "ID_USERCREATED",
+        "alias": [
+          "audit.created.userId",
+          "audit.created.userName"
+        ],
+        "type": "string",
+        "name": "userureated",
         "label": "label.id_usercreated",
-        "type": "Integer",
         "readonly": true,
         "auditField": true
       },
       {
-        "alias": "audit.lastUpdated.userId",
-        "name": "ID_USERUPDATED",
+        "alias": [
+          "audit.lastUpdated.userId",
+          "audit.lastUpdated.userName"
+        ],
+        "type": "string",
+        "name": "userupdated",
         "label": "label.id_userupdated",
-        "type": "Integer",
         "readonly": true,
         "auditField": true
       }
