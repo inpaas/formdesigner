@@ -533,6 +533,10 @@
         return;
       }
 
+      currentSection.onsubmit = !!currentSection.views.edit.onsubmit;
+      currentSection.onload = !!currentSection.views.edit.onload;
+      currentSection.onchange = !!currentSection.views.edit.change;
+
       ctrl.currentSection = currentSection;
       ctrl.currentSection.error = {};
       showConfigSection();
