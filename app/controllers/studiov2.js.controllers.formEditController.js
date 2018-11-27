@@ -210,6 +210,10 @@
         angular.extend(action, setDisplayConfigForEdit(action.visible, 'visibilityType', 'visibilityExpression'));
       }
 
+      if(!action.typeEvent){
+        action.typeEvent = 'source';
+      }
+
       ctrl.editBt = action;
       showConfigBt();
     }
@@ -1042,13 +1046,13 @@
           fieldEdit.disabledExpression = true;
           setTypeField('number', fieldEdit);
         }
-      }
 
-      fieldEdit.collumnName = entityField.name ? entityField.name.toLowerCase() : '';
-      fieldEdit.meta.maxLength = (entityField.size > 0) ? entityField.size : '';
-      fieldEdit.meta.numScale = entityField.scale || '2';
-      fieldEdit.meta.bind = entityField.alias;
-      fieldEdit.meta.defaultValue = entityField.defaultValue;
+        fieldEdit.collumnName = entityField.name ? entityField.name.toLowerCase() : '';
+        fieldEdit.meta.maxLength = (entityField.size > 0) ? entityField.size : '';
+        fieldEdit.meta.numScale = entityField.scale || '2';
+        fieldEdit.meta.bind = entityField.alias;
+        fieldEdit.meta.defaultValue = entityField.defaultValue;
+      }
     }
 
     function editField(_formField, index, section) {
@@ -1992,6 +1996,23 @@
       });
     }
 
+    function openModalCode(editBt){
+      var modalInstance = $uibModal.open({
+        templateUrl: 'studiov2.forms.sidebar.eventcode',
+        controller: 'EventCodeController',
+        controllerAs: 'ctrl',
+        resolve: {
+          code: function() {
+            return editBt.eventCode || '';
+          }
+        }
+      });
+
+      modalInstance.result.then(function(result) {
+        editBt.eventCode = result;
+      });
+    }
+
     angular.extend(ctrl, {
       TIME_FORMAT_PATTERNS: TIME_FORMAT_PATTERNS,
       ICONS: ICONS,
@@ -2063,7 +2084,8 @@
       validateConfigSection: validateConfigSection,
       validateConfigField: validateConfigField,
       editDependencies: editDependencies,
-      onSelectFinder: onSelectFinder
+      onSelectFinder: onSelectFinder,
+      openModalCode: openModalCode
     });
   }
 })();
