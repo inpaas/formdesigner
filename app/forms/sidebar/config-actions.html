@@ -22,6 +22,17 @@
                     Não mostrar texto 
                 </label>
             </div>
+
+            <div class="form-group" ng-if="ctrl.editBt.action == 'custom'">
+                <label for="">Ícone</label>
+                <input type="text" 
+                    class="form-control input-sm" 
+                    ng-model="ctrl.editBt.event.icon" 
+                    uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
+                    typeahead-template-url="icons.html"
+                    typeahead-min-length="0"
+                />
+            </div>
         </div>
         <div class="form-group" ng-show="ctrl.editBt.action == 'save'">
             <label for="action-saveandstay">
@@ -33,15 +44,58 @@
             <div class="stock-separator">
                 <label>Evento</label>
             </div>
+
             <div class="row">
                 <div class="form-group">
+                    <input type="radio" name="typeEvent" id="typeEventService" value="source" ng-model="ctrl.editBt.typeEvent">
+                    <label for="typeEventService">Chamar um serviço</label>
+                </div>
+                <div class="form-group">
+                    <input type="radio" name="typeEvent" id="typeEventCode" value="code" ng-model="ctrl.editBt.typeEvent">
+                    <label for="typeEventCode">Executar um código</label>
+                </div>
+            </div>
+
+            <div class="row" ng-show="ctrl.editBt.typeEvent == 'source'">
+                <div class="form-group">
                     <label for="">Source Key:</label>
-                    <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.sourceKey">
+                    <input class="form-control input-sm" placeholder="" type="text" ng-model="ctrl.editBt.event.sourceKey">
                 </div>
                 <div class="form-group">
                     <label for="">Método:</label>
-                    <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="ctrl.editBt.event.method">
+                    <input class="form-control input-sm" placeholder="" type="text" ng-model="ctrl.editBt.event.method">
                 </div>
+            </div>
+
+            <div class="row" ng-show="ctrl.editBt.typeEvent == 'code'">
+                <button class="btn btn-primary" ng-click="ctrl.openModalCode(ctrl.editBt)"> Editar o código </button>
+            </div>
+
+            <div class="stock-separator">
+                <label for="">Tipo da ação</label>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label for="multiAction">
+                        <input type="checkbox" id="multiAction" />
+                        Ação em lote
+                    </label>
+                </div>
+
+                <div>
+                    <label for="lineAction">
+                        <input type="checkbox" id="lineAction" />
+                        Ação na lista
+                    </label>
+                </div>
+
+                <div>
+                    <label for="editAction">
+                        <input type="checkbox" id="editAction" />
+                        Ação na edição
+                    </label>
+                </div> 
             </div>
         </div>
 
@@ -52,8 +106,10 @@
                        class="input-sm form-control" 
                        ng-model="ctrl.editBt.bind"
                        typeahead-min-length="0"
-                       uib-typeahead="field.alias as field.alias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}">
+                       uib-typeahead="field.alias as field.alias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}"
+                />
             </div>
+
             <div class="row">
                 <div class="form-group">
                     <label for="">Source Key:</label>
@@ -65,16 +121,6 @@
                 <i class="fa fa-info-circle"></i>
                 Se o source key retornar mais de três ações, esse botão irar aparecer como menu dessas ações. 
             </p>
-        </div>
-
-        <div class="form-group" ng-if="ctrl.editBt.action == 'custom'">
-          <label for="">Ícone</label>
-          <input type="text" 
-                class="form-control input-sm" 
-                ng-model="ctrl.editBt.event.icon" 
-                uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
-                typeahead-template-url="icons.html"
-                typeahead-min-length="0">
         </div>
 
         <ng-include src="'/forms/studiov2.forms.actions.config-action-modal'" ng-if="ctrl.editBt.action == 'modal'"></ng-include>
