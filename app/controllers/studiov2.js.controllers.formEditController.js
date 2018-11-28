@@ -1586,6 +1586,10 @@
           getSources(getModuleIdByKey(ctrl.moduleEntity.key), ctrl.fieldEdit.serviceSource);
         }
 
+        if(!ctrl.allFields){
+          getAllFields();
+        }
+
         break;
       }
     }

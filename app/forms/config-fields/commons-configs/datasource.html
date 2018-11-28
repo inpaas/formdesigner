@@ -114,8 +114,10 @@
             ng-blur="ctrl.validateConfigField('datasource_service_key')"
             typeahead-min-length="0"
             uib-typeahead="source.key as source.key for source in ctrl.moduleSources">
-   <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_service_sourceKey">Selecione um sourceKey</small> 
+
+    <small class="text-danger" ng-if="ctrl.fieldEdit.error.datasource_service_sourceKey">Selecione um sourceKey</small> 
   </div>
+  
   
   <div class="form-group">
     <label for="">Método:</label>
@@ -124,10 +126,6 @@
   </div>
 
   <div class="form-group">
-    <button class="btn btn-primary" ng-click="ctrl.editDependencies(ctrl.fieldEdit)">
-      <i ng-if="!ctrl.fieldEdit.finder.dependencies.length">Adicionar dependências</i>
-      <i class="badge badge-light" ng-if="ctrl.fieldEdit.finder.dependencies.length" ng-bind="ctrl.fieldEdit.finder.dependencies.length"></i>
-      <i ng-if="ctrl.fieldEdit.finder.dependencies.length"> Editar dependências </i>
-    </button>
+    <select class="input-sm form-control" multiple ng-model="ctrl.fieldEdit.serviceSource.dependencies" ng-options="field.alias as field.alias for field in ctrl.allFields"></select>
   </div>
 </div>
