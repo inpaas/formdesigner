@@ -78,7 +78,14 @@
     <div class="stock-separator">
       <label for="">Display</label>
     </div>
-    
+
+    <div class="form-group" ng-hide="ctrl.fieldEdit.auditField">
+      <label for="field-readonly">
+        <input type="checkbox" ng-model="ctrl.fieldEdit.meta.featured" id="field-featured">
+        Destacar campo <i class="fa fa-info-circle" uib-tooltip="O campo fica em uma área destacada para temas que suportam esse recurso"></i>
+      </label>
+     </div> 
+
     <div class="row">
       <div class="form-group" ng-hide="ctrl.fieldEdit.auditField">
         <label for="field-readonly">
