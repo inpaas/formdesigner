@@ -43,7 +43,7 @@ function SectionService(){
     }
 
     if(configSection.onchange){
-      validateOnchange(configSection);
+      validateOnChange(configSection);
     }
 
     if(configSection.onload){
