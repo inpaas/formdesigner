@@ -315,6 +315,7 @@
           </label>
         </div>
       </div>
+
       <div class="row" ng-show="ctrl.currentSection.type != 'main'">
         <div class="form-group">
           <label>Visibilidade</label>
@@ -333,30 +334,6 @@
         <button class="btn btn-primary btn-sm" 
                 ng-if="ctrl.currentSection.visibilityType == 'map'" 
                 ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
-      </div>
-      <div class="row">
-        <div class="form-group">
-          <label>Desabilitar seção</label>
-          <select class="form-control input-sm" ng-model="ctrl.currentSection.disabledType">
-            <option value="">Selecione</option>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-            <option value="function">Função</option>
-            <option value="map">Propriedade/Valor</option>
-          </select>
-        </div>
-
-        <button class="btn btn-primary btn-sm" 
-                ng-if="ctrl.currentSection.disabledType == 'function'" 
-                ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'function')">
-            Editar função
-        </button>
-
-        <button class="btn btn-primary btn-sm" 
-                ng-if="ctrl.currentSection.disabledType == 'map'" 
-                ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'map')">
-            Editar Propriedade/Valor
-        </button>
       </div>
   
       <div class="row" ng-show="ctrl.currentSection.type == 'main' || ctrl.currentSection.isSameDataSource">
