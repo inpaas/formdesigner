@@ -316,7 +316,8 @@
             onchange: {},
             onsubmit: {}
           }
-        }
+        },
+        visibilityType: true
       };
 
       ctrl.moduleEntity = {};
