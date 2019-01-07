@@ -78,21 +78,21 @@
             <div class="form-group">
                 <div>
                     <label for="multiAction">
-                        <input type="checkbox" id="multiAction" />
+                        <input type="checkbox" id="multiAction" ng-model="ctrl.editBt.event.multiAction" />
                         Ação em lote
                     </label>
                 </div>
 
                 <div>
-                    <label for="lineAction">
-                        <input type="checkbox" id="lineAction" />
+                    <label for="rowAction">
+                        <input type="checkbox" id="rowAction" ng-model="ctrl.editBt.event.rowAction" />
                         Ação na lista
                     </label>
                 </div>
 
                 <div>
                     <label for="editAction">
-                        <input type="checkbox" id="editAction" />
+                        <input type="checkbox" id="editAction" ng-model="ctrl.editBt.event.editAction" />
                         Ação na edição
                     </label>
                 </div> 
@@ -145,6 +145,7 @@
             </div>
         </div>
     </div>
+
     <!-- Estrutura -->
     <div class="action-buttons">
         <div class="row">
