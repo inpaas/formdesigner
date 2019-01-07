@@ -186,7 +186,8 @@
       var editBt = {
         label: $l10n.translate(button.label),
         action: button.action,
-        name: button.name
+        name: button.name,
+        visibilityType: 'true'
       };
 
       if( editBt.action.match(/(custom)|(dynamic_buttons)/) ){
