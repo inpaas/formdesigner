@@ -272,6 +272,7 @@
         </ul>
       </div>
     </div>
+    
     <!-- /Config Collumns-->
     <div class="row">
       <div class="stock-separator">
@@ -315,12 +316,10 @@
           </label>
         </div>
       </div>
-
-      <div class="row" ng-show="ctrl.currentSection.type != 'main'">
+      <div class="row">
         <div class="form-group">
           <label>Visibilidade</label>
           <select class="form-control input-sm" ng-model="ctrl.currentSection.visibilityType">
-            <option value="">Selecione</option>
             <option value="true">Sim</option>
             <option value="false">Não</option>
             <option value="function">Função</option>
@@ -334,6 +333,31 @@
         <button class="btn btn-primary btn-sm" 
                 ng-if="ctrl.currentSection.visibilityType == 'map'" 
                 ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'visibilityExpression', 'map')">Editar Propriedade/Valor</button>
+      </div>
+      
+      <!-- 
+      <div class="row">
+        <div class="form-group">
+          <label>Desabilitar seção</label>
+          <select class="form-control input-sm" ng-model="ctrl.currentSection.disabledType">
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+            <option value="function">Função</option>
+            <option value="map">Propriedade/Valor</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.currentSection.disabledType == 'function'" 
+                ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'function')">
+            Editar função
+        </button>
+
+        <button class="btn btn-primary btn-sm" 
+                ng-if="ctrl.currentSection.disabledType == 'map'" 
+                ng-click="ctrl.openModalForConfig(ctrl.currentSection, 'disabledExpression', 'map')">
+            Editar Propriedade/Valor
+        </button>
       </div>
   
       <div class="row" ng-show="ctrl.currentSection.type == 'main' || ctrl.currentSection.isSameDataSource">
@@ -359,92 +383,102 @@
         </div>
       </div>
     </div>
+    -->
     <!-- /Display -->
 
+
     <!--  Events-->
-    <div class="row">
+    <div class="row" ng-show="ctrl.currentSection.type == 'main' || ctrl.currentSection.includeType == 'list'">
       <div class="stock-separator">
         <label for="">Eventos</label>
       </div>
       
-      <!-- onload -->
-      <div class="row" ng-hide="ctrl.currentSection.includeType == 'templateCustom'">
-        <div class="form-group">
-          <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload">
-          <label for="section-onload" ng-show="ctrl.currentSection.type == 'main'">Ao carregar a página</label>
-          <label for="section-onload" ng-show="ctrl.currentSection.type != 'main'">Ao carregar a seção</label>
+      <!-- main section onload -->
+      <div ng-show="ctrl.currentSection.type == 'main'">
+        <div class="row">
+          <div class="form-group">
+            <input type="checkbox" id="section-onload" ng-model="ctrl.currentSection.onload" />
+            <label for="section-onload" ng-show="ctrl.currentSection.type == 'main'">Ao carregar o formulário</label>
+          </div>
+  
+          <div class="form-group" ng-show="ctrl.currentSection.onload">
+            <label for="">SourceKey</label>
+            <input type="text" 
+                  class="form-control input-sm" 
+                  ng-blur="ctrl.validateConfigSection('event_onload')"
+                  ng-model="ctrl.currentSection.views.edit.onload.sourceKey" 
+            />
+            <small class="text-danger" ng-if="ctrl.currentSection.error.onload_sourceKey">Escreva o source key</small>
+          </div>
+  
+          <div class="form-group" ng-show="ctrl.currentSection.onload">
+            <label for="">Function Name</label>
+            <input type="text" 
+                  class="form-control input-sm" 
+                  ng-blur="ctrl.validateConfigSection('event_onload')"
+                  ng-model="ctrl.currentSection.views.edit.onload.functionName"
+            />
+            <small class="text-danger" ng-if="ctrl.currentSection.error.onload_functionName">Escreva o nome da função</small>
+          </div>
         </div>
+        <!--main section onsubmit -->
+        <div class="row">
+          <div class="form-group">
+            <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
+            <label for="section-onsubmit">Ao salvar o formulário</label>
+          </div>
 
-        <div class="form-group" ng-show="ctrl.currentSection.onload">
-          <label for="">SourceKey</label>
-          <input type="text" 
-                class="form-control input-sm" 
-                ng-blur="ctrl.validateConfigSection('event_onload')"
-                ng-model="ctrl.currentSection.views.edit.onload.sourceKey"/>
-          <small class="text-danger" ng-if="ctrl.currentSection.error.onload_sourceKey">Escreva o source key</small>
-        </div>
+          <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
+            <label for="">SourceKey</label>
+            <input type="text" 
+                  class="form-control input-sm" 
+                  ng-blur="ctrl.validateConfigSection('event_onsubmit')"
+                  ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
+            <small class="text-danger" ng-if="ctrl.currentSection.error.onsubmit_sourceKey">Escreva o source key</small>
+          </div>
 
-        <div class="form-group" ng-show="ctrl.currentSection.onload">
-          <label for="">Function Name</label>
-          <input type="text" 
-                class="form-control input-sm" 
-                ng-blur="ctrl.validateConfigSection('event_onload')"
-                ng-model="ctrl.currentSection.views.edit.onload.functionName"/>
-          <small class="text-danger" ng-if="ctrl.currentSection.error.onload_functionName">Escreva o nome da função</small>
+          <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
+            <label for="">Function Name</label>
+            <input type="text" 
+                  class="form-control input-sm" 
+                  ng-blur="ctrl.validateConfigSection('event_onsubmit')"
+                  ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
+            <small class="text-danger" ng-if="ctrl.currentSection.error.onsubmit_functionName">Escreva o nome da função</small>
+          </div>
         </div>
       </div>
 
-      <!-- onsubmit -->
-      <div class="row" ng-hide="ctrl.currentSection.includeType == 'templateCustom'">
-        <div class="form-group">
-          <input type="checkbox" id="section-onsubmit" ng-model="ctrl.currentSection.onsubmit">
-          <label for="section-onsubmit">Ao salvar o form</label>
-        </div>
+      <div ng-show="ctrl.currentSection.includeType == 'list'">
+        <!-- finder section onchange -->
+        <div class="row">
+          <div class="form-group">
+            <input type="checkbox" id="section-onchange" ng-model="ctrl.currentSection.onchange">
+            <label for="section-onchange">Ao editar a lista</label>
+          </div>
 
-        <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
-          <label for="">SourceKey</label>
-          <input type="text" 
-                class="form-control input-sm" 
-                ng-blur="ctrl.validateConfigSection('event_onsubmit')"
-                ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
-          <small class="text-danger" ng-if="ctrl.currentSection.error.onsubmit_sourceKey">Escreva o source key</small>
-        </div>
+          <div class="form-group" ng-show="ctrl.currentSection.onchange">
+            <label for="">Source key</label>
+            <input type="text" 
+                  class="form-control input-sm" 
+                  ng-model="ctrl.currentSection.sourceKey" 
+                  />
+            <small class="text-danger" ng-if="ctrl.currentSection.error.onchange_sourceKey">Escreva o source key </small>
+          </div>
 
-        <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
-          <label for="">Function Name</label>
-          <input type="text" 
-                class="form-control input-sm" 
-                ng-blur="ctrl.validateConfigSection('event_onsubmit')"
-                ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
-          <small class="text-danger" ng-if="ctrl.currentSection.error.onsubmit_functionName">Escreva o nome da função</small>
+          <div class="form-group" ng-show="ctrl.currentSection.onchange">
+            <label for="">Function Name</label>
+            <input type="text" 
+                  class="form-control input-sm" 
+                  ng-model="ctrl.currentSection.functionName" />
+            <small class="text-danger" ng-if="ctrl.currentSection.error.onchange_functionName"> Escreva o nome da função </small>
+          </div>
+        </div>
+        <div class="form-group" ng-show="ctrl.currentSection.includeType == 'list'">
+          <input type="checkbox" id="reload_edit" ng-model="ctrl.currentSection.reloadData">
+          <label for="reload_edit"> Recarregar os dados ao editar a lista </label>
         </div>
       </div>
 
-      <!-- onchange -->
-      <div class="row" ng-show="ctrl.currentSection.includeType == 'list'">
-        <div class="form-group">
-          <input type="checkbox" id="section-onchange" ng-model="ctrl.currentSection.onchange">
-          <label for="section-onchange">Ao modificar item da lista</label>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.onchange">
-          <label for="">SourceKey</label>
-          <input type="text" 
-                class="form-control input-sm" 
-                ng-model="ctrl.currentSection.views.edit.onchange.sourceKey" 
-                ng-blur="ctrl.validateConfigSection('event_onchange')"/>
-          <small class="text-danger" ng-if="ctrl.currentSection.error.onchange_sourceKey">Escreva o source key </small>
-        </div>
-
-        <div class="form-group" ng-show="ctrl.currentSection.onchange">
-          <label for="">Function Name</label>
-          <input type="text" 
-                class="form-control input-sm" 
-                ng-blur="ctrl.validateConfigSection('event_onchange')"
-                ng-model="ctrl.currentSection.views.edit.onchange.functionName" />
-          <small class="text-danger" ng-if="ctrl.currentSection.error.onchange_functionName"> Escreva o nome da função </small>
-        </div>
-      </div>
     </div>
     <!-- /Events -->
   </div>
