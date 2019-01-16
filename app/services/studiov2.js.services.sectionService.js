@@ -66,8 +66,8 @@ function SectionService(){
   }
 
   function validateOnChange(configSection){
-    configSection.error.onchange_sourceKey = !configSection.views.edit.onchange.sourceKey;
-    configSection.error.onchange_functionName = !configSection.views.edit.onchange.functionName;
+    configSection.error.onchange_sourceKey = !configSection.sourceKey;
+    configSection.error.onchange_functionName = !configSection.functionName;
   }
 
   function validateConfigSectionEdit(configSection){

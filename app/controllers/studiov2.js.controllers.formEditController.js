@@ -318,7 +318,7 @@
             onsubmit: {}
           }
         },
-        visibilityType: true
+        visibilityType: 'true'
       };
 
       ctrl.moduleEntity = {};
@@ -391,7 +391,6 @@
 
       !currentSection.onload && (delete currentSection.views.edit.onload);
       !currentSection.onsubmit && (delete currentSection.views.edit.onsubmit);
-      !currentSection.onchange && (delete currentSection.views.edit.onchange);
 
       if (currentSection.type == 'main') {
         angular.extend(ctrl.jsonModel.views, currentSection.views);
@@ -417,7 +416,8 @@
       }
 
       if (!angular.isUndefined(currentSection.index)) {
-        angular.extend(ctrl.sections[currentSection.index], currentSection);
+        ctrl.sections[currentSection.index] = currentSection;
+
       } else {
         ctrl.sections.push(currentSection);
       }
@@ -441,7 +441,7 @@
         delete currentSection.finder.method;
         delete currentSection.finder.title;
 
-        if(!currentSection.onchange || (currentSection.onchange && !currentSection.sourceKey)){
+        if(!currentSection.onchange){
           delete currentSection.sourceKey;
           delete currentSection.functionName;
         }
