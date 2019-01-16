@@ -441,6 +441,11 @@
         delete currentSection.finder.method;
         delete currentSection.finder.title;
 
+        if(!currentSection.onchange || (currentSection.onchange && !currentSection.sourceKey)){
+          delete currentSection.sourceKey;
+          delete currentSection.functionName;
+        }
+
         if (ctrl.moduleEntity && ctrl.moduleEntity.key) {
           currentSection.finder.moduleKey = ctrl.moduleEntity.key;
         }
@@ -530,6 +535,8 @@
           getModuleEntity(getModuleIdByKey(currentSection.finder.moduleKey) || currentSection.finder.moduleId, currentSection.finder);
         }
 
+        currentSection.onchange = !!(currentSection.sourceKey && currentSection.functionName);
+
         setFinder(currentSection.finder.entityName, currentSection, true).then(function() {
           currentSection.dependenciesKeys = setDependenciesKeys(currentSection);
           ctrl.currentSection = currentSection;
@@ -541,7 +548,7 @@
 
       currentSection.onsubmit = !!currentSection.views.edit.onsubmit;
       currentSection.onload = !!currentSection.views.edit.onload;
-      currentSection.onchange = !!currentSection.views.edit.change;
+
 
       ctrl.currentSection = currentSection;
       ctrl.currentSection.error = {};
