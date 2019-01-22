@@ -360,32 +360,33 @@
         </button>
       </div>
   
-      <div class="row" ng-show="ctrl.currentSection.type == 'main' || ctrl.currentSection.isSameDataSource">
-        <div class="form-group">
-          <label for="">Layout</label>
-        </div>
-        <div class="col-sm-6 no-padding">
-          <label for="section-layout-horizontal">
-            <input type="radio" id="section-layout-horizontal" ng-model="ctrl.currentSection.views.edit.layout" name="layout" value="horizontal"> 
-            Horizontal
-          </label>
-        </div>
-        <div class="col-sm-6">
-          <label for="section-layout-vertical">
-            <input type="radio" id="section-layout-vertical" ng-model="ctrl.currentSection.views.edit.layout" name="layout" value="vertical"> 
-            Vertical
-          </label>
-        </div>
-        <br>
-        <div class="form-group">
-          <input type="checkbox" ng-model="ctrl.currentSection.views.edit.hiddenShareBt" id="btShare">
-          <label for="btShare"> Esconder botão de compartilhamento</label>
-        </div>
-      </div>
+
     </div>
     -->
     <!-- /Display -->
 
+    <div class="row" ng-show="ctrl.currentSection.type == 'main' || ctrl.currentSection.isSameDataSource">
+      <div class="form-group">
+        <label for="">Layout</label>
+      </div>
+      <div class="col-sm-6 no-padding">
+        <label for="section-layout-horizontal">
+          <input type="radio" id="section-layout-horizontal" ng-model="ctrl.currentSection.views.edit.layout" name="layout" value="horizontal"> 
+          Horizontal
+        </label>
+      </div>
+      <div class="col-sm-6">
+        <label for="section-layout-vertical">
+          <input type="radio" id="section-layout-vertical" ng-model="ctrl.currentSection.views.edit.layout" name="layout" value="vertical"> 
+          Vertical
+        </label>
+      </div>
+      <br>
+      <div class="form-group">
+        <input type="checkbox" ng-model="ctrl.currentSection.views.edit.hiddenShareBt" id="btShare">
+        <label for="btShare"> Esconder botão de compartilhamento</label>
+      </div>
+    </div>
 
     <!--  Events-->
     <div class="row" ng-show="ctrl.currentSection.type == 'main' || ctrl.currentSection.includeType == 'list'">
