@@ -1165,7 +1165,13 @@
       ctrl.fieldEdit = {};
     }
 
-    function removeField(field, section) {
+    function removeField($event, field, section) {
+      $event.stopPropagation();
+
+      if (ctrl.fieldEdit && ctrl.fieldEdit.name == field.name) {
+        showComponents();
+      }
+
       if (section.fieldsCol1.indexOf(field) != -1) {
         section.fieldsCol1.splice(section.fieldsCol1.indexOf(field), 1);
 
@@ -1174,10 +1180,6 @@
 
       } else {
         section.fieldsCol3.splice(section.fieldsCol3.indexOf(field), 1);
-      }
-
-      if (ctrl.fieldEdit && ctrl.fieldEdit.name == field.name) {
-        showComponents();
       }
     }
 

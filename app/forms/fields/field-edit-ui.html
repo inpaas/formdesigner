@@ -1,4 +1,4 @@
 <div class="field-edit-this col-sm-{[{field.views.edit.size}]}" ng-class="{'field-edit-active': ctrl.fieldEdit.name == field.name}">
   <i class="fa fa-pencil" ></i>
-  <i class="fa fa-trash" ng-click="ctrl.removeField(field, section)"></i>
+  <i class="fa fa-trash" ng-click="ctrl.removeField($event, field, section)"></i>
 </div>
