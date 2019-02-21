@@ -1714,21 +1714,26 @@
     }
 
     function setDisplayConfig(type, expression) {
-      if ((!type && !expression) || type == 'default') { return undefined; }
+      var config = {};
 
-      var config;
+      switch (type){
+      case 'map':
+      case 'function':
+        config.type = type;
+        config.expression = expression;
+        break;
 
-      if (type == 'map' || type == 'function') {
-        config = {
-          type: type,
-          expression: expression
-        };
-      } else {
-        config = {
-          'type': 'boolean',
-          'expression': type == 'true' ? true : false
-        };
+      case 'inherit':
+        config.type = type;
+        break;
+
+      case 'boolean':
+      default:
+        config.type = 'boolean';
+        config.expression = type == 'true' ? true : false;
+        break;
       }
+
       return config;
     }
 
@@ -1739,6 +1744,7 @@
 
       if (config.type == 'boolean') {
         result[keyType] = config.expression.toString();
+
       } else {
         result[keyType] = config.type;
         result[keyExpression] = config.expression;
@@ -1752,6 +1758,7 @@
 
       if (idForm) {
         promise = $state.go('^.edit-view-list', { id: idForm }, { reload: forceReload });
+
       } else {
         promise = $state.go('forms.new-view-list', {});
       }
