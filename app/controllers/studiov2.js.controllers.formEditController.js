@@ -555,6 +555,45 @@
       showConfigSection();
     }
 
+    function editSources(currentSection, type){
+      var modalInstance = $uibModal.open({
+        templateUrl: 'sources_onload.html',
+        controller: 'sourcesOnloadController',
+        controllerAs: 'ctrl',
+        resolve: {
+          sources: function() {
+            var sources = _.get(currentSection.views.edit, type.concat('.relatedSources') ) ? currentSection.views.edit[type].relatedSources : [];
+
+            if( _.get(currentSection.views.edit, type.concat('.sourceKey') ) ){
+              sources.unshift({
+                sourceKey: currentSection.views.edit[type].sourceKey,
+                functionName: currentSection.views.edit[type].functionName
+              });
+            }
+            
+            return sources;
+          }
+        }
+      });
+
+      modalInstance.result.then(function(result) {
+        if(result.length){
+          var first = result.splice(0, 1)[0];
+          _.set(currentSection.views.edit, type.concat('.sourceKey'), first.sourceKey);
+          _.set(currentSection.views.edit, type.concat('.functionName'), first.functionName);
+          
+          if(result.length){
+            currentSection.views.edit[type].relatedSources = result;
+          }
+
+        }else{
+          delete currentSection.views.edit[type];
+          delete currentSection[type];
+        }
+
+      });
+    }
+
     function onSelectTypeSection(type) {
       if (ctrl.currentSection.error && ctrl.currentSection.error.sectionType && type) {
         ctrl.currentSection.error.sectionType = null;
@@ -2107,7 +2146,8 @@
       validateConfigField: validateConfigField,
       editDependencies: editDependencies,
       onSelectFinder: onSelectFinder,
-      openModalCode: openModalCode
+      openModalCode: openModalCode,
+      editSources: editSources
     });
   }
 })();

@@ -403,25 +403,12 @@
           </div>
   
           <div class="form-group" ng-show="ctrl.currentSection.onload">
-            <label for="">SourceKey</label>
-            <input type="text" 
-                  class="form-control input-sm" 
-                  ng-blur="ctrl.validateConfigSection('event_onload')"
-                  ng-model="ctrl.currentSection.views.edit.onload.sourceKey" 
-            />
-            <small class="text-danger" ng-if="ctrl.currentSection.error.onload_sourceKey">Escreva o source key</small>
-          </div>
-  
-          <div class="form-group" ng-show="ctrl.currentSection.onload">
-            <label for="">Function Name</label>
-            <input type="text" 
-                  class="form-control input-sm" 
-                  ng-blur="ctrl.validateConfigSection('event_onload')"
-                  ng-model="ctrl.currentSection.views.edit.onload.functionName"
-            />
-            <small class="text-danger" ng-if="ctrl.currentSection.error.onload_functionName">Escreva o nome da função</small>
+            <button class="btn btn-default" ng-click="ctrl.editSources(ctrl.currentSection, 'onload')">
+              <span>Editar sources</span>
+            </button>
           </div>
         </div>
+
         <!--main section onsubmit -->
         <div class="row">
           <div class="form-group">
@@ -430,21 +417,9 @@
           </div>
 
           <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
-            <label for="">SourceKey</label>
-            <input type="text" 
-                  class="form-control input-sm" 
-                  ng-blur="ctrl.validateConfigSection('event_onsubmit')"
-                  ng-model="ctrl.currentSection.views.edit.onsubmit.sourceKey"/>
-            <small class="text-danger" ng-if="ctrl.currentSection.error.onsubmit_sourceKey">Escreva o source key</small>
-          </div>
-
-          <div class="form-group" ng-show="ctrl.currentSection.onsubmit">
-            <label for="">Function Name</label>
-            <input type="text" 
-                  class="form-control input-sm" 
-                  ng-blur="ctrl.validateConfigSection('event_onsubmit')"
-                  ng-model="ctrl.currentSection.views.edit.onsubmit.functionName"/>
-            <small class="text-danger" ng-if="ctrl.currentSection.error.onsubmit_functionName">Escreva o nome da função</small>
+            <button class="btn btn-default" ng-click="ctrl.editSources(ctrl.currentSection, 'onsubmit')">
+              <span>Editar sources</span>
+            </button>
           </div>
         </div>
       </div>
