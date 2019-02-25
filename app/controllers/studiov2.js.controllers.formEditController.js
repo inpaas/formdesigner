@@ -562,10 +562,13 @@
         controllerAs: 'ctrl',
         resolve: {
           sources: function() {
-            var sources = _.get(currentSection.views.edit, type.concat('.relatedSources') ) ? currentSection.views.edit[type].relatedSources : [];
+            var sources = [];
 
-            if( _.get(currentSection.views.edit, type.concat('.sourceKey') ) ){
-              sources.unshift({
+            if( angular.isArray(currentSection.views.edit[type]) ){
+              sources = currentSection.views.edit[type];
+              
+            }else if(angular.isObject(currentSection.views.edit[type])){
+              sources.push({
                 sourceKey: currentSection.views.edit[type].sourceKey,
                 functionName: currentSection.views.edit[type].functionName
               });
@@ -577,20 +580,18 @@
       });
 
       modalInstance.result.then(function(result) {
-        if(result.length){
-          var first = result.splice(0, 1)[0];
-          _.set(currentSection.views.edit, type.concat('.sourceKey'), first.sourceKey);
-          _.set(currentSection.views.edit, type.concat('.functionName'), first.functionName);
-          
-          if(result.length){
-            currentSection.views.edit[type].relatedSources = result;
+        if(!result.length){ 
+          delete currentSection.views.edit[type];
+
+        }else if(result.length == 1){
+          currentSection.views.edit[type] = {
+            sourceKey: result[0].sourceKey,
+            functionName: result[0].functionName
           }
 
         }else{
-          delete currentSection.views.edit[type];
-          delete currentSection[type];
+          currentSection.views.edit[type] = result;
         }
-
       });
     }
 

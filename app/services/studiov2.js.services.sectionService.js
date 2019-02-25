@@ -56,13 +56,9 @@ function SectionService(){
   }
 
   function validateOnload(configSection){
-    configSection.error.onload_sourceKey = !configSection.views.edit.onload.sourceKey;
-    configSection.error.onload_functionName = !configSection.views.edit.onload.functionName;
   }
 
   function validateOnSubmit(configSection){
-    configSection.error.onsubmit_sourceKey = !configSection.views.edit.onsubmit.sourceKey;
-    configSection.error.onsubmit_functionName = !configSection.views.edit.onsubmit.functionName;
   }
 
   function validateOnChange(configSection){
