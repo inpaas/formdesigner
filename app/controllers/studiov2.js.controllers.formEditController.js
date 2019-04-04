@@ -1727,6 +1727,10 @@
 
         if (permission.length) {
           ctrl.jsonModel.permissionId = permission[0].id;
+
+        }else{
+          delete ctrl.jsonModel.permissionId;
+          delete ctrl.jsonModel.permissionModuleKey;
         }
       }
 
