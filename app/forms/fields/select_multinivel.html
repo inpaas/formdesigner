@@ -1,0 +1,10 @@
+<div class="input-group" ng-if="field.meta.type == 'select_multinivel' && field.hasButton">
+  <select class="form-control input-sm"> </select>
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-primary btn-sm">
+      <i class="fa {[{field.buttonEvent.icon}]}"></i>
+    </button>
+  </span>
+</div>
+
+<select class="form-control input-sm" ng-if="field.meta.type == 'select' && !field.hasButton"> </select>

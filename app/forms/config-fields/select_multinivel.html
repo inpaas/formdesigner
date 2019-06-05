@@ -1,0 +1,11 @@
+<div class="form-group">
+	<button class="btn btn-sm btn-default" ng-click="ctrl.addMultinivel()">
+		<span ng-show="ctrl.fieldEdit.meta.levels.length">
+			<span ng-show="ctrl.fieldEdit.meta.levels.length > 1"> {[{ ctrl.fieldEdit.meta.levels.length }]} Níveis adicionados</span>
+			<span ng-show="ctrl.fieldEdit.meta.levels.length == 1"> 1 Nível adicionado</span>
+		</span>
+		<span ng-show="!ctrl.fieldEdit.meta.levels.length">
+			Adicionar níveis
+		</span>
+	</button> 
+</div>

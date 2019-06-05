@@ -1620,7 +1620,9 @@
     function selectEntityFinder(entityName, model, isSection) {
       if (!entityName) { return; }
 
-      model.finder && model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
+      !model.finder && (model.finder = {});
+      model.finder.relatedFinders && (model.finder.relatedFinders.length = 0);
+
       setFinder(entityName, model, isSection);
     }
 
@@ -1855,6 +1857,25 @@
       }
     }
 
+    function addMultinivel() {
+      var modalInstance = $uibModal.open({
+        templateUrl: 'multi.html',
+        size: 'lg',
+        scope: $scope,
+        controller: 'ConfigLevelsController',
+        controllerAs: 'vm',
+        resolve: {
+          levels: function(){
+            return ctrl.fieldEdit.meta.levels || [];
+          }
+        }
+      });
+
+      modalInstance.result.then(function(levels){
+        ctrl.fieldEdit.meta.levels = levels;
+      });
+    }
+
     function setBreadcrumbOnForm() {
       var bind = { bind: ctrl.breadcrumb.bind },
         path = { path: ctrl.breadcrumb.path };
@@ -1975,6 +1996,7 @@
           }
         });
       }
+
       validateConfigSection('sectionList', 'finder_relatedFinders');
     }
 
@@ -2152,7 +2174,8 @@
       editDependencies: editDependencies,
       onSelectFinder: onSelectFinder,
       openModalCode: openModalCode,
-      editSources: editSources
+      editSources: editSources,
+      addMultinivel: addMultinivel
     });
   }
 })();

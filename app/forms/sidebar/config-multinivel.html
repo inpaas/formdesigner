@@ -1,0 +1,129 @@
+<div class="modal-header">
+	<h3 class="modal-title" id="modal-title">Adicionar níveis</h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+	<div class="row" >
+		<div class="col-md-12">
+			<p class="alert alert-info">Adicione os níveis para preencher o campo atribuído. <br>
+				O valor do último nível será o valor do campo atribuído. </P>
+			</div>
+		</div>
+		
+		
+		<div ng-repeat="level in vm.levels track by $index" style="margin-bottom: 10px">
+			<div class="row">
+				<div class="col-sm-12">
+					<label for="" style="display: block;"> Origem dos dados</label>
+					<div class="radio" style="display: inline-block; margin-right: 10px;">
+						<input type="radio" ng-model="level.type" name="leveltype-{[{$index}]}" id="leveltypeE-{[{$index}]}" value="E" style="margin-left: 0">
+						<label for="leveltypeE-{[{$index}]}"> Entidade </label>
+					</div>
+					<div class="radio" style="display: inline-block;">
+						<input type="radio" id="leveltypeS-{[{$index}]}" ng-model="level.type" name="leveltype-{[{$index}]}" value="S" style="margin-left: 0">
+						<label for="leveltypeS-{[{$index}]}">Serviço</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="level.type == 'E'">
+			
+				<div class="form-group col-sm-3">
+					<label for="">Módulo</label>
+					
+					<div class="btn-group btn-block" uib-dropdown auto-close="outsideClick" is-open="openMod">
+						<button class="btn btn-primary dropdown-toggle btn-block" uib-dropdown-toggle>
+							{[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+						</button>
+						<ul class="dropdown-menu" uib-dropdown-menu>
+							<li>
+								<a> <input type="text" class="form-control input-sm" ng-model="moduleSearch"> </a>
+							</li>
+							<li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
+							<li ng-repeat="mod in app.modules | filter: {title: moduleSearch} track by $index" ng-click="ctrl.getModuleEntity(mod.id, level.module); $parent.$parent.openMod = false">
+								<a href="" ng-bind="mod.title"></a>
+							</li>
+							<li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="form-group col-sm-3">
+					<label for="">Entidade</label>
+					<input 
+					type="text" 
+					class="form-control input-sm" 
+					placeholder="Selecione" 
+					ng-model="level.finder.entityName" 
+					ng-blur="vm.getEntity(level.finder.entityName, level)"
+					typeahead-on-select="vm.getEntity(level.finder.entityName, level)"
+					uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
+					typeahead-min-length="0" 
+					/>
+				</div>
+				
+				<div class="form-group col-sm-3">
+					<label for="">Finder:</label>
+					<select 
+						class="form-control input-sm" 
+						ng-change="vm.getFinder(level.finder.entityName, level.finder.key, level)"
+						ng-model="level.finder.key"
+						ng-options="finder.key as finder.title for finder in level.entity.finders"
+					> </select>
+				</div>
+			
+			<div class="form-group col-sm-2">
+				<label for="">Campo</label>
+				<select 
+					class="form-control input-sm" 
+					ng-model="level.finder.fieldIndex" 
+					ng-blur="vm.setFieldBind(level, $index)"
+					ng-options="$index as field.fieldName for field in level.selectedFinder.fields"
+				>
+				</select>
+			</div>
+			<div class="col-md-1 bnt-remove-nivel" ng-click="vm.removeLevel($index)">
+				<button class="btn btn-danger" style="margin-top: 24px">
+					<i class="fa fa-trash"></i>
+				</button>	
+			</div>
+
+		</div>
+		
+		<div class="row" ng-show="level.type == 'S'">
+			<div class="col-md-5 form-group">
+				<label for="">Chave do código</label>
+				<div>
+					<input type="text" placeholder="EX: app.main.key" class="form-control input-sm" ng-model="level.sourceKey">
+				</div>
+			</div>
+			<div class="col-md-3 form-group">
+				<label for="">Método</label>
+				<div>
+					<input type="text" placeholder="Ex: functionName" class="form-control input-sm" ng-model="level.functionName">
+				</div>
+			</div>
+			<div class="col-md-1">
+				<button class="btn btn-danger" style="margin-top: 24px;" ng-click="vm.removeLevel($index)">
+					<i class="fa fa-remove"></i>
+				</button>	
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<button class="btn btn-default" ng-click="vm.addLevel(level)">
+				<i class="fa fa-plus"></i>
+				<span>Adicionar níveis</span>
+			</button>
+		</div>
+	</div>	
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-primary" type="button" ng-click="vm.ok(vm.levels)">OK</button>
+	<button class="btn btn-warning" type="button" ng-click="$dismiss()">Cancel</button>
+</div>
