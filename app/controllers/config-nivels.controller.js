@@ -50,7 +50,7 @@
 
     function setFieldBind(level, index){
       var _field = level.selectedFinder.fields[index];
-      level.finder.fieldBind = level.entity.attributes.filter(function(field){ return field.name == _field.fieldName; })[0].alias;
+      level.finder.fieldAlias = level.entity.attributes.filter(function(field){ return field.name == _field.fieldName; })[0].alias;
     }
 
     function ok(){
