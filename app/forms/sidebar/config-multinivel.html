@@ -120,7 +120,7 @@
 					type="text" 
 					class="form-control input-sm config-multinivel-bind" 
 					ng-model="level.bind"
-					uib-typeahead="field.alias as field.alias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}" 
+					uib-typeahead="field.alias as field.fieldAlias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}" 
 					typeahead-min-length="0" 
 	      />
 			</div>
