@@ -48,15 +48,18 @@
       });
     }
 
-    function setFieldBind(level, index){
-      var _field = level.selectedFinder.fields[index];
-      level.finder.fieldAlias = level.entity.attributes.filter(function(field){ return field.name == _field.fieldName; })[0].alias;
+    function onChangeFinderField(level){
+      level.entity.attributes.forEach(function(field, index){ 
+        if(index == level.finder.fieldIndex){
+          level.finder.fieldAlias = field.alias;
+        }
+      });
     }
 
     function ok(){
       var levels = []; 
       me.levels.forEach(function(level){
-        if(level.type == 'E' && level.finder.key && level.finder.entityName && level.finder.fieldBind){
+        if(level.type == 'E' && level.finder.key && level.finder.entityName && level.finder.fieldAlias){
           levels.push({
             finder: level.finder,
             type: level.type,
@@ -81,7 +84,7 @@
       removeLevel: removeLevel,
       getFinder: getFinder,
       getEntity: getEntity,
-      setFieldBind: setFieldBind,
+      setFieldBind: onChangeFinderField,
       ok: ok
     })
   }

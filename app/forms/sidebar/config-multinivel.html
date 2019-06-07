@@ -11,7 +11,7 @@
 		</div>
 		
 		
-		<div ng-repeat="level in vm.levels track by $index" style="margin-bottom: 10px">
+		<div ng-repeat="level in vm.levels track by $index" class="level-content">
 			<div class="row">
 				<div class="col-sm-3">
 					<label for="" style="display: block;"> Origem dos dados</label>
@@ -78,9 +78,9 @@
 				<select 
 					class="form-control input-sm" 
 					ng-model="level.finder.fieldIndex" 
-					ng-blur="vm.setFieldBind(level, $index)"
-					ng-options="$index as field.fieldName for field in level.selectedFinder.fields"
+					ng-blur="vm.setFieldBind(level, fieldName)"
 				>
+					<option value="{[{ $index }]}" label="{[{ field.fieldName }]}" ng-repeat="field in level.selectedFinder.fields"></option>	
 				</select>
 			</div>
 			<div class="form-group col-sm-3">
@@ -132,7 +132,7 @@
 			</div>
 
 		</div>
-
+		<hr>
 	</div>
 
 	<div class="row">
