@@ -2044,9 +2044,8 @@ label[for="pattern-ignorecase"]{
   z-index: 1000;
   opacity: 1;
   visibility: visible;
-
- 
 }
+
 .loadwait > span {
   position: absolute;
   top: calc(50% - 27px);
@@ -2064,4 +2063,9 @@ label[for="pattern-ignorecase"]{
 .ready .loadwait {
   opacity: 0;
   visibility: hidden;
+}
+
+.config-multinivel-bind + .dropdown-menu{
+  max-height: 300px;
+  overflow: auto;
 }

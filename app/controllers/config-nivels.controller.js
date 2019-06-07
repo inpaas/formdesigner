@@ -58,13 +58,17 @@
       me.levels.forEach(function(level){
         if(level.type == 'E' && level.finder.key && level.finder.entityName && level.finder.fieldBind){
           levels.push({
-            finder: level.finder
+            finder: level.finder,
+            type: level.type,
+            bind: level.bind
           });
 
         }else if(level.sourceKey && level.functionName){
           levels.push({
             sourceKey: level.sourceKey,
-            functionName: level.functionName
+            functionName: level.functionName,
+            type: level.type,
+            bind: level.bind
           });
         }
       });

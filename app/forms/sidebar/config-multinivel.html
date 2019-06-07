@@ -13,7 +13,7 @@
 		
 		<div ng-repeat="level in vm.levels track by $index" style="margin-bottom: 10px">
 			<div class="row">
-				<div class="col-sm-12">
+				<div class="col-sm-3">
 					<label for="" style="display: block;"> Origem dos dados</label>
 					<div class="radio" style="display: inline-block; margin-right: 10px;">
 						<input type="radio" ng-model="level.type" name="leveltype-{[{$index}]}" id="leveltypeE-{[{$index}]}" value="E" style="margin-left: 0">
@@ -24,11 +24,8 @@
 						<label for="leveltypeS-{[{$index}]}">Serviço</label>
 					</div>
 				</div>
-			</div>
-
-			<div class="row" ng-show="level.type == 'E'">
-			
-				<div class="form-group col-sm-3">
+							
+				<div class="form-group col-sm-3" ng-show="level.type == 'E'">
 					<label for="">Módulo</label>
 					
 					<div class="btn-group btn-block" uib-dropdown auto-close="outsideClick" is-open="openMod">
@@ -47,6 +44,10 @@
 						</ul>
 					</div>
 				</div>
+			</div>
+
+			<div class="row" ng-show="level.type == 'E'">
+
 				
 				<div class="form-group col-sm-3">
 					<label for="">Entidade</label>
@@ -73,7 +74,7 @@
 				</div>
 			
 			<div class="form-group col-sm-2">
-				<label for="">Campo</label>
+				<label for="">Campo do finder</label>
 				<select 
 					class="form-control input-sm" 
 					ng-model="level.finder.fieldIndex" 
@@ -81,6 +82,16 @@
 					ng-options="$index as field.fieldName for field in level.selectedFinder.fields"
 				>
 				</select>
+			</div>
+			<div class="form-group col-sm-3">
+				<label for="">Atribuir resultado em:</label>
+				<input 
+					type="text" 
+					class="form-control input-sm config-multinivel-bind" 
+					ng-model="level.bind"
+					uib-typeahead="field.alias as field.alias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}" 
+					typeahead-min-length="0" 
+	      />
 			</div>
 			<div class="col-md-1 bnt-remove-nivel" ng-click="vm.removeLevel($index)">
 				<button class="btn btn-danger" style="margin-top: 24px">
@@ -103,6 +114,17 @@
 					<input type="text" placeholder="Ex: functionName" class="form-control input-sm" ng-model="level.functionName">
 				</div>
 			</div>
+			<div class="form-group col-sm-3">
+				<label for="">Atribuir resultado em:</label>
+				<input 
+					type="text" 
+					class="form-control input-sm config-multinivel-bind" 
+					ng-model="level.bind"
+					uib-typeahead="field.alias as field.alias for field in ctrl.entityForm.attributes | filter:{alias: $viewValue}" 
+					typeahead-min-length="0" 
+	      />
+			</div>
+
 			<div class="col-md-1">
 				<button class="btn btn-danger" style="margin-top: 24px;" ng-click="vm.removeLevel($index)">
 					<i class="fa fa-remove"></i>
