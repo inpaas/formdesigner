@@ -30,14 +30,14 @@
 					
 					<div class="btn-group btn-block" uib-dropdown auto-close="outsideClick" is-open="openMod">
 						<button class="btn btn-primary dropdown-toggle btn-block" uib-dropdown-toggle>
-							{[{ ctrl.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
+							{[{ level.moduleEntity.title || 'Módulos' }]} <i class="caret"></i>
 						</button>
 						<ul class="dropdown-menu" uib-dropdown-menu>
 							<li>
 								<a> <input type="text" class="form-control input-sm" ng-model="moduleSearch"> </a>
 							</li>
 							<li class="dropdown-header" ng-repeat-start="app in ctrl.apps track by $index" ng-bind="app.title"> </li>
-							<li ng-repeat="mod in app.modules | filter: {title: moduleSearch} track by $index" ng-click="ctrl.getModuleEntity(mod.id, level.module); $parent.$parent.openMod = false">
+							<li ng-repeat="mod in app.modules | filter: {title: moduleSearch} track by $index" ng-click="vm.getModuleEntity(mod.id, level); $parent.$parent.openMod = false">
 								<a href="" ng-bind="mod.title"></a>
 							</li>
 							<li ng-repeat-end role="separator" class="divider" ng-hide="$last"></li>
@@ -58,7 +58,7 @@
 					ng-model="level.finder.entityName" 
 					ng-blur="vm.getEntity(level.finder.entityName, level)"
 					typeahead-on-select="vm.getEntity(level.finder.entityName, level)"
-					uib-typeahead="entity.name as entity.name for entity in ctrl.entities | filter:{name: $viewValue}"
+					uib-typeahead="entity.name as entity.name for entity in level.entities | filter:{name: $viewValue}"
 					typeahead-min-length="0" 
 					/>
 				</div>

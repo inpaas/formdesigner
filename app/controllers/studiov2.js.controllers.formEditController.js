@@ -1862,6 +1862,7 @@
         templateUrl: 'multi.html',
         size: 'lg',
         scope: $scope,
+        windowClass: 'multiNivel-container',
         controller: 'ConfigLevelsController',
         controllerAs: 'vm',
         resolve: {
@@ -2175,7 +2176,8 @@
       onSelectFinder: onSelectFinder,
       openModalCode: openModalCode,
       editSources: editSources,
-      addMultinivel: addMultinivel
+      addMultinivel: addMultinivel,
+      getModuleIdByKey: getModuleIdByKey
     });
   }
 })();

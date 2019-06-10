@@ -20,8 +20,13 @@
           getEntity(level.finder.entityName, level);
           getFinder(level.finder.entityName, level.finder.key, level);
         }
+
+        //scope pai
+        var moduleid = $scope.ctrl.getModuleIdByKey(level.moduleKey);
+        getModuleEntity(moduleid, level);
       });
     }
+
 
     function addLevel(){
       me.levels.push({});
@@ -56,24 +61,33 @@
       });
     }
 
+    function getModuleEntity(idModule, model) {
+      httpService.getModule(idModule).then(function(response) {
+        model.moduleEntity = response.data;
+        model.entities = response.data['data-sources'];
+      });
+    }
+
     function ok(){
       var levels = []; 
       me.levels.forEach(function(level){
+        var _level = {};
+
         if(level.type == 'E' && level.finder.key && level.finder.entityName && level.finder.fieldAlias){
-          levels.push({
-            finder: level.finder,
-            type: level.type,
-            bind: level.bind
-          });
+          _level.finder = level.finder;
+          _level.bind = level.bind;
 
         }else if(level.sourceKey && level.functionName){
-          levels.push({
-            sourceKey: level.sourceKey,
-            functionName: level.functionName,
-            type: level.type,
-            bind: level.bind
-          });
+          _level.sourceKey = level.sourceKey;
+          _level.unctionName = level.functionName;
         }
+
+        _level.type = level.type;
+        _level.bind = level.bind;
+        _level.type = level.type;
+        _level.moduleKey = level.moduleEntity.key;
+
+        levels.push(_level);
       });
 
       $scope.$close(levels);
@@ -85,7 +99,8 @@
       getFinder: getFinder,
       getEntity: getEntity,
       setFieldBind: onChangeFinderField,
-      ok: ok
+      ok: ok,
+      getModuleEntity: getModuleEntity
     })
   }
 })(window);
