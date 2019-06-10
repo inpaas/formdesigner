@@ -44,9 +44,33 @@
     }
 
     function getEntity(entityName, level){
-      httpService.getEntity(entityName).then(function(response){
+      return httpService.getEntity(entityName).then(function(response){
         level.entity = response.data;
       });
+    }
+
+    function onSelectEntity(entityName, level, indexLevel){
+      getEntity(entityName, level).then(function(){
+      });
+    }
+
+    function getDependencies(entity, levelIndex){
+      var refs = [];
+
+      entity.references.forEach(function(ref){
+        me.levels.slice(0, levelIndex).forEach(function(level){
+          if(level.type == 'E' && ref.entity == level.finder.entityName){
+            refs.push({
+              bindRef: entity.attributes.filter(function(attr){ 
+                return attr.name == ref.field;
+              })[0].alias,
+              bindForm: level.bind
+            });
+          }
+        });
+      });
+
+      return refs;
     }
 
     function getFinder(entityName, finderKey, level) {
@@ -72,40 +96,45 @@
 
     function ok(){
       var levels = []; 
-      me.levels.forEach(function(level){
+      me.levels.forEach(function(level, index){
         var _level = {};
-
-        if(level.type == 'E' && level.finder.key && level.finder.entityName && level.finder.fieldAlias){
-          _level.finder = level.finder;
-          _level.bind = level.bind;
-
-        }else if(level.sourceKey && level.functionName){
-          _level.sourceKey = level.sourceKey;
-          _level.unctionName = level.functionName;
-        }
 
         _level.type = level.type;
         _level.bind = level.bind;
-        _level.type = level.type;
 
         if(level.moduleEntity){
-	        _level.moduleKey = level.moduleEntity.key;
+          _level.moduleKey = level.moduleEntity.key;
         }
 
-        levels.push(_level);
+        if(level.type == 'E' && level.finder.key && level.finder.entityName && level.finder.fieldAlias){
+          _level.finder = level.finder;
+
+          if(index > 0){
+            _level.finder.dependencies = getDependencies(level.entity, index);
+          }
+
+          levels.push(_level);
+
+        }else if(level.sourceKey && level.functionName){
+          _level.sourceKey = level.sourceKey;
+          _level.functionName = level.functionName;
+          levels.push(_level);
+        }
+
       });
 
       $scope.$close(levels);
     }
 
     angular.extend(me, {
+      ok: ok,
       addLevel: addLevel,
       removeLevel: removeLevel,
       getFinder: getFinder,
       getEntity: getEntity,
       setFieldBind: onChangeFinderField,
-      ok: ok,
-      getModuleEntity: getModuleEntity
+      getModuleEntity: getModuleEntity,
+      onSelectEntity: onSelectEntity
     })
   }
 })(window);

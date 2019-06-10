@@ -56,8 +56,8 @@
 					class="form-control input-sm" 
 					placeholder="Selecione" 
 					ng-model="level.finder.entityName" 
-					ng-blur="vm.getEntity(level.finder.entityName, level)"
-					typeahead-on-select="vm.getEntity(level.finder.entityName, level)"
+					ng-blur="vm.onSelectEntity(level.finder.entityName, level, $index)"
+					typeahead-on-select="vm.onSelectEntity(level.finder.entityName, level, $index)"
 					uib-typeahead="entity.name as entity.name for entity in level.entities | filter:{name: $viewValue}"
 					typeahead-min-length="0" 
 					/>
