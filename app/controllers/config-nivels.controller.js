@@ -21,9 +21,11 @@
           getFinder(level.finder.entityName, level.finder.key, level);
         }
 
-        //scope pai
-        var moduleid = $scope.ctrl.getModuleIdByKey(level.moduleKey);
-        getModuleEntity(moduleid, level);
+        if(level.moduleKey){
+          //scope pai
+          var moduleid = $scope.ctrl.getModuleIdByKey(level.moduleKey);
+          getModuleEntity(moduleid, level);
+        }
       });
     }
 
@@ -85,7 +87,10 @@
         _level.type = level.type;
         _level.bind = level.bind;
         _level.type = level.type;
-        _level.moduleKey = level.moduleEntity.key;
+
+        if(level.moduleEntity){
+	        _level.moduleKey = level.moduleEntity.key;
+        }
 
         levels.push(_level);
       });
