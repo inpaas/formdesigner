@@ -9,3 +9,15 @@
 		</span>
 	</button> 
 </div>
+
+<div class="form-group">
+	<label for="">Dependências</label>
+	<select 
+		class="form-control input-sm" 
+		multiple 
+		ng-options="field.alias as field.alias for field in ctrl.allFields"
+		ng-change="ctrl.onChangeDepMultinivel(ctrl.fieldEdit.dependencies, ctrl.fieldEdit)"
+		ng-model="ctrl.fieldEdit.dependencies"
+	>
+	</select>
+</div>

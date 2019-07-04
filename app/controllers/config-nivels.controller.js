@@ -50,27 +50,29 @@
     }
 
     function onSelectEntity(entityName, level, indexLevel){
-      getEntity(entityName, level).then(function(){
-      });
+      getEntity(entityName, level).then(function(){ });
     }
 
-    function getDependencies(entity, levelIndex){
-      var refs = [];
+    function setLevelsDependencies(prevLevel, nextLevel){
+      var deps = [];
 
-      entity.references.forEach(function(ref){
-        me.levels.slice(0, levelIndex).forEach(function(level){
-          if(level.type == 'E' && ref.entity == level.finder.entityName){
-            refs.push({
-              bindRef: entity.attributes.filter(function(attr){ 
+      if(prevLevel.type == 'E' && nextLevel.type == 'E'){
+        nextLevel.entity.references.forEach(function(ref){
+          if(ref.entity == prevLevel.finder.entityName){
+            deps.push({
+              bindForm: prevLevel.bind,
+              bindRef: nextLevel.entity.attributes.filter(function(attr){ 
                 return attr.name == ref.field;
-              })[0].alias,
-              bindForm: level.bind
+              })[0].alias
             });
           }
         });
-      });
 
-      return refs;
+      }else{
+        deps.push(prevLevel.bind);
+      }
+
+      return deps;
     }
 
     function getFinder(entityName, finderKey, level) {
@@ -96,8 +98,9 @@
 
     function ok(){
       var levels = []; 
+
       me.levels.forEach(function(level, index){
-        var _level = {};
+        var _level = {}, dependencies;
 
         _level.type = level.type;
         _level.bind = level.bind;
@@ -106,18 +109,21 @@
           _level.moduleKey = level.moduleEntity.key;
         }
 
+        if(index > 0){
+          dependencies = setLevelsDependencies(me.levels[index -1], level);
+        }
+
         if(level.type == 'E' && level.finder.key && level.finder.entityName && level.finder.fieldAlias){
           _level.finder = level.finder;
+          _level.entity = level.entity;
 
-          if(index > 0){
-            _level.finder.dependencies = getDependencies(level.entity, index);
-          }
-
+          (index > 0) && (_level.finder.dependencies = dependencies);
           levels.push(_level);
 
         }else if(level.sourceKey && level.functionName){
           _level.sourceKey = level.sourceKey;
           _level.functionName = level.functionName;
+          (index > 0) && (_level.dependencies = dependencies);
           levels.push(_level);
         }
 

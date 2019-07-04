@@ -814,10 +814,21 @@
     function saveEditField() {
       FieldValidationService.validateConfigField(ctrl.fieldEdit);
 
+      if($scope.waitToFinishEditField){
+        ctrl.fieldEdit.waitToFinishEditField = true;  
+
+        $scope.$on('readyToFinish', function(){
+          ctrl.fieldEdit.waitToFinishEditField = false;
+          $scope.waitToFinishEditField = false;
+          saveEditField();
+        });
+
+        return;
+      }
+
       if (!ctrl.sections.length || configIsInvalid(ctrl.fieldEdit.error)) { return false; }
 
-      var fieldEdit = ctrl.fieldEdit,
-        section = ctrl.sections[ctrl.sectionSelectedIndex];
+      var fieldEdit = ctrl.fieldEdit;
 
       fieldEdit.name = 'field-'
         .concat( fieldEdit.meta.bind || '' )
@@ -865,17 +876,8 @@
         delete fieldEdit.meta.thousandSeparator;
       }
 
-      if (angular.isUndefined(fieldEdit.index)) {
-        addNewField();
-
-      } else if (fieldEdit.col == 1) {
-        section.fieldsCol1[fieldEdit.index] = fieldEdit;
-
-      } else if (fieldEdit.col == 2) {
-        section.fieldsCol2[fieldEdit.index] = fieldEdit;
-
-      } else {
-        section.fieldsCol3[fieldEdit.index] = fieldEdit;
+      if(fieldEdit.meta.type == 'select_multinivel'){
+        setDependenciesForFirstLevel(fieldEdit);
       }
 
       if ((!fieldEdit.sourceKey && !fieldEdit.functionName)) {
@@ -916,11 +918,69 @@
       }
 
       delete fieldEdit.rawEntityField;
-      delete fieldEdit.col;
 
+      finishEditFiel(fieldEdit);
+    }
+
+    function finishEditFiel(fieldEdit){
       ctrl.fieldEdit = {};
+      putEditedFieldOnSection(fieldEdit);
       showComponents();
     }
+
+    function getEntityForDependence(deps, fieldEdit){
+      if(!deps.length){
+        return;
+      }
+
+      deps.forEach(function(dep){
+        var field = getFormField(dep);
+
+        if(field.meta.type == 'select_multinivel'){
+          var lastLevel = field.meta.levels[field.meta.levels.length - 1];
+
+          if(lastLevel.type == 'E' && !lastLevel.entity){
+            $scope.waitToFinishEditField = true;
+
+            getEntity(lastLevel.finder.entityName).then(function(entity){
+              lastLevel.entity = entity;
+              var firstLevel = fieldEdit.meta.levels[0];
+              
+              if(firstLevel.type == 'E' && !firstLevel.entity){
+                getEntity(firstLevel.finder.entityName).then(function(entity){
+                  firstLevel.entity = entity;
+                  $scope.waitToFinishEditField = false;
+                });
+
+              }else{
+                $scope.waitToFinishEditField = false;
+              }
+            }).catch(function(){ $scope.waitToFinishEditField = false; });
+          }
+        }
+      });
+    }
+
+    function putEditedFieldOnSection(fieldEdit){
+      var section = ctrl.sections[ctrl.sectionSelectedIndex];
+
+      if (angular.isUndefined(fieldEdit.index)) {
+        addNewField();
+
+      }else if(!fieldEdit.col){
+        section.fields[fieldEdit.index] = fieldEdit;
+
+      } else if (fieldEdit.col == 1) {
+        section.fieldsCol1[fieldEdit.index] = fieldEdit;
+
+      } else if (fieldEdit.col == 2) {
+        section.fieldsCol2[fieldEdit.index] = fieldEdit;
+
+      } else {
+        section.fieldsCol3[fieldEdit.index] = fieldEdit;
+      }
+    }
+
 
     function getReferencesFk(fieldEdit) {
       fieldEdit.depReferences = [];
@@ -1113,6 +1173,8 @@
         _formField.col = 3;
       }
 
+      getAllFields(formField);
+
       var formField = angular.copy(_formField),
         sectionIndex = ctrl.sections.indexOf(section);
 
@@ -1148,9 +1210,6 @@
 
       if (formField.finder) {
         formField.dataSourceType = 'E';
-
-        getAllFields(formField);
-
         setFinderConfig(formField.finder.entityName, formField).then(function(config){
           angular.extend(formField, config);
         });
@@ -1975,6 +2034,95 @@
       }
     }
 
+    function setDependenciesForFirstLevel(fieldEdit){
+      if(!fieldEdit.dependencies || fieldEdit.dependencies && !fieldEdit.dependencies.length){
+
+        if(fieldEdit.meta.levels[0].finder){
+          delete fieldEdit.meta.levels[0].finder.dependencies;
+
+        }else{
+          delete fieldEdit.meta.levels[0].dependencies;
+        }
+        return;
+      }
+
+      var fieldEditFirstLevel = fieldEdit.meta.levels[0];
+      var deps = [];
+
+      fieldEdit.dependencies.forEach(function(dep){
+        var fieldLinked = getFormField(dep);
+
+        if(fieldLinked.meta.type == 'select_multinivel'){
+          var _dep = setDepsBetweenLevels(fieldLinked, fieldEditFirstLevel);
+          _dep.formDep = true;
+          deps.push( _dep );
+
+        }else{
+          deps.push({
+            bindForm: fieldLinked.meta.bind, 
+            bindRef: fieldLinked.meta.bind,
+            formDep: true
+          });
+        }
+      });
+
+      if(fieldEditFirstLevel.type == 'E'){
+        fieldEditFirstLevel.finder.dependencies = deps;
+
+      }else{
+        fieldEditFirstLevel.dependencies = deps;
+      }
+    }
+
+    function setDepsBetweenLevels(fieldLinked, fieldEditFirstLevel){
+      //Pega o último nível desse field 
+      var fieldLinkedLastLevel = fieldLinked.meta.levels[fieldLinked.meta.levels.length - 1];
+
+      if(fieldEditFirstLevel.type == 'E' && fieldLinkedLastLevel.type == 'E'){
+        //Encontra a referencia
+        var ref = fieldEditFirstLevel.entity.references.filter(function(r){ 
+          return r.entity == fieldLinkedLastLevel.finder.entityName; 
+        })[0];
+
+        return {
+          bindForm: fieldLinkedLastLevel.bind,
+          bindRef: fieldEditFirstLevel.entity.attributes.filter(function(f){ 
+            return f.name == ref.field;
+          })[0].alias
+        };
+
+      }else{
+        return {
+          bindForm: fieldLinkedLastLevel.bind,
+          bindRef: fieldLinkedLastLevel.bind
+        }
+      }
+    }
+
+    function getFormField(bind){
+      var field;
+
+      ctrl.sections.forEach(function(section){
+        if(section.isSameDataSource || section.type == 'main'){
+
+          if(section.fieldsCol1.length){
+            field = section.fieldsCol1.filter(function(f){ return f.meta.bind == bind; });
+          }
+
+          if(!field && section.fiedsCol2.length){
+            field = section.fieldsCol2.filter(function(f){ return f.meta.bind == bind; });
+          }
+
+          if(!field && section.fieldsCol3.length){
+            field = section.fieldsCol3.filter(function(f){ return f.meta.bind == bind; });
+          }
+
+        }
+      });
+
+      return field[0];
+    }
+
     function openFormTab(includeSection) {
       if (window.parent.fn_open_form_tab) {
         window.parent.fn_open_form_tab(includeSection.id, includeSection.name, 'v2');
@@ -2064,6 +2212,9 @@
         resolve:{
           fieldsEntityFinder: function(){
             return fieldEdit.entity.attributes;
+          },
+          fieldsReference: function(){
+            return ctrl.entityForm.references;
           },
           fieldsEntityForm: function(){
             return getAllFields();
@@ -2177,7 +2328,9 @@
       openModalCode: openModalCode,
       editSources: editSources,
       addMultinivel: addMultinivel,
-      getModuleIdByKey: getModuleIdByKey
+      getModuleIdByKey: getModuleIdByKey,
+      getAllFields: getAllFields,
+      onChangeDepMultinivel: getEntityForDependence
     });
   }
 })();
