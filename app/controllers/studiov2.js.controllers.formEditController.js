@@ -315,7 +315,8 @@
             },
             onload: {},
             onchange: {},
-            onsubmit: {}
+            onsubmit: {},
+            onclose: {}
           }
         },
         visibilityType: 'true'
@@ -391,6 +392,7 @@
 
       !currentSection.onload && (delete currentSection.views.edit.onload);
       !currentSection.onsubmit && (delete currentSection.views.edit.onsubmit);
+      !currentSection.onclose && (delete currentSection.views.edit.onclose);
 
       if (currentSection.type == 'main') {
         angular.extend(ctrl.jsonModel.views, currentSection.views);
@@ -548,7 +550,7 @@
 
       currentSection.onsubmit = !!currentSection.views.edit.onsubmit;
       currentSection.onload = !!currentSection.views.edit.onload;
-
+      currentSection.onclose = !!currentSection.views.edit.onclose;
 
       ctrl.currentSection = currentSection;
       ctrl.currentSection.error = {};

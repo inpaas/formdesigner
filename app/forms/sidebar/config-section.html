@@ -422,6 +422,18 @@
             </button>
           </div>
         </div>
+
+        <div class="row">
+          <div class="form-group">
+            <input type="checkbox" id="section-onclose" ng-model="ctrl.currentSection.onclose">
+            <label for="section-onclose">Ao fechar o formulário</label>
+          </div>
+          <div class="form-group" ng-show="ctrl.currentSection.onclose">
+            <button class="btn btn-default" ng-click="ctrl.editSources(ctrl.currentSection, 'onclose')">
+              <span>Editar sources</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       <div ng-show="ctrl.currentSection.includeType == 'list'">
