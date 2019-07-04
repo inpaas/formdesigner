@@ -1,10 +1,11 @@
-angular
+(function(){ 
+  angular
   .module('studio-v2')
   .controller('ConfigDependencies', ConfigDependencies);
 
-ConfigDependencies.$inject = ['$uibModalInstance', 'fieldsEntityFinder', 'fieldsEntityForm', 'dependencies'];
+ConfigDependencies.$inject = ['$uibModalInstance', 'fieldsEntityFinder', 'fieldsReference',  'fieldsEntityForm', 'dependencies'];
 
-function ConfigDependencies($uibModalInstance, fieldsEntityFinder, fieldsEntityForm, dependencies){
+function ConfigDependencies($uibModalInstance, fieldsEntityFinder, fieldsReference, fieldsEntityForm, dependencies){
   var ctrl = this;
   var newDep = {
     bindForm: '',
@@ -29,7 +30,17 @@ function ConfigDependencies($uibModalInstance, fieldsEntityFinder, fieldsEntityF
       ctrl.dependencies.push(ctrl.newDep);
     }
 
+    ctrl.dependencies.forEach(function(dep){
+      fieldsReference.forEach(function(field){
+        if(field.field == dep.fieldName){
+          dep.fieldAlias = field.alias;
+        }
+      });
+    });
+
     $uibModalInstance.close(ctrl.dependencies);
   }
 
 }
+
+})()
