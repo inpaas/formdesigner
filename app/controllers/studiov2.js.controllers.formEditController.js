@@ -925,8 +925,8 @@
     }
 
     function finishEditFiel(fieldEdit){
-      ctrl.fieldEdit = {};
       putEditedFieldOnSection(fieldEdit);
+      ctrl.fieldEdit = {};
       showComponents();
     }
 
