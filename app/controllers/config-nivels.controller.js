@@ -49,28 +49,30 @@
       });
     }
 
-    function onSelectEntity(entityName, level, indexLevel){
+    function onSelectEntity(entityName, level){
       getEntity(entityName, level).then(function(){ });
     }
 
-    function setLevelsDependencies(prevLevel, nextLevel){
+    function setLevelsDependencies(prevLevels, nextLevel){
       var deps = [];
 
-      if(prevLevel.type == 'E' && nextLevel.type == 'E'){
-        nextLevel.entity.references.forEach(function(ref){
-          if(ref.entity == prevLevel.finder.entityName){
-            deps.push({
-              bindForm: prevLevel.bind,
-              bindRef: nextLevel.entity.attributes.filter(function(attr){ 
-                return attr.name == ref.field;
-              })[0].alias
-            });
-          }
-        });
+      prevLevels.forEach(function(prevLevel){
+        if(prevLevel.type == 'E' && nextLevel.type == 'E'){
+          nextLevel.entity.references.forEach(function(ref){
+            if(ref.entity == prevLevel.finder.entityName){
+              deps.push({
+                bindForm: prevLevel.bind,
+                bindRef: nextLevel.entity.attributes.filter(function(attr){ 
+                  return attr.name == ref.field;
+                })[0].alias
+              });
+            }
+          });
 
-      }else{
-        deps.push(prevLevel.bind);
-      }
+        }else{
+          deps.push(prevLevel.bind);
+        }
+      });
 
       return deps;
     }
@@ -110,7 +112,7 @@
         }
 
         if(index > 0){
-          dependencies = setLevelsDependencies(me.levels[index -1], level);
+          dependencies = setLevelsDependencies(me.levels.slice(0, index), level);
         }
 
         if(level.type == 'E' && level.finder.key && level.finder.entityName && level.finder.fieldAlias){
