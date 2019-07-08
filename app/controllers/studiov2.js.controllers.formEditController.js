@@ -559,10 +559,13 @@
 
     function editSources(currentSection, type){
       var modalInstance = $uibModal.open({
-        templateUrl: 'sources_onload.html',
+        templateUrl: type == 'onclose' ? 'sources_onclose.html': 'sources_onload.html',
         controller: 'sourcesOnloadController',
         controllerAs: 'ctrl',
         resolve: {
+          type: function(){
+            return type;
+          },
           sources: function() {
             var sources = [];
 

@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Evento - Ao fechar o formulário</h3>
+
+  <div class="row">
+    <div class="alert alert-info">
+      <p>Para esse evento, deve-se criar um REST Service no Studio</p>
+      <p>Mais informações, consulte a documentação: <a href="https://docs.inpaas.com/docs/rest-services">Rest Services</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body" id="modal-body">
+  <div class="form-group type-map">
+    <div class="row" ng-repeat="source in ctrl.sources">
+      <div class="form-group col-sm-4 no-padding">
+        <label for="">Rest Service Name</label>
+        <input 
+          type="text" 
+          class="form-control input-sm" 
+          placeholder= "Selecione"
+          ng-model="source.sourceKey" 
+        />
+      </div>
+
+      <div class="form-group col-sm-5 col-sm-offset-1 no-padding">
+        <label for="">Path: <small>Sem a primeira barra</small></label>
+        <input class="form-control input-sm" placeholder="Escreva aqui" type="text" ng-model="source.functionName">
+      </div>
+
+      <div class="form-group col-sm-2 no-padding">
+        <button class="btn btn-danger btn-style-plus" ng-click="ctrl.sources[0] = {}">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="ctrl.ok()">OK</button>
+  <button class="btn btn-warning" type="button" ng-click="ctrl.cancel()">Cancel</button>
+</div>

@@ -6,12 +6,14 @@
 	<div class="row" >
 		<div class="col-md-12">
 			<p class="alert alert-info">Adicione os níveis para preencher o campo atribuído. <br>
-				O valor do último nível será o valor do campo atribuído. </P>
-			</div>
+				O valor do último nível será o valor do campo atribuído. 
+			</P>
+			<p>Para níveis de <b>Serviço</b> deve-se criar uma REST API no Studio. Mais informações, consulte a documentação: <a href="https://docs.inpaas.com/docs/rest-services">Rest Services</a></p>
 		</div>
+	</div>
 		
 		
-		<div ng-repeat="level in vm.levels track by $index" class="level-content">
+	<div ng-repeat="level in vm.levels track by $index" class="level-content">
 			<div class="row">
 				<div class="col-sm-3">
 					<label for="" style="display: block;"> Origem dos dados</label>
