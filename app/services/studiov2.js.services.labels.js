@@ -169,7 +169,7 @@
     }
 
     function isKeyLabel(label){
-      return $l10n.getLabel(label);
+      return $l10n.getLabel(label) != label;
     }
 
     function translateLabels(form){
