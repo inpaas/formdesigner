@@ -561,12 +561,17 @@ select.input-sm {
   border-radius: 0;
   font-size: 12px;
 }
+
 .edit-form .nav-components .inner-item {
   float: left;
   padding: 10px;
   margin: 0;
   width: 100%;
   margin-bottom: 80px;
+}
+
+.edit-form .nav-components #basic-component{
+  margin-bottom: 0;
 }
 
 .edit-form ul.nav-components.position-field .inner-item .btn {
