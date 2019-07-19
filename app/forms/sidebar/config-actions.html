@@ -22,6 +22,20 @@
                     Não mostrar texto 
                 </label>
             </div>
+            <div class="form-group" ng-show="ctrl.editBt.action == 'custom'">
+                <label for=""> Destacar botão em <i class="fa fa-info-circle" uib-tooltip="O botão destacado aparecerá do lado dos botões de ação padrão na lista e/ou edição de registros"></i></label>
+               <div>
+                    <label for="featuredButtonList" style="margin-right: 20px">
+                        <input type="checkbox" id="featuredButtonList" name="featuredButtonList" ng-model="ctrl.editBt.featuredButtonList"> 
+                        Lista
+                    </label>
+
+                    <label for="featuredButtonEdit">
+                        <input type="checkbox" id="featuredButtonEdit" name="featuredButtonEdit" ng-model="ctrl.editBt.featuredButtonEdit"> 
+                        Edição
+                    </label>
+               </div> 
+            </div>
 
             <div class="form-group" ng-if="ctrl.editBt.action == 'custom'">
                 <label for="">Ícone</label>
