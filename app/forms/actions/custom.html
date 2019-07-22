@@ -1,5 +1,10 @@
-<button type="button" class="btn btn-primary" ng-click="ctrl.editButton('edit', $index)">
+<button 
+  type="button" 
+  class="btn {[{ action.background? 'button-action' : 'btn-primary' }]}" 
+  ng-click="ctrl.editButton('edit', $index)"
+  style="background-color: {[{ action.background || 'inherit'}]}"
+>
   <i class="fa fa-fw fa-window-close" ng-click="ctrl.removeBt('edit', $index)"></i>
-  <span class="fa fa-fw {[{action.icon}]}"></span>
+  <i class="fa fa-fw {[{action.event.icon || action.icon}]}"></i>
   <span class="btn-text" ng-hide="action.notDisplayLabel">{[{ action.label | translate }]}</span> 
 </button>

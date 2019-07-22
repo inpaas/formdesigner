@@ -2094,3 +2094,9 @@ label[for="pattern-ignorecase"]{
   }
 }
 
+.button-custom:hover,
+.button-custom:focus,
+.button-custom:active{
+  background: inherit;
+  color: inherit;
+}
