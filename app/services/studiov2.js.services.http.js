@@ -3,9 +3,9 @@
     .module('studio-v2')
     .service('httpService', httpService);
   
-  httpService.$inject = ['$q', '$http', 'jsonFormService', 'labelsService', 'Notification', '$l10n'];
+  httpService.$inject = ['$q', '$http', 'jsonFormService', 'labelsService', 'Notification', '$l10n', 'ACTIONS'];
   
-  function httpService($q, $http, jsonFormService, labelsService, Notification, $l10n){
+  function httpService($q, $http, jsonFormService, labelsService, Notification, $l10n, ACTIONS){
     function onError(response){
       Notification.error(response.data.message);
       return response;
@@ -34,9 +34,7 @@
     }
 
     function getEntities(idModule) {
-      var url = '/api/studio/modules/'
-                  .concat(idModule)
-                  .concat('/entities');
+      var url = '/api/studio/modules/'.concat(idModule).concat('/entities');
 
       return $http({
         method: 'get',
@@ -62,10 +60,7 @@
     }
 
     function getForm(id, idModule){
-      var url = '/api/studio/modules/'
-                  .concat(idModule)
-                  .concat('/forms-v2/')
-                  .concat(id);
+      var url = '/api/studio/modules/'.concat(idModule).concat('/forms-v2/').concat(id);
 
       return $http({
         method: 'get',
@@ -81,11 +76,15 @@
               form.moduleId = response.data.moduleId;
             }
 
+            form.views.edit.actions = getIconsForActions(form.views.edit.actions);
+
             labelsService.translateLabels(form);
+
             if (form.fields.filter(function(f){ return f.isSameDataSource; }).length) {
               return getFormInclude(form, idModule).then(function(){
                 return form;
               });
+
             }else{
               return form;
             }
@@ -97,12 +96,26 @@
             form.id = response.data.id;
             form.moduleId = response.data.moduleId;
             form.dataSource.moduleId = response.data.moduleId;
-
             labelsService.translateLabels(form);
             return form;
           }
 
       }, onError);
+    }
+
+    function getIconsForActions(actions){
+      var _actions = [];
+      var actionsDefault = 'save|savenew|cancel|remove|duplicate';
+
+      actions.forEach(function(action){
+        if(actionsDefault.match(action.action) && !action.iconclass){
+          action.iconclass = ACTIONS.find((a)=> a.action == action.action).iconClass;
+        }
+
+        _actions.push(action);
+      });
+
+      return _actions;
     }
 
     function getFormInclude(form, idModule){

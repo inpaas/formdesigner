@@ -215,6 +215,10 @@
         action.typeEvent = 'source';
       }
 
+      if(action.action == 'custom' || action.action == 'dynamic_buttons'){
+        action.iconclass = action.event.icon || action.icon;
+      }
+
       ctrl.editBt = action;
       showConfigBt();
     }
@@ -223,6 +227,10 @@
       var action = angular.copy(ctrl.editBt);
 
       action.visible = setDisplayConfig(action.visibilityType, action.visibilityExpression);
+
+      if(action.action == 'custom' || action.action == 'dynamic_buttons'){
+        _.set(action, 'event.icon', action.iconclass || '');
+      }
 
       if (action.index != undefined) {
         var index = action.index;

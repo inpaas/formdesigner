@@ -37,22 +37,20 @@
                </div> 
             </div>
 
-            <div class="form-group" ng-if="ctrl.editBt.action == 'custom'">
-                <div>
+            <div class="form-group">
+                <!-- <div>
                     <label for=""> Cor de fundo <i class="fa fa-info-circle" uib-tooltip="Use o padrão do tema instalado ou escolha uma cor de fundo para o botão"></i></label>
                     <input type="color" class="form-control" ng-model="ctrl.editBt.background" style="width: 60px; padding: 2px">
-                </div>
-
-                <div>
-                    <label for="">Ícone</label>
-                    <input type="text" 
-                        class="form-control input-sm" 
-                        ng-model="ctrl.editBt.event.icon" 
-                        uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
-                        typeahead-template-url="icons.html"
-                        typeahead-min-length="0"
-                    />
-                </div>
+                </div> -->
+               
+                <label for="">Ícone</label>
+                <input type="text" 
+                    class="form-control input-sm" 
+                    ng-model="ctrl.editBt.iconclass" 
+                    uib-typeahead="icon.class as icon.class for icon in ctrl.ICONS | filter: {class: $viewValue}"
+                    typeahead-template-url="icons.html"
+                    typeahead-min-length="0"
+                />
             </div>
         </div>
 

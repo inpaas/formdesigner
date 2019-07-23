@@ -3,9 +3,9 @@
     .module('studio-v2')
     .service('labelsService', labelsService);
     
-  labelsService.$inject = ['$http', '$filter', '$l10n', 'AUDIT_FIELDS'];
+  labelsService.$inject = ['$http', '$filter', '$l10n', 'AUDIT_FIELDS', 'ACTIONS'];
 
-  function labelsService($http, $filter, $l10n, AUDIT_FIELDS){
+  function labelsService($http, $filter, $l10n, AUDIT_FIELDS, ACTIONS){
       var labelsNamespace = "",
           labels = [];
 
@@ -52,7 +52,7 @@
       }
       
       if(jsonForm.views.edit.actions){
-        labels = buildLabelsFromActions(jsonForm.views.edit.actions, 'edit');
+        labels = buildLabelsFromActions(jsonForm.views.edit.actions, jsonForm.key);
         angular.extend(labelsToSave, labels);
       }
 
@@ -89,20 +89,29 @@
       return label;
     }
 
-    function buildLabelsFromActions(actions, view){
+    function buildLabelsFromActions(actions, formId){
       var labels = {};
 
-      actions.forEach(function(action, index){
-        if (action.label && !isKeyLabel(action.label)) {
-          var key = generateKey('action-')
-                    .concat(view)
-                    .concat('-')
-                    .concat('customAction')
-                    .concat(index),
-              value = action.label;
+      actions.forEach(function(action){
+        var defaultAction = ACTIONS.find((a)=> a.action == action.action);
+        var translatedLabel = defaultAction? $l10n.translate(defaultAction.label) : action.label;
+
+        if (action.label != translatedLabel) {
+          var key = 'label.'.concat(formId, '.action.'),
+            value = action.label;
+
+          if(action.action == 'custom' || action.action == 'dynamic_buttons'){
+            key = key.concat(action.name);
+
+          }else{
+            key = key.concat(action.action);
+          }
 
           action.label = key.toLowerCase();
           labels[key] = value || null;
+
+        }else{
+          action.label = defaultAction.label;
         }
       });
 

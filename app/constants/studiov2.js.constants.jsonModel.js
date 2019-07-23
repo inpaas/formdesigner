@@ -2,48 +2,53 @@
   angular
     .module('studio-v2')
     .constant('JSONMODEL', {
-      "key": "", 
-      "label": "",
-      "pagination": {
-        "type": "server",
-        "countPerPage": 10 
+      'key': '', 
+      'label': '',
+      'pagination': {
+        'type': 'server',
+        'countPerPage': 10 
       },
-      "dataSource": {
-        "type": "E"
+      'dataSource': {
+        'type': 'E'
       },
-      "views": {
-        "edit": {
-          "actions": [
+      'views': {
+        'edit': {
+          'actions': [
             {
-              "action": "cancel",
-              "label": "button.cancel.title",
-              "name": "cancel"
+              'action': 'cancel',
+              'label': 'button.cancel.title',
+              'name': 'cancel',
+              'iconclass': 'fa-undo'
             },
             {
-              "action": "remove",
-              "label": "button.remove.title",
-              "name": "remove"
+              'action': 'remove',
+              'label': 'button.remove.title',
+              'name': 'remove',
+              'iconclass': 'fa-trash-o'
             },
             {
-              "action": "duplicate",
-              "label": "button.duplicate.title",
-              "name": "duplicate",
+              'action': 'duplicate',
+              'label': 'button.duplicate.title',
+              'name': 'duplicate',
+              'iconclass': 'fa-files-o'
             },
             {
-              "action": "savenew",
-              "label": "button.savenew.title",
-              "name": "save"
+              'action': 'savenew',
+              'label': 'button.savenew.title',
+              'name': 'savenew',
+              'iconclass': 'fa-floppy-o'
             },
             {
-              "action": "save",
-              "label": "button.save.title",
-              "name": "save"
+              'action': 'save',
+              'label': 'button.save.title',
+              'name': 'save',
+              'iconclass': 'fa-floppy-o'
             }
           ],
-          "breadcrumb": []
+          'breadcrumb': []
         },
-        "filter":{}
+        'filter':{}
       },
-      "fields": []
+      'fields': []
     });
 })();
