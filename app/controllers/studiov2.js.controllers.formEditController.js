@@ -216,7 +216,7 @@
       }
 
       if(action.action == 'custom' || action.action == 'dynamic_buttons'){
-        action.iconclass = action.event.icon || action.icon;
+        action.iconclass = _.get(action, 'event.icon') || action.icon || '';
       }
 
       ctrl.editBt = action;
