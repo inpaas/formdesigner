@@ -2113,21 +2113,25 @@
     }
 
     function getFormField(bind){
-      var field;
+      var field = [];
 
       ctrl.sections.forEach(function(section){
         if(section.isSameDataSource || section.type == 'main'){
 
-          if(section.fieldsCol1.length){
+          if(!field.length && section.fieldsCol1 && section.fieldsCol1.length){
             field = section.fieldsCol1.filter(function(f){ return f.meta.bind == bind; });
           }
 
-          if(!field && section.fiedsCol2.length){
+          if(!field.length && section.fiedsCol2 && section.fiedsCol2.length){
             field = section.fieldsCol2.filter(function(f){ return f.meta.bind == bind; });
           }
 
-          if(!field && section.fieldsCol3.length){
+          if(!field.length && section.fieldsCol3 && section.fieldsCol3.length){
             field = section.fieldsCol3.filter(function(f){ return f.meta.bind == bind; });
+          }
+
+          if(!field.length){
+            field = section.fields.filter(function(f){ return f.meta.bind == bind; });
           }
 
         }
